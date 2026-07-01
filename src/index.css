@@ -1,12 +1,20 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Outfit:wght@400;700;900&display=swap');
-
+@import url('https://fonts.googleapis.com/css2?family=Cal+Sans&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&display=swap');
 :root {
-  --bg-color: #050505;
-  --text-color: #f0f0f0;
-  --text-muted: #a0a0a0;
+  --bg-color: #12100E;
+  --text-color: #FFFBFC;
+  --text-muted: #D0CDD7;
   --highlight: #61B919;
-  --box-bg: #111111;
-  --box-border: #222222;
+  --box-bg: color-mix(in srgb, var(--highlight) 3%, color-mix(in srgb, var(--bg-color) 95%, #fff 5%));
+  --box-border: color-mix(in srgb, var(--highlight) 8%, color-mix(in srgb, var(--bg-color) 90%, #fff 10%));
+
+  /* Semantic helper variables derived from the primary colors */
+  --highlight-glow: color-mix(in srgb, var(--highlight) 80%, transparent);
+  --highlight-shadow: color-mix(in srgb, var(--highlight) 40%, transparent);
+  --highlight-border: color-mix(in srgb, var(--highlight) 60%, transparent);
+  --spotlight-color: color-mix(in srgb, var(--highlight) 15%, transparent);
+  --header-bg: color-mix(in srgb, var(--bg-color) 85%, transparent);
+  --border-light: color-mix(in srgb, var(--text-color) 5%, transparent);
 }
 
 * {

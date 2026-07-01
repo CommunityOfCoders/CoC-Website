@@ -84,7 +84,7 @@ function ChainItem({ item, index }: { item: { title: string, content: string }, 
         transition={{ duration: 0.6, type: "spring", bounce: 0.3, delay: 0.3 }}
         className="chain-box-wrapper"
       >
-        <SpotlightCard className="chain-box" spotlightColor="rgba(97, 185, 25, 0.15)">
+        <SpotlightCard className="chain-box" spotlightColor="var(--spotlight-color)">
           <h3>{item.title}</h3>
           <p>{item.content}</p>
         </SpotlightCard>

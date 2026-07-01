@@ -9,7 +9,7 @@ interface ParticlesProps {
 
 const Particles: React.FC<ParticlesProps> = ({
   particleCount = 150,
-  particleColor = '#61B919',
+  particleColor = 'var(--highlight)',
   speed = 0.9,
   className = '',
 }) => {
@@ -87,6 +87,37 @@ const Particles: React.FC<ParticlesProps> = ({
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       const mouse = mouseRef.current;
 
+      // Resolve the actual color string from CSS variable or fallback
+      let resolvedColor = particleColor;
+      if (particleColor.startsWith('var(')) {
+        const varName = particleColor.match(/var\(([^)]+)\)/)?.[1];
+        if (varName && canvas) {
+          resolvedColor = getComputedStyle(canvas).getPropertyValue(varName).trim() || '#61B919';
+        }
+      }
+
+      // Parse the resolved color to RGB components for alpha blending
+      let r = 97, g = 185, b = 25;
+      if (resolvedColor.startsWith('#')) {
+        const hex = resolvedColor.trim();
+        if (hex.length === 7) {
+          r = parseInt(hex.substring(1, 3), 16);
+          g = parseInt(hex.substring(3, 5), 16);
+          b = parseInt(hex.substring(5, 7), 16);
+        } else if (hex.length === 4) {
+          r = parseInt(hex[1] + hex[1], 16);
+          g = parseInt(hex[2] + hex[2], 16);
+          b = parseInt(hex[3] + hex[3], 16);
+        }
+      } else if (resolvedColor.startsWith('rgb')) {
+        const match = resolvedColor.match(/\d+/g);
+        if (match && match.length >= 3) {
+          r = parseInt(match[0], 10);
+          g = parseInt(match[1], 10);
+          b = parseInt(match[2], 10);
+        }
+      }
+
       particles.forEach((p) => {
         // If mouse is active on screen, pull particles within radius towards it
         if (mouse.active) {
@@ -126,13 +157,6 @@ const Particles: React.FC<ParticlesProps> = ({
 
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-        
-        let r = 97, g = 185, b = 25;
-        if (particleColor.startsWith('#') && particleColor.length === 7) {
-            r = parseInt(particleColor.substring(1,3), 16);
-            g = parseInt(particleColor.substring(3,5), 16);
-            b = parseInt(particleColor.substring(5,7), 16);
-        }
         
         ctx.fillStyle = `rgba(${r}, ${g}, ${b}, ${p.alpha})`;
         ctx.fill();

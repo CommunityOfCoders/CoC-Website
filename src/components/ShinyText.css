@@ -2,9 +2,9 @@
   color: var(--highlight);
   background: linear-gradient(
     120deg,
-    rgba(97, 185, 25, 0) 40%,
-    rgba(180, 255, 100, 0.8) 50%,
-    rgba(97, 185, 25, 0) 60%
+    transparent 40%,
+    color-mix(in srgb, color-mix(in srgb, var(--highlight) 50%, white) 80%, transparent) 50%,
+    transparent 60%
   );
   background-size: 200% 100%;
   -webkit-background-clip: text;
