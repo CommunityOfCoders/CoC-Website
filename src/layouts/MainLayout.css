@@ -58,3 +58,40 @@
   color: var(--text-muted);
   font-size: 0.9rem;
 }
+
+/* Ambient floating glow blobs */
+.ambient-glow {
+  position: fixed;
+  width: 700px;
+  height: 700px;
+  border-radius: 50%;
+  background: radial-gradient(circle, color-mix(in srgb, var(--highlight) 6%, transparent), transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+  filter: blur(60px);
+  mix-blend-mode: screen;
+}
+
+.blob-1 {
+  top: -150px;
+  left: -150px;
+  animation: float-blob-1 25s infinite alternate ease-in-out;
+}
+
+.blob-2 {
+  bottom: -200px;
+  right: -200px;
+  animation: float-blob-2 30s infinite alternate ease-in-out;
+}
+
+@keyframes float-blob-1 {
+  0% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(120px, 80px) scale(1.15); }
+  100% { transform: translate(-80px, 160px) scale(0.9); }
+}
+
+@keyframes float-blob-2 {
+  0% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(-100px, -120px) scale(0.85); }
+  100% { transform: translate(80px, 60px) scale(1.1); }
+}
