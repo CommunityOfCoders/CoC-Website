@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Calendar, ExternalLink, Search, Sparkles, Filter, X, ArrowUpRight, Award } from 'lucide-react';
 import SpotlightCard from '../components/SpotlightCard';
@@ -152,6 +152,22 @@ const PastEvents: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [selectedEvent, setSelectedEvent] = useState<EventData | null>(null);
 
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setSelectedEvent(null);
+      }
+    };
+
+    if (selectedEvent) {
+      window.addEventListener('keydown', handleKeyDown);
+    }
+
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [selectedEvent]);
+
   // Filter and search logic
   const filteredEvents = pastEventsData.filter((event) => {
     const matchesFilter = filter === 'all' || event.category === filter;
@@ -199,7 +215,7 @@ const PastEvents: React.FC = () => {
           <Search className="search-icon" size={18} />
           <input
             type="text"
-            placeholder="Search events by title or topic..."
+            placeholder="Search events"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="search-input"

@@ -232,6 +232,8 @@
   height: 100%;
   overflow: hidden;
   position: relative;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
   box-shadow: 
     0 10px 30px rgba(0, 0, 0, 0.4),
@@ -525,7 +527,7 @@
   max-width: 1000px;
   max-height: 85vh;
   position: relative;
-  overflow: hidden;
+  overflow-y: auto;
 }
 
 /* HUD layout borders inside modal */
@@ -567,10 +569,24 @@
 
 /* Modal Banner */
 .modal-header-image {
-  height: 320px;
+  height: 130px;
+  position: relative;
+  background-color: #110f0e;
+  overflow: hidden;
+}
+
+.modal-header-image::after {
+  content: '';
+  position: absolute;
+  top: -15px;
+  left: -15px;
+  right: -15px;
+  bottom: -15px;
+  background-image: inherit;
   background-size: cover;
   background-position: center;
-  position: relative;
+  filter: blur(8px) brightness(0.5) contrast(1.0);
+  z-index: 0;
 }
 
 .modal-header-image::before {
@@ -580,7 +596,7 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: linear-gradient(transparent 30%, #110f0e 100%);
+  background: linear-gradient(to bottom, rgba(17, 15, 14, 0.2) 0%, #110f0e 100%);
   z-index: 1;
 }
 
@@ -589,11 +605,11 @@
   bottom: 0;
   left: 0;
   width: 100%;
-  padding: 40px;
+  padding: 12px 40px;
   z-index: 2;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 6px;
 }
 
 .modal-category {
@@ -602,30 +618,28 @@
   border: 1px solid var(--highlight-border);
   color: var(--highlight);
   font-family: 'DM Mono', monospace;
-  font-size: 0.75rem;
+  font-size: 0.65rem;
   font-weight: 700;
   text-transform: uppercase;
-  padding: 6px 14px;
+  padding: 4px 10px;
   border-radius: 2px;
-  letter-spacing: 2px;
+  letter-spacing: 1.5px;
 }
 
 .modal-title {
-  font-size: 2.8rem;
+  font-size: 1.4rem;
   font-weight: 900;
   color: var(--text-color);
-  letter-spacing: -1.5px;
+  letter-spacing: -0.5px;
   text-transform: uppercase;
 }
 
 /* Detailed Grid */
 .modal-content-grid {
-  padding: 0 40px 45px;
+  padding: 30px 40px 45px;
   display: grid;
   grid-template-columns: 1.6fr 1fr;
   gap: 50px;
-  overflow-y: auto;
-  max-height: calc(85vh - 320px);
 }
 
 .modal-main-info {
@@ -834,14 +848,14 @@
   }
   
   .modal-header-image {
-    height: 240px;
+    height: 100px;
   }
   
   .modal-title {
-    font-size: 1.8rem;
+    font-size: 1.1rem;
   }
   
   .modal-header-overlay {
-    padding: 20px;
+    padding: 10px 20px;
   }
 }
