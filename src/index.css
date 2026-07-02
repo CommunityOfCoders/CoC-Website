@@ -3,7 +3,7 @@
 :root {
   --bg-color: #12100E;
   --text-color: #FFFBFC;
-  --text-muted: #D0CDD7;
+  --text-muted: #d0cdd7ad;
   --highlight: #61B919;
   --box-bg: color-mix(in srgb, var(--highlight) 3%, color-mix(in srgb, var(--bg-color) 95%, #fff 5%));
   --box-border: color-mix(in srgb, var(--highlight) 8%, color-mix(in srgb, var(--bg-color) 90%, #fff 10%));
