@@ -60,6 +60,7 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
       <header className="header" ref={headerRef}>
         <a href="#" className="header-brand">
           <h1 className="club-name"><span ref={brandRef}>Community of Coders</span></h1>
+          <h2 className="location">@ VJTI, Matunga</h2>
         </a>
         <nav 
           className="header-nav"
