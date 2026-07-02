@@ -1,6 +1,5 @@
 import React, { useRef, useState, useEffect, useLayoutEffect, useCallback } from 'react';
 import Particles from '../components/Particles';
-import FuzzyOverlay from '../components/FuzzyOverlay';
 import './MainLayout.css';
 
 interface MainLayoutProps {
@@ -52,7 +51,7 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
   return (
     <div className="app-container">
       <Particles particleCount={150} speed={0.8} />
-      <FuzzyOverlay />
+
       
       {/* Ambient floating glow blobs */}
       <div className="ambient-glow blob-1" />
