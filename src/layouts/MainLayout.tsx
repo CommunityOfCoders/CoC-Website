@@ -8,7 +8,7 @@ interface MainLayoutProps {
 }
 
 const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
-  const brandRef = useRef<HTMLDivElement>(null);
+  const brandRef = useRef<HTMLSpanElement>(null);
   const headerRef = useRef<HTMLElement>(null);
   const [glowStyle, setGlowStyle] = useState<React.CSSProperties>({});
 
@@ -59,10 +59,9 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
       <div className="ambient-glow blob-2" />
       
       <header className="header" ref={headerRef}>
-        <div className="header-brand" ref={brandRef}>
-          <h1 className="club-name">Community of Coders</h1>
-          <h2 className="location">@ VJTI, Matunga</h2>
-        </div>
+        <a href="#" className="header-brand">
+          <h1 className="club-name"><span ref={brandRef}>Community of Coders</span></h1>
+        </a>
         <nav 
           className="header-nav"
           onMouseLeave={handleMouseLeave}
