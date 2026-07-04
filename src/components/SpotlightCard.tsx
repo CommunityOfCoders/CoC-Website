@@ -1,7 +1,7 @@
 import React, { useRef, useState } from "react";
 import "./SpotlightCard.css";
 
-interface SpotlightCardProps {
+interface SpotlightCardProps extends React.HTMLAttributes<HTMLDivElement> {
   children: React.ReactNode;
   className?: string;
   spotlightColor?: string;
@@ -11,6 +11,7 @@ const SpotlightCard: React.FC<SpotlightCardProps> = ({
   children,
   className = "",
   spotlightColor = "var(--spotlight-color, rgba(255, 255, 255, 0.1))",
+  ...props
 }) => {
   const divRef = useRef<HTMLDivElement>(null);
   const [isFocused, setIsFocused] = useState(false);
@@ -53,6 +54,7 @@ const SpotlightCard: React.FC<SpotlightCardProps> = ({
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       className={`spotlight-card ${className}`}
+      {...props}
     >
       <div
         className="spotlight-effect"

@@ -238,6 +238,7 @@
   box-shadow: 
     0 10px 30px rgba(0, 0, 0, 0.4),
     inset 0 1px 0 rgba(255, 255, 255, 0.02);
+  cursor: pointer;
 }
 
 /* Hover Sliding corner brackets */
@@ -409,92 +410,8 @@
   color: var(--text-muted);
   font-size: 0.95rem;
   line-height: 1.6;
-  margin-bottom: 24px;
+  margin-bottom: 0;
   flex-grow: 1;
-}
-
-/* Blueprint HUD Metrics Section */
-.card-stats {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 16px;
-  background: transparent;
-  border-top: 1px dashed rgba(255, 255, 255, 0.1);
-  border-bottom: 1px dashed rgba(255, 255, 255, 0.1);
-  padding: 16px 0;
-  margin-bottom: 24px;
-}
-
-.stat-badge {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start; /* Left align metrics */
-  position: relative;
-}
-
-.stat-badge:not(:last-child)::after {
-  content: '';
-  position: absolute;
-  right: -8px;
-  top: 10%;
-  height: 80%;
-  width: 1px;
-  background: rgba(255, 255, 255, 0.08);
-}
-
-.stat-value {
-  color: var(--highlight);
-  font-weight: 800;
-  font-size: 1.35rem;
-  font-family: 'DM Mono', monospace;
-  text-shadow: 0 0 10px rgba(97, 185, 25, 0.15);
-}
-
-.stat-label {
-  font-size: 0.65rem;
-  color: var(--text-muted);
-  text-transform: uppercase;
-  margin-top: 4px;
-  letter-spacing: 1px;
-  font-family: 'Inter', sans-serif;
-}
-
-.card-footer {
-  display: flex;
-  justify-content: flex-end; /* Push button to right side cleanly */
-  border-top: none;
-  padding-top: 0;
-  margin-top: auto;
-}
-
-/* Monospace command-line details button */
-.view-details-btn {
-  background: rgba(97, 185, 25, 0.03);
-  border: 1px solid rgba(97, 185, 25, 0.2);
-  color: var(--highlight);
-  font-weight: 600;
-  font-size: 0.8rem;
-  font-family: 'DM Mono', monospace;
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 8px 18px;
-  border-radius: 4px;
-  transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
-  text-transform: uppercase;
-  letter-spacing: 1.5px;
-}
-
-.view-details-btn:hover {
-  background: var(--highlight);
-  color: var(--bg-color);
-  border-color: var(--highlight);
-  box-shadow: 0 0 15px rgba(97, 185, 25, 0.2);
-}
-
-.view-details-btn:hover .arrow-icon {
-  transform: translate(3px, -3px);
 }
 
 /* --------------------------------------------------------------------------
@@ -524,7 +441,7 @@
     0 0 60px rgba(97, 185, 25, 0.03);
   border-radius: 16px;
   width: 100%;
-  max-width: 1000px;
+  max-width: 800px;
   max-height: 85vh;
   position: relative;
   overflow-y: auto;
@@ -638,7 +555,7 @@
 .modal-content-grid {
   padding: 30px 40px 45px;
   display: grid;
-  grid-template-columns: 1.6fr 1fr;
+  grid-template-columns: 1fr;
   gap: 50px;
 }
 
@@ -712,91 +629,6 @@
   flex-shrink: 0;
 }
 
-/* Modal Sidebar Dashboard */
-.modal-sidebar-info {
-  display: flex;
-  flex-direction: column;
-  gap: 30px;
-}
-
-.sidebar-card {
-  background: rgba(255, 255, 255, 0.01);
-  border: 1px solid rgba(255, 255, 255, 0.04);
-  border-radius: 8px;
-  padding: 24px;
-  position: relative;
-}
-
-.sidebar-card h3 {
-  font-size: 0.85rem;
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  margin-bottom: 24px;
-  color: var(--text-color);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-  padding-bottom: 12px;
-  font-family: 'DM Mono', monospace;
-}
-
-.sidebar-stats-grid {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
-.sidebar-stat-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border-bottom: 1px dashed rgba(255, 255, 255, 0.04);
-  padding-bottom: 12px;
-}
-
-.sidebar-stat-item:last-child {
-  border-bottom: none;
-  padding-bottom: 0;
-}
-
-.sidebar-stat-value {
-  color: var(--highlight);
-  font-weight: 800;
-  font-size: 1.5rem;
-  font-family: 'DM Mono', monospace;
-}
-
-.sidebar-stat-label {
-  font-size: 0.8rem;
-  color: var(--text-muted);
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-/* Action Trigger Button */
-.modal-action-btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  background: var(--highlight);
-  color: var(--bg-color);
-  text-decoration: none;
-  font-weight: 700;
-  font-family: 'DM Mono', monospace;
-  font-size: 0.85rem;
-  padding: 16px 24px;
-  border-radius: 6px;
-  text-align: center;
-  transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
-  box-shadow: 0 4px 20px rgba(97, 185, 25, 0.15);
-  text-transform: uppercase;
-  letter-spacing: 1.5px;
-}
-
-.modal-action-btn:hover {
-  opacity: 0.9;
-  box-shadow: 0 0 25px rgba(97, 185, 25, 0.3);
-  transform: translateY(-2px);
-}
 
 /* --------------------------------------------------------------------------
    Responsive & Adaptive Viewports
