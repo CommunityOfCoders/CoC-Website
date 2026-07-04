@@ -136,32 +136,13 @@
   align-items: flex-start;
 }
 
-.os-badge {
+.os-year-tag {
   font-family: 'DM Mono', monospace;
-  font-size: 0.7rem;
-  font-weight: 700;
-  padding: 4px 12px;
-  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-muted);
   letter-spacing: 1px;
   text-transform: uppercase;
-}
-
-.os-badge.gsoc {
-  background: rgba(36, 187, 193, 0.15);
-  color: #24bbc1;
-  border: 1px solid rgba(36, 187, 193, 0.3);
-}
-
-.os-badge.lfx {
-  background: rgba(85, 178, 255, 0.15);
-  color: #55b2ff;
-  border: 1px solid rgba(85, 178, 255, 0.3);
-}
-
-.os-badge.julia {
-  background: rgba(203, 141, 242, 0.15);
-  color: #cb8df2;
-  border: 1px solid rgba(203, 141, 242, 0.3);
 }
 
 .os-name {

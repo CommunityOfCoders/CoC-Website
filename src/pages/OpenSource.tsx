@@ -10,30 +10,31 @@ interface OSResult {
   name: string;
   org: string;
   task: string;
-  program: 'GSoC' | 'LFX' | 'Julia';
+  program: 'GSoC' | 'LFX';
+  year: string;
 }
 
 const osResults: OSResult[] = [
 
-  { id: '1', name: 'Avanish Salunke', org: 'GNU Octave', task: 'Add LinearModel and CompactLinearModel objects to the statistics package.', program: 'GSoC' },
-  { id: '2', name: 'Anushree Upasham', org: 'ML4SCI', task: 'Develop ML models for exoplanet atmosphere characterization using astrophysical data.', program: 'GSoC' },
+  { id: '1', name: 'Avanish Salunke', org: 'GNU Octave', task: 'Add LinearModel and CompactLinearModel objects to the statistics package.', program: 'GSoC', year: '2026' },
+  { id: '2', name: 'Anushree Upasham', org: 'ML4SCI', task: 'Develop ML models for exoplanet atmosphere characterization using astrophysical data.', program: 'GSoC', year: '2026' },
 
-  { id: '3', name: 'Utsav Ojha', org: 'Julia Language', task: 'Building a symbolic parser for generating loss function for PINNs', program: 'Julia' },
+  { id: '3', name: 'Utsav Ojha', org: 'Julia Language', task: 'Building a symbolic parser for generating loss function for PINNs', program: 'GSoC', year: '2026' },
 
-  { id: '4', name: 'Rushab Mehta', org: 'CNCF', task: 'Improving Prometheus startup performance by enabling metric scraping to run in parallel with WAL replay', program: 'LFX' },
-  { id: '5', name: 'Khush Agrawal', org: 'CNCF', task: 'Build a WASI-NN plugin for WasmEdge that integrates bitnet.cpp to run efficient 1-bit LLMs on CPUs.', program: 'LFX' },
+  { id: '4', name: 'Rushab Mehta', org: 'CNCF', task: 'Improving Prometheus startup performance by enabling metric scraping to run in parallel with WAL replay', program: 'LFX', year: '2025' },
+  { id: '5', name: 'Khush Agrawal', org: 'CNCF', task: 'Build a WASI-NN plugin for WasmEdge that integrates bitnet.cpp to run efficient 1-bit LLMs on CPUs.', program: 'LFX', year: '2025' },
 
-  { id: '6', name: 'Vidhi Rohira', org: 'INCF', task: 'Develop open-source neuroinformatics tools and workflows to support neuroscience research and open science initiatives.', program: 'GSoC' },
-  { id: '7', name: 'Sourish Phate', org: 'ML4SCI', task: 'Apply quantum machine learning techniques to characterize exoplanet atmospheres from transmission spectra.', program: 'GSoC' },
-  { id: '8', name: 'Swayam Shah', org: 'GNU Octave', task: 'Implement optimized nearest-neighbor searcher classes to enhance clustering performance in the GNU Octave Statistics package.', program: 'GSoC' },
-  { id: '9', name: 'Prasanna Kasar', org: 'CERN-HSF', task: 'Enhance TMVA SOFIE by improving Keras parsing and adding JAX/FLAX support for optimized C++ ML inference generation.', program: 'GSoC' },
-  { id: '10', name: 'Rushabh Mehta', org: 'SYMPY', task: 'Add symbolic wrapping geometry models to SymPy for efficient musculoskeletal biomechanics simulations.', program: 'GSoC' },
-  { id: '11', name: 'Aarya Pandey', org: 'Intel', task: 'Build an Interactive Multimodal Data Explorer for Datumaro/OpenVINO to inspect and visualize AI datasets.', program: 'GSoC' },
-  // { id: '7', name: 'Kevin Shah', org: 'RSPAMD', task: '-----', program: 'GSoC' },
+  { id: '6', name: 'Vidhi Rohira', org: 'INCF', task: 'Develop open-source neuroinformatics tools and workflows to support neuroscience research and open science initiatives.', program: 'GSoC', year: '2025' },
+  { id: '7', name: 'Sourish Phate', org: 'ML4SCI', task: 'Apply quantum machine learning techniques to characterize exoplanet atmospheres from transmission spectra.', program: 'GSoC', year: '2025' },
+  { id: '8', name: 'Swayam Shah', org: 'GNU Octave', task: 'Implement optimized nearest-neighbor searcher classes to enhance clustering performance in the GNU Octave Statistics package.', program: 'GSoC', year: '2025' },
+  { id: '9', name: 'Prasanna Kasar', org: 'CERN-HSF', task: 'Enhance TMVA SOFIE by improving Keras parsing and adding JAX/FLAX support for optimized C++ ML inference generation.', program: 'GSoC', year: '2025' },
+  { id: '10', name: 'Rushabh Mehta', org: 'SYMPY', task: 'Add symbolic wrapping geometry models to SymPy for efficient musculoskeletal biomechanics simulations.', program: 'GSoC', year: '2025' },
+  { id: '11', name: 'Aarya Pandey', org: 'Intel', task: 'Build an Interactive Multimodal Data Explorer for Datumaro/OpenVINO to inspect and visualize AI datasets.', program: 'GSoC', year: '2025' },
+  // { id: '7', name: 'Kevin Shah', org: 'RSPAMD', task: '-----', program: 'GSoC', year: '2025' },
 
 ];
 
-const TABS = ['All', 'GSoC', 'LFX', 'Julia'] as const;
+const TABS = ['All', 'GSoC', 'LFX'] as const;
 type TabType = typeof TABS[number];
 
 const OpenSource: React.FC = () => {
@@ -60,7 +61,7 @@ const OpenSource: React.FC = () => {
             <ShinyText text="Impact" speed={3} />
           </h2>
           <p className="os-subtitle">
-            Our members consistently contribute to world-class open source programs. Here are some of our proudest selections for GSoC, LFX, and Julia.
+            Our members consistently contribute to world-class open source programs. Here are some of our proudest selections for GSoC and LFX.
           </p>
         </motion.div>
       </section>
@@ -100,7 +101,7 @@ const OpenSource: React.FC = () => {
                 >
                   <BentoCard contentClassName="os-card-content" glowColor="rgba(97, 185, 25, 0.8)">
                     <div className="os-card-header">
-                      <span className={`os-badge ${result.program.toLowerCase()}`}>{result.program}</span>
+                      <div className="os-year-tag">{result.program} {result.year}</div>
                       <h3 className="os-name">{result.name}</h3>
                     </div>
                     <div className="os-card-body">

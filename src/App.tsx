@@ -4,6 +4,7 @@ import Home from './pages/Home';
 import PastEvents from './pages/PastEvents';
 import Team from './pages/team';
 import OpenSource from './pages/OpenSource';
+import Projects from './pages/Projects';
 import './App.css';
 
 function App() {
@@ -23,6 +24,8 @@ function App() {
     switch (currentHash) {
       case '#events':
         return <PastEvents />;
+      case '#projects':
+        return <Projects />;
       case '#team':
         return <Team />;
       case '#open-source':
