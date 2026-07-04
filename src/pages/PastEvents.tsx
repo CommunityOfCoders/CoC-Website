@@ -1,14 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Calendar, ExternalLink, Search, Sparkles, Filter, X, ArrowUpRight, Award } from 'lucide-react';
+import { Calendar, Search, Sparkles, Filter, X, Award } from 'lucide-react';
 import SpotlightCard from '../components/SpotlightCard';
 import ShinyText from '../components/ShinyText';
 import './PastEvents.css';
-
-interface EventStat {
-  value: string;
-  label: string;
-}
 
 interface EventData {
   id: string;
@@ -18,9 +13,7 @@ interface EventData {
   description: string;
   longDescription: string;
   coverImage: string;
-  stats: EventStat[];
   highlights: string[];
-  link?: string;
 }
 
 const pastEventsData: EventData[] = [
@@ -32,18 +25,12 @@ const pastEventsData: EventData[] = [
     description: 'Our flagship 48-hour global hackathon challenging builders to solve pressing issues in AI, CyberSecurity, and Web3.',
     longDescription: 'Cyber_Fusion 2077 was a massive success, attracting top-tier engineering students from across the country. Over the course of 48 hours, developers pushed their limits to build solutions utilizing bleeding-edge technologies. Mentors from major tech giants provided guidance, culminating in a fierce pitching round in front of a panel of venture capitalists and industry leaders.',
     coverImage: '/events/hackathon.jpg',
-    stats: [
-      { value: '500+', label: 'Hackers' },
-      { value: '80+', label: 'Projects Submitted' },
-      { value: '₹2.5L', label: 'Prize Pool' },
-    ],
     highlights: [
       'Record-breaking turnout of over 500 active physical & virtual participants.',
       'Sponsorship from leading tech organizations including GitHub, Vercel, and Solana.',
       'Over 90% of submitted projects deployed and verified on-chain or on live servers.',
       'Stunning mid-hackathon technical workshops hosted by expert Google & Microsoft devs.'
-    ],
-    link: 'https://github.com/community-of-coders'
+    ]
   },
   {
     id: 'ai-ml-workshop-2024',
@@ -53,17 +40,11 @@ const pastEventsData: EventData[] = [
     description: 'An intensive two-day hands-on bootcamp covering Neural Networks, LLMs, and deploying custom inference models.',
     longDescription: 'This workshop brought together ML enthusiasts for a deep dive into neural architectures. Students built custom classification models on Day 1, and progressed to configuring fine-tuning loops for small-scale LLMs on Day 2. Every student successfully deployed their API-driven model on cloud infrastructure.',
     coverImage: '/events/ai_workshop.jpg',
-    stats: [
-      { value: '180+', label: 'Attendees' },
-      { value: '15+', label: 'Instructors' },
-      { value: '120+', label: 'Models Deployed' },
-    ],
     highlights: [
       'Comprehensive curriculum designed by senior research students and VJTI alumni.',
       'Complimentary cloud credits provided for heavy training work.',
       'Covered modern architectures: Transformers, CNNs, and Diffusion models.'
-    ],
-    link: 'https://github.com/community-of-coders'
+    ]
   },
   {
     id: 'algo-strike-2024',
@@ -73,17 +54,11 @@ const pastEventsData: EventData[] = [
     description: 'A high-octane competitive programming clash testing data structures, algorithms, and speed-coding under pressure.',
     longDescription: 'Algo-Strike challenged coders with a highly curated set of 8 algorithmic problems ranging from DP to graph theory. Running in parallel on Codeforces, this 3-hour speedrun saw intense leaderboard shifts in the final 10 minutes. A post-contest analysis session unpacked the optimal solutions.',
     coverImage: '/events/algo_arena.jpg',
-    stats: [
-      { value: '300+', label: 'Coders' },
-      { value: '8', label: 'Hard Problems' },
-      { value: '₹50K', label: 'Prize Pool' },
-    ],
     highlights: [
       'Problemset designed by 5-star CodeChef and Candidate Master Codeforces community members.',
       'Active live dashboard displayed on VJTI campus screens.',
       'Sponsor interviews offered directly to the top 5 contestants.'
-    ],
-    link: 'https://github.com/community-of-coders'
+    ]
   },
   {
     id: 'open-source-oct-2023',
@@ -93,17 +68,11 @@ const pastEventsData: EventData[] = [
     description: 'A month-long open source contribution drive with structured mentorship, git sessions, and PR contributions.',
     longDescription: 'Designed to ease beginners into the open-source ecosystem, this month-long event kicked off with deep dives on Git branching workflows. Over 80 students successfully landed their first pull requests in production repositories, guided by experienced mentors.',
     coverImage: '/events/open_source.jpg',
-    stats: [
-      { value: '120+', label: 'Contributors' },
-      { value: '250+', label: 'PRs Merged' },
-      { value: '18', label: 'Repos Maintained' },
-    ],
     highlights: [
       '80%+ of participants had never submitted a PR prior to this event.',
       'Weekly code review sessions helped improve code quality guidelines.',
       'Top merged code incorporated into the main university portal dashboard.'
-    ],
-    link: 'https://github.com/community-of-coders'
+    ]
   },
   {
     id: 'web3-summit-2023',
@@ -113,17 +82,11 @@ const pastEventsData: EventData[] = [
     description: 'Expert talks, panel discussions, and developer networking around Ethereum scaling, Solidity, and zero-knowledge proofs.',
     longDescription: 'An industry-meetup format bringing together blockchain professionals and university researchers. Presentations explored cryptographic proofs, state channels, and decentralization security risks, ending with a network mixer over refreshments.',
     coverImage: '/events/hackathon.jpg',
-    stats: [
-      { value: '200+', label: 'Delegates' },
-      { value: '6', label: 'Keynote Speakers' },
-      { value: '4', label: 'Dapp Demos' },
-    ],
     highlights: [
       'Interactive panel debate on L2 rollups vs sidechains.',
       'Live smart-contract auditing workshop demonstrating re-entrancy exploits.',
       'Networking session introducing 20+ students to crypto startup internships.'
-    ],
-    link: 'https://github.com/community-of-coders'
+    ]
   },
   {
     id: 'icpc-internal-2023',
@@ -133,17 +96,11 @@ const pastEventsData: EventData[] = [
     description: 'ACM-ICPC mock team contest for choosing the elite teams representing VJTI in regional stages.',
     longDescription: 'A rigorous three-person team competition modeling the actual ACM-ICPC regional atmosphere. Teams shared a single computer to solve 10 challenging algorithmic problems, requiring tight collaboration and division of labor under strict time penalties.',
     coverImage: '/events/algo_arena.jpg',
-    stats: [
-      { value: '45', label: 'Teams' },
-      { value: '135', label: 'Participants' },
-      { value: '10', label: 'Problems' },
-    ],
     highlights: [
       'Strict single-keyboard rule implemented to simulate official ICPC environments.',
       'Advanced dynamic programming and geometry tasks included.',
       'Winning teams went on to qualify for the ICPC Gwalior-Pune regionals.'
-    ],
-    link: 'https://github.com/community-of-coders'
+    ]
   }
 ];
 
@@ -264,7 +221,11 @@ const PastEvents: React.FC = () => {
                   transition={{ duration: 0.5, delay: index * 0.05 }}
                   className="event-card-wrapper"
                 >
-                  <SpotlightCard className="event-card" spotlightColor="var(--spotlight-color)">
+                  <SpotlightCard 
+                    className="event-card" 
+                    spotlightColor="var(--spotlight-color)"
+                    onClick={() => setSelectedEvent(event)}
+                  >
                     <div className="card-image-container">
                       <img src={event.coverImage} alt={event.title} className="card-image" />
                       <div className="card-category-badge">{event.category}</div>
@@ -278,26 +239,6 @@ const PastEvents: React.FC = () => {
                       </div>
                       <h3 className="card-title">{event.title}</h3>
                       <p className="card-desc">{event.description}</p>
-                      
-                      {/* Badge Stats Grid */}
-                      <div className="card-stats">
-                        {event.stats.map((stat, sIdx) => (
-                          <div key={sIdx} className="stat-badge">
-                            <span className="stat-value">{stat.value}</span>
-                            <span className="stat-label">{stat.label}</span>
-                          </div>
-                        ))}
-                      </div>
-
-                      <div className="card-footer">
-                        <button 
-                          onClick={() => setSelectedEvent(event)} 
-                          className="view-details-btn"
-                          style={{ marginLeft: 'auto' }}
-                        >
-                          Details <ArrowUpRight size={14} className="arrow-icon" />
-                        </button>
-                      </div>
                     </div>
                   </SpotlightCard>
                 </motion.div>
@@ -369,31 +310,6 @@ const PastEvents: React.FC = () => {
                       ))}
                     </ul>
                   </div>
-                </div>
-
-                <div className="modal-sidebar-info">
-                  <div className="sidebar-card">
-                    <h3>Key Metrics</h3>
-                    <div className="sidebar-stats-grid">
-                      {selectedEvent.stats.map((stat, idx) => (
-                        <div key={idx} className="sidebar-stat-item">
-                          <span className="sidebar-stat-value">{stat.value}</span>
-                          <span className="sidebar-stat-label">{stat.label}</span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-
-                  {selectedEvent.link && (
-                    <a
-                      href={selectedEvent.link}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="modal-action-btn"
-                    >
-                      View GitHub Project <ExternalLink size={14} />
-                    </a>
-                  )}
                 </div>
               </div>
             </motion.div>
