@@ -99,14 +99,9 @@
 .team-card {
   display: flex;
   flex-direction: column;
-  background: rgba(21, 19, 17, 0.6);
-  border: 1px solid rgba(255, 255, 255, 0.04);
   border-radius: 12px;
   height: 100%;
-  overflow: hidden;
   position: relative;
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
   transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
   box-shadow: 
     0 10px 30px rgba(0, 0, 0, 0.4),
@@ -114,8 +109,8 @@
 }
 
 /* Hover Corner brackets - HUD layout style */
-.team-card::before,
-.team-card::after {
+.team-card-content::before,
+.team-card-content::after {
   content: '';
   position: absolute;
   width: 16px;
@@ -126,7 +121,7 @@
   z-index: 10;
 }
 
-.team-card::before {
+.team-card-content::before {
   top: 0;
   left: 0;
   border-top: 2px solid var(--highlight);
@@ -134,7 +129,7 @@
   transform: translate(-4px, -4px);
 }
 
-.team-card::after {
+.team-card-content::after {
   bottom: 0;
   right: 0;
   border-bottom: 2px solid var(--highlight);
@@ -144,24 +139,31 @@
 
 .team-card:hover {
   transform: translateY(-8px);
-  border-color: rgba(97, 185, 25, 0.3);
-  background: rgba(21, 19, 17, 0.95);
   box-shadow: 
     0 25px 60px rgba(0, 0, 0, 0.6),
     0 0 30px rgba(97, 185, 25, 0.05);
 }
 
-.team-card:hover::before {
+.team-card:hover .team-card-content {
+  background: rgba(21, 19, 17, 0.95);
+}
+
+.team-card:hover .team-card-content::before {
   opacity: 1;
   transform: translate(12px, 12px);
 }
 
-.team-card:hover::after {
+.team-card:hover .team-card-content::after {
   opacity: 1;
   transform: translate(-12px, -12px);
 }
 
-.team-card .spotlight-content {
+.team-card-content {
+  background: rgba(21, 19, 17, 0.6);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-radius: inherit;
+  overflow: hidden;
   padding: 48px 24px;
   display: flex;
   flex-direction: column;
@@ -172,6 +174,7 @@
   gap: 24px;
   position: relative;
   z-index: 2;
+  transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
 .team-card-header {
@@ -344,7 +347,7 @@
     gap: 24px;
   }
 
-  .team-card .spotlight-content {
+  .team-card-content {
     padding: 32px 20px;
   }
 }

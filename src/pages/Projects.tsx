@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { Code2 } from 'lucide-react';
 import { MagicBento, BentoCard } from '../components/MagicBento';
 import ShinyText from '../components/ShinyText';
 import BlurText from '../components/BlurText';
@@ -83,6 +84,7 @@ const Projects: React.FC = () => {
           className="projects-hero-content"
         >
           <div className="projects-eyebrow">
+            <Code2 size={12} className="accent-icon" />
             <span>Student Projects</span>
           </div>
           <h2 className="projects-title" style={{ display: 'flex', alignItems: 'center', gap: '0.25em', flexWrap: 'wrap' }}>

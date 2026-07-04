@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { Globe } from 'lucide-react';
 import { MagicBento, BentoCard } from '../components/MagicBento';
 import ShinyText from '../components/ShinyText';
 import BlurText from '../components/BlurText';
@@ -54,6 +55,7 @@ const OpenSource: React.FC = () => {
           className="os-hero-content"
         >
           <div className="os-eyebrow">
+            <Globe size={12} className="accent-icon" />
             <span>Open Source Achievements</span>
           </div>
           <h2 className="os-title" style={{ display: 'flex', alignItems: 'center', gap: '0.25em', flexWrap: 'wrap' }}>

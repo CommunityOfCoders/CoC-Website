@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Users } from 'lucide-react';
-import SpotlightCard from '../components/SpotlightCard';
+import { MagicBento, BentoCard } from '../components/MagicBento';
 import ShinyText from '../components/ShinyText';
 import BlurText from '../components/BlurText';
 import './team.css';
@@ -134,7 +134,7 @@ const Team: React.FC = () => {
         </motion.div>
       </section>
 
-      <section className="team-grid">
+      <MagicBento className="team-grid">
         {teamMembers.map((member, index) => (
           <motion.div
             key={`${member.name}-${member.role}`}
@@ -144,7 +144,11 @@ const Team: React.FC = () => {
             transition={{ duration: 0.6, delay: index * 0.04 }}
             className="team-card-wrapper"
           >
-            <SpotlightCard className="team-card" spotlightColor="var(--spotlight-color)">
+            <BentoCard 
+              className="team-card" 
+              contentClassName="team-card-content"
+              glowColor="rgba(97, 185, 25, 0.8)"
+            >
               <div className="team-card-header">
                 <div className="member-avatar-container">
                   <div className="member-avatar-glow" />
@@ -207,10 +211,10 @@ const Team: React.FC = () => {
                   </svg>
                 </a>
               </div>
-            </SpotlightCard>
+            </BentoCard>
           </motion.div>
         ))}
-      </section>
+      </MagicBento>
     </div>
   );
 };

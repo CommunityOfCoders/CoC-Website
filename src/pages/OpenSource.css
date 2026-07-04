@@ -32,6 +32,7 @@
 .os-eyebrow {
   display: inline-flex;
   align-items: center;
+  gap: 8px;
   background: rgba(97, 185, 25, 0.04);
   border: 1px solid rgba(97, 185, 25, 0.25);
   padding: 6px 16px;
@@ -43,6 +44,28 @@
   font-size: 0.74rem;
   font-weight: 700;
   margin-bottom: 24px;
+  position: relative;
+}
+
+.os-eyebrow::before,
+.os-eyebrow::after {
+  content: '';
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background: var(--highlight);
+}
+.os-eyebrow::before { top: -2px; left: -2px; }
+.os-eyebrow::after { bottom: -2px; right: -2px; }
+
+.os-eyebrow .accent-icon {
+  color: var(--highlight);
+  animation: pulse-icon 2s infinite ease-in-out;
+}
+
+@keyframes pulse-icon {
+  0%, 100% { opacity: 0.6; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.1); }
 }
 
 .os-title {

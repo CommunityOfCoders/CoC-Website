@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Calendar, Search, Sparkles, Filter, X, Award } from 'lucide-react';
-import SpotlightCard from '../components/SpotlightCard';
+import { MagicBento, BentoCard } from '../components/MagicBento';
 import ShinyText from '../components/ShinyText';
 import './PastEvents.css';
 
@@ -206,45 +206,48 @@ const PastEvents: React.FC = () => {
       {/* Events Grid */}
       <section className="events-grid-section">
         {filteredEvents.length > 0 ? (
-          <motion.div 
-            layout
-            className="events-grid"
-          >
-            <AnimatePresence mode="popLayout">
-              {filteredEvents.map((event, index) => (
-                <motion.div
-                  key={event.id}
-                  layout
-                  initial={{ opacity: 0, y: 40 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, scale: 0.9 }}
-                  transition={{ duration: 0.5, delay: index * 0.05 }}
-                  className="event-card-wrapper"
-                >
-                  <SpotlightCard 
-                    className="event-card" 
-                    spotlightColor="var(--spotlight-color)"
-                    onClick={() => setSelectedEvent(event)}
+          <MagicBento>
+            <motion.div 
+              layout
+              className="events-grid"
+            >
+              <AnimatePresence mode="popLayout">
+                {filteredEvents.map((event, index) => (
+                  <motion.div
+                    key={event.id}
+                    layout
+                    initial={{ opacity: 0, y: 40 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, scale: 0.9 }}
+                    transition={{ duration: 0.5, delay: index * 0.05 }}
+                    className="event-card-wrapper"
                   >
-                    <div className="card-image-container">
-                      <img src={event.coverImage} alt={event.title} className="card-image" />
-                      <div className="card-category-badge">{event.category}</div>
-                    </div>
-                    <div className="card-body">
-                      <div className="card-meta">
-                        <span className="card-date">
-                          <Calendar size={12} className="meta-icon" />
-                          {event.date}
-                        </span>
+                    <BentoCard 
+                      className="event-card" 
+                      contentClassName="event-card-content"
+                      glowColor="rgba(97, 185, 25, 0.8)"
+                      onClick={() => setSelectedEvent(event)}
+                    >
+                      <div className="card-image-container">
+                        <img src={event.coverImage} alt={event.title} className="card-image" />
+                        <div className="card-category-badge">{event.category}</div>
                       </div>
-                      <h3 className="card-title">{event.title}</h3>
-                      <p className="card-desc">{event.description}</p>
-                    </div>
-                  </SpotlightCard>
-                </motion.div>
-              ))}
-            </AnimatePresence>
-          </motion.div>
+                      <div className="card-body">
+                        <div className="card-meta">
+                          <span className="card-date">
+                            <Calendar size={12} className="meta-icon" />
+                            {event.date}
+                          </span>
+                        </div>
+                        <h3 className="card-title">{event.title}</h3>
+                        <p className="card-desc">{event.description}</p>
+                      </div>
+                    </BentoCard>
+                  </motion.div>
+                ))}
+              </AnimatePresence>
+            </motion.div>
+          </MagicBento>
         ) : (
           <motion.div 
             initial={{ opacity: 0 }}

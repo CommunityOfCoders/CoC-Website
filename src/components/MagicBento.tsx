@@ -39,7 +39,7 @@ export const MagicBento: React.FC<MagicBentoProps> = ({ children, className = ''
   );
 };
 
-interface BentoCardProps {
+interface BentoCardProps extends React.HTMLAttributes<HTMLDivElement> {
   children: React.ReactNode;
   className?: string;
   contentClassName?: string;
@@ -50,12 +50,15 @@ export const BentoCard: React.FC<BentoCardProps> = ({
   children, 
   className = '', 
   contentClassName = '',
-  glowColor = 'rgba(97, 185, 25, 1)' 
+  glowColor = 'rgba(97, 185, 25, 1)',
+  style,
+  ...props
 }) => {
   return (
     <div 
       className={`bento-card ${className}`}
-      style={{ '--glow-color': glowColor } as React.CSSProperties}
+      style={{ ...style, '--glow-color': glowColor } as React.CSSProperties}
+      {...props}
     >
       <div className={`bento-card-content ${contentClassName}`}>
         {children}
