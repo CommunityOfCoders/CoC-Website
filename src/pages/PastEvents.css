@@ -31,33 +31,7 @@
   margin: 0;
 }
 
-.accent-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  background: rgba(97, 185, 25, 0.04);
-  border: 1px solid rgba(97, 185, 25, 0.25);
-  padding: 6px 16px;
-  border-radius: 4px; /* Industrial sharp corner feel */
-  font-size: 0.75rem;
-  font-family: 'DM Mono', monospace;
-  color: var(--highlight);
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  position: relative;
-}
-
-/* Subtle corner dots for HUD styling */
-.accent-badge::before,
-.accent-badge::after {
-  content: '';
-  position: absolute;
-  width: 4px;
-  height: 4px;
-  background: var(--highlight);
-}
-.accent-badge::before { top: -2px; left: -2px; }
-.accent-badge::after { bottom: -2px; right: -2px; }
+/* accent-badge styling is now inherited from the global hud-eyebrow utility class */
 
 .events-title {
   font-size: 4.5rem;

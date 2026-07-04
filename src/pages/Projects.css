@@ -30,42 +30,7 @@
 }
 
 .projects-eyebrow {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  background: rgba(97, 185, 25, 0.04);
-  border: 1px solid rgba(97, 185, 25, 0.25);
-  padding: 6px 16px;
-  border-radius: 4px;
-  font-family: 'DM Mono', monospace;
-  color: var(--highlight);
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  font-size: 0.74rem;
-  font-weight: 700;
   margin-bottom: 24px;
-  position: relative;
-}
-
-.projects-eyebrow::before,
-.projects-eyebrow::after {
-  content: '';
-  position: absolute;
-  width: 4px;
-  height: 4px;
-  background: var(--highlight);
-}
-.projects-eyebrow::before { top: -2px; left: -2px; }
-.projects-eyebrow::after { bottom: -2px; right: -2px; }
-
-.projects-eyebrow .accent-icon {
-  color: var(--highlight);
-  animation: pulse-icon 2s infinite ease-in-out;
-}
-
-@keyframes pulse-icon {
-  0%, 100% { opacity: 0.6; transform: scale(1); }
-  50% { opacity: 1; transform: scale(1.1); }
 }
 
 .projects-title {

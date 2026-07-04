@@ -83,7 +83,7 @@ const Projects: React.FC = () => {
           transition={{ duration: 0.7, ease: 'easeOut' }}
           className="projects-hero-content"
         >
-          <div className="projects-eyebrow">
+          <div className="hud-eyebrow projects-eyebrow">
             <Code2 size={12} className="accent-icon" />
             <span>Student Projects</span>
           </div>

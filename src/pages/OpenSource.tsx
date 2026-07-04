@@ -54,7 +54,7 @@ const OpenSource: React.FC = () => {
           transition={{ duration: 0.7, ease: 'easeOut' }}
           className="os-hero-content"
         >
-          <div className="os-eyebrow">
+          <div className="hud-eyebrow os-eyebrow">
             <Globe size={12} className="accent-icon" />
             <span>Open Source Achievements</span>
           </div>

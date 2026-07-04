@@ -118,7 +118,7 @@ const Team: React.FC = () => {
           transition={{ duration: 0.7, ease: 'easeOut' }}
           className="team-hero-content"
         >
-          <div className="team-eyebrow">
+          <div className="hud-eyebrow team-eyebrow">
             <Users size={12} className="accent-icon" />
             <span>Core Team 2026-27</span>
           </div>

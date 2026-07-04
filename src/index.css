@@ -39,3 +39,41 @@ body {
 h1, h2, h3, h4, h5, h6 {
   font-family: 'Outfit', sans-serif;
 }
+
+@keyframes pulse-icon {
+  0%, 100% { opacity: 0.6; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.1); }
+}
+
+.hud-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(97, 185, 25, 0.04);
+  border: 1px solid rgba(97, 185, 25, 0.25);
+  padding: 6px 16px;
+  border-radius: 4px;
+  font-family: 'DM Mono', monospace;
+  color: var(--highlight);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-size: 0.74rem;
+  font-weight: 700;
+  position: relative;
+}
+
+.hud-eyebrow::before,
+.hud-eyebrow::after {
+  content: '';
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background: var(--highlight);
+}
+.hud-eyebrow::before { top: -2px; left: -2px; }
+.hud-eyebrow::after { bottom: -2px; right: -2px; }
+
+.hud-eyebrow .accent-icon {
+  color: var(--highlight);
+  animation: pulse-icon 2s infinite ease-in-out;
+}

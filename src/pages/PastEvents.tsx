@@ -152,7 +152,7 @@ const PastEvents: React.FC = () => {
           transition={{ duration: 0.8, ease: 'easeOut' }}
           className="hero-text"
         >
-          <div className="accent-badge">
+          <div className="hud-eyebrow accent-badge">
             <Sparkles size={12} className="accent-icon" />
             <span>Legacy & Innovation</span>
           </div>
