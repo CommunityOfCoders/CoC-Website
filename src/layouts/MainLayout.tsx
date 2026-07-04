@@ -68,6 +68,7 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
         >
           <a href="#events" className="nav-link" onMouseEnter={handleLinkMouseEnter}>~/events</a>
           <a href="#projects" className="nav-link" onMouseEnter={handleLinkMouseEnter}>~/projects</a>
+          <a href="#open-source" className="nav-link" onMouseEnter={handleLinkMouseEnter}>~/open-source</a>
           <a href="#team" className="nav-link" onMouseEnter={handleLinkMouseEnter}>~/team</a>
           <a href="#placements" className="nav-link" onMouseEnter={handleLinkMouseEnter}>~/placements</a>
         </nav>

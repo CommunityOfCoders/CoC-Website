@@ -1,0 +1,56 @@
+.magic-bento-container {
+  /* Container handles event bubbling, can be a grid itself or wrap a grid */
+}
+
+.bento-card {
+  background-color: rgba(255, 255, 255, 0.05);
+  border-radius: 16px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.magic-bento-container:hover .bento-card::before {
+  opacity: 1;
+}
+
+.bento-card:hover {
+  transform: translateY(-4px);
+}
+
+.bento-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+  opacity: 0;
+  transition: opacity 0.5s;
+  pointer-events: none;
+}
+
+/* The glow on the border */
+.bento-card::before {
+  background: radial-gradient(
+    400px circle at var(--mouse-x, -400px) var(--mouse-y, -400px),
+    var(--glow-color, rgba(97, 185, 25, 1)),
+    transparent 40%
+  );
+  z-index: 1;
+}
+
+.bento-card-content {
+  background-color: rgba(21, 19, 17, 0.96);
+  border-radius: inherit;
+  margin: 1px; /* The border width */
+  z-index: 2;
+  position: relative;
+  height: calc(100% - 2px);
+  width: calc(100% - 2px);
+  display: flex;
+  flex-direction: column;
+}

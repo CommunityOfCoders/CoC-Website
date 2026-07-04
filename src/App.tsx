@@ -3,6 +3,7 @@ import MainLayout from './layouts/MainLayout';
 import Home from './pages/Home';
 import PastEvents from './pages/PastEvents';
 import Team from './pages/team';
+import OpenSource from './pages/OpenSource';
 import './App.css';
 
 function App() {
@@ -24,7 +25,9 @@ function App() {
         return <PastEvents />;
       case '#team':
         return <Team />;
-      // Additional views can be wired up here (e.g., #projects, #team, etc.)
+      case '#open-source':
+        return <OpenSource />;
+      // Additional views can be wired up here
       default:
         return <Home />;
     }
