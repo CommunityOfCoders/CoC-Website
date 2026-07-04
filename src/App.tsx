@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import MainLayout from './layouts/MainLayout';
 import Home from './pages/Home';
 import PastEvents from './pages/PastEvents';
+import Team from './pages/team';
 import './App.css';
 
 function App() {
@@ -21,6 +22,8 @@ function App() {
     switch (currentHash) {
       case '#events':
         return <PastEvents />;
+      case '#team':
+        return <Team />;
       // Additional views can be wired up here (e.g., #projects, #team, etc.)
       default:
         return <Home />;
