@@ -18,56 +18,55 @@ interface EventData {
 
 const pastEventsData: EventData[] = [
   {
-    id: 'devhack-2025',
-    title: 'Cyber_Fusion 2077 (DevHack)',
-    category: 'hackathon',
+    id: 'git-python-workshop-2025',
+    title: 'Git & Python Workshop',
+    category: 'workshop',
     date: 'October 18-20, 2025',
-    description: 'Our flagship 48-hour global hackathon challenging builders to solve pressing issues in AI, CyberSecurity, and Web3.',
-    longDescription: 'Cyber_Fusion 2077 was a massive success, attracting top-tier engineering students from across the country. Over the course of 48 hours, developers pushed their limits to build solutions utilizing bleeding-edge technologies. Mentors from major tech giants provided guidance, culminating in a fierce pitching round in front of a panel of venture capitalists and industry leaders.',
-    coverImage: '/events/hackathon.jpg',
+    description: 'A three-day hands-on workshop covering Git workflows, Python scripting, and collaborative coding practices.',
+    longDescription: 'This workshop provided participants with a deep dive into version control using Git, along with practical Python programming exercises. Attendees learned to manage repositories, resolve merge conflicts, and automate tasks using Python scripts. By the end of the workshop, students had successfully contributed to open-source projects and deployed their own Python applications.',
+    coverImage: '/events/git_python.jpg',
     highlights: [
-      'Record-breaking turnout of over 500 active physical & virtual participants.',
-      'Sponsorship from leading tech organizations including GitHub, Vercel, and Solana.',
-      'Over 90% of submitted projects deployed and verified on-chain or on live servers.',
-      'Stunning mid-hackathon technical workshops hosted by expert Google & Microsoft devs.'
+      'Hands-on sessions with real-world coding challenges.',
+      'Guided mentorship from seniors.',
+      'Final project presentations with peer and mentor feedback.'
     ]
   },
   {
-    id: 'ai-ml-workshop-2024',
-    title: 'Neurons & Networks AI Workshop',
+    id: 'opencv-workshop-2025',
+    title: 'OpenCV Workshop',
     category: 'workshop',
-    date: 'October 26-27, 2024',
-    description: 'An intensive two-day hands-on bootcamp covering Neural Networks, LLMs, and deploying custom inference models.',
-    longDescription: 'This workshop brought together ML enthusiasts for a deep dive into neural architectures. Students built custom classification models on Day 1, and progressed to configuring fine-tuning loops for small-scale LLMs on Day 2. Every student successfully deployed their API-driven model on cloud infrastructure.',
-    coverImage: '/events/ai_workshop.jpg',
+    date: 'April 11th - 13th, 2026',
+    description: 'A two-day intensive workshop on computer vision using OpenCV, covering image processing, object detection, and real-time video analysis.',
+    longDescription: 'This workshop provided participants with a deep dive into computer vision using OpenCV. Students learned to process images, detect objects, and analyze real-time video streams. By the end of the workshop, attendees had built their own computer vision applications.',
+    coverImage: '/events/opencv.jpg',
     highlights: [
-      'Comprehensive curriculum designed by senior research students and VJTI alumni.',
-      'Complimentary cloud credits provided for heavy training work.',
-      'Covered modern architectures: Transformers, CNNs, and Diffusion models.'
+      'Hands-on sessions with real-world computer vision challenges.',
+      'Guided mentorship from seniors.',
+      'Final project presentations with peer and mentor feedback.'
     ]
   },
   {
-    id: 'algo-strike-2024',
-    title: 'Algo-Strike 2024: CP Contest',
+    id: 'RouteQuest-2026',
+    title: 'RouteQuest 2026',
     category: 'contest',
-    date: 'October 12-14, 2024',
-    description: 'A high-octane competitive programming clash testing data structures, algorithms, and speed-coding under pressure.',
-    longDescription: 'Algo-Strike challenged coders with a highly curated set of 8 algorithmic problems ranging from DP to graph theory. Running in parallel on Codeforces, this 3-hour speedrun saw intense leaderboard shifts in the final 10 minutes. A post-contest analysis session unpacked the optimal solutions.',
-    coverImage: '/events/algo_arena.jpg',
+    date: 'October 12-14, 2026',
+    description: 'A web development CTF (Capture The Flag) contest challenging participants to solve real-world web security scenarios.',
+    longDescription: 'RouteQuest 2026 was a thrilling web development CTF contest that tested participants on various web security challenges. Contestants had to navigate through complex scenarios to capture flags and secure their applications. The event fostered a competitive yet collaborative environment, encouraging learning and skill enhancement in web security.',
+    coverImage: '/events/routequest.jpg',
     highlights: [
-      'Problemset designed by 5-star CodeChef and Candidate Master Codeforces community members.',
-      'Active live dashboard displayed on VJTI campus screens.',
-      'Sponsor interviews offered directly to the top 5 contestants.'
+      'Challenging web security scenarios designed to test participants\' skills.',
+      'Collaboration and teamwork encouraged among participants.',
+      'Winners received recognition and prizes for their exceptional performance.'
     ]
   },
   {
-    id: 'open-source-oct-2023',
-    title: 'Open Source October Sprint',
-    category: 'workshop',
-    date: 'October 1-31, 2023',
-    description: 'A month-long open source contribution drive with structured mentorship, git sessions, and PR contributions.',
-    longDescription: 'Designed to ease beginners into the open-source ecosystem, this month-long event kicked off with deep dives on Git branching workflows. Over 80 students successfully landed their first pull requests in production repositories, guided by experienced mentors.',
-    coverImage: '/events/open_source.jpg',
+    id: 'codehunt-2026',
+    title: 'CodeHunt 2026',
+    category: 'contest',
+    date: 'October 1st, 2026',
+    description: 'A competitive coding contest where participants solve algorithmic challenges to hunt for hidden QR codes across the campus.',
+    longDescription: 'CodeHunt 2026 was a fun and engaging contest that challenged participants to solve algorithmic problems while hunting for hidden QR codes across the campus. The event encouraged creative problem-solving and teamwork, providing a unique twist on traditional coding competitions.',
+    coverImage: '/events/codehunt.jpg',
     highlights: [
       '80%+ of participants had never submitted a PR prior to this event.',
       'Weekly code review sessions helped improve code quality guidelines.',
@@ -75,31 +74,31 @@ const pastEventsData: EventData[] = [
     ]
   },
   {
-    id: 'web3-summit-2023',
-    title: 'Web3 & Blockchain Summit',
-    category: 'meetup',
-    date: 'August 12, 2023',
-    description: 'Expert talks, panel discussions, and developer networking around Ethereum scaling, Solidity, and zero-knowledge proofs.',
-    longDescription: 'An industry-meetup format bringing together blockchain professionals and university researchers. Presentations explored cryptographic proofs, state channels, and decentralization security risks, ending with a network mixer over refreshments.',
-    coverImage: '/events/hackathon.jpg',
+    id: 'sih-internals-2025',
+    title: 'Smart India Hackathon Internals 2025',
+    category: 'contest',
+    date: 'August 12, 2025',
+    description: 'Internal selection round for the Smart India Hackathon, where teams competed to represent VJTI in the national finals.',
+    longDescription: 'A high-stakes internal competition where student teams presented their innovative solutions to real-world problems. The event simulated the national Smart India Hackathon environment, with judges evaluating based on creativity, feasibility, and impact. Winning teams earned the opportunity to represent VJTI at the national level.',
+    coverImage: '/events/sih_internals.jpg',
     highlights: [
-      'Interactive panel debate on L2 rollups vs sidechains.',
-      'Live smart-contract auditing workshop demonstrating re-entrancy exploits.',
-      'Networking session introducing 20+ students to crypto startup internships.'
+      'Teams presented their solutions to a panel of judges from academia and industry.',
+      'Focus on real-world problem-solving and innovation.',
+      'Winners advanced to the national Smart India Hackathon finals.'
     ]
   },
   {
-    id: 'icpc-internal-2023',
-    title: 'ByteSized: Intra-College CP',
+    id: 'codeverse-2026',
+    title: 'CodeVerse 2026',
     category: 'contest',
-    date: 'July 24, 2023',
-    description: 'ACM-ICPC mock team contest for choosing the elite teams representing VJTI in regional stages.',
-    longDescription: 'A rigorous three-person team competition modeling the actual ACM-ICPC regional atmosphere. Teams shared a single computer to solve 10 challenging algorithmic problems, requiring tight collaboration and division of labor under strict time penalties.',
-    coverImage: '/events/algo_arena.jpg',
+    date: 'July 24, 2026',
+    description: 'A series of hackathons spanning over 3 days, in fields like AI, Web Development, and Cybersecurity, culminating in a grand finale with top teams competing for prizes.',
+    longDescription: 'CodeVerse 2026 was an exhilarating series of hackathons that brought together the brightest minds in AI, Web Development, and Cybersecurity. Over three days, participants collaborated in teams to develop innovative solutions, with the top teams advancing to a grand finale where they showcased their projects to a panel of esteemed judges.',
+    coverImage: '/events/codeverse.jpg',
     highlights: [
-      'Strict single-keyboard rule implemented to simulate official ICPC environments.',
-      'Advanced dynamic programming and geometry tasks included.',
-      'Winning teams went on to qualify for the ICPC Gwalior-Pune regionals.'
+      'Multi-day hackathon with diverse technical challenges.',
+      'Collaboration and networking opportunities with industry experts.',
+      'Prizes awarded to top teams.'
     ]
   }
 ];
