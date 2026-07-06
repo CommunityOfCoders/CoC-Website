@@ -5,6 +5,7 @@ import PastEvents from './pages/PastEvents';
 import Team from './pages/team';
 import OpenSource from './pages/OpenSource';
 import Projects from './pages/Projects';
+import Placements from './pages/Placements';
 import './App.css';
 
 function App() {
@@ -30,6 +31,8 @@ function App() {
         return <Team />;
       case '#open-source':
         return <OpenSource />;
+      case '#placements':
+        return <Placements />;
       // Additional views can be wired up here
       default:
         return <Home />;
