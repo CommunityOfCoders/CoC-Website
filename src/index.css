@@ -1,79 +1,251 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Outfit:wght@400;700;900&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Cal+Sans&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&display=swap');
+/* ============================================================
+   CoC — Community of Coders, VJTI
+   Global design system, v3.
+   True-black canvas · one electric spring-green accent · white
+   + grey scale. Cabinet Grotesk display / Switzer body / DM Mono
+   utility. Photography reads as photography (no tint washes).
+   ============================================================ */
+
+@import url('https://api.fontshare.com/v2/css?f[]=cabinet-grotesk@500,700,800&f[]=switzer@400,500,600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&display=swap');
+
 :root {
-  --bg-color: #12100E;
-  --text-color: #FFFBFC;
-  --text-muted: #d0cdd7ad;
-  --highlight: #61B919;
-  --box-bg: color-mix(in srgb, var(--highlight) 3%, color-mix(in srgb, var(--bg-color) 95%, #fff 5%));
-  --box-border: color-mix(in srgb, var(--highlight) 8%, color-mix(in srgb, var(--bg-color) 90%, #fff 10%));
+  /* ---- canvas & surfaces ---- */
+  --ink: #070808;          /* dominant near-black canvas */
+  --ink-1: #0E100F;        /* raised surface */
+  --ink-2: #151817;        /* card surface */
+  --ink-3: #1D211F;        /* hover / elevated */
+  --bone: #EEEFEA;         /* light "flip" section */
+  --bone-ink: #0B0C0B;     /* text on bone */
 
-  /* Semantic helper variables derived from the primary colors */
-  --highlight-glow: color-mix(in srgb, var(--highlight) 80%, transparent);
-  --highlight-shadow: color-mix(in srgb, var(--highlight) 40%, transparent);
-  --highlight-border: color-mix(in srgb, var(--highlight) 60%, transparent);
-  --spotlight-color: color-mix(in srgb, var(--highlight) 15%, transparent);
-  --header-bg: color-mix(in srgb, var(--bg-color) 85%, transparent);
-  --border-light: color-mix(in srgb, var(--text-color) 5%, transparent);
+  /* ---- text (grey scale) ---- */
+  --fg: #F5F7F5;
+  --fg-dim: rgba(245, 247, 245, 0.62);
+  --fg-faint: rgba(245, 247, 245, 0.38);
+
+  /* ---- the one accent: electric spring green ---- */
+  --accent: #1DF275;
+  --accent-deep: #12C95F;          /* hover / pressed */
+  --accent-ink: #03150A;           /* text on accent fills */
+  --accent-soft: rgba(29, 242, 117, 0.10); /* faint washes / icon chips */
+
+  /* ---- lines ---- */
+  --line: rgba(245, 247, 245, 0.10);
+  --line-2: rgba(245, 247, 245, 0.18);
+  --bone-line: rgba(11, 12, 11, 0.12);
+
+  /* ---- type ---- */
+  --font-display: 'Cabinet Grotesk', 'Switzer', sans-serif;
+  --font-body: 'Switzer', system-ui, sans-serif;
+  --font-mono: 'DM Mono', ui-monospace, monospace;
+
+  /* ---- radius ---- */
+  --r-sm: 10px;
+  --r-md: 20px;
+  --r-lg: 30px;
+  --r-xl: 40px;
+  --r-pill: 999px;
+
+  /* ---- layout ---- */
+  --maxw: 1200px;
+  --gutter: clamp(20px, 5vw, 64px);
+
+  /* ---- motion ---- */
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; background: var(--ink); }
 
 body {
-  font-family: 'Inter', sans-serif;
-  background-color: var(--bg-color);
-  /* Tech grid background using subtle lines */
-  background-image: 
-    linear-gradient(to right, color-mix(in srgb, var(--text-color) 1.5%, transparent) 1px, transparent 1px),
-    linear-gradient(to bottom, color-mix(in srgb, var(--text-color) 1.5%, transparent) 1px, transparent 1px);
-  background-size: 60px 60px;
-  color: var(--text-color);
+  font-family: var(--font-body);
+  background: var(--ink);
+  color: var(--fg);
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  line-height: 1.55;
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: 'Outfit', sans-serif;
+  font-family: var(--font-display);
+  font-weight: 700;
+  line-height: 0.98;
+  letter-spacing: -0.02em;
 }
 
-@keyframes pulse-icon {
-  0%, 100% { opacity: 0.6; transform: scale(1); }
-  50% { opacity: 1; transform: scale(1.1); }
+a { color: inherit; text-decoration: none; }
+img { display: block; max-width: 100%; }
+button { font-family: inherit; cursor: pointer; }
+
+::selection { background: var(--accent); color: var(--accent-ink); }
+
+/* ============================================================
+   Reusable primitives
+   ============================================================ */
+
+.container {
+  width: 100%;
+  max-width: var(--maxw);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
 }
 
-.hud-eyebrow {
+/* --- eyebrow: small tracked mono label + accent tick --- */
+.eyebrow {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  background: rgba(97, 185, 25, 0.04);
-  border: 1px solid rgba(97, 185, 25, 0.25);
-  padding: 6px 16px;
-  border-radius: 4px;
-  font-family: 'DM Mono', monospace;
-  color: var(--highlight);
+  gap: 10px;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.22em;
   text-transform: uppercase;
-  letter-spacing: 2px;
-  font-size: 0.74rem;
-  font-weight: 700;
-  position: relative;
+  color: var(--fg-dim);
 }
+.eyebrow::before {
+  content: '';
+  width: 22px;
+  height: 2px;
+  background: var(--accent);
+}
+.eyebrow--bone { color: var(--bone-ink); opacity: 0.65; }
 
-.hud-eyebrow::before,
-.hud-eyebrow::after {
+/* --- buttons --- */
+.btn {
+  --_bg: var(--accent);
+  --_fg: var(--accent-ink);
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 15px 28px;
+  border: 1px solid transparent;
+  border-radius: var(--r-pill);
+  background: var(--_bg);
+  color: var(--_fg);
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  line-height: 1;
+  white-space: nowrap;
+  transition: transform 0.25s var(--ease), background 0.25s var(--ease), border-color 0.25s var(--ease), color 0.25s var(--ease);
+}
+.btn:hover { transform: translateY(-2px); background: var(--accent-deep); }
+.btn:active { transform: translateY(0); }
+.btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.btn svg { width: 17px; height: 17px; }
+
+.btn--ghost {
+  --_bg: transparent;
+  --_fg: var(--fg);
+  border-color: var(--line-2);
+}
+.btn--ghost:hover { border-color: var(--fg); background: rgba(245,247,245,0.05); }
+.btn--ghost:active { background: rgba(245,247,245,0.05); }
+
+.btn--on-bone { --_fg: var(--bone-ink); }
+.btn--on-bone.btn--ghost { --_fg: var(--bone-ink); border-color: var(--bone-line); }
+.btn--on-bone.btn--ghost:hover { border-color: var(--bone-ink); background: rgba(11,12,11,0.04); }
+
+/* --- circular icon button (slider arrows) --- */
+.icon-btn {
+  display: inline-grid;
+  place-items: center;
+  width: 52px;
+  height: 52px;
+  border-radius: var(--r-pill);
+  border: 1px solid var(--line-2);
+  background: transparent;
+  color: var(--fg);
+  transition: background 0.25s var(--ease), color 0.25s var(--ease), border-color 0.25s var(--ease), transform 0.25s var(--ease);
+}
+.icon-btn:hover { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+.icon-btn:active { transform: scale(0.94); }
+.icon-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.icon-btn:disabled { opacity: 0.35; cursor: not-allowed; }
+.icon-btn svg { width: 20px; height: 20px; }
+
+/* --- section scaffolding --- */
+.section { padding-block: clamp(72px, 11vw, 140px); position: relative; }
+.section--bone { background: var(--bone); color: var(--bone-ink); }
+.section--bone h1, .section--bone h2, .section--bone h3 { color: var(--bone-ink); }
+
+.section-head { max-width: 720px; }
+.section-title {
+  font-size: clamp(2.2rem, 5vw, 3.6rem);
+  margin-top: 22px;
+  font-weight: 700;
+}
+.section-title .mark { color: var(--accent); }
+
+/* --- photo frame: real photography, no tint wash --- */
+.photo {
+  position: relative;
+  overflow: hidden;
+  background: var(--ink-2);
+}
+.photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: saturate(1.05) contrast(1.03);
+  transition: transform 0.6s var(--ease);
+}
+.photo--hover:hover img { transform: scale(1.045); }
+/* optional bottom shade for captions laid over the photo */
+.photo--shade::after {
   content: '';
   position: absolute;
-  width: 4px;
-  height: 4px;
-  background: var(--highlight);
+  inset: 0;
+  background: linear-gradient(180deg, transparent 52%, rgba(7,8,8,0.66));
+  pointer-events: none;
 }
-.hud-eyebrow::before { top: -2px; left: -2px; }
-.hud-eyebrow::after { bottom: -2px; right: -2px; }
 
-.hud-eyebrow .accent-icon {
-  color: var(--highlight);
-  animation: pulse-icon 2s infinite ease-in-out;
+/* ============================================================
+   Scroll-driven photographic backdrop (Home)
+   Fixed layer behind sections; images enter/exit as scenes
+   scroll into view and drift with scroll position.
+   ============================================================ */
+.backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  background: var(--ink);
+  overflow: hidden;
+  pointer-events: none;
+}
+.backdrop__item { position: absolute; inset: 0; }
+.backdrop__item img {
+  position: absolute;
+  left: 0;
+  top: -10%;
+  width: 100%;
+  height: 124%;          /* headroom so scroll drift never exposes edges */
+  object-fit: cover;
+  opacity: 0.34;
+  filter: saturate(0.85) brightness(0.8);
+  will-change: transform;
+}
+.backdrop__veil {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(7,8,8,0.72), rgba(7,8,8,0.5) 42%, rgba(7,8,8,0.86));
+}
+
+/* content sits above the backdrop */
+.shell { position: relative; z-index: 1; }
+.shell main > * { position: relative; z-index: 1; }
+.shell main > .backdrop { z-index: 0; }
+.footer { position: relative; z-index: 1; }
+
+/* --- misc --- */
+.sr-only {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; scroll-behavior: auto !important; }
 }

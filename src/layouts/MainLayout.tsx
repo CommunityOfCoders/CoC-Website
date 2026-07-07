@@ -1,86 +1,151 @@
-import React, { useRef, useState, useEffect, useLayoutEffect, useCallback } from 'react';
-import Particles from '../components/Particles';
+import React, { useEffect, useState } from 'react';
+import { ArrowUpRight, Menu, X } from 'lucide-react';
+import { Github, Linkedin, Instagram } from '../components/ui/BrandIcons';
 import './MainLayout.css';
 
 interface MainLayoutProps {
   children: React.ReactNode;
+  route: string;
 }
 
-const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
-  const brandRef = useRef<HTMLSpanElement>(null);
-  const headerRef = useRef<HTMLElement>(null);
-  const [glowStyle, setGlowStyle] = useState<React.CSSProperties>({});
+const NAV = [
+  { label: 'Home', hash: '' },
+  { label: 'Events', hash: '#events' },
+  { label: 'Projects', hash: '#projects' },
+  { label: 'Opensource', hash: '#opensource' },
+  { label: 'Team', hash: '#team' },
+  { label: 'Placements', hash: '#placements' },
+  { label: 'Contact', hash: '#contact' },
+];
 
-  const updateGlowToBrand = useCallback(() => {
-    if (brandRef.current && headerRef.current) {
-      const brandRect = brandRef.current.getBoundingClientRect();
-      const headerRect = headerRef.current.getBoundingClientRect();
-      setGlowStyle({
-        left: `${brandRect.left - headerRect.left}px`,
-        width: `${brandRect.width}px`,
-        transition: 'left 0.4s cubic-bezier(0.25, 1, 0.5, 1), width 0.4s cubic-bezier(0.25, 1, 0.5, 1)',
-      });
-    }
-  }, []);
+const SOCIALS = [
+  { label: 'GitHub', href: 'https://github.com', Icon: Github },
+  { label: 'LinkedIn', href: 'https://linkedin.com', Icon: Linkedin },
+  { label: 'Instagram', href: 'https://instagram.com', Icon: Instagram },
+];
 
-  useLayoutEffect(() => {
-    updateGlowToBrand();
-  }, [updateGlowToBrand]);
+const MainLayout: React.FC<MainLayoutProps> = ({ children, route }) => {
+  const [scrolled, setScrolled] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
-    window.addEventListener('resize', updateGlowToBrand);
-    return () => window.removeEventListener('resize', updateGlowToBrand);
-  }, [updateGlowToBrand]);
+    const onScroll = () => setScrolled(window.scrollY > 8);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
 
-  const handleLinkMouseEnter = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    if (headerRef.current) {
-      const linkRect = e.currentTarget.getBoundingClientRect();
-      const headerRect = headerRef.current.getBoundingClientRect();
-      setGlowStyle({
-        left: `${linkRect.left - headerRect.left}px`,
-        width: `${linkRect.width}px`,
-        transition: 'left 0.3s cubic-bezier(0.25, 1, 0.5, 1), width 0.3s cubic-bezier(0.25, 1, 0.5, 1)',
-      });
-    }
-  };
+  // close the mobile menu whenever the route changes
+  useEffect(() => { setMenuOpen(false); }, [route]);
 
-  const handleMouseLeave = () => {
-    updateGlowToBrand();
-  };
+  const isActive = (hash: string) => (hash === '' ? route === '' : route === hash);
 
   return (
-    <div className="app-container">
-      <Particles particleCount={150} speed={0.8} />
+    <div className="shell">
+      <header className={`nav${scrolled ? ' nav--scrolled' : ''}`}>
+        <div className="container nav__inner">
+          <a href="#" className="brand" aria-label="Community of Coders — home">
+            <span className="brand__mark">CoC</span>
+            <span className="brand__meta">Community of Coders<em>VJTI · Matunga</em></span>
+          </a>
 
-      
-      {/* Ambient floating glow blobs */}
-      <div className="ambient-glow blob-1" />
-      <div className="ambient-glow blob-2" />
-      
-      <header className="header" ref={headerRef}>
-        <a href="#" className="header-brand">
-          <h1 className="club-name"><span ref={brandRef}>Community of Coders</span></h1>
-          <h2 className="location">@ VJTI, Matunga</h2>
-        </a>
-        <nav 
-          className="header-nav"
-          onMouseLeave={handleMouseLeave}
-        >
-          <a href="#events" className="nav-link" onMouseEnter={handleLinkMouseEnter}>~/events</a>
-          <a href="#projects" className="nav-link" onMouseEnter={handleLinkMouseEnter}>~/projects</a>
-          <a href="#open-source" className="nav-link" onMouseEnter={handleLinkMouseEnter}>~/open-source</a>
-          <a href="#team" className="nav-link" onMouseEnter={handleLinkMouseEnter}>~/team</a>
-          <a href="#placements" className="nav-link" onMouseEnter={handleLinkMouseEnter}>~/placements</a>
-        </nav>
-        <div className="header-glow" style={glowStyle}></div>
+          <nav className="nav__links" aria-label="Primary">
+            {NAV.map((item) => (
+              <a
+                key={item.label}
+                href={item.hash || '#'}
+                className={`nav__link${isActive(item.hash) ? ' is-active' : ''}`}
+                aria-current={isActive(item.hash) ? 'page' : undefined}
+              >
+                {item.label}
+              </a>
+            ))}
+          </nav>
+
+          {/* placeholder org link — point at the real CoC GitHub org */}
+          <a href="https://github.com" target="_blank" rel="noreferrer" className="btn nav__cta">
+            GitHub <ArrowUpRight />
+          </a>
+
+          <button
+            className="nav__burger"
+            aria-label={menuOpen ? 'Close menu' : 'Open menu'}
+            aria-expanded={menuOpen}
+            onClick={() => setMenuOpen((v) => !v)}
+          >
+            {menuOpen ? <X /> : <Menu />}
+          </button>
+        </div>
+
+        {/* mobile drawer */}
+        <div className={`nav__drawer${menuOpen ? ' is-open' : ''}`}>
+          {NAV.map((item) => (
+            <a
+              key={item.label}
+              href={item.hash || '#'}
+              className={`nav__drawer-link${isActive(item.hash) ? ' is-active' : ''}`}
+            >
+              {item.label}
+              <ArrowUpRight />
+            </a>
+          ))}
+        </div>
       </header>
 
-      <main className="main-content">
-        {children}
-      </main>
+      <main>{children}</main>
 
       <footer className="footer">
-        <p>&copy; {new Date().getFullYear()} Community of Coders. All rights reserved.</p>
+        <div className="container">
+          <div className="footer__top">
+            <div className="footer__brand">
+              <span className="footer__wordmark">Community<br />of Coders<span className="footer__dot">.</span></span>
+              <p className="footer__tag">VJTI's student-run engineering community. Code. Create. Connect.</p>
+            </div>
+
+            <div className="footer__cols">
+              <div className="footer__col">
+                <span className="footer__col-title">Explore</span>
+                {NAV.slice(1, 5).map((i) => (
+                  <a key={i.label} href={i.hash} className="footer__link">{i.label}</a>
+                ))}
+              </div>
+              <div className="footer__col">
+                <span className="footer__col-title">Connect</span>
+                {SOCIALS.map((s) => (
+                  <a key={s.label} href={s.href} target="_blank" rel="noreferrer" className="footer__link">{s.label}</a>
+                ))}
+                <a href="#contact" className="footer__link">Contact</a>
+              </div>
+              <div className="footer__col footer__col--news">
+                <span className="footer__col-title">Stay in the loop</span>
+                <p className="footer__news-copy">New events, drops and open-source calls — no spam.</p>
+                <form className="news" onSubmit={(e) => e.preventDefault()}>
+                  <input
+                    type="email"
+                    className="news__input"
+                    placeholder="you@vjti.ac.in"
+                    aria-label="Email address"
+                    required
+                  />
+                  <button type="submit" className="news__btn" aria-label="Subscribe">
+                    <ArrowUpRight />
+                  </button>
+                </form>
+              </div>
+            </div>
+          </div>
+
+          <div className="footer__bottom">
+            <span>© {new Date().getFullYear()} Community of Coders, VJTI.</span>
+            <div className="footer__socials">
+              {SOCIALS.map((s) => (
+                <a key={s.label} href={s.href} target="_blank" rel="noreferrer" aria-label={s.label} className="footer__social">
+                  <s.Icon />
+                </a>
+              ))}
+            </div>
+          </div>
+        </div>
       </footer>
     </div>
   );

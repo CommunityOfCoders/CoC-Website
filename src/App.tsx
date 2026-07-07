@@ -6,45 +6,36 @@ import Team from './pages/team';
 import OpenSource from './pages/OpenSource';
 import Projects from './pages/Projects';
 import Placements from './pages/Placements';
+import Contact from './pages/Contact';
 import './App.css';
 
+const normalize = (hash: string) => (hash === '#' ? '' : hash);
+
 function App() {
-  const [currentHash, setCurrentHash] = useState(window.location.hash);
+  const [route, setRoute] = useState(() => normalize(window.location.hash));
 
   useEffect(() => {
-    const handleHashChange = () => {
-      setCurrentHash(window.location.hash);
-      window.scrollTo(0, 0); // Reset scroll on view change
+    const onHashChange = () => {
+      setRoute(normalize(window.location.hash));
+      window.scrollTo(0, 0);
     };
-
-    window.addEventListener('hashchange', handleHashChange);
-    return () => window.removeEventListener('hashchange', handleHashChange);
+    window.addEventListener('hashchange', onHashChange);
+    return () => window.removeEventListener('hashchange', onHashChange);
   }, []);
 
   const renderView = () => {
-    switch (currentHash) {
-      case '#events':
-        return <PastEvents />;
-      case '#projects':
-        return <Projects />;
-      case '#team':
-        return <Team />;
-      case '#open-source':
-        return <OpenSource />;
-      case '#placements':
-        return <Placements />;
-      // Additional views can be wired up here
-      default:
-        return <Home />;
+    switch (route) {
+      case '#events': return <PastEvents />;
+      case '#projects': return <Projects />;
+      case '#opensource': return <OpenSource />;
+      case '#team': return <Team />;
+      case '#placements': return <Placements />;
+      case '#contact': return <Contact />;
+      default: return <Home />;
     }
   };
 
-  return (
-    <MainLayout>
-      {renderView()}
-    </MainLayout>
-  );
+  return <MainLayout route={route}>{renderView()}</MainLayout>;
 }
 
 export default App;
-
