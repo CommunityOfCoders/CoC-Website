@@ -1,0 +1,46 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  overflow: hidden;
+}
+
+.backdrop {
+  position: absolute;
+  inset: 0;
+  background: #000;
+}
+
+.canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* Phase 4: the clean 2D mark that surfaces as the glass dissolves */
+.resolveLogo {
+  position: absolute;
+  will-change: transform, opacity;
+}
+
+.resolveLogo svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* ── Resting state ── */
+
+.docked {
+  position: fixed;
+  z-index: 99998;
+  pointer-events: none;
+}
+
+.docked svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}

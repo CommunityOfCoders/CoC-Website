@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import IntroAnimation from './intro/IntroAnimation';
 import MainLayout from './layouts/MainLayout';
 import Home from './pages/Home';
 import PastEvents from './pages/PastEvents';
@@ -35,7 +36,12 @@ function App() {
     }
   };
 
-  return <MainLayout route={route}>{renderView()}</MainLayout>;
+  return (
+    <>
+      <IntroAnimation />
+      <MainLayout route={route}>{renderView()}</MainLayout>
+    </>
+  );
 }
 
 export default App;

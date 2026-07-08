@@ -24,10 +24,10 @@
   --fg-faint: rgba(245, 247, 245, 0.38);
 
   /* ---- the one accent: electric spring green ---- */
-  --accent: #1DF275;
-  --accent-deep: #12C95F;          /* hover / pressed */
-  --accent-ink: #03150A;           /* text on accent fills */
-  --accent-soft: rgba(29, 242, 117, 0.10); /* faint washes / icon chips */
+  --accent: #1DB954;
+  --accent-deep: #169040;          /* hover / pressed */
+  --accent-ink: #011a0a;           /* text on accent fills */
+  --accent-soft: rgba(29, 185, 84, 0.10); /* faint washes / icon chips */
 
   /* ---- lines ---- */
   --line: rgba(245, 247, 245, 0.10);
