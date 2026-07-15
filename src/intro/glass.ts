@@ -40,12 +40,10 @@ export interface ParticleSlot {
   arrival: number;
   axis: THREE.Vector3;
   angle: number;
-  /** compression-merge resting point (edge-pulled + grid-blended) */
-  compress: THREE.Vector3;
-  /** shrink factor at full compression */
-  compressScale: number;
-  /** small residual spin during compression (radians) */
-  spin: number;
+  /** seconds after merge start when this piece begins to melt (rim first) */
+  meltOffset: number;
+  /** how far this chunk spreads while melting (edge chunks spread less) */
+  spreadMax: number;
 }
 
 export interface ParticleField {
@@ -53,17 +51,32 @@ export interface ParticleField {
   slots: ParticleSlot[];
   /** when the last particle locks in (seconds from assembly start) */
   assembleEnd: number;
+  /** largest meltOffset across the field (the melt wave's span) */
+  meltSpan: number;
 }
 
 const GRID = 72; // 400/72 ≈ 5.6-unit cells → ~880 particles
 const TEMPLATE_COUNT = 12;
 const SEED = 424243;
 
-/** how far each particle pulls toward the boundary during compression */
-const EDGE_PULL = 0.55;
-/** lattice pitch and blend for the subtle grid snap */
-const SNAP_GRID = 4;
-const SNAP_BLEND = 0.35;
+/**
+ * Landing-wave timing: a slot at normalized radius rNorm (0 = mark center,
+ * 1 = rim) arrives at `base + (1 − rNorm) · spread (+ jitter)`. The rim
+ * lands first, the core last. IntroAnimation's radial reveal mask uses the
+ * same numbers to paint the 2D mark in exactly behind the landings.
+ */
+export const STAGGER = { base: 3.3, spread: 0.5, jitter: 0.2, maxR: 145 };
+
+/** landing slots keep at least this margin (capped) inside the boundary */
+const MAX_INSET = 6;
+
+/** melt wave: rim chunks melt first, sweeping to the core over this long */
+const MELT_WAVE = 0.6;
+const MELT_WAVE_JITTER = 0.15;
+
+/** how far a melting chunk may spread (interior chunks; edge chunks are
+    limited by their distance to the border so the puddle stays inside) */
+const SPREAD_MAX = 1.9;
 
 function mulberry32(seed: number) {
   let a = seed >>> 0;
@@ -75,29 +88,50 @@ function mulberry32(seed: number) {
   };
 }
 
-/** cubic-bezier easing with x1 = x2 = 0.25 (Newton-solved x → param t). */
-function makeEase(y1: number, y2: number) {
+/** General CSS-style cubic-bezier easing (Newton + bisection fallback). */
+export function cubicBezier(x1: number, y1: number, x2: number, y2: number) {
+  const cx = 3 * x1;
+  const bx = 3 * (x2 - x1) - cx;
+  const ax = 1 - cx - bx;
   const cy = 3 * y1;
-  const by = 3 * (y2 - 2 * y1);
+  const by = 3 * (y2 - y1) - cy;
   const ay = 1 - cy - by;
+  const sampleX = (t: number) => ((ax * t + bx) * t + cx) * t;
+  const sampleDX = (t: number) => (3 * ax * t + 2 * bx) * t + cx;
   return (p: number) => {
     if (p <= 0) return 0;
     if (p >= 1) return 1;
     let t = p;
     for (let i = 0; i < 8; i++) {
-      const x = ((t - 0.75) * t + 0.75) * t - p; // x-poly for x1=x2=0.25
-      const dx = (3 * t - 1.5) * t + 0.75;
-      if (Math.abs(x) < 1e-5 || dx === 0) break;
+      const x = sampleX(t) - p;
+      const dx = sampleDX(t);
+      if (Math.abs(x) < 1e-5 || Math.abs(dx) < 1e-6) break;
       t -= x / dx;
+    }
+    if (t < 0 || t > 1 || Math.abs(sampleX(t) - p) > 1e-4) {
+      let lo = 0;
+      let hi = 1;
+      t = p;
+      for (let i = 0; i < 24; i++) {
+        const x = sampleX(t);
+        if (Math.abs(x - p) < 1e-4) break;
+        if (x < p) lo = t;
+        else hi = t;
+        t = (lo + hi) / 2;
+      }
     }
     return ((ay * t + by) * t + cy) * t;
   };
 }
 
-/** Inbound particle flight: cubic-bezier(0.25, 0.05, 0.25, 1). */
-export const flightEase = makeEase(0.05, 1);
+/**
+ * Inbound particle flight: constant speed throughout — effectively linear,
+ * with just enough softness at both ends that launch and touchdown don't
+ * look mechanical.
+ */
+export const flightEase = cubicBezier(0.3, 0.25, 0.7, 0.75);
 /** Compression / corner glide: cubic-bezier(0.25, 0.1, 0.25, 1). */
-export const glideEase = makeEase(0.1, 1);
+export const glideEase = cubicBezier(0.25, 0.1, 0.25, 1);
 
 /* ── analytic mark geometry (logo coords) ── */
 
@@ -147,10 +181,14 @@ function ringEdge(x: number, y: number): [number, number] {
   return [200 + dx / m, 200 + dy / m];
 }
 
-/** compression-merge point: pull toward the boundary, then blend onto a lattice */
-function compressPoint(lx: number, ly: number): [number, number] {
-  let ex = lx;
-  let ey = ly;
+/**
+ * The "imaginary border": nudge a landing slot so it sits at least `inset`
+ * units inside its region's boundary — chunks never poke outside the mark
+ * when they meet in the middle.
+ */
+function insetPoint(lx: number, ly: number, inset: number): [number, number, number] {
+  let ex: number;
+  let ey: number;
   if (inLune(lx, ly)) {
     [ex, ey] = luneEdge(lx, ly);
   } else if (inLune(400 - lx, 400 - ly)) {
@@ -159,12 +197,15 @@ function compressPoint(lx: number, ly: number): [number, number] {
     ey = 400 - ry;
   } else if (inRing(lx, ly)) {
     [ex, ey] = ringEdge(lx, ly);
+  } else {
+    return [lx, ly, inset];
   }
-  let cx = lx + (ex - lx) * EDGE_PULL;
-  let cy = ly + (ey - ly) * EDGE_PULL;
-  cx += (Math.round(cx / SNAP_GRID) * SNAP_GRID - cx) * SNAP_BLEND;
-  cy += (Math.round(cy / SNAP_GRID) * SNAP_GRID - cy) * SNAP_BLEND;
-  return [cx, cy];
+  const dx = lx - ex;
+  const dy = ly - ey;
+  const dist = Math.hypot(dx, dy);
+  if (dist >= inset || dist < 0.4) return [lx, ly, Math.max(dist, inset)];
+  const f = inset / dist;
+  return [ex + dx * f, ey + dy * f, inset];
 }
 
 /** ~unit-radius irregular 5–7-gon, extruded and beveled. */
@@ -196,6 +237,7 @@ export function createParticleField(): ParticleField {
   const slots: ParticleSlot[] = [];
   const cell = 400 / GRID;
   let assembleEnd = 0;
+  let meltSpan = 0;
 
   for (let gi = 0; gi < GRID; gi++) {
     for (let gj = 0; gj < GRID; gj++) {
@@ -203,15 +245,18 @@ export function createParticleField(): ParticleField {
       const ly = (gj + 0.5) * cell + (rnd() * 2 - 1) * cell * 0.12;
       if (!inMark(lx, ly)) continue;
 
-      /* resting slot and compression-merge point, in scene space */
-      const target = new THREE.Vector3(lx - 200, 200 - ly, 0);
-      const [cx, cy] = compressPoint(lx, ly);
-      const compress = new THREE.Vector3(cx - 200, 200 - cy, 0);
+      /* sized to overlap neighbours (dense, solid pack) — uniform range,
+         no oversized chunks: they lump the border */
+      const scale = cell * (0.62 + rnd() * 0.34);
 
-      /* sized to overlap neighbours (dense, solid pack);
-         a sprinkle of larger chunks for organic variety */
-      const big = rnd() < 0.06;
-      const scale = cell * (0.68 + rnd() * 0.4) * (big ? 2.1 : 1);
+      /* resting slot in scene space, inset from the boundary by the chunk's
+         full vertex radius so nothing crosses the imaginary border */
+      const [ix, iy, edgeDist] = insetPoint(lx, ly, Math.min(scale * 1.15, MAX_INSET));
+      const target = new THREE.Vector3(ix - 200, 200 - iy, 0);
+
+      /* melting spread budget: interior chunks merge into their neighbours,
+         edge chunks stay within the border */
+      const spreadMax = Math.min(Math.max(edgeDist / scale, 1.05), SPREAD_MAX);
 
       /* spawn: radially outward, 360°, at random depth */
       let dir = new THREE.Vector3(target.x, target.y, 0);
@@ -226,11 +271,13 @@ export function createParticleField(): ParticleField {
       const arcDir = new THREE.Vector3(-dir.y, dir.x, rnd() * 1.4 - 0.7).normalize();
       const arcAmp = (rnd() < 0.5 ? -1 : 1) * (26 + rnd() * 80);
 
-      /* stagger: rim lands ~1.2s, middle ~2.5s, core ~3.8–4s */
-      const rNorm = Math.min(target.length() / 145, 1);
-      const start = (1 - rNorm) * 0.6 + rnd() * 0.1;
-      const arrival = 1.2 + (1 - rNorm) * 2.6 + rnd() * 0.15;
+      /* long overlapping flights; landings cascade rim → core following
+         STAGGER, which the 2D reveal mask mirrors exactly */
+      const rNorm = Math.min(target.length() / STAGGER.maxR, 1);
+      const start = (1 - rNorm) * 0.5 + rnd() * 0.15;
+      const arrival = STAGGER.base + (1 - rNorm) * STAGGER.spread + rnd() * STAGGER.jitter;
       assembleEnd = Math.max(assembleEnd, arrival);
+      meltSpan = Math.max(meltSpan, (1 - rNorm) * MELT_WAVE + MELT_WAVE_JITTER);
 
       /* slow elegant tumble: 0.5–1.5 turns, decelerating to identity */
       const axis = new THREE.Vector3(rnd() * 2 - 1, rnd() * 2 - 1, rnd() * 2 - 1).normalize();
@@ -247,12 +294,11 @@ export function createParticleField(): ParticleField {
         arrival,
         axis,
         angle,
-        compress,
-        compressScale: 0.3 + rnd() * 0.2,
-        spin: (rnd() < 0.5 ? -1 : 1) * (0.15 + rnd() * 0.25),
+        meltOffset: (1 - rNorm) * MELT_WAVE + rnd() * MELT_WAVE_JITTER,
+        spreadMax,
       });
     }
   }
 
-  return { templates, slots, assembleEnd };
+  return { templates, slots, assembleEnd, meltSpan };
 }

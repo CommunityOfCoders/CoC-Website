@@ -16,25 +16,33 @@ import { createParticleField, flightEase, glideEase } from './glass';
 export const SHRINK_TARGET = { x: 28, y: 20, size: 68 };
 
 /**
- * Phase timings, seconds. (Per-particle stagger lives in glass.ts; the
+ * Phase timings, seconds. (Landing wave lives in glass.ts STAGGER; the
  * last particle lands at ~4s.)
  *
- * The merge is a continuous compression, not a swap: after locking, every
- * particle pulls toward its nearest point on the mark's boundary (grid-
- * blended), shrinks to 0.3–0.5x and fades to nothing, while its material
- * drains lighting/gloss so the mass converges to flat #8FD400. The corner
- * glide starts during the final second of compression, and the clean 2D
- * plane crosses in under the last 0.2s of the fade — one continuous motion.
+ * Strict order — nothing 2D exists before the 3D meeting is complete:
+ *   1. every particle lands inside the mark's border (0–4s)
+ *   2. a short beat with the complete 3D mass
+ *   3. the melt: a wave sweeps rim → core; each chunk squashes flat like a
+ *      droplet (slight liquid spread, thickness → 0) and STAYS as part of
+ *      the surface — nothing shrinks away or disappears. The solid 2D mark
+ *      surfaces beneath the covering chunks meanwhile (identical flat
+ *      #8FD400, tone mapping off), and once everything is flat the pancake
+ *      layer fades over it with zero visible change.
+ *   4. once the mark is whole: zoom + glow, then the corner glide
  */
 const T = {
-  compress: 1.5, // shrink + inward pull + fade
-  move: 1.0, // corner glide, overlapping the end of compression
-  planeIn: 0.2, // 2D plane crossfades in under the dying particles
-  glowRamp: 0.3, // halo appears once the merge completes (at the corner)
-  glowHold: 1.0, // settled-glow moment
-  glowFade: 1.0, // halo breathes back out
+  meetBeat: 0.15, // stillness with the fully-met 3D mass before the melt
+  planeIn: 0.35, // clean plane slips in beneath the finished puddle
+  melt: 0.55, // per chunk: squash-flat + spread duration (wave in glass.ts)
+  chunkFade: 0.45, // flat-on-flat fade of the puddle layer (invisible)
+  zoom: 1.5, // 1 → ZOOM_PEAK once the mark is completely formed
+  glowRamp: 0.5, // halo builds during the zoom
+  move: 1.0, // glide + shrink to the corner; halo fades with it
   reveal: 1.5, // backdrop fade revealing the homepage
+  revealLag: 0.4, // reveal starts this far into the glide
 };
+
+const ZOOM_PEAK = 1.06;
 
 /* Camera: locked at (0,0,CAM_Z) looking at the origin — no zoom, no sway.
    fov 40 at z=560 shows ~408 world-units of height, so the 280-unit mark
@@ -172,8 +180,8 @@ export default function IntroAnimation({ onComplete, target = SHRINK_TARGET }: P
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setClearColor(0x000000, 0);
     renderer.outputColorSpace = THREE.SRGBColorSpace;
-    /* no tone mapping: fused emissive particles and the unlit 2D plane must
-       output the exact same #8FD400, or the merge shows a seam */
+    /* no tone mapping: melting emissive particles and the unlit 2D plane
+       must output the exact same #8FD400, or the merge shows a seam */
     renderer.toneMapping = THREE.NoToneMapping;
 
     const scene = new THREE.Scene();
@@ -191,7 +199,7 @@ export default function IntroAnimation({ onComplete, target = SHRINK_TARGET }: P
     key.position.set(240, 320, 260);
     scene.add(key);
 
-    /* everything that travels to the corner lives in one group */
+    /* everything that zooms and travels to the corner lives in one group */
     const moveGroup = new THREE.Group();
     scene.add(moveGroup);
 
@@ -226,7 +234,7 @@ export default function IntroAnimation({ onComplete, target = SHRINK_TARGET }: P
       return mesh;
     });
 
-    /* ── 2D logo plane + halo (color-exact, unlit) ── */
+    /* ── 2D logo plane (behind the particles) + halo ── */
     const sharpTexture = makeLogoTexture(0);
     const haloTexture = makeLogoTexture(HALO_BLUR);
 
@@ -241,8 +249,8 @@ export default function IntroAnimation({ onComplete, target = SHRINK_TARGET }: P
       new THREE.PlaneGeometry(PLANE_SIZE, PLANE_SIZE),
       logoMaterial,
     );
-    logoPlane.position.z = 6;
-    logoPlane.renderOrder = 11;
+    logoPlane.position.z = -6; // behind the particles: they melt onto it
+    logoPlane.renderOrder = 1;
 
     const haloScale = (LOGO_TEX + HALO_PAD * 2) / LOGO_TEX;
     const haloMaterial = new THREE.MeshBasicMaterial({
@@ -257,20 +265,22 @@ export default function IntroAnimation({ onComplete, target = SHRINK_TARGET }: P
       new THREE.PlaneGeometry(PLANE_SIZE * haloScale, PLANE_SIZE * haloScale),
       haloMaterial,
     );
-    haloPlane.position.z = 5;
-    haloPlane.renderOrder = 10;
+    haloPlane.position.z = -9;
+    haloPlane.renderOrder = 0;
 
     moveGroup.add(haloPlane, logoPlane);
 
-    /* timeline */
-    const compressStart = field.assembleEnd;
-    const compressEnd = compressStart + T.compress;
-    const moveStart = compressEnd - T.move; // overlap: glide begins mid-merge
-    const planeInStart = compressEnd - T.planeIn;
-    const glowStart = compressEnd;
-    const glowFadeStart = glowStart + T.glowRamp + T.glowHold;
-    const revealAt = glowStart + 1.0;
-    const endAt = Math.max(revealAt + T.reveal, glowFadeStart + T.glowFade) + 0.1;
+    /* timeline — melt begins only after EVERY particle has met in the middle */
+    const fuseStart = field.assembleEnd - 1.1;
+    const fuseEnd = field.assembleEnd;
+    const mergeStart = field.assembleEnd + T.meetBeat;
+    const meltEnd = mergeStart + field.meltSpan + T.melt;
+    const fadeEnd = meltEnd + T.planeIn + 0.05 + T.chunkFade;
+    const zoomStart = fadeEnd + 0.1;
+    const moveStart = zoomStart + T.zoom;
+    const moveEnd = moveStart + T.move;
+    const revealAt = moveStart + T.revealLag;
+    const endAt = Math.max(moveEnd, revealAt + T.reveal) + 0.1;
 
     let disposed = false;
     const dispose = () => {
@@ -300,21 +310,28 @@ export default function IntroAnimation({ onComplete, target = SHRINK_TARGET }: P
     const pos = new THREE.Vector3();
     const scl = new THREE.Vector3();
 
-    /** flight, lock, and compression-merge — all parametric, no tweens */
+    /** flight + (after the whole mass has met) per-chunk melt into the mark */
     const placeParticles = (t: number) => {
-      const cp = glideEase(clamp01((t - compressStart) / T.compress));
       byTemplate.forEach((list, ti) => {
         const mesh = instanced[ti];
         for (let k = 0; k < list.length; k++) {
           const s = field.slots[list[k]];
           const e = flightEase(clamp01((t - s.start) / (s.arrival - s.start)));
           pos.lerpVectors(s.spawn, s.target, e);
-          pos.addScaledVector(s.arcDir, Math.sin(Math.PI * e) * s.arcAmp);
-          if (cp > 0) pos.lerpVectors(s.target, s.compress, cp);
-          const spin = s.spin * (cp - 0.5 * cp * cp); // decaying residual spin
-          q.setFromAxisAngle(s.axis, s.angle * (1 - e) + spin);
-          const shrink = 1 - (1 - s.compressScale) * cp;
-          m4.compose(pos, q, scl.setScalar(s.scale * shrink));
+          /* the sideways arc dies out before touchdown so nothing drifts
+             outside the mark's border at meet time */
+          const arcK = clamp01((0.92 - e) / 0.25);
+          pos.addScaledVector(s.arcDir, Math.sin(Math.PI * e) * s.arcAmp * arcK);
+          q.setFromAxisAngle(s.axis, s.angle * (1 - e));
+          /* the melt: squash flat like a droplet and SPREAD into the
+             neighbours — the drops merge into one continuous puddle that
+             IS the solid logo; nothing shrinks away or disappears */
+          const mp = clamp01((t - mergeStart - s.meltOffset) / T.melt);
+          const ms = mp * mp * (3 - 2 * mp); // smoothstep
+          const spread = 1 + (s.spreadMax - 1) * ms;
+          const sZ = Math.max(1 - ms * 1.05, 0.02);
+          scl.set(s.scale * spread, s.scale * spread, s.scale * sZ);
+          m4.compose(pos, q, scl);
           mesh.setMatrixAt(k, m4);
         }
         mesh.instanceMatrix.needsUpdate = true;
@@ -326,6 +343,7 @@ export default function IntroAnimation({ onComplete, target = SHRINK_TARGET }: P
       particleRoot.visible = false;
       logoMaterial.opacity = 1;
       haloMaterial.opacity = HALO_MAX;
+      moveGroup.scale.setScalar(ZOOM_PEAK);
       renderer.render(scene, camera);
       return () => {
         window.removeEventListener('resize', onResize);
@@ -343,27 +361,42 @@ export default function IntroAnimation({ onComplete, target = SHRINK_TARGET }: P
     const tick = () => {
       const t = (performance.now() - t0) / 1000;
 
-      /* Phases 1–2 — convergence, then compression merge */
-      if (t < compressEnd + 0.05) placeParticles(t);
+      /* Phase 1 — everything meets in the middle; then Phase 2 — the melt */
+      if (t < meltEnd + 0.05) placeParticles(t);
 
-      const cpRaw = clamp01((t - compressStart) / T.compress);
-      if (cpRaw > 0 && particleRoot.visible) {
-        /* linear fade to nothing… */
-        material.opacity = GLASS.opacity * (1 - cpRaw);
-        /* …while lighting/gloss drain so the mass flattens to pure #8FD400 */
-        material.color.lerpColors(COL_GREEN, COL_BLACK, cpRaw);
+      /* while the last pieces land, lighting/gloss drain so the whole mass
+         flattens to opaque #8FD400 before it melts */
+      const fuseP = clamp01((t - fuseStart) / (fuseEnd - fuseStart));
+      if (fuseP > 0 && t <= mergeStart) {
+        material.color.lerpColors(COL_GREEN, COL_BLACK, fuseP);
         material.emissiveIntensity =
-          GLASS.emissiveIntensity + (1 - GLASS.emissiveIntensity) * cpRaw;
-        material.roughness = GLASS.roughness + (1 - GLASS.roughness) * cpRaw;
-        material.clearcoat = GLASS.clearcoat * (1 - cpRaw);
-        material.metalness = GLASS.metalness * (1 - cpRaw);
-        if (cpRaw >= 1) particleRoot.visible = false;
+          GLASS.emissiveIntensity + (1 - GLASS.emissiveIntensity) * fuseP;
+        material.opacity = GLASS.opacity + (1 - GLASS.opacity) * fuseP;
+        material.roughness = GLASS.roughness + (1 - GLASS.roughness) * fuseP;
+        material.clearcoat = GLASS.clearcoat * (1 - fuseP);
+        material.metalness = GLASS.metalness * (1 - fuseP);
       }
 
-      /* the clean plane surfaces under the last moments of the fade */
-      logoMaterial.opacity = clamp01((t - planeInStart) / T.planeIn);
+      /* only AFTER the puddle fully covers the mark does the clean plane
+         slip in beneath it — with complete coverage this is invisible */
+      logoMaterial.opacity = clamp01((t - meltEnd) / T.planeIn);
 
-      /* Phase 3 — corner glide, overlapping the end of the merge */
+      /* …then the puddle layer fades over the identical flat mark —
+         flat-on-flat, same color, nothing changes on screen */
+      const fadeStart = meltEnd + T.planeIn + 0.05;
+      if (t >= fadeStart && particleRoot.visible) {
+        const fp = clamp01((t - fadeStart) / T.chunkFade);
+        material.opacity = 1 - fp;
+        if (fp >= 1) particleRoot.visible = false;
+      }
+
+      /* Phase 3 — small zoom with a soft glow, only once the mark is whole */
+      const zoomP = glideEase(clamp01((t - zoomStart) / T.zoom));
+      const gIn = clamp01((t - zoomStart) / T.glowRamp);
+      let groupScale = 1 + (ZOOM_PEAK - 1) * zoomP;
+      let haloOpacity = HALO_MAX * gIn;
+
+      /* Phase 4 — glide to the corner while the glow fades away */
       if (t >= moveStart) {
         if (!corner) {
           const vw = window.innerWidth;
@@ -380,16 +413,14 @@ export default function IntroAnimation({ onComplete, target = SHRINK_TARGET }: P
           };
         }
         const mp = glideEase(clamp01((t - moveStart) / T.move));
+        groupScale = ZOOM_PEAK + (corner.scale - ZOOM_PEAK) * mp;
         moveGroup.position.set(corner.pos.x * mp, corner.pos.y * mp, 0);
-        moveGroup.scale.setScalar(1 - (1 - corner.scale) * mp);
+        haloOpacity = HALO_MAX * (1 - mp);
       }
+      moveGroup.scale.setScalar(groupScale);
+      haloMaterial.opacity = haloOpacity;
 
-      /* Phase 4 — settled glow at the corner: ramp, hold, soft fade */
-      const gIn = clamp01((t - glowStart) / T.glowRamp);
-      const gOut = 1 - clamp01((t - glowFadeStart) / T.glowFade);
-      haloMaterial.opacity = HALO_MAX * gIn * gOut;
-
-      /* Phase 5 — homepage fades in while the glow settles */
+      /* Phase 5 — homepage fades in while the mark settles */
       if (!revealed && t >= revealAt) {
         revealed = true;
         setPhase('reveal');
