@@ -19,9 +19,9 @@ const NAV = [
 ];
 
 const SOCIALS = [
-  { label: 'GitHub', href: 'https://github.com', Icon: Github },
-  { label: 'LinkedIn', href: 'https://linkedin.com', Icon: Linkedin },
-  { label: 'Instagram', href: 'https://instagram.com', Icon: Instagram },
+  { label: 'GitHub', href: 'https://github.com/CommunityOfCoders', Icon: Github },
+  { label: 'LinkedIn', href: 'https://linkedin.com/company/community-of-coders-vjti/', Icon: Linkedin },
+  { label: 'Instagram', href: 'https://instagram.com/coc_vjti', Icon: Instagram },
 ];
 
 const MainLayout: React.FC<MainLayoutProps> = ({ children, route }) => {
@@ -62,8 +62,7 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children, route }) => {
             ))}
           </nav>
 
-          {/* placeholder org link — point at the real CoC GitHub org */}
-          <a href="https://github.com" target="_blank" rel="noreferrer" className="btn nav__cta">
+          <a href="https://github.com/CommunityOfCoders" target="_blank" rel="noreferrer" className="btn nav__cta">
             GitHub <ArrowUpRight />
           </a>
 

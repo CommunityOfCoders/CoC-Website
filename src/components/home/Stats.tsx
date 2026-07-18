@@ -4,10 +4,10 @@ import CountUp from '../ui/CountUp';
 
 /* Placeholder figures — replace with real club numbers. */
 const STATS = [
-  { to: 500, suffix: '+', label: 'Active members' },
   { to: 50, suffix: '+', label: 'Events hosted' },
+  { to: 50, suffix: '+', label: 'Active members' },
   { to: 120, suffix: '+', label: 'Projects built' },
-  { to: 40, suffix: '+', label: 'Companies placed' },
+  { to: 100, suffix: '+', label: 'Companies hired' },
 ];
 
 const Stats: React.FC = () => (
