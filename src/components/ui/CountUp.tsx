@@ -5,12 +5,13 @@ interface CountUpProps {
   to: number;
   suffix?: string;
   duration?: number;
+  className?: string;
 }
 
 /** Counts from 0 to `to` once it scrolls into view. */
-const CountUp: React.FC<CountUpProps> = ({ to, suffix = '', duration = 1.6 }) => {
+const CountUp: React.FC<CountUpProps> = ({ to, suffix = '', duration = 1.6, className }) => {
   const ref = useRef<HTMLSpanElement>(null);
-  const inView = useInView(ref, { once: true, margin: '-20%' });
+  const inView = useInView(ref, { once: true, margin: '-10% 0px -10% 0px' });
   const [value, setValue] = useState(0);
 
   useEffect(() => {
@@ -24,7 +25,7 @@ const CountUp: React.FC<CountUpProps> = ({ to, suffix = '', duration = 1.6 }) =>
   }, [inView, to, duration]);
 
   return (
-    <span ref={ref}>
+    <span ref={ref} className={className}>
       {value.toLocaleString()}
       {suffix}
     </span>
