@@ -1,0 +1,357 @@
+/* ============================================================
+   Events page — poster-grid archive + event detail modal.
+   Same v3 language as the homepage: true black, one spring-
+   green accent, untinted photography, Cabinet/Switzer/DM Mono.
+   Signature: the year numeral riding the photo/info seam —
+   the archive's real axis is time (2016 → 2026).
+   ============================================================ */
+
+.ev-page {
+  min-height: 100dvh;
+  padding-top: clamp(120px, 14vh, 164px);
+}
+
+.ev-page__head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 40px;
+}
+.ev-page__intro {
+  margin-top: 20px;
+  max-width: 560px;
+  color: var(--fg-dim);
+  font-size: 1.05rem;
+}
+.ev-page__count {
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--fg-faint);
+  white-space: nowrap;
+  padding-bottom: 8px;
+}
+@media (max-width: 700px) {
+  .ev-page__count { display: none; }
+}
+
+/* ---------- poster grid ---------- */
+.ev-grid {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 22px;
+  margin-top: clamp(44px, 6vw, 68px);
+}
+@media (max-width: 1080px) {
+  .ev-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 600px) {
+  .ev-grid { grid-template-columns: 1fr; gap: 18px; }
+}
+
+/* ---------- poster card: 9:16, photo 60% / info 40% ---------- */
+.ev-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  aspect-ratio: 9 / 16;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  background: var(--ink-1);
+  cursor: pointer;
+  transition: border-color 0.35s var(--ease), transform 0.35s var(--ease),
+    background 0.35s var(--ease);
+}
+.ev-card:hover {
+  transform: translateY(-6px);
+  border-color: rgba(29, 185, 84, 0.45);
+  background: var(--ink-2);
+}
+.ev-card:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+.ev-card__media {
+  position: relative;
+  flex: 0 0 60%;
+  min-height: 0;
+  overflow: hidden;
+}
+/* photo darkens slightly on hover; stays untinted otherwise */
+.ev-card__media::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background: rgba(7, 8, 8, 0);
+  transition: background 0.35s var(--ease);
+  pointer-events: none;
+}
+.ev-card:hover .ev-card__media::after { background: rgba(7, 8, 8, 0.26); }
+
+/* the signature: year numeral riding the seam */
+.ev-card__year {
+  position: absolute;
+  top: 60%;
+  left: 24px;
+  transform: translateY(-52%);
+  z-index: 3;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(2.1rem, 3.2vw, 2.7rem);
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: var(--accent);
+  font-variant-numeric: tabular-nums;
+  text-shadow: 0 2px 18px rgba(7, 8, 8, 0.55);
+  pointer-events: none;
+}
+
+.ev-card__info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-height: 0;
+  padding: 40px 24px 22px;
+}
+.ev-card__meta {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--fg-faint);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.ev-card__name {
+  font-size: clamp(1.3rem, 1.8vw, 1.55rem);
+  font-weight: 700;
+  line-height: 1.04;
+}
+.ev-card__summary {
+  font-size: 0.92rem;
+  line-height: 1.5;
+  color: var(--fg-dim);
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.ev-card__go {
+  margin-top: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  letter-spacing: 0.02em;
+  color: var(--fg);
+}
+.ev-card__go svg {
+  width: 16px;
+  height: 16px;
+  transition: transform 0.3s var(--ease);
+}
+.ev-card:hover .ev-card__go svg { transform: translate(3px, -3px); }
+.ev-card:hover .ev-card__go { color: var(--accent); }
+
+/* ---------- photo slider (cards) ---------- */
+.ev-slider {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: var(--ink-2);
+}
+.ev-slider img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* photography reads as photography — same treatment as .photo img */
+  filter: saturate(1.05) contrast(1.03);
+}
+
+.ev-slider__arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 3;
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border-radius: var(--r-pill);
+  border: 1px solid rgba(245, 247, 245, 0.28);
+  background: rgba(7, 8, 8, 0.4);
+  color: var(--fg);
+  opacity: 0;
+  transition: opacity 0.3s var(--ease), background 0.3s var(--ease),
+    border-color 0.3s var(--ease), color 0.3s var(--ease);
+}
+.ev-slider__arrow--prev { left: 12px; }
+.ev-slider__arrow--next { right: 12px; }
+.ev-slider__arrow svg { width: 18px; height: 18px; stroke-width: 1.75px; }
+.ev-slider__arrow:hover {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--accent-ink);
+}
+.ev-slider__arrow:focus-visible {
+  opacity: 1;
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+.ev-card:hover .ev-slider__arrow,
+.ev-card:focus-within .ev-slider__arrow {
+  opacity: 1;
+}
+@media (hover: none) {
+  .ev-slider__arrow { opacity: 0.85; }
+}
+
+/* ---------- detail modal ---------- */
+.ev-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: grid;
+  place-items: center;
+  padding: clamp(16px, 4vw, 48px);
+  background: rgba(7, 8, 8, 0.78);
+}
+
+.ev-modal {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: min(920px, 100%);
+  max-height: min(88dvh, 940px);
+  overflow: hidden;
+  border: 1px solid var(--line-2);
+  border-radius: var(--r-lg);
+  background: var(--ink-1);
+}
+
+.ev-modal__close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  z-index: 5;
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border-radius: var(--r-pill);
+  border: 1px solid rgba(245, 247, 245, 0.25);
+  background: rgba(7, 8, 8, 0.55);
+  color: var(--fg);
+  transition: background 0.25s var(--ease), border-color 0.25s var(--ease),
+    color 0.25s var(--ease);
+}
+.ev-modal__close svg { width: 19px; height: 19px; }
+.ev-modal__close:hover {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--accent-ink);
+}
+.ev-modal__close:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.ev-modal__photo {
+  flex-shrink: 0;
+  aspect-ratio: 21 / 9;
+  overflow: hidden;
+  background: var(--ink-2);
+}
+.ev-modal__photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: saturate(1.05) contrast(1.03);
+}
+
+.ev-modal__body {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 28px 34px 36px;
+  overflow-y: auto;
+}
+.ev-modal__title {
+  font-size: clamp(1.7rem, 3.6vw, 2.4rem);
+  margin-top: 4px;
+}
+
+/* description left, meta rail right */
+.ev-modal__cols {
+  display: grid;
+  grid-template-columns: 1.55fr 1fr;
+  gap: clamp(24px, 4vw, 40px);
+  margin-top: 12px;
+}
+.ev-modal__desc {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.ev-modal__desc p {
+  color: var(--fg-dim);
+  font-size: 1rem;
+  line-height: 1.65;
+}
+
+.ev-modal__rail {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  border-left: 1px solid var(--line);
+  padding-left: clamp(20px, 3vw, 30px);
+}
+.ev-modal__field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+.ev-modal__field + .ev-modal__field {
+  border-top: 1px solid var(--line);
+  padding-top: 16px;
+}
+
+.ev-modal__label {
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--fg-faint);
+}
+.ev-modal__value {
+  font-size: 0.98rem;
+  color: var(--fg);
+}
+.ev-modal__value--prize {
+  font-family: var(--font-mono);
+  color: var(--accent);
+}
+
+@media (max-width: 640px) {
+  .ev-modal__cols { grid-template-columns: 1fr; }
+  .ev-modal__rail {
+    border-left: 0;
+    padding-left: 0;
+    border-top: 1px solid var(--line);
+    padding-top: 18px;
+  }
+  .ev-modal__body { padding: 22px 20px 28px; }
+  .ev-modal__photo { aspect-ratio: 16 / 9; }
+}
