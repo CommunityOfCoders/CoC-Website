@@ -1,9 +1,9 @@
 /* ============================================================
-   Events page — poster-grid archive + event detail modal.
+   Events page — compact archive grid + morphing detail modal.
    Same v3 language as the homepage: true black, one spring-
    green accent, untinted photography, Cabinet/Switzer/DM Mono.
-   Signature: the year numeral riding the photo/info seam —
-   the archive's real axis is time (2016 → 2026).
+   Small scannable cards (photo, tight title, one-liner, date,
+   CTA); the photo morphs into the modal hero via layoutId.
    ============================================================ */
 
 .ev-page {
@@ -36,38 +36,38 @@
   .ev-page__count { display: none; }
 }
 
-/* ---------- poster grid ---------- */
+/* ---------- grid ---------- */
 .ev-grid {
   list-style: none;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 22px;
+  gap: 18px;
   margin-top: clamp(44px, 6vw, 68px);
 }
 @media (max-width: 1080px) {
   .ev-grid { grid-template-columns: repeat(2, 1fr); }
 }
-@media (max-width: 600px) {
-  .ev-grid { grid-template-columns: 1fr; gap: 18px; }
+@media (max-width: 620px) {
+  .ev-grid { grid-template-columns: 1fr; }
 }
 
-/* ---------- poster card: 9:16, photo 60% / info 40% ---------- */
+.ev-tilt { height: 100%; }
+
+/* ---------- compact card ---------- */
 .ev-card {
   position: relative;
   display: flex;
   flex-direction: column;
-  aspect-ratio: 9 / 16;
+  height: 100%;
   overflow: hidden;
   border: 1px solid var(--line);
-  border-radius: var(--r-lg);
+  border-radius: var(--r-md);
   background: var(--ink-1);
   cursor: pointer;
-  transition: border-color 0.35s var(--ease), transform 0.35s var(--ease),
-    background 0.35s var(--ease);
+  transition: border-color 0.35s var(--ease), background 0.35s var(--ease);
 }
 .ev-card:hover {
-  transform: translateY(-6px);
-  border-color: rgba(29, 185, 84, 0.45);
+  border-color: rgba(29, 185, 84, 0.42);
   background: var(--ink-2);
 }
 .ev-card:focus-visible {
@@ -77,91 +77,55 @@
 
 .ev-card__media {
   position: relative;
-  flex: 0 0 60%;
-  min-height: 0;
+  aspect-ratio: 16 / 9;
   overflow: hidden;
-}
-/* photo darkens slightly on hover; stays untinted otherwise */
-.ev-card__media::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  z-index: 2;
-  background: rgba(7, 8, 8, 0);
-  transition: background 0.35s var(--ease);
-  pointer-events: none;
-}
-.ev-card:hover .ev-card__media::after { background: rgba(7, 8, 8, 0.26); }
-
-/* the signature: year numeral riding the seam */
-.ev-card__year {
-  position: absolute;
-  top: 60%;
-  left: 24px;
-  transform: translateY(-52%);
-  z-index: 3;
-  font-family: var(--font-display);
-  font-weight: 800;
-  font-size: clamp(2.1rem, 3.2vw, 2.7rem);
-  line-height: 1;
-  letter-spacing: -0.02em;
-  color: var(--accent);
-  font-variant-numeric: tabular-nums;
-  text-shadow: 0 2px 18px rgba(7, 8, 8, 0.55);
-  pointer-events: none;
+  background: var(--ink-2);
 }
 
-.ev-card__info {
-  flex: 1;
+.ev-card__panel {
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  min-height: 0;
-  padding: 40px 24px 22px;
+  gap: 6px;
+  padding: 14px 16px 15px;
 }
-.ev-card__meta {
-  font-family: var(--font-mono);
-  font-size: 0.68rem;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: var(--fg-faint);
+.ev-card__name {
+  font-size: 1.08rem;
+  font-weight: 500;
+  line-height: 1.12;
+  letter-spacing: -0.01em;
+}
+.ev-card__summary {
+  font-size: 0.86rem;
+  line-height: 1.45;
+  color: var(--fg-dim);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
-.ev-card__name {
-  font-size: clamp(1.3rem, 1.8vw, 1.55rem);
-  font-weight: 700;
-  line-height: 1.04;
+.ev-card__foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 6px;
 }
-.ev-card__summary {
-  font-size: 0.92rem;
-  line-height: 1.5;
-  color: var(--fg-dim);
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
+.ev-card__date {
+  font-family: var(--font-mono);
+  font-size: 0.64rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--fg-faint);
 }
 .ev-card__go {
-  margin-top: auto;
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
   font-family: var(--font-mono);
-  font-size: 0.8rem;
-  letter-spacing: 0.02em;
-  color: var(--fg);
+  font-size: 0.7rem;
+  letter-spacing: 0.04em;
+  color: var(--fg-dim);
+  transition: color 0.3s var(--ease);
 }
-.ev-card__go svg {
-  width: 16px;
-  height: 16px;
-  transition: transform 0.3s var(--ease);
-}
-.ev-card:hover .ev-card__go svg { transform: translate(3px, -3px); }
 .ev-card:hover .ev-card__go { color: var(--accent); }
 
-/* ---------- photo slider (cards) ---------- */
+/* ---------- photo slider (cards + modal hero) ---------- */
 .ev-slider {
   position: relative;
   width: 100%;
@@ -179,6 +143,8 @@
   filter: saturate(1.05) contrast(1.03);
 }
 
+/* arrows reveal only when the cursor is over the arrow itself
+   (or it holds keyboard focus) — not on general card hover */
 .ev-slider__arrow {
   position: absolute;
   top: 50%;
@@ -186,8 +152,8 @@
   z-index: 3;
   display: grid;
   place-items: center;
-  width: 38px;
-  height: 38px;
+  width: 34px;
+  height: 34px;
   border-radius: var(--r-pill);
   border: 1px solid rgba(245, 247, 245, 0.28);
   background: rgba(7, 8, 8, 0.4);
@@ -196,10 +162,11 @@
   transition: opacity 0.3s var(--ease), background 0.3s var(--ease),
     border-color 0.3s var(--ease), color 0.3s var(--ease);
 }
-.ev-slider__arrow--prev { left: 12px; }
-.ev-slider__arrow--next { right: 12px; }
-.ev-slider__arrow svg { width: 18px; height: 18px; stroke-width: 1.75px; }
+.ev-slider__arrow--prev { left: 10px; }
+.ev-slider__arrow--next { right: 10px; }
+.ev-slider__arrow svg { width: 16px; height: 16px; stroke-width: 1.75px; }
 .ev-slider__arrow:hover {
+  opacity: 1;
   background: var(--accent);
   border-color: var(--accent);
   color: var(--accent-ink);
@@ -209,10 +176,9 @@
   outline: 2px solid var(--accent);
   outline-offset: 2px;
 }
-.ev-card:hover .ev-slider__arrow,
-.ev-card:focus-within .ev-slider__arrow {
-  opacity: 1;
-}
+/* modal hero: larger hit targets, same reveal-on-arrow-hover rule */
+.ev-modal__hero .ev-slider__arrow { width: 44px; height: 44px; }
+.ev-modal__hero .ev-slider__arrow svg { width: 20px; height: 20px; }
 @media (hover: none) {
   .ev-slider__arrow { opacity: 0.85; }
 }
@@ -226,25 +192,29 @@
   place-items: center;
   padding: clamp(16px, 4vw, 48px);
   background: rgba(7, 8, 8, 0.78);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
 }
 
+/* overflow stays visible so the hero can fly in from the card's
+   position during the layoutId morph; the hero and body clip
+   themselves to keep the rounded corners */
 .ev-modal {
   position: relative;
   display: flex;
   flex-direction: column;
-  width: min(920px, 100%);
+  width: min(880px, 100%);
   max-height: min(88dvh, 940px);
-  overflow: hidden;
   border: 1px solid var(--line-2);
-  border-radius: var(--r-lg);
-  background: var(--ink-1);
+  border-radius: var(--r-xl);
+  background: linear-gradient(180deg, var(--ink-1), var(--ink-2));
 }
 
 .ev-modal__close {
   position: absolute;
   top: 16px;
   right: 16px;
-  z-index: 5;
+  z-index: 6;
   display: grid;
   place-items: center;
   width: 42px;
@@ -267,25 +237,24 @@
   outline-offset: 2px;
 }
 
-.ev-modal__photo {
+.ev-modal__hero {
+  position: relative;
   flex-shrink: 0;
-  aspect-ratio: 21 / 9;
+  aspect-ratio: 16 / 9;
+  max-height: 46dvh;
   overflow: hidden;
+  border-radius: var(--r-xl) var(--r-xl) 0 0;
   background: var(--ink-2);
-}
-.ev-modal__photo img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  filter: saturate(1.05) contrast(1.03);
 }
 
 .ev-modal__body {
   display: flex;
   flex-direction: column;
   gap: 14px;
-  padding: 28px 34px 36px;
+  padding: 26px 34px 36px;
   overflow-y: auto;
+  min-height: 0;
+  border-radius: 0 0 var(--r-xl) var(--r-xl);
 }
 .ev-modal__title {
   font-size: clamp(1.7rem, 3.6vw, 2.4rem);
@@ -353,5 +322,4 @@
     padding-top: 18px;
   }
   .ev-modal__body { padding: 22px 20px 28px; }
-  .ev-modal__photo { aspect-ratio: 16 / 9; }
 }

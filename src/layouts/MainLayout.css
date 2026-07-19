@@ -11,6 +11,13 @@
   transition: background 0.4s var(--ease), border-color 0.4s var(--ease), backdrop-filter 0.4s var(--ease);
   border-bottom: 1px solid transparent;
 }
+/* while a modal is open (body.modal-open, toggled by the modal's mount
+   effect) the header recedes beneath the modal overlay (z 60): dimmed by
+   the same backdrop as the rest of the page, and non-interactive */
+body.modal-open .nav {
+  z-index: 50;
+  pointer-events: none;
+}
 .nav--scrolled {
   /* solid enough that content scrolling beneath never shows through */
   background: rgba(10, 10, 10, 0.92);
