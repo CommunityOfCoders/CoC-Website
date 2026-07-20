@@ -85,25 +85,28 @@
 
 .ev-tilt { height: 100%; }
 
-/* ---------- framed card ---------- */
-/* "unfinished frame": a thin green line wraps the whole card but
-   fades out before each corner; an independent green dot sits at
-   every corner with a deliberate gap to the fading line ends */
-/* square card, photo-dominant: the photo owns 55% of the card's
-   height, the text block the remaining 45% */
+/* ---------- framed card (white) ---------- */
+/* white surface, dark text; photo framed on top, text + CTA below.
+   "unfinished frame": a thin green line wraps the card but fades out
+   before each corner; an independent green dot sits at every corner
+   with a deliberate gap to the fading line ends. */
 .ev-card {
+  --card-ink: #0B0C0B;
+  --card-ink-dim: rgba(11, 12, 11, 0.62);
+  --card-ink-faint: rgba(11, 12, 11, 0.48);
   position: relative;
   display: flex;
   flex-direction: column;
-  aspect-ratio: 1 / 1;
+  height: 100%;
   overflow: hidden;
   padding: 10px;
   border-radius: var(--r-md);
-  background: var(--ink-1);
+  background: #ffffff;
+  color: var(--card-ink);
   cursor: pointer;
   transition: background 0.35s var(--ease);
 }
-.ev-card:hover { background: var(--ink-2); }
+.ev-card:hover { background: #f2f3ef; }
 .ev-card:focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 3px;
@@ -116,13 +119,13 @@
   inset: 0;
   z-index: 2;
   pointer-events: none;
-  opacity: 0.75;
+  opacity: 0.85;
   transition: opacity 0.35s var(--ease);
   background-image:
-    radial-gradient(circle, rgba(29, 185, 84, 0.65) 1.4px, transparent 1.9px),
-    radial-gradient(circle, rgba(29, 185, 84, 0.65) 1.4px, transparent 1.9px),
-    radial-gradient(circle, rgba(29, 185, 84, 0.65) 1.4px, transparent 1.9px),
-    radial-gradient(circle, rgba(29, 185, 84, 0.65) 1.4px, transparent 1.9px);
+    radial-gradient(circle, rgba(29, 185, 84, 0.9) 1.4px, transparent 1.9px),
+    radial-gradient(circle, rgba(29, 185, 84, 0.9) 1.4px, transparent 1.9px),
+    radial-gradient(circle, rgba(29, 185, 84, 0.9) 1.4px, transparent 1.9px),
+    radial-gradient(circle, rgba(29, 185, 84, 0.9) 1.4px, transparent 1.9px);
   background-size: 5px 5px;
   background-repeat: no-repeat;
   background-position:
@@ -132,36 +135,35 @@
     calc(100% - 4px) calc(100% - 4px);
 }
 
-/* the fading frame lines — each edge trails off ~12% before the
-   corner, leaving a gap between line end and corner dot */
+/* the fading frame lines — each edge trails off before the corner,
+   leaving a gap between line end and corner dot */
 .ev-card::after {
   content: '';
   position: absolute;
   inset: 0;
   z-index: 2;
   pointer-events: none;
-  opacity: 0.7;
+  opacity: 0.6;
   transition: opacity 0.35s var(--ease);
   background-image:
-    linear-gradient(90deg, transparent 4%, rgba(29, 185, 84, 0.35) 16%, rgba(29, 185, 84, 0.35) 84%, transparent 96%),
-    linear-gradient(90deg, transparent 4%, rgba(29, 185, 84, 0.35) 16%, rgba(29, 185, 84, 0.35) 84%, transparent 96%),
-    linear-gradient(180deg, transparent 4%, rgba(29, 185, 84, 0.35) 16%, rgba(29, 185, 84, 0.35) 84%, transparent 96%),
-    linear-gradient(180deg, transparent 4%, rgba(29, 185, 84, 0.35) 16%, rgba(29, 185, 84, 0.35) 84%, transparent 96%);
+    linear-gradient(90deg, transparent 4%, rgba(29, 185, 84, 0.55) 16%, rgba(29, 185, 84, 0.55) 84%, transparent 96%),
+    linear-gradient(90deg, transparent 4%, rgba(29, 185, 84, 0.55) 16%, rgba(29, 185, 84, 0.55) 84%, transparent 96%),
+    linear-gradient(180deg, transparent 4%, rgba(29, 185, 84, 0.55) 16%, rgba(29, 185, 84, 0.55) 84%, transparent 96%),
+    linear-gradient(180deg, transparent 4%, rgba(29, 185, 84, 0.55) 16%, rgba(29, 185, 84, 0.55) 84%, transparent 96%);
   background-size: 100% 1px, 100% 1px, 1px 100%, 1px 100%;
   background-repeat: no-repeat;
   background-position: top center, bottom center, left center, right center;
 }
 
 /* hover: the frame breathes a little brighter (no solid border) */
-.ev-card:hover::before,
-.ev-card:hover::after {
-  opacity: 1;
-}
+.ev-card:hover::before { opacity: 1; }
+.ev-card:hover::after { opacity: 0.85; }
 
+/* photo-dominant: fixed landscape frame on top, text panel below */
 .ev-card__media {
   position: relative;
-  flex: 0 0 55%;
-  min-height: 0;
+  flex: none;
+  aspect-ratio: 16 / 10;
   overflow: hidden;
   border-radius: var(--r-sm);
   background: var(--ink-2);
@@ -172,32 +174,56 @@
   min-height: 0;
   display: flex;
   flex-direction: column;
-  gap: 5px;
-  padding: 12px 6px 4px;
-}
-.ev-card__name {
-  font-size: 1.02rem;
-  font-weight: 500;
-  line-height: 1.14;
-  letter-spacing: -0.01em;
-}
-.ev-card__summary {
-  font-size: 0.84rem;
-  line-height: 1.45;
-  color: var(--fg-dim);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  gap: 6px;
+  padding: 14px 6px 6px;
 }
 .ev-card__date {
-  margin-top: auto;
-  padding-bottom: 4px;
   font-family: var(--font-mono);
   font-size: 0.62rem;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: var(--fg-faint);
+  color: var(--card-ink-faint);
 }
+.ev-card__name {
+  font-size: 1.14rem;
+  font-weight: 700;
+  line-height: 1.12;
+  letter-spacing: -0.015em;
+  color: var(--card-ink);
+}
+.ev-card__summary {
+  font-size: 0.85rem;
+  line-height: 1.45;
+  color: var(--card-ink-dim);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+/* CTA styled as a pill; the whole card owns the click, so this stays
+   a decorative span (no nested interactive control inside role=button) */
+.ev-card__more {
+  margin-top: 10px;
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 8px 15px;
+  border-radius: var(--r-pill);
+  background: var(--accent);
+  color: var(--accent-ink);
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  transition: background 0.3s var(--ease);
+}
+.ev-card__more svg {
+  width: 14px;
+  height: 14px;
+  transition: transform 0.3s var(--ease);
+}
+.ev-card:hover .ev-card__more { background: var(--accent-deep); }
+.ev-card:hover .ev-card__more svg { transform: translateX(3px); }
 
 /* ---------- photo slider (cards + modal hero) ---------- */
 .ev-slider {

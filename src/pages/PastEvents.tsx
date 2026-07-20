@@ -9,7 +9,7 @@ import {
   useTransform,
 } from 'framer-motion';
 import type { Variants } from 'framer-motion';
-import { ChevronLeft, ChevronRight, X } from 'lucide-react';
+import { ArrowRight, ChevronLeft, ChevronRight, X } from 'lucide-react';
 import { TimelineContent } from '../components/ui/TimelineContent';
 import { Tilt } from '../components/ui/Tilt';
 import Magnetic from '../components/ui/Magnetic';
@@ -261,9 +261,12 @@ const EventCard: React.FC<{
           </motion.div>
 
           <div className="ev-card__panel">
+            <span className="ev-card__date">{event.date}</span>
             <h3 className="ev-card__name">{event.name}</h3>
             <p className="ev-card__summary">{event.summary}</p>
-            <span className="ev-card__date">{event.date}</span>
+            <span className="ev-card__more">
+              Read more <ArrowRight />
+            </span>
           </div>
         </article>
       </Tilt>
