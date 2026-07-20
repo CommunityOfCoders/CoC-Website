@@ -167,10 +167,11 @@
 .team-socials--lg svg { width: 20px; height: 20px; }
 
 /* ---------- expanded profile ---------- */
+/* portaled to <body>; stacks above the fixed header (z 100) */
 .team-overlay-wrap {
   position: fixed;
   inset: 0;
-  z-index: 60;
+  z-index: 1000;
   display: grid;
   place-items: center;
   padding: clamp(16px, 4vw, 48px);

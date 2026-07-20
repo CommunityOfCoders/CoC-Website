@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import { Quote, X } from 'lucide-react';
 import { Github, Linkedin } from '../components/ui/BrandIcons';
@@ -181,13 +182,18 @@ const MemberProfile: React.FC<{ member: TeamMember; onClose: () => void }> = ({
     };
 
     document.addEventListener('keydown', onKey);
+    document.body.classList.add('modal-open'); // header recedes behind the overlay
     return () => {
       document.removeEventListener('keydown', onKey);
+      document.body.classList.remove('modal-open');
       opener?.focus();
     };
   }, [onClose]);
 
-  return (
+  /* portaled to <body>: sections sit in their own stacking contexts
+     (.shell main > * has z-index:1), which would trap the overlay
+     beneath the fixed header no matter its own z-index */
+  return createPortal(
     <div className="team-overlay-wrap">
       <motion.div
         className="team-overlay"
@@ -251,7 +257,8 @@ const MemberProfile: React.FC<{ member: TeamMember; onClose: () => void }> = ({
           </div>
         </div>
       </motion.div>
-    </div>
+    </div>,
+    document.body,
   );
 };
 

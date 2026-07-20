@@ -1,15 +1,29 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
+import { createPortal } from 'react-dom';
+import {
+  AnimatePresence,
+  motion,
+  useInView,
+  useReducedMotion,
+  useScroll,
+  useTransform,
+} from 'framer-motion';
 import type { Variants } from 'framer-motion';
 import { ChevronLeft, ChevronRight, X } from 'lucide-react';
 import { TimelineContent } from '../components/ui/TimelineContent';
 import { Tilt } from '../components/ui/Tilt';
+import Magnetic from '../components/ui/Magnetic';
+import CountUp from '../components/ui/CountUp';
 import { EVENTS, type CoCEvent } from '../data/eventsData';
 import './PastEvents.css';
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
-/* sequenced reveals — intro at a readable pace, grid faster */
+/* unified slider pace: grid dwell and modal share the same rhythm */
+const DWELL_DELAY = 1500;
+const SLIDE_STEP = 2500;
+
+/* body copy keeps the blur/slide reveal; heading + eyebrow go kinetic */
 const introVariants: Variants = {
   hidden: { opacity: 0, y: 26, filter: 'blur(14px)' },
   visible: (i: number) => ({
@@ -19,35 +33,82 @@ const introVariants: Variants = {
     transition: { delay: i * 0.15, duration: 0.6, ease: EASE },
   }),
 };
+/* richer card entrance: rotated + scaled-down + blurred → resting */
 const cardVariants: Variants = {
-  hidden: { opacity: 0, y: 24, filter: 'blur(10px)' },
+  hidden: { opacity: 0, y: 26, scale: 0.94, rotate: -2.5, filter: 'blur(8px)' },
   visible: (i: number) => ({
     opacity: 1,
     y: 0,
+    scale: 1,
+    rotate: 0,
     filter: 'blur(0px)',
-    transition: { delay: i * 0.08, duration: 0.55, ease: EASE },
+    transition: { delay: i * 0.07, duration: 0.5, ease: EASE },
   }),
 };
+
+/* ---------------------------------------------------------- */
+/* Kinetic word reveal — each word rises out of its own clip,
+   staggered, when the timeline element scrolls into view.
+   Reduced motion: plain static text.                          */
+/* ---------------------------------------------------------- */
+
+interface KineticWord {
+  t: string;
+  mark?: boolean;
+}
+
+const KineticWords: React.FC<{
+  words: KineticWord[];
+  timelineRef: React.RefObject<HTMLElement | null>;
+  baseDelay?: number;
+  stagger?: number;
+}> = ({ words, timelineRef, baseDelay = 0, stagger = 0.06 }) => {
+  const reduce = useReducedMotion();
+  const inView = useInView(timelineRef, { once: true });
+
+  return (
+    <>
+      {words.map((w, i) => (
+        <span className="ev-kinetic__clip" key={`${w.t}-${i}`}>
+          {reduce ? (
+            <span className={`ev-kinetic__word${w.mark ? ' is-mark' : ''}`}>{w.t}</span>
+          ) : (
+            <motion.span
+              className={`ev-kinetic__word${w.mark ? ' is-mark' : ''}`}
+              initial={{ y: '112%', opacity: 0 }}
+              animate={inView ? { y: 0, opacity: 1 } : undefined}
+              transition={{ duration: 0.65, ease: EASE, delay: baseDelay + i * stagger }}
+            >
+              {w.t}
+            </motion.span>
+          )}
+        </span>
+      ))}
+    </>
+  );
+};
+
+const TITLE_WORDS: KineticWord[] = [
+  { t: 'Every' },
+  { t: 'room' },
+  { t: "we've", mark: true },
+  { t: 'filled.', mark: true },
+];
+const EYEBROW_WORDS: KineticWord[] = [{ t: 'Event' }, { t: 'archive' }];
 
 /* ---------------------------------------------------------- */
 /* Photo slider — used in grid cards and the modal hero.
    Directional slide with the house ease; loops; no controls
    for single-photo events. Arrows are invisible until the
-   cursor is over the arrow itself, and never bubble clicks
-   into the card's open handler.
+   cursor (or focus) is on the arrow itself.
 
-   mode 'dwell'  (grid):  auto-advances only after the cursor
-                          has rested on the card for 1.5s
-                          (driven by `hovered`); stops and
-                          resets to the first photo on leave.
-   mode 'auto'   (modal): advances every 4s from mount; arrow
-                          hover/focus pauses it; a manual click
-                          restarts the 4s countdown.            */
+   mode 'dwell'  (grid):  starts advancing only after the
+                          cursor has rested on the card 1.5s
+                          (driven by `hovered`); resets on leave.
+   mode 'auto'   (modal): advances every 2.5s from mount; arrow
+                          hover/focus pauses; a manual click
+                          restarts the countdown.               */
 /* ---------------------------------------------------------- */
-
-const DWELL_DELAY = 1500;
-const DWELL_STEP = 1800;
-const AUTO_STEP = 4000;
 
 const PhotoSlider: React.FC<{
   photos: string[];
@@ -69,7 +130,7 @@ const PhotoSlider: React.FC<{
     if (mode !== 'dwell' || !many || !hovered) return;
     let interval: number | undefined;
     const timeout = window.setTimeout(() => {
-      interval = window.setInterval(() => advance(1), DWELL_STEP);
+      interval = window.setInterval(() => advance(1), SLIDE_STEP);
     }, DWELL_DELAY);
     return () => {
       window.clearTimeout(timeout);
@@ -79,11 +140,11 @@ const PhotoSlider: React.FC<{
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mode, many, hovered]);
 
-  /* auto: free-running 4s loop; paused by arrow hover/focus;
+  /* auto: free-running loop; paused by arrow hover/focus;
      timerEpoch bumps restart the countdown after a manual click */
   useEffect(() => {
     if (mode !== 'auto' || !many || paused) return;
-    const interval = window.setInterval(() => advance(1), AUTO_STEP);
+    const interval = window.setInterval(() => advance(1), SLIDE_STEP);
     return () => window.clearInterval(interval);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mode, many, paused, timerEpoch]);
@@ -91,7 +152,7 @@ const PhotoSlider: React.FC<{
   const go = (delta: number) => (e: React.MouseEvent) => {
     e.stopPropagation();
     advance(delta);
-    if (mode === 'auto') setTimerEpoch((t) => t + 1); // fresh 4s from this click
+    if (mode === 'auto') setTimerEpoch((t) => t + 1); // fresh countdown from this click
   };
 
   const variants = {
@@ -149,9 +210,8 @@ const PhotoSlider: React.FC<{
 };
 
 /* ---------------------------------------------------------- */
-/* Compact grid card — photo, tight title, one-liner, date and
-   CTA. Wrapped in Tilt (micro) + TimelineContent (stagger).
-   The photo container morphs into the modal hero (layoutId).  */
+/* Framed grid card — photo, tight title, one-liner, date.
+   Whole card clickable; Tilt micro-tilt; layoutId morph.      */
 /* ---------------------------------------------------------- */
 
 const EventCard: React.FC<{
@@ -203,10 +263,7 @@ const EventCard: React.FC<{
           <div className="ev-card__panel">
             <h3 className="ev-card__name">{event.name}</h3>
             <p className="ev-card__summary">{event.summary}</p>
-            <div className="ev-card__foot">
-              <span className="ev-card__date">{event.date}</span>
-              <span className="ev-card__go">Full story →</span>
-            </div>
+            <span className="ev-card__date">{event.date}</span>
           </div>
         </article>
       </Tilt>
@@ -215,9 +272,9 @@ const EventCard: React.FC<{
 };
 
 /* ---------------------------------------------------------- */
-/* Detail modal — unchanged shell: the card photo morphs into
-   the hero (layoutId), text staggers in after, and Escape /
-   overlay / X close through the same reverse animation.       */
+/* Detail modal — photo morphs in via layoutId; the title lands
+   as its own bold beat in the stagger; Escape / overlay / X
+   all close through the same reverse animation.               */
 /* ---------------------------------------------------------- */
 
 const EventModal: React.FC<{ event: CoCEvent; onClose: () => void }> = ({ event, onClose }) => {
@@ -251,9 +308,11 @@ const EventModal: React.FC<{ event: CoCEvent; onClose: () => void }> = ({ event,
 
     document.addEventListener('keydown', onKey);
     document.body.style.overflow = 'hidden';
+    document.body.classList.add('modal-open'); // header recedes behind the overlay
     return () => {
       document.removeEventListener('keydown', onKey);
       document.body.style.overflow = '';
+      document.body.classList.remove('modal-open');
       opener?.focus();
     };
   }, [onClose]);
@@ -269,8 +328,18 @@ const EventModal: React.FC<{ event: CoCEvent; onClose: () => void }> = ({ event,
         hidden: { opacity: 0, y: 14 },
         show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: EASE } },
       };
+  /* the title gets its own, weightier beat in the sequence */
+  const titleItem = reduce
+    ? item
+    : {
+        hidden: { opacity: 0, y: 30, scale: 0.96 },
+        show: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.65, ease: EASE } },
+      };
 
-  return (
+  /* portaled to <body>: the page wraps sections in their own stacking
+     contexts (.shell main > * has z-index:1), which would trap the
+     overlay beneath the fixed header no matter its z-index */
+  return createPortal(
     <motion.div
       className="ev-overlay"
       initial={{ opacity: 0 }}
@@ -291,9 +360,11 @@ const EventModal: React.FC<{ event: CoCEvent; onClose: () => void }> = ({ event,
         transition={{ duration: 0.35, ease: EASE }}
         onClick={(e) => e.stopPropagation()}
       >
-        <button type="button" className="ev-modal__close" aria-label="Close" onClick={onClose}>
-          <X />
-        </button>
+        <Magnetic className="ev-modal__close-wrap" strength={0.3}>
+          <button type="button" className="ev-modal__close" aria-label="Close" onClick={onClose}>
+            <X />
+          </button>
+        </Magnetic>
 
         <motion.div
           layoutId={reduce ? undefined : `event-photo-${event.id}`}
@@ -317,7 +388,7 @@ const EventModal: React.FC<{ event: CoCEvent; onClose: () => void }> = ({ event,
           <motion.span variants={item} className="eyebrow">
             Event archive
           </motion.span>
-          <motion.h2 variants={item} id="ev-modal-title" className="ev-modal__title">
+          <motion.h2 variants={titleItem} id="ev-modal-title" className="ev-modal__title">
             {event.name}
           </motion.h2>
 
@@ -346,7 +417,8 @@ const EventModal: React.FC<{ event: CoCEvent; onClose: () => void }> = ({ event,
           </div>
         </motion.div>
       </motion.div>
-    </motion.div>
+    </motion.div>,
+    document.body,
   );
 };
 
@@ -354,34 +426,36 @@ const EventModal: React.FC<{ event: CoCEvent; onClose: () => void }> = ({ event,
 
 const PastEvents: React.FC = () => {
   const [selected, setSelected] = useState<CoCEvent | null>(null);
+  const reduce = useReducedMotion();
   const headRef = useRef<HTMLDivElement>(null);
   const gridRef = useRef<HTMLUListElement>(null);
+
+  /* scroll-linked kinetic energy on the big heading */
+  const { scrollYProgress } = useScroll({
+    target: headRef,
+    offset: ['start 0.95', 'end 0.25'],
+  });
+  const headScale = useTransform(scrollYProgress, [0, 1], [0.985, 1.01]);
+  const headSkew = useTransform(scrollYProgress, [0, 1], [-1.4, 0.4]);
 
   return (
     <section className="section ev-page">
       <div className="container">
         <div className="ev-page__head" ref={headRef}>
           <div>
-            <TimelineContent
-              as="span"
-              animationNum={0}
-              timelineRef={headRef}
-              customVariants={introVariants}
-              once
-              className="eyebrow"
+            <span className="eyebrow">
+              <KineticWords words={EYEBROW_WORDS} timelineRef={headRef} stagger={0.09} />
+            </span>
+            <motion.h1
+              className="section-title ev-page__title"
+              style={
+                reduce
+                  ? undefined
+                  : { scale: headScale, skewX: headSkew, transformOrigin: 'left bottom' }
+              }
             >
-              Event archive
-            </TimelineContent>
-            <TimelineContent
-              as="h1"
-              animationNum={1}
-              timelineRef={headRef}
-              customVariants={introVariants}
-              once
-              className="section-title"
-            >
-              Every room <span className="mark">we've filled.</span>
-            </TimelineContent>
+              <KineticWords words={TITLE_WORDS} timelineRef={headRef} baseDelay={0.12} />
+            </motion.h1>
             <TimelineContent
               as="p"
               animationNum={2}
@@ -402,7 +476,7 @@ const PastEvents: React.FC = () => {
             once
             className="ev-page__count"
           >
-            {EVENTS.length} events · 2016–2026
+            <CountUp to={EVENTS.length} duration={1.2} /> events · 2016–2026
           </TimelineContent>
         </div>
 

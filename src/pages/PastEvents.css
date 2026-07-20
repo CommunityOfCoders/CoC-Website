@@ -17,11 +17,39 @@
   justify-content: space-between;
   gap: 40px;
 }
+
+/* oversized display heading — dominates the top of the page */
+.ev-page__title {
+  font-size: clamp(3rem, 8vw, 5.8rem);
+  font-weight: 800;
+  line-height: 0.92;
+  letter-spacing: -0.035em;
+  margin-top: 24px;
+}
+
+/* kinetic word reveal: each word rises out of its own clip */
+.ev-kinetic__clip {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: bottom;
+  margin-right: 0.24em;
+  padding-bottom: 0.1em;
+  margin-bottom: -0.1em;
+}
+.ev-kinetic__clip:last-child { margin-right: 0; }
+.ev-kinetic__word {
+  display: inline-block;
+  transition: color 0.3s var(--ease);
+}
+.ev-kinetic__word.is-mark { color: var(--accent); }
+.ev-page__title .ev-kinetic__word:not(.is-mark):hover { color: var(--accent); }
+
 .ev-page__intro {
   margin-top: 20px;
   max-width: 560px;
   color: var(--fg-dim);
-  font-size: 1.05rem;
+  font-weight: 400;
+  font-size: 1.02rem;
 }
 .ev-page__count {
   font-family: var(--font-mono);
@@ -40,8 +68,8 @@
 .ev-grid {
   list-style: none;
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 18px;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
   margin-top: clamp(44px, 6vw, 68px);
 }
 @media (max-width: 1080px) {
@@ -51,79 +79,125 @@
   .ev-grid { grid-template-columns: 1fr; }
 }
 
+/* the nowrap one-liners inside cards must never widen the 1fr
+   columns past the container (grid items default min-width:auto) */
+.ev-grid > li { min-width: 0; }
+
 .ev-tilt { height: 100%; }
 
-/* ---------- compact card ---------- */
+/* ---------- framed card ---------- */
+/* "unfinished frame": a thin green line wraps the whole card but
+   fades out before each corner; an independent green dot sits at
+   every corner with a deliberate gap to the fading line ends */
+/* square card, photo-dominant: the photo owns 55% of the card's
+   height, the text block the remaining 45% */
 .ev-card {
   position: relative;
   display: flex;
   flex-direction: column;
-  height: 100%;
+  aspect-ratio: 1 / 1;
   overflow: hidden;
-  border: 1px solid var(--line);
+  padding: 10px;
   border-radius: var(--r-md);
   background: var(--ink-1);
   cursor: pointer;
-  transition: border-color 0.35s var(--ease), background 0.35s var(--ease);
+  transition: background 0.35s var(--ease);
 }
-.ev-card:hover {
-  border-color: rgba(29, 185, 84, 0.42);
-  background: var(--ink-2);
-}
+.ev-card:hover { background: var(--ink-2); }
 .ev-card:focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 3px;
 }
 
+/* corner dots — independent of the line ends */
+.ev-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  opacity: 0.75;
+  transition: opacity 0.35s var(--ease);
+  background-image:
+    radial-gradient(circle, rgba(29, 185, 84, 0.65) 1.4px, transparent 1.9px),
+    radial-gradient(circle, rgba(29, 185, 84, 0.65) 1.4px, transparent 1.9px),
+    radial-gradient(circle, rgba(29, 185, 84, 0.65) 1.4px, transparent 1.9px),
+    radial-gradient(circle, rgba(29, 185, 84, 0.65) 1.4px, transparent 1.9px);
+  background-size: 5px 5px;
+  background-repeat: no-repeat;
+  background-position:
+    4px 4px,
+    calc(100% - 4px) 4px,
+    4px calc(100% - 4px),
+    calc(100% - 4px) calc(100% - 4px);
+}
+
+/* the fading frame lines — each edge trails off ~12% before the
+   corner, leaving a gap between line end and corner dot */
+.ev-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  opacity: 0.7;
+  transition: opacity 0.35s var(--ease);
+  background-image:
+    linear-gradient(90deg, transparent 4%, rgba(29, 185, 84, 0.35) 16%, rgba(29, 185, 84, 0.35) 84%, transparent 96%),
+    linear-gradient(90deg, transparent 4%, rgba(29, 185, 84, 0.35) 16%, rgba(29, 185, 84, 0.35) 84%, transparent 96%),
+    linear-gradient(180deg, transparent 4%, rgba(29, 185, 84, 0.35) 16%, rgba(29, 185, 84, 0.35) 84%, transparent 96%),
+    linear-gradient(180deg, transparent 4%, rgba(29, 185, 84, 0.35) 16%, rgba(29, 185, 84, 0.35) 84%, transparent 96%);
+  background-size: 100% 1px, 100% 1px, 1px 100%, 1px 100%;
+  background-repeat: no-repeat;
+  background-position: top center, bottom center, left center, right center;
+}
+
+/* hover: the frame breathes a little brighter (no solid border) */
+.ev-card:hover::before,
+.ev-card:hover::after {
+  opacity: 1;
+}
+
 .ev-card__media {
   position: relative;
-  aspect-ratio: 16 / 9;
+  flex: 0 0 55%;
+  min-height: 0;
   overflow: hidden;
+  border-radius: var(--r-sm);
   background: var(--ink-2);
 }
 
 .ev-card__panel {
+  flex: 1;
+  min-height: 0;
   display: flex;
   flex-direction: column;
-  gap: 6px;
-  padding: 14px 16px 15px;
+  gap: 5px;
+  padding: 12px 6px 4px;
 }
 .ev-card__name {
-  font-size: 1.08rem;
+  font-size: 1.02rem;
   font-weight: 500;
-  line-height: 1.12;
+  line-height: 1.14;
   letter-spacing: -0.01em;
 }
 .ev-card__summary {
-  font-size: 0.86rem;
+  font-size: 0.84rem;
   line-height: 1.45;
   color: var(--fg-dim);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
-.ev-card__foot {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  margin-top: 6px;
-}
 .ev-card__date {
+  margin-top: auto;
+  padding-bottom: 4px;
   font-family: var(--font-mono);
-  font-size: 0.64rem;
+  font-size: 0.62rem;
   letter-spacing: 0.16em;
   text-transform: uppercase;
   color: var(--fg-faint);
 }
-.ev-card__go {
-  font-family: var(--font-mono);
-  font-size: 0.7rem;
-  letter-spacing: 0.04em;
-  color: var(--fg-dim);
-  transition: color 0.3s var(--ease);
-}
-.ev-card:hover .ev-card__go { color: var(--accent); }
 
 /* ---------- photo slider (cards + modal hero) ---------- */
 .ev-slider {
@@ -184,16 +258,17 @@
 }
 
 /* ---------- detail modal ---------- */
+/* portaled to <body>; z-index above the fixed header (z 100) so the
+   modal is unambiguously the topmost layer. Plain dark scrim — the
+   only blur anywhere on this page is the header's own filter. */
 .ev-overlay {
   position: fixed;
   inset: 0;
-  z-index: 60;
+  z-index: 1000;
   display: grid;
   place-items: center;
   padding: clamp(16px, 4vw, 48px);
   background: rgba(7, 8, 8, 0.78);
-  -webkit-backdrop-filter: blur(6px);
-  backdrop-filter: blur(6px);
 }
 
 /* overflow stays visible so the hero can fly in from the card's
@@ -207,21 +282,25 @@
   max-height: min(88dvh, 940px);
   border: 1px solid var(--line-2);
   border-radius: var(--r-xl);
-  background: linear-gradient(180deg, var(--ink-1), var(--ink-2));
+  background: var(--ink-1);
 }
 
-.ev-modal__close {
+/* magnetic wrapper carries the placement; the button stays static
+   inside it so the cursor-pull translate comes from the wrapper */
+.ev-modal__close-wrap {
   position: absolute;
   top: 16px;
   right: 16px;
   z-index: 6;
+}
+.ev-modal__close {
   display: grid;
   place-items: center;
   width: 42px;
   height: 42px;
   border-radius: var(--r-pill);
   border: 1px solid rgba(245, 247, 245, 0.25);
-  background: rgba(7, 8, 8, 0.55);
+  background: var(--ink-1);
   color: var(--fg);
   transition: background 0.25s var(--ease), border-color 0.25s var(--ease),
     color 0.25s var(--ease);
@@ -237,11 +316,12 @@
   outline-offset: 2px;
 }
 
+/* compact hero: wider crop, capped shorter so the modal reads tight */
 .ev-modal__hero {
   position: relative;
   flex-shrink: 0;
-  aspect-ratio: 16 / 9;
-  max-height: 46dvh;
+  aspect-ratio: 21 / 9;
+  max-height: 34dvh;
   overflow: hidden;
   border-radius: var(--r-xl) var(--r-xl) 0 0;
   background: var(--ink-2);
@@ -256,8 +336,13 @@
   min-height: 0;
   border-radius: 0 0 var(--r-xl) var(--r-xl);
 }
+/* the payoff after the photo settles: bigger and heavier than any
+   other heading on the site's inner pages */
 .ev-modal__title {
-  font-size: clamp(1.7rem, 3.6vw, 2.4rem);
+  font-size: clamp(2.1rem, 4.8vw, 3.2rem);
+  font-weight: 800;
+  line-height: 0.95;
+  letter-spacing: -0.025em;
   margin-top: 4px;
 }
 
