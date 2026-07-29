@@ -4,9 +4,9 @@ import Home from './pages/Home';
 import PastEvents from './pages/PastEvents';
 import Team from './pages/team';
 import OpenSource from './pages/OpenSource';
-import Projects from './pages/Projects';
 import Placements from './pages/Placements';
 import Contact from './pages/Contact';
+import Projects from "./pages/Projects";
 import './App.css';
 
 const normalize = (hash: string) => (hash === '#' ? '' : hash);
