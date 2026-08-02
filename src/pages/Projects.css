@@ -15,8 +15,10 @@
 /* --- Hero Section --- */
 .projects-hero {
   position: relative;
-  padding-top: clamp(120px, 14vw, 180px);
-  padding-bottom: clamp(60px, 8vw, 100px);
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  padding-top: 80px; /* adjusted for navbar */
   overflow: hidden;
 }
 
@@ -267,6 +269,7 @@
 /* --- Featured (Flagship work) Section --- */
 .projects-featured {
   padding-block: clamp(60px, 8vw, 100px);
+  scroll-margin-top: 60px; /* Accounts for fixed navbar spacing */
 }
 
 .projects-featured__grid {
