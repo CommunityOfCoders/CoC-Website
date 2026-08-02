@@ -4,11 +4,11 @@ import Reveal from '../ui/Reveal';
 /* Dummy recent milestones — keep this list short and fresh; it reads
    as "the club is alive", not as an archive. */
 const ACTIVITY = [
-  { date: 'Mar 2026', title: 'Hack8 wrapped', note: '340 participants, 61 submissions, one very tired organizing team.' },
-  { date: 'Jan 2026', title: 'Winter of Code, cohort 4', note: '28 first-time contributors merged their first PRs.' },
-  { date: 'Nov 2025', title: 'Open Source October totals', note: '120+ PRs merged across community repos in one month.' },
-  { date: 'Sep 2025', title: 'Freshers\' codelab', note: 'The FE batch shipped their first deployed pages in week two.' },
-  { date: 'Aug 2025', title: 'New council takes over', note: 'Handover done, roadmap published, calendar already full.' },
+  { date: 'July 2026', title: 'ProjectX Mentorship \'26 Cohort', note: '150+ applications, 32 accepted.' },
+  { date: 'Jan 2026', title: 'Codeverse', note: 'As series of 12 hackathons, total prize pool of 90k INR.' },
+  { date: 'April 2026', title: 'RouteQuest 2026', note: 'A web development CTF competition, with a prize pool of 20k INR.' },
+  { date: 'April 2026', title: 'OpenCV Workshop', note: 'Learn the fundamentals of computer vision and image processing.' },
+  { date: 'July 2025', title: 'Project X Mentorship \'25 Cohort', note: '140+ applications, 29 accepted.' },
 ];
 
 const CommunityActivity: React.FC = () => (
