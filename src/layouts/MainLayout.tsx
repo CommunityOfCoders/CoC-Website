@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { ArrowUpRight, Menu, X } from 'lucide-react';
 import { Github, Linkedin, Instagram } from '../components/ui/BrandIcons';
+import cocLogo from '../assets/coc.png';
 import './MainLayout.css';
 
 interface MainLayoutProps {
@@ -45,7 +46,7 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children, route }) => {
       <header className={`nav${scrolled ? ' nav--scrolled' : ''}`}>
         <div className="container nav__inner">
           <a href="#" className="brand" aria-label="Community of Coders — home">
-            <span className="brand__mark">CoC</span>
+            <img src={cocLogo} alt="CoC Logo" style={{ width: '32px', height: '32px', borderRadius: '6px', objectFit: 'contain' }} />
             <span className="brand__meta">Community of Coders<em>VJTI · Matunga</em></span>
           </a>
 

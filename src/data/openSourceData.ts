@@ -1,7 +1,7 @@
 import type React from 'react';
 import {
-  CERNLogo, GoogleLogo, GSoCLogo, HacktoberfestLogo, JuliaLogo, LFXLogo,
-  ML4SciLogo, OctaveLogo, OpenCVLogo, PrometheusLogo, SymPyLogo,
+  CERNLogo, DebianLogo, FedoraLogo, GoogleLogo, GSoCLogo, HacktoberfestLogo, JuliaLogo, LFXLogo,
+  ML4SciLogo, OctaveLogo, OpenCVLogo, PrometheusLogo, SageLogo, SymPyLogo,
 } from '../components/ui/OrgLogos';
 
 /* ============================================================
@@ -41,12 +41,16 @@ export const REPOS: Repo[] = [
 export interface FeaturedOrg { name: string; href: string; Logo: React.FC<React.SVGProps<SVGSVGElement>> }
 
 export const FEATURED_ORGS: FeaturedOrg[] = [
+  { name: 'Google Summer of Code', href: 'https://summerofcode.withgoogle.com/', Logo: GSoCLogo },
   { name: 'Google', href: 'https://opensource.google/', Logo: GoogleLogo },
   { name: 'OpenCV', href: 'https://opencv.org/', Logo: OpenCVLogo },
   { name: 'Prometheus', href: 'https://prometheus.io/', Logo: PrometheusLogo },
-  { name: 'CERN-HSF', href: 'https://hepsoftwarefoundation.org/', Logo: CERNLogo },
+  { name: 'Debian', href: 'https://www.debian.org/', Logo: DebianLogo },
+  { name: 'Fedora', href: 'https://fedoraproject.org/', Logo: FedoraLogo },
   { name: 'SymPy', href: 'https://www.sympy.org/', Logo: SymPyLogo },
   { name: 'GNU Octave', href: 'https://octave.org/', Logo: OctaveLogo },
+  { name: 'SageMath', href: 'https://www.sagemath.org/', Logo: SageLogo },
+  { name: 'CERN-HSF', href: 'https://hepsoftwarefoundation.org/', Logo: CERNLogo },
   { name: 'ML4Sci', href: 'https://ml4sci.org/', Logo: ML4SciLogo },
 ];
 
