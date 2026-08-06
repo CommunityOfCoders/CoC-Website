@@ -62,8 +62,7 @@ export const LinkedinColor: React.FC<P> = ({ width = 44, height = 44, ...props }
    sliver) at specific proportions — this isn't a stylised guess. */
 export const MediumLogo: React.FC<P> = ({ width = 40, height = 40, ...props }) => (
   <svg viewBox="0 0 40 40" width={width} height={height} aria-hidden {...props}>
-    <rect width="40" height="40" rx="10" fill="#000000" />
-    <g fill="#ffffff">
+    <g fill="currentColor">
       <circle cx="13.5" cy="20" r="6.4" />
       <ellipse cx="26.2" cy="20" rx="3.9" ry="6.4" />
       <ellipse cx="34.5" cy="20" rx="1.5" ry="6.4" />

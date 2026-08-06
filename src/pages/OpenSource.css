@@ -141,61 +141,95 @@
 .os-org-mark[data-tip]:hover::after { opacity: 1; transform: translateX(-50%) translateY(0); }
 .os-org-mark[data-tip]:hover::before { opacity: 1; }
 
-/* ---------- Hero right: GitHub info panel ----------
-   A plain rectangle, not a floating badge/orbit widget: GitHub's own
-   mark plus live stats up top, then the other real logos CoC's
-   open-source work actually plugs into underneath. */
-.os-github-visual {
+/* ---------- Hero right: Floating Logos Showcase (No box card, no borders) ---------- */
+.os-floating-showcase {
   display: flex;
-  flex-direction: column;
-  gap: 22px;
+  align-items: center;
+  justify-content: center;
   width: 100%;
-  max-width: 420px;
+  max-width: 440px;
   margin-inline: auto;
-  padding: 32px;
-  border-radius: var(--r-md);
-  background: var(--ink-2);
-  border: 1px solid var(--line);
+  padding: 32px 16px;
+  position: relative;
   will-change: transform;
 }
 
-.os-github-visual__top {
+.os-floating-showcase__grid {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  gap: 18px;
-  color: var(--fg);
+  justify-content: center;
+  gap: clamp(24px, 4vw, 38px);
 }
-.os-github-mark { width: 46px; height: 46px; flex-shrink: 0; color: var(--fg); }
-.os-github-handle {
-  display: block;
-  font-family: var(--font-mono);
-  font-size: 0.92rem;
-  font-weight: 600;
-  color: var(--fg);
-}
-.os-github-stats {
-  display: flex;
-  gap: 16px;
-  margin-top: 6px;
-  font-family: var(--font-mono);
-  font-size: 0.76rem;
-  color: var(--fg-faint);
-}
-.os-github-stats strong { color: var(--accent); font-weight: 700; }
 
-.os-github-visual__divider { height: 1px; background: var(--line); }
-
-.os-github-visual__label {
-  font-family: var(--font-mono);
-  font-size: 0.7rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--fg-faint);
+.os-floating-logo-item {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.4s var(--ease), filter 0.4s var(--ease);
+  animation: os-float-bob 4.8s ease-in-out infinite;
+  text-decoration: none;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  outline: none;
+  padding: 6px;
 }
-.os-github-visual__logos { display: flex; align-items: center; gap: 20px; margin-top: 2px; }
-.os-panel-logo { display: inline-flex; transition: transform 0.25s var(--ease); }
-.os-panel-logo:hover { transform: translateY(-3px) scale(1.1); }
-.os-panel-logo svg { display: block; width: 24px; height: 24px; }
+
+.os-floating-logo-item:hover {
+  transform: translateY(-8px) scale(1.18);
+}
+
+.os-floating-logo-img {
+  height: 54px;
+  width: auto;
+  max-width: 130px;
+  object-fit: contain;
+  filter: drop-shadow(0 4px 12px rgba(255, 255, 255, 0.08));
+  transition: filter 0.3s ease, transform 0.3s ease;
+}
+
+.os-floating-logo-img.is-inverted {
+  filter: brightness(0) invert(1) drop-shadow(0 4px 12px rgba(255, 255, 255, 0.15));
+}
+
+.os-floating-logo-item:hover .os-floating-logo-img {
+  filter: drop-shadow(0 6px 22px rgba(255, 255, 255, 0.35));
+}
+
+.os-floating-logo-item:hover .os-floating-logo-img.is-inverted {
+  filter: brightness(0) invert(1) drop-shadow(0 6px 22px rgba(255, 255, 255, 0.45));
+}
+
+/* Tooltip on hover */
+.os-floating-logo-item[data-tip]::after {
+  content: attr(data-tip);
+  position: absolute; bottom: calc(100% + 10px); left: 50%;
+  transform: translateX(-50%) translateY(4px); white-space: nowrap;
+  background: var(--fg); color: var(--ink); font-family: var(--font-mono);
+  font-size: 11px; font-weight: 600; padding: 5px 10px; border-radius: var(--r-pill);
+  opacity: 0; pointer-events: none; transition: opacity 0.2s var(--ease), transform 0.2s var(--ease);
+  z-index: 10;
+}
+
+.os-floating-logo-item[data-tip]::before {
+  content: ''; position: absolute; bottom: calc(100% + 5px); left: 50%; transform: translateX(-50%);
+  border: 5px solid transparent; border-top-color: var(--fg); opacity: 0; transition: opacity 0.2s var(--ease);
+  z-index: 10;
+}
+
+.os-floating-logo-item[data-tip]:hover::after { opacity: 1; transform: translateX(-50%) translateY(0); }
+.os-floating-logo-item[data-tip]:hover::before { opacity: 1; }
+
+@keyframes os-float-bob {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-9px);
+  }
+}
 
 /* ---------- Section heading scaffolding ---------- */
 .os-section-header { margin-bottom: 28px; }

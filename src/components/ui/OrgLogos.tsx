@@ -5,6 +5,7 @@ import fedoraImg from '../../assets/Fedora_logo.svg';
 import gsocImg from '../../assets/GSoC_logo.svg';
 import octaveImg from '../../assets/Gnu-octave-logo.svg';
 import googleImg from '../../assets/Google__G__logo.svg';
+import hacktoberfestImg from '../../assets/Hacktoberfest_logo.png';
 import opencvImg from '../../assets/OpenCV_Logo_with_text_svg_version.svg';
 import prometheusImg from '../../assets/Prometheus_software_logo.svg';
 import sageImg from '../../assets/Sage-logo-2018.svg';
@@ -99,6 +100,11 @@ export const SageLogo: React.FC<P> = (props) => (
   <ImageLogo src={sageImg} alt="SageMath" width={props.width} height={props.height} className={props.className} style={props.style} />
 );
 
+/* Hacktoberfest — from src/assets/Hacktoberfest_logo.png */
+export const HacktoberfestLogo: React.FC<P> = (props) => (
+  <ImageLogo src={hacktoberfestImg} alt="Hacktoberfest" width={props.width} height={props.height} className={props.className} style={props.style} />
+);
+
 /* Community of Coders — from src/assets/coc.png */
 export const CoCLogo: React.FC<P> = (props) => (
   <ImageLogo src={cocImg} alt="Community of Coders" width={props.width} height={props.height} className={props.className} style={props.style} />
@@ -139,18 +145,6 @@ export const ML4SciLogo: React.FC<P> = (props) => (
 export const LFXLogo: React.FC<P> = (props) => (
   <svg viewBox="0 0 24 24" fill="#0093D9" aria-hidden {...props}>
     <path d="M4.8 19.2h9.6V24H0V9.6h4.8v9.6zM0 0v7.2h4.8V4.822h14.4V19.2h-2.4V24H24V0H0z" />
-  </svg>
-);
-
-/* Hacktoberfest mark. */
-export const HacktoberfestLogo: React.FC<P> = (props) => (
-  <svg viewBox="0 0 40 40" aria-hidden {...props}>
-    <path
-      d="M20 8c5 0 9 4.5 9 11s-4 11-9 11-9-4.5-9-11 4-11 9-11z"
-      fill="#BA3925"
-    />
-    <path d="M20 8V4" stroke="#3E7A3E" strokeWidth="2.4" strokeLinecap="round" />
-    <path d="M13 17c1.5-1 3-1 4 0M27 17c-1.5-1-3-1-4 0M15 25c2 2 8 2 10 0" fill="none" stroke="#0A0A23" strokeWidth="1.8" strokeLinecap="round" />
   </svg>
 );
 

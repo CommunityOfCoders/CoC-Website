@@ -6,6 +6,11 @@ import { Tilt } from '../components/ui/Tilt';
 import { KineticWords } from '../components/ui/KineticHeading';
 import { Github, LinkedinColor, MediumLogo } from '../components/ui/BrandIcons';
 import { CONTRIBUTORS, FEATURED_ORGS, PROGRAMS, REPOS, type Contributor, type Program } from '../data/openSourceData';
+import githubLogoImg from '../assets/github.png';
+import gsocLogoImg from '../assets/GSoC_logo.svg';
+import lfxLogoImg from '../assets/lfx-seeklogo.png';
+import hacktoberfestLogoImg from '../assets/Hacktoberfest_logo.png';
+import mediumLogoImg from '../assets/Medium-Icon-Black.svg';
 import './OpenSource.css';
 
 const GH_ORG = 'CommunityOfCoders';
@@ -14,13 +19,33 @@ const STATIC_REPOS = REPOS.length;
 
 const getProgram = (id: Contributor['programId']): Program | undefined => PROGRAMS.find((p) => p.id === id);
 
-/* the small logo row inside the GitHub panel — programs + the blog
-   platform most contributors write on, not a repeat of Featured Orgs */
-const PANEL_LOGOS = [
-  { name: 'GSoC', Logo: getProgram('gsoc')!.Logo },
-  { name: 'LFX', Logo: getProgram('lfx')!.Logo },
-  { name: 'Hacktoberfest', Logo: getProgram('hacktoberfest')!.Logo },
-  { name: 'Blog (Medium)', Logo: MediumLogo },
+const FLOATING_HERO_LOGOS = [
+  {
+    name: 'LFX Mentorship',
+    href: 'https://lfx.linuxfoundation.org/tools/mentorship/',
+    src: lfxLogoImg,
+  },
+  {
+    name: 'Google Summer of Code',
+    href: 'https://summerofcode.withgoogle.com/',
+    src: gsocLogoImg,
+  },
+  {
+    name: 'GitHub',
+    href: 'https://github.com/CommunityOfCoders',
+    src: githubLogoImg,
+    isInvert: true,
+  },
+  {
+    name: 'Hacktoberfest',
+    href: 'https://hacktoberfest.com/',
+    src: hacktoberfestLogoImg,
+  },
+  {
+    name: 'Medium Blog',
+    href: 'https://medium.com/@swayams',
+    src: mediumLogoImg,
+  },
 ];
 
 /** Live public-repo count + star total for the org — snapshot from
@@ -383,36 +408,25 @@ export default function OpenSource() {
             </div>
 
             <Reveal variant="fade" delay={0.2}>
-              <motion.div className="os-github-visual" style={reduce ? undefined : { x: sx, y: sy }}>
-                <a
-                  href={`https://github.com/${GH_ORG}`}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="os-github-visual__top"
-                  aria-label={`${GH_ORG} on GitHub`}
-                >
-                  <Github className="os-github-mark" aria-hidden="true" />
-                  <div>
-                    <span className="os-github-handle">github.com/{GH_ORG}</span>
-                    <div className="os-github-stats">
-                      <span>
-                        <strong>{stats.repos}</strong> public repos
-                      </span>
-                      <span>
-                        <strong>{stats.stars}+</strong> stars
-                      </span>
-                    </div>
-                  </div>
-                </a>
-
-                <div className="os-github-visual__divider" />
-
-                <span className="os-github-visual__label">Open-source programs we plug into</span>
-                <div className="os-github-visual__logos">
-                  {PANEL_LOGOS.map(({ name, Logo }) => (
-                    <span key={name} className="os-panel-logo" title={name}>
-                      <Logo width={24} height={24} />
-                    </span>
+              <motion.div className="os-floating-showcase" style={reduce ? undefined : { x: sx, y: sy }}>
+                <div className="os-floating-showcase__grid">
+                  {FLOATING_HERO_LOGOS.map((item, idx) => (
+                    <a
+                      key={item.name}
+                      href={item.href}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="os-floating-logo-item"
+                      data-tip={item.name}
+                      aria-label={item.name}
+                      style={{ animationDelay: `${idx * 0.5}s` }}
+                    >
+                      <img
+                        src={item.src}
+                        alt={item.name}
+                        className={`os-floating-logo-img ${item.isInvert ? 'is-inverted' : ''}`}
+                      />
+                    </a>
                   ))}
                 </div>
               </motion.div>

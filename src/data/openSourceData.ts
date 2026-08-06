@@ -43,6 +43,7 @@ export interface FeaturedOrg { name: string; href: string; Logo: React.FC<React.
 export const FEATURED_ORGS: FeaturedOrg[] = [
   { name: 'Google Summer of Code', href: 'https://summerofcode.withgoogle.com/', Logo: GSoCLogo },
   { name: 'Google', href: 'https://opensource.google/', Logo: GoogleLogo },
+  { name: 'Hacktoberfest', href: 'https://hacktoberfest.com/', Logo: HacktoberfestLogo },
   { name: 'OpenCV', href: 'https://opencv.org/', Logo: OpenCVLogo },
   { name: 'Prometheus', href: 'https://prometheus.io/', Logo: PrometheusLogo },
   { name: 'Debian', href: 'https://www.debian.org/', Logo: DebianLogo },
