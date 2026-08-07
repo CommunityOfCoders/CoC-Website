@@ -1,4 +1,5 @@
 import React from 'react';
+import { motion } from 'framer-motion';
 
 export type TabType = 'internships' | 'placements' | 'ppos' | 'yoy';
 
@@ -17,15 +18,25 @@ const tabs: { id: TabType; label: string }[] = [
 export const PlacementTabs: React.FC<PlacementTabsProps> = ({ activeTab, onSelectTab }) => {
   return (
     <nav className="placement-tabs-nav">
-      {tabs.map((tab) => (
-        <button
-          key={tab.id}
-          className={`placement-tab-btn ${activeTab === tab.id ? 'active' : ''}`}
-          onClick={() => onSelectTab(tab.id)}
-        >
-          {tab.label}
-        </button>
-      ))}
+      {tabs.map((tab) => {
+        const isActive = activeTab === tab.id;
+        return (
+          <button
+            key={tab.id}
+            className={`placement-tab-btn ${isActive ? 'active' : ''}`}
+            onClick={() => onSelectTab(tab.id)}
+          >
+            {tab.label}
+            {isActive && (
+              <motion.div
+                layoutId="activeTabUnderline"
+                className="placement-active-indicator"
+                transition={{ type: 'spring', stiffness: 400, damping: 30 }}
+              />
+            )}
+          </button>
+        );
+      })}
     </nav>
   );
 };

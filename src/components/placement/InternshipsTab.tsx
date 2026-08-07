@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { INTERNSHIPS_DATA } from '../../data/placementData';
 import { CompanyLogo } from './CompanyLogo';
 
 export const InternshipsTab: React.FC = () => {
-  const [selectedYear, setSelectedYear] = useState<'2025' | '2024' | '2023' | '2022'>('2025');
+  const [selectedYear, setSelectedYear] = useState<'2026' | '2025' | '2024' | '2023' | '2022'>('2026');
   const [filterMode, setFilterMode] = useState<'all' | 'ppo'>('all');
 
-  const currentYearData = INTERNSHIPS_DATA[selectedYear] || INTERNSHIPS_DATA['2025'];
+  const currentYearData = INTERNSHIPS_DATA[selectedYear] || INTERNSHIPS_DATA['2026'];
   const items = filterMode === 'ppo' 
     ? currentYearData.items.filter((item) => item.isPpoReceived)
     : currentYearData.items;
@@ -15,7 +16,12 @@ export const InternshipsTab: React.FC = () => {
   const totalCompanies = new Set(items.map((item) => item.company)).size;
 
   return (
-    <section className="placement-tab-content">
+    <motion.section
+      initial={{ opacity: 0, y: 12 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.35 }}
+      className="placement-tab-content"
+    >
       <div className="placement-tab-header">
         <div className="placement-tab-title-group">
           <h2>Internships · {selectedYear}</h2>
@@ -24,7 +30,7 @@ export const InternshipsTab: React.FC = () => {
 
         <div className="placement-controls">
           <div className="pill-group">
-            {(['2025', '2024', '2023', '2022'] as const).map((year) => (
+            {(['2026', '2025', '2024', '2023', '2022'] as const).map((year) => (
               <button
                 key={year}
                 className={`pill-btn ${selectedYear === year ? 'active-solid' : ''}`}
@@ -63,30 +69,38 @@ export const InternshipsTab: React.FC = () => {
               <th>PPOS</th>
             </tr>
           </thead>
-          <tbody>
-            {items.map((item, idx) => (
-              <tr key={item.id}>
-                <td className="col-num">{idx + 1}</td>
-                <td>
-                  <div className="col-company">
-                    <CompanyLogo name={item.company} />
-                    <span>{item.company}</span>
-                  </div>
-                </td>
-                <td className="col-stipend">{item.stipend}</td>
-                <td className="col-members">{item.members}</td>
-                <td>
-                  {item.ppos !== '—' && Number(item.ppos) > 0 ? (
-                    <span className="col-ppos">{item.ppos}</span>
-                  ) : (
-                    <span className="col-ppos-none">—</span>
-                  )}
-                </td>
-              </tr>
-            ))}
-          </tbody>
+          <AnimatePresence mode="wait">
+            <motion.tbody
+              key={`${selectedYear}-${filterMode}`}
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -8 }}
+              transition={{ duration: 0.25 }}
+            >
+              {items.map((item, idx) => (
+                <tr key={item.id}>
+                  <td className="col-num">{idx + 1}</td>
+                  <td>
+                    <div className="col-company">
+                      <CompanyLogo name={item.company} />
+                      <span>{item.company}</span>
+                    </div>
+                  </td>
+                  <td className="col-stipend">{item.stipend}</td>
+                  <td className="col-members">{item.members}</td>
+                  <td>
+                    {item.ppos !== '—' && Number(item.ppos) > 0 ? (
+                      <span className="col-ppos">{item.ppos}</span>
+                    ) : (
+                      <span className="col-ppos-none">—</span>
+                    )}
+                  </td>
+                </tr>
+              ))}
+            </motion.tbody>
+          </AnimatePresence>
         </table>
       </div>
-    </section>
+    </motion.section>
   );
 };

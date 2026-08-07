@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { AnimatePresence, motion } from 'framer-motion';
 import {
   PlacementHeader,
   PlacementTabs,
@@ -18,10 +19,20 @@ const Placements: React.FC = () => {
       <PlacementHeader />
       <PlacementTabs activeTab={activeTab} onSelectTab={setActiveTab} />
 
-      {activeTab === 'internships' && <InternshipsTab />}
-      {activeTab === 'placements' && <PlacementsTab />}
-      {activeTab === 'ppos' && <PPOsTab />}
-      {activeTab === 'yoy' && <YearOnYearTab />}
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={activeTab}
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -10 }}
+          transition={{ duration: 0.25 }}
+        >
+          {activeTab === 'internships' && <InternshipsTab />}
+          {activeTab === 'placements' && <PlacementsTab />}
+          {activeTab === 'ppos' && <PPOsTab />}
+          {activeTab === 'yoy' && <YearOnYearTab />}
+        </motion.div>
+      </AnimatePresence>
     </main>
   );
 };
