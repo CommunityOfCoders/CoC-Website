@@ -14,14 +14,13 @@ import { TimelineContent } from '../components/ui/TimelineContent';
 import { Tilt } from '../components/ui/Tilt';
 import Magnetic from '../components/ui/Magnetic';
 import CountUp from '../components/ui/CountUp';
-import { EVENTS, GALLERY_FRAMES, type CoCEvent } from '../data/eventsData';
+import { EVENTS, type CoCEvent } from '../data/eventsData';
 import { TESTIMONIALS } from '../data/testimonialsData';
 import './PastEvents.css';
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 const DWELL_DELAY = 1500;
 const SLIDE_STEP = 2800;
-const GALLERY_INTERVAL = 4200;
 
 /* ---------------------------------------------------------- */
 /* Web Audio "pop" synthesiser — no asset file needed.
@@ -114,111 +113,116 @@ const KineticWords: React.FC<{
 };
 
 /* ---------------------------------------------------------- */
-/* Memory Gallery — scattered polaroid-style album header      */
+/* SVG Sticker decorations                                     */
 /* ---------------------------------------------------------- */
-const MemoryGallery: React.FC = () => {
-  const [active, setActive] = useState(0);
-  const [prev, setPrev] = useState<number | null>(null);
+const StarSticker: React.FC = () => (
+  <div className="ev-sticker ev-sticker--star" aria-hidden="true">
+    <svg viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path
+        d="M22 3L25.09 12.26L35 9.22L29.5 17.78L38 24L28.36 24.82L30.18 34.58L22 29.5L13.82 34.58L15.64 24.82L6 24L14.5 17.78L9 9.22L18.91 12.26L22 3Z"
+        fill="#FBBF24" stroke="#F59E0B" strokeWidth="1"
+      />
+    </svg>
+  </div>
+);
+
+const HeartSticker: React.FC = () => (
+  <div className="ev-sticker ev-sticker--heart" aria-hidden="true">
+    <svg viewBox="0 0 40 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path
+        d="M20 34C20 34 3 24.2 3 13C3 7.48 7.48 3 13 3C15.76 3 18.26 4.1 20.1 5.94A9.97 9.97 0 0 1 27 3C32.52 3 37 7.48 37 13C37 24.2 20 34 20 34Z"
+        fill="#FB7185" stroke="#F43F5E" strokeWidth="1"
+      />
+    </svg>
+  </div>
+);
+
+const CoCSticker: React.FC = () => (
+  <div className="ev-sticker ev-sticker--coc" aria-hidden="true">
+    <svg viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect width="44" height="44" rx="10" fill="#1DB954" />
+      <path
+        d="M14 16L9 22L14 28M30 16L35 22L30 28M25 13L19 31"
+        stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"
+      />
+    </svg>
+  </div>
+);
+
+/* ---------------------------------------------------------- */
+/* Polaroid collage flanks                                     */
+/* Each frame: warm white border, random rotation, optional    */
+/* sticker decal pinned at a corner.                           */
+/* ---------------------------------------------------------- */
+
+const u = (id: string) =>
+  `https://images.unsplash.com/${id}?auto=format&fit=crop&w=480&q=72`;
+
+interface PolaroidItem {
+  src: string;
+  rot: number;       /* degrees, positive = clockwise */
+  w: number;         /* base width in px */
+  top: string;
+  inset: string;     /* left% for left-flank, right% for right-flank */
+  z: number;
+  sticker?: 'star' | 'heart' | 'coc';
+  delay: number;     /* entrance stagger delay in seconds */
+}
+
+const LEFT_PHOTOS: PolaroidItem[] = [
+  { src: u('photo-1504384308090-c894fdcc538d'), rot: -9,  w: 170, top: '7%',  inset: '1%',  z: 3, sticker: 'star',  delay: 0    },
+  { src: u('photo-1522202176988-66273c2fd55f'), rot:  6,  w: 136, top: '43%', inset: '16%', z: 4,                   delay: 0.08 },
+  { src: u('photo-1519389950473-47ba0277781c'), rot: -3,  w: 154, top: '71%', inset: '-2%', z: 2,                   delay: 0.16 },
+  { src: u('photo-1461749280684-dccba630e2f6'), rot: 13,  w: 106, top: '21%', inset: '22%', z: 1,                   delay: 0.06 },
+];
+
+const RIGHT_PHOTOS: PolaroidItem[] = [
+  { src: u('photo-1540575467063-178a50c2df87'), rot:  7,  w: 160, top: '6%',  inset: '1%',  z: 3,                   delay: 0.04 },
+  { src: u('photo-1528901166007-3784c7dd3653'), rot: -7,  w: 132, top: '41%', inset: '14%', z: 4, sticker: 'heart', delay: 0.12 },
+  { src: u('photo-1517245386807-bb43f82c33c4'), rot:  4,  w: 148, top: '69%', inset: '-1%', z: 2, sticker: 'coc',  delay: 0.20 },
+  { src: u('photo-1552664730-d307ca884978'),   rot: -11, w: 108, top: '19%', inset: '21%', z: 1,                   delay: 0.02 },
+];
+
+const PolaroidFlank: React.FC<{ side: 'left' | 'right' }> = ({ side }) => {
+  const photos = side === 'left' ? LEFT_PHOTOS : RIGHT_PHOTOS;
   const reduce = useReducedMotion();
 
-  useEffect(() => {
-    const id = setInterval(() => {
-      setActive((cur) => {
-        setPrev(cur);
-        return (cur + 1) % GALLERY_FRAMES.length;
-      });
-    }, GALLERY_INTERVAL);
-    return () => clearInterval(id);
-  }, []);
-
-  /* Scattered photo slots: each position has a fixed rotation & offset
-     so the layout is stable between cycles; only the active slot is
-     fully opaque, others are dim + scale-down. */
-  const slots = [
-    { rot: -6, tx: -4, ty: 3, z: 1 },
-    { rot: 3, tx: 2, ty: -2, z: 2 },
-    { rot: -2, tx: 6, ty: 5, z: 1 },
-    { rot: 5, tx: -2, ty: -4, z: 3 },
-    { rot: -4, tx: 0, ty: 2, z: 2 },
-  ];
-
   return (
-    <div className="ev-gallery">
-      {/* Scattered thumbnail strip */}
-      <div className="ev-gallery__strip" aria-hidden="true">
-        {GALLERY_FRAMES.map((frame, i) => {
-          const s = slots[i % slots.length];
-          const isActive = i === active;
-          const isPrev = i === prev;
-          return (
-            <motion.div
-              key={frame.src}
-              className={`ev-gallery__photo${isActive ? ' is-active' : ''}`}
-              style={{ '--rot': `${s.rot}deg`, '--tx': `${s.tx}%`, '--ty': `${s.ty}%` } as React.CSSProperties}
-              animate={
-                reduce
-                  ? undefined
-                  : {
-                      scale: isActive ? 1 : 0.88,
-                      opacity: isActive ? 1 : isPrev ? 0.35 : 0.22,
-                      zIndex: isActive ? 10 : s.z,
-                    }
-              }
-              transition={{ duration: 0.6, ease: EASE }}
-              onClick={() => { setPrev(active); setActive(i); }}
-            >
-              <img src={frame.src} alt="" draggable={false} />
-              <div className="ev-gallery__photo-grain" />
-            </motion.div>
-          );
-        })}
-      </div>
-
-      {/* Cycling tagline */}
-      <div className="ev-gallery__copy">
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={active}
-            className="ev-gallery__tagline"
-            initial={reduce ? { opacity: 0 } : { opacity: 0, y: 18, filter: 'blur(10px)' }}
-            animate={reduce ? { opacity: 1 } : { opacity: 1, y: 0, filter: 'blur(0px)' }}
-            exit={reduce ? { opacity: 0 } : { opacity: 0, y: -14, filter: 'blur(6px)' }}
-            transition={{ duration: 0.55, ease: EASE }}
-          >
-            {GALLERY_FRAMES[active].tagline.split('\n').map((line, i) => (
-              <span key={i} className={i === 1 ? 'is-accent' : ''}>{line}<br /></span>
-            ))}
-          </motion.div>
-        </AnimatePresence>
-        <AnimatePresence mode="wait">
-          <motion.p
-            key={`sub-${active}`}
-            className="ev-gallery__sub"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.4, ease: EASE, delay: 0.15 }}
-          >
-            {GALLERY_FRAMES[active].sub}
-          </motion.p>
-        </AnimatePresence>
-        {/* Dot indicators */}
-        <div className="ev-gallery__dots" role="tablist" aria-label="Gallery frame">
-          {GALLERY_FRAMES.map((_, i) => (
-            <button
-              key={i}
-              role="tab"
-              aria-selected={i === active}
-              aria-label={`Frame ${i + 1}`}
-              className={`ev-gallery__dot${i === active ? ' is-active' : ''}`}
-              onClick={() => { setPrev(active); setActive(i); }}
-            />
-          ))}
-        </div>
-      </div>
-    </div>
+    <>
+      {photos.map((p, i) => (
+        <motion.div
+          key={`${side}-${i}`}
+          className="ev-polaroid"
+          style={{
+            '--rot': `${p.rot}deg`,
+            top: p.top,
+            [side]: p.inset,
+            width: p.w,
+            zIndex: p.z,
+          } as React.CSSProperties}
+          initial={reduce ? false : { opacity: 0, scale: 0.82, rotate: p.rot * 1.8, y: 20 }}
+          animate={{ opacity: 1, scale: 1, rotate: p.rot, y: 0 }}
+          transition={{ duration: 0.75, ease: EASE, delay: p.delay }}
+          whileHover={reduce ? undefined : {
+            scale: 1.07,
+            rotate: p.rot * 0.25,
+            y: -6,
+            zIndex: 20,
+            transition: { duration: 0.3, ease: EASE },
+          }}
+        >
+          <div className="ev-polaroid__img">
+            <img src={p.src} alt="" draggable={false} />
+          </div>
+          {p.sticker === 'star'  && <StarSticker />}
+          {p.sticker === 'heart' && <HeartSticker />}
+          {p.sticker === 'coc'   && <CoCSticker />}
+        </motion.div>
+      ))}
+    </>
   );
 };
+
 
 /* ---------------------------------------------------------- */
 /* Photo slider — used in both grid cards (dwell) and modal   */
@@ -695,38 +699,38 @@ const PastEvents: React.FC = () => {
   return (
     <>
       <section className="section ev-page">
-        {/* ── Memory gallery ──────────────────────────────── */}
-        <MemoryGallery />
+        {/* ── Hero: polaroid collage flanks + centre heading ── */}
+        <div className="ev-hero" ref={headRef}>
+          {/* Polaroids are position:absolute within ev-hero */}
+          <PolaroidFlank side="left" />
+          <PolaroidFlank side="right" />
 
-        <div className="container">
-          {/* ── Page header ─────────────────────────────────── */}
-          <div className="ev-page__head" ref={headRef}>
-            <div>
-              <span className="eyebrow">
-                <KineticWords words={EYEBROW_WORDS} timelineRef={headRef} stagger={0.09} />
-              </span>
-              <motion.h1
-                className="section-title ev-page__title"
-                style={
-                  reduce
-                    ? undefined
-                    : { scale: headScale, skewX: headSkew, transformOrigin: 'left bottom' }
-                }
-              >
-                <KineticWords words={TITLE_WORDS} timelineRef={headRef} baseDelay={0.12} />
-              </motion.h1>
-              <TimelineContent
-                as="p"
-                animationNum={2}
-                timelineRef={headRef}
-                customVariants={introVariants}
-                once
-                className="ev-page__intro"
-              >
-                From late-night hackathons to quiet Sunday workshops — a running record of what
-                we've built together, one gathering at a time.
-              </TimelineContent>
-            </div>
+          {/* Centre text column */}
+          <div className="ev-hero__center">
+            <span className="eyebrow">
+              <KineticWords words={EYEBROW_WORDS} timelineRef={headRef} stagger={0.09} />
+            </span>
+            <motion.h1
+              className="section-title ev-page__title"
+              style={
+                reduce
+                  ? undefined
+                  : { scale: headScale, skewX: headSkew, transformOrigin: 'center bottom' }
+              }
+            >
+              <KineticWords words={TITLE_WORDS} timelineRef={headRef} baseDelay={0.12} />
+            </motion.h1>
+            <TimelineContent
+              as="p"
+              animationNum={2}
+              timelineRef={headRef}
+              customVariants={introVariants}
+              once
+              className="ev-page__intro"
+            >
+              From late-night hackathons to quiet Sunday workshops — a running record of what
+              we've built together, one gathering at a time.
+            </TimelineContent>
             <TimelineContent
               as="span"
               animationNum={3}
@@ -738,8 +742,10 @@ const PastEvents: React.FC = () => {
               <CountUp to={EVENTS.length} duration={1.2} /> events · 2016–2026
             </TimelineContent>
           </div>
+        </div>
 
-          {/* ── Events grid ─────────────────────────────────── */}
+        {/* ── Events grid ─────────────────────────────────── */}
+        <div className="container">
           <ul className="ev-grid" ref={gridRef}>
             {EVENTS.map((ev, i) => (
               <EventCard key={ev.id} event={ev} index={i} gridRef={gridRef} onOpen={setSelected} />
