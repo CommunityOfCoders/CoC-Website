@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, useCallback } from 'react';
 import { createPortal } from 'react-dom';
 import {
   AnimatePresence,
@@ -9,49 +9,50 @@ import {
   useTransform,
 } from 'framer-motion';
 import type { Variants } from 'framer-motion';
-import { ArrowRight, ChevronLeft, ChevronRight, X } from 'lucide-react';
+import { ChevronLeft, ChevronRight, X, Quote } from 'lucide-react';
 import { TimelineContent } from '../components/ui/TimelineContent';
 import { Tilt } from '../components/ui/Tilt';
 import Magnetic from '../components/ui/Magnetic';
 import CountUp from '../components/ui/CountUp';
-import { EVENTS, type CoCEvent } from '../data/eventsData';
+import { EVENTS, GALLERY_FRAMES, type CoCEvent } from '../data/eventsData';
+import { TESTIMONIALS } from '../data/testimonialsData';
 import './PastEvents.css';
 
 const EASE = [0.16, 1, 0.3, 1] as const;
-
-/* unified slider pace: grid dwell and modal share the same rhythm */
 const DWELL_DELAY = 1500;
-const SLIDE_STEP = 2500;
-
-/* body copy keeps the blur/slide reveal; heading + eyebrow go kinetic */
-const introVariants: Variants = {
-  hidden: { opacity: 0, y: 26, filter: 'blur(14px)' },
-  visible: (i: number) => ({
-    opacity: 1,
-    y: 0,
-    filter: 'blur(0px)',
-    transition: { delay: i * 0.15, duration: 0.6, ease: EASE },
-  }),
-};
-/* richer card entrance: rotated + scaled-down + blurred → resting */
-const cardVariants: Variants = {
-  hidden: { opacity: 0, y: 26, scale: 0.94, rotate: -2.5, filter: 'blur(8px)' },
-  visible: (i: number) => ({
-    opacity: 1,
-    y: 0,
-    scale: 1,
-    rotate: 0,
-    filter: 'blur(0px)',
-    transition: { delay: i * 0.07, duration: 0.5, ease: EASE },
-  }),
-};
+const SLIDE_STEP = 2800;
+const GALLERY_INTERVAL = 4200;
 
 /* ---------------------------------------------------------- */
-/* Kinetic word reveal — each word rises out of its own clip,
-   staggered, when the timeline element scrolls into view.
-   Reduced motion: plain static text.                          */
+/* Web Audio "pop" synthesiser — no asset file needed.
+   A short sine burst at 880 Hz → 440 Hz, 80 ms decay.        */
 /* ---------------------------------------------------------- */
+function usePop() {
+  const play = useCallback(() => {
+    try {
+      const ctx = new AudioContext();
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(860, ctx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(320, ctx.currentTime + 0.08);
+      gain.gain.setValueAtTime(0.18, ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.12);
+      osc.start(ctx.currentTime);
+      osc.stop(ctx.currentTime + 0.14);
+      osc.onended = () => ctx.close();
+    } catch {
+      /* Safari private / blocked autoplay — silent fallback */
+    }
+  }, []);
+  return play;
+}
 
+/* ---------------------------------------------------------- */
+/* Kinetic word reveal                                         */
+/* ---------------------------------------------------------- */
 interface KineticWord {
   t: string;
   mark?: boolean;
@@ -88,34 +89,123 @@ const KineticWords: React.FC<{
   );
 };
 
-const TITLE_WORDS: KineticWord[] = [
-  { t: 'Every' },
-  { t: 'room' },
-  { t: "we've", mark: true },
-  { t: 'filled.', mark: true },
-];
-const EYEBROW_WORDS: KineticWord[] = [{ t: 'Event' }, { t: 'archive' }];
+/* ---------------------------------------------------------- */
+/* Memory Gallery — scattered polaroid-style album header      */
+/* ---------------------------------------------------------- */
+const MemoryGallery: React.FC = () => {
+  const [active, setActive] = useState(0);
+  const [prev, setPrev] = useState<number | null>(null);
+  const reduce = useReducedMotion();
+
+  useEffect(() => {
+    const id = setInterval(() => {
+      setActive((cur) => {
+        setPrev(cur);
+        return (cur + 1) % GALLERY_FRAMES.length;
+      });
+    }, GALLERY_INTERVAL);
+    return () => clearInterval(id);
+  }, []);
+
+  /* Scattered photo slots: each position has a fixed rotation & offset
+     so the layout is stable between cycles; only the active slot is
+     fully opaque, others are dim + scale-down. */
+  const slots = [
+    { rot: -6, tx: -4, ty: 3, z: 1 },
+    { rot: 3, tx: 2, ty: -2, z: 2 },
+    { rot: -2, tx: 6, ty: 5, z: 1 },
+    { rot: 5, tx: -2, ty: -4, z: 3 },
+    { rot: -4, tx: 0, ty: 2, z: 2 },
+  ];
+
+  return (
+    <div className="ev-gallery">
+      {/* Scattered thumbnail strip */}
+      <div className="ev-gallery__strip" aria-hidden="true">
+        {GALLERY_FRAMES.map((frame, i) => {
+          const s = slots[i % slots.length];
+          const isActive = i === active;
+          const isPrev = i === prev;
+          return (
+            <motion.div
+              key={frame.src}
+              className={`ev-gallery__photo${isActive ? ' is-active' : ''}`}
+              style={{ '--rot': `${s.rot}deg`, '--tx': `${s.tx}%`, '--ty': `${s.ty}%` } as React.CSSProperties}
+              animate={
+                reduce
+                  ? undefined
+                  : {
+                      scale: isActive ? 1 : 0.88,
+                      opacity: isActive ? 1 : isPrev ? 0.35 : 0.22,
+                      zIndex: isActive ? 10 : s.z,
+                    }
+              }
+              transition={{ duration: 0.6, ease: EASE }}
+              onClick={() => { setPrev(active); setActive(i); }}
+            >
+              <img src={frame.src} alt="" draggable={false} />
+              <div className="ev-gallery__photo-grain" />
+            </motion.div>
+          );
+        })}
+      </div>
+
+      {/* Cycling tagline */}
+      <div className="ev-gallery__copy">
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={active}
+            className="ev-gallery__tagline"
+            initial={reduce ? { opacity: 0 } : { opacity: 0, y: 18, filter: 'blur(10px)' }}
+            animate={reduce ? { opacity: 1 } : { opacity: 1, y: 0, filter: 'blur(0px)' }}
+            exit={reduce ? { opacity: 0 } : { opacity: 0, y: -14, filter: 'blur(6px)' }}
+            transition={{ duration: 0.55, ease: EASE }}
+          >
+            {GALLERY_FRAMES[active].tagline.split('\n').map((line, i) => (
+              <span key={i} className={i === 1 ? 'is-accent' : ''}>{line}<br /></span>
+            ))}
+          </motion.div>
+        </AnimatePresence>
+        <AnimatePresence mode="wait">
+          <motion.p
+            key={`sub-${active}`}
+            className="ev-gallery__sub"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.4, ease: EASE, delay: 0.15 }}
+          >
+            {GALLERY_FRAMES[active].sub}
+          </motion.p>
+        </AnimatePresence>
+        {/* Dot indicators */}
+        <div className="ev-gallery__dots" role="tablist" aria-label="Gallery frame">
+          {GALLERY_FRAMES.map((_, i) => (
+            <button
+              key={i}
+              role="tab"
+              aria-selected={i === active}
+              aria-label={`Frame ${i + 1}`}
+              className={`ev-gallery__dot${i === active ? ' is-active' : ''}`}
+              onClick={() => { setPrev(active); setActive(i); }}
+            />
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+};
 
 /* ---------------------------------------------------------- */
-/* Photo slider — used in grid cards and the modal hero.
-   Directional slide with the house ease; loops; no controls
-   for single-photo events. Arrows are invisible until the
-   cursor (or focus) is on the arrow itself.
-
-   mode 'dwell'  (grid):  starts advancing only after the
-                          cursor has rested on the card 1.5s
-                          (driven by `hovered`); resets on leave.
-   mode 'auto'   (modal): advances every 2.5s from mount; arrow
-                          hover/focus pauses; a manual click
-                          restarts the countdown.               */
+/* Photo slider — used in both grid cards (dwell) and modal   */
 /* ---------------------------------------------------------- */
-
 const PhotoSlider: React.FC<{
   photos: string[];
   alt: string;
   mode?: 'dwell' | 'auto';
   hovered?: boolean;
-}> = ({ photos, alt, mode, hovered }) => {
+  showDots?: boolean;
+}> = ({ photos, alt, mode, hovered, showDots = false }) => {
   const [[index, dir], setState] = useState<[number, number]>([0, 0]);
   const [paused, setPaused] = useState(false);
   const [timerEpoch, setTimerEpoch] = useState(0);
@@ -125,7 +215,6 @@ const PhotoSlider: React.FC<{
   const advance = (delta: number) =>
     setState(([i]) => [(i + delta + photos.length) % photos.length, delta]);
 
-  /* dwell: arm after 1.5s of hover, then step; reset on leave */
   useEffect(() => {
     if (mode !== 'dwell' || !many || !hovered) return;
     let interval: number | undefined;
@@ -140,8 +229,6 @@ const PhotoSlider: React.FC<{
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mode, many, hovered]);
 
-  /* auto: free-running loop; paused by arrow hover/focus;
-     timerEpoch bumps restart the countdown after a manual click */
   useEffect(() => {
     if (mode !== 'auto' || !many || paused) return;
     const interval = window.setInterval(() => advance(1), SLIDE_STEP);
@@ -152,7 +239,13 @@ const PhotoSlider: React.FC<{
   const go = (delta: number) => (e: React.MouseEvent) => {
     e.stopPropagation();
     advance(delta);
-    if (mode === 'auto') setTimerEpoch((t) => t + 1); // fresh countdown from this click
+    if (mode === 'auto') setTimerEpoch((t) => t + 1);
+  };
+
+  const goTo = (i: number) => (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setState(([cur]) => [i, i > cur ? 1 : -1]);
+    if (mode === 'auto') setTimerEpoch((t) => t + 1);
   };
 
   const variants = {
@@ -205,14 +298,41 @@ const PhotoSlider: React.FC<{
           </button>
         </>
       )}
+
+      {showDots && many && (
+        <div className="ev-slider__dots" role="tablist" aria-label="Photo">
+          {photos.map((_, i) => (
+            <button
+              key={i}
+              role="tab"
+              aria-selected={i === index}
+              aria-label={`Photo ${i + 1}`}
+              className={`ev-slider__dot${i === index ? ' is-active' : ''}`}
+              onClick={goTo(i)}
+              onKeyDown={(e) => e.stopPropagation()}
+              onMouseEnter={() => setPaused(true)}
+              onMouseLeave={() => setPaused(false)}
+            />
+          ))}
+        </div>
+      )}
     </div>
   );
 };
 
 /* ---------------------------------------------------------- */
-/* Framed grid card — photo, tight title, one-liner, date.
-   Whole card clickable; Tilt micro-tilt; layoutId morph.      */
+/* Full-bleed image card                                       */
 /* ---------------------------------------------------------- */
+const cardVariants: Variants = {
+  hidden: { opacity: 0, y: 28, scale: 0.95, filter: 'blur(6px)' },
+  visible: (i: number) => ({
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    filter: 'blur(0px)',
+    transition: { delay: i * 0.06, duration: 0.5, ease: EASE },
+  }),
+};
 
 const EventCard: React.FC<{
   event: CoCEvent;
@@ -233,8 +353,8 @@ const EventCard: React.FC<{
     >
       <Tilt
         className="ev-tilt"
-        rotationFactor={6}
-        springOptions={{ stiffness: 120, damping: 16 }}
+        rotationFactor={4}
+        springOptions={{ stiffness: 120, damping: 18 }}
       >
         <article
           className="ev-card"
@@ -245,13 +365,14 @@ const EventCard: React.FC<{
           onMouseLeave={() => setHovered(false)}
           onClick={() => onOpen(event)}
           onKeyDown={(e) => {
-            if (e.target !== e.currentTarget) return; // slider arrows keep their keys
+            if (e.target !== e.currentTarget) return;
             if (e.key === 'Enter' || e.key === ' ') {
               e.preventDefault();
               onOpen(event);
             }
           }}
         >
+          {/* Full-bleed background image */}
           <motion.div
             layoutId={reduce ? undefined : `event-photo-${event.id}`}
             className="ev-card__media"
@@ -260,13 +381,24 @@ const EventCard: React.FC<{
             <PhotoSlider photos={event.photos} alt={event.name} mode="dwell" hovered={hovered} />
           </motion.div>
 
-          <div className="ev-card__panel">
-            <span className="ev-card__date">{event.date}</span>
+          {/* Upcoming badge */}
+          {event.upcoming && (
+            <div className="ev-card__badge">
+              <span className="ev-card__badge-dot" />
+              Upcoming
+            </div>
+          )}
+
+          {/* Gradient scrim + text overlay */}
+          <div className="ev-card__overlay">
+            <div className="ev-card__meta">
+              <span className="ev-card__date">{event.date}</span>
+              {event.prizePool !== 'N/A' && (
+                <span className="ev-card__prize">{event.prizePool}</span>
+              )}
+            </div>
             <h3 className="ev-card__name">{event.name}</h3>
             <p className="ev-card__summary">{event.summary}</p>
-            <span className="ev-card__more">
-              Read more <ArrowRight />
-            </span>
           </div>
         </article>
       </Tilt>
@@ -275,24 +407,21 @@ const EventCard: React.FC<{
 };
 
 /* ---------------------------------------------------------- */
-/* Detail modal — photo morphs in via layoutId; the title lands
-   as its own bold beat in the stagger; Escape / overlay / X
-   all close through the same reverse animation.               */
+/* Detail modal                                               */
 /* ---------------------------------------------------------- */
-
 const EventModal: React.FC<{ event: CoCEvent; onClose: () => void }> = ({ event, onClose }) => {
   const ref = useRef<HTMLDivElement>(null);
   const reduce = useReducedMotion();
+  const pop = usePop();
 
   useEffect(() => {
+    pop();
+
     const opener = document.activeElement as HTMLElement | null;
     ref.current?.querySelector<HTMLElement>('.ev-modal__close')?.focus();
 
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') {
-        onClose();
-        return;
-      }
+      if (e.key === 'Escape') { onClose(); return; }
       if (e.key !== 'Tab' || !ref.current) return;
       const focusables = ref.current.querySelectorAll<HTMLElement>(
         'button, [href], [tabindex]:not([tabindex="-1"])',
@@ -301,37 +430,29 @@ const EventModal: React.FC<{ event: CoCEvent; onClose: () => void }> = ({ event,
       const first = focusables[0];
       const last = focusables[focusables.length - 1];
       if (e.shiftKey && document.activeElement === first) {
-        e.preventDefault();
-        last.focus();
+        e.preventDefault(); last.focus();
       } else if (!e.shiftKey && document.activeElement === last) {
-        e.preventDefault();
-        first.focus();
+        e.preventDefault(); first.focus();
       }
     };
 
     document.addEventListener('keydown', onKey);
     document.body.style.overflow = 'hidden';
-    document.body.classList.add('modal-open'); // header recedes behind the overlay
+    document.body.classList.add('modal-open');
     return () => {
       document.removeEventListener('keydown', onKey);
       document.body.style.overflow = '';
       document.body.classList.remove('modal-open');
       opener?.focus();
     };
-  }, [onClose]);
+  }, [onClose, pop]);
 
   const hasPrize = event.prizePool !== 'N/A';
 
   const item = reduce
-    ? {
-        hidden: { opacity: 0 },
-        show: { opacity: 1, transition: { duration: 0.25 } },
-      }
-    : {
-        hidden: { opacity: 0, y: 14 },
-        show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: EASE } },
-      };
-  /* the title gets its own, weightier beat in the sequence */
+    ? { hidden: { opacity: 0 }, show: { opacity: 1, transition: { duration: 0.25 } } }
+    : { hidden: { opacity: 0, y: 14 }, show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: EASE } } };
+
   const titleItem = reduce
     ? item
     : {
@@ -339,16 +460,13 @@ const EventModal: React.FC<{ event: CoCEvent; onClose: () => void }> = ({ event,
         show: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.65, ease: EASE } },
       };
 
-  /* portaled to <body>: the page wraps sections in their own stacking
-     contexts (.shell main > * has z-index:1), which would trap the
-     overlay beneath the fixed header no matter its z-index */
   return createPortal(
     <motion.div
       className="ev-overlay"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      transition={{ duration: 0.35, ease: EASE }}
+      transition={{ duration: 0.3, ease: EASE }}
       onClick={onClose}
     >
       <motion.div
@@ -357,10 +475,10 @@ const EventModal: React.FC<{ event: CoCEvent; onClose: () => void }> = ({ event,
         role="dialog"
         aria-modal="true"
         aria-labelledby="ev-modal-title"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-        transition={{ duration: 0.35, ease: EASE }}
+        initial={reduce ? { opacity: 0 } : { opacity: 0, scale: 0.96, y: 24 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        exit={reduce ? { opacity: 0 } : { opacity: 0, scale: 0.97, y: 16 }}
+        transition={{ duration: 0.38, ease: EASE }}
         onClick={(e) => e.stopPropagation()}
       >
         <Magnetic className="ev-modal__close-wrap" strength={0.3}>
@@ -369,12 +487,13 @@ const EventModal: React.FC<{ event: CoCEvent; onClose: () => void }> = ({ event,
           </button>
         </Magnetic>
 
+        {/* Image slider with dot nav */}
         <motion.div
           layoutId={reduce ? undefined : `event-photo-${event.id}`}
           className="ev-modal__hero"
           transition={{ duration: 0.5, ease: EASE }}
         >
-          <PhotoSlider photos={event.photos} alt={event.name} mode="auto" />
+          <PhotoSlider photos={event.photos} alt={event.name} mode="auto" showDots />
         </motion.div>
 
         <motion.div
@@ -426,14 +545,104 @@ const EventModal: React.FC<{ event: CoCEvent; onClose: () => void }> = ({ event,
 };
 
 /* ---------------------------------------------------------- */
+/* Testimonials horizontal marquee                            */
+/* ---------------------------------------------------------- */
+const TestimonialsMarquee: React.FC = () => {
+  const trackRef = useRef<HTMLDivElement>(null);
+  const [paused, setPaused] = useState(false);
 
+  return (
+    <section className="ev-testimonials" aria-label="What members say">
+      <div className="container">
+        <div className="ev-testimonials__head">
+          <span className="eyebrow">What members say</span>
+          <h2 className="ev-testimonials__title">
+            Rooms full of<br />
+            <span className="ev-testimonials__title-mark">real people.</span>
+          </h2>
+        </div>
+      </div>
+
+      <div
+        className="ev-testimonials__track-wrap"
+        onMouseEnter={() => setPaused(true)}
+        onMouseLeave={() => setPaused(false)}
+      >
+        <div
+          ref={trackRef}
+          className={`ev-testimonials__track${paused ? ' is-paused' : ''}`}
+          aria-live="off"
+        >
+          {/* Duplicate for seamless loop */}
+          {[...TESTIMONIALS, ...TESTIMONIALS].map((t, i) => (
+            <article
+              key={`${t.id}-${i}`}
+              className="ev-tcard"
+              aria-label={`Testimonial by ${t.author}`}
+            >
+              <Quote className="ev-tcard__icon" aria-hidden="true" />
+              <p className="ev-tcard__quote">{t.quote}</p>
+              <footer className="ev-tcard__footer">
+                <div className="ev-tcard__avatar" aria-hidden="true">
+                  {t.author.charAt(0)}
+                </div>
+                <div className="ev-tcard__info">
+                  <a
+                    href={t.profileUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="ev-tcard__username"
+                  >
+                    @{t.username}
+                  </a>
+                  <a
+                    href={t.companyUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="ev-tcard__company"
+                  >
+                    {t.company}
+                  </a>
+                </div>
+              </footer>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+};
+
+/* ---------------------------------------------------------- */
+/* Intro copy variants                                         */
+/* ---------------------------------------------------------- */
+const introVariants: Variants = {
+  hidden: { opacity: 0, y: 26, filter: 'blur(14px)' },
+  visible: (i: number) => ({
+    opacity: 1,
+    y: 0,
+    filter: 'blur(0px)',
+    transition: { delay: i * 0.15, duration: 0.6, ease: EASE },
+  }),
+};
+
+const TITLE_WORDS: KineticWord[] = [
+  { t: 'Every' },
+  { t: 'room' },
+  { t: "we've", mark: true },
+  { t: 'filled.', mark: true },
+];
+const EYEBROW_WORDS: KineticWord[] = [{ t: 'Event' }, { t: 'archive' }];
+
+/* ---------------------------------------------------------- */
+/* Page root                                                   */
+/* ---------------------------------------------------------- */
 const PastEvents: React.FC = () => {
   const [selected, setSelected] = useState<CoCEvent | null>(null);
   const reduce = useReducedMotion();
   const headRef = useRef<HTMLDivElement>(null);
   const gridRef = useRef<HTMLUListElement>(null);
 
-  /* scroll-linked kinetic energy on the big heading */
   const { scrollYProgress } = useScroll({
     target: headRef,
     offset: ['start 0.95', 'end 0.25'],
@@ -442,58 +651,68 @@ const PastEvents: React.FC = () => {
   const headSkew = useTransform(scrollYProgress, [0, 1], [-1.4, 0.4]);
 
   return (
-    <section className="section ev-page">
-      <div className="container">
-        <div className="ev-page__head" ref={headRef}>
-          <div>
-            <span className="eyebrow">
-              <KineticWords words={EYEBROW_WORDS} timelineRef={headRef} stagger={0.09} />
-            </span>
-            <motion.h1
-              className="section-title ev-page__title"
-              style={
-                reduce
-                  ? undefined
-                  : { scale: headScale, skewX: headSkew, transformOrigin: 'left bottom' }
-              }
-            >
-              <KineticWords words={TITLE_WORDS} timelineRef={headRef} baseDelay={0.12} />
-            </motion.h1>
+    <>
+      <section className="section ev-page">
+        {/* ── Memory gallery ──────────────────────────────── */}
+        <MemoryGallery />
+
+        <div className="container">
+          {/* ── Page header ─────────────────────────────────── */}
+          <div className="ev-page__head" ref={headRef}>
+            <div>
+              <span className="eyebrow">
+                <KineticWords words={EYEBROW_WORDS} timelineRef={headRef} stagger={0.09} />
+              </span>
+              <motion.h1
+                className="section-title ev-page__title"
+                style={
+                  reduce
+                    ? undefined
+                    : { scale: headScale, skewX: headSkew, transformOrigin: 'left bottom' }
+                }
+              >
+                <KineticWords words={TITLE_WORDS} timelineRef={headRef} baseDelay={0.12} />
+              </motion.h1>
+              <TimelineContent
+                as="p"
+                animationNum={2}
+                timelineRef={headRef}
+                customVariants={introVariants}
+                once
+                className="ev-page__intro"
+              >
+                From late-night hackathons to quiet Sunday workshops — a running record of what
+                we've built together, one gathering at a time.
+              </TimelineContent>
+            </div>
             <TimelineContent
-              as="p"
-              animationNum={2}
+              as="span"
+              animationNum={3}
               timelineRef={headRef}
               customVariants={introVariants}
               once
-              className="ev-page__intro"
+              className="ev-page__count"
             >
-              From late-night hackathons to quiet Sunday workshops — a running record of what
-              we've built together, one gathering at a time.
+              <CountUp to={EVENTS.length} duration={1.2} /> events · 2016–2026
             </TimelineContent>
           </div>
-          <TimelineContent
-            as="span"
-            animationNum={3}
-            timelineRef={headRef}
-            customVariants={introVariants}
-            once
-            className="ev-page__count"
-          >
-            <CountUp to={EVENTS.length} duration={1.2} /> events · 2016–2026
-          </TimelineContent>
+
+          {/* ── Events grid ─────────────────────────────────── */}
+          <ul className="ev-grid" ref={gridRef}>
+            {EVENTS.map((ev, i) => (
+              <EventCard key={ev.id} event={ev} index={i} gridRef={gridRef} onOpen={setSelected} />
+            ))}
+          </ul>
         </div>
 
-        <ul className="ev-grid" ref={gridRef}>
-          {EVENTS.map((ev, i) => (
-            <EventCard key={ev.id} event={ev} index={i} gridRef={gridRef} onOpen={setSelected} />
-          ))}
-        </ul>
-      </div>
+        <AnimatePresence>
+          {selected && <EventModal event={selected} onClose={() => setSelected(null)} />}
+        </AnimatePresence>
+      </section>
 
-      <AnimatePresence>
-        {selected && <EventModal event={selected} onClose={() => setSelected(null)} />}
-      </AnimatePresence>
-    </section>
+      {/* ── Testimonials marquee ─────────────────────────── */}
+      <TestimonialsMarquee />
+    </>
   );
 };
 
