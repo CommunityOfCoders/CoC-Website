@@ -21,15 +21,9 @@ export const IMG = {
   /* full-width candid band */
   groupPhoto: u('photo-1511632765486-a01980e01a18', 1800), // group huddle, energetic
 
-  /* featured project "screenshots" (work-in-progress shots) */
-  projectA: u('photo-1461749280684-dccba630e2f6', 900),  // code on screen
-  projectB: u('photo-1551288049-bebda4e38f71', 900),     // dashboard on laptop
-  projectC: u('photo-1512941937669-90a1b58e7e9c', 900),  // phone + app in hand
-
   /* scroll-driven backdrop scenes (shown dimmed behind sections) */
   bgHero: u('photo-1505373877841-8d25f7d46678', 1900),     // stage presentation, dark room
   bgCommunity: u('photo-1529156069898-49953e39b3ac', 1900),// group of students together
-  bgBuild: u('photo-1522202176988-66273c2fd55f', 1900),    // two people pairing on a laptop
   bgTalk: u('photo-1540575467063-178a50c2df87', 1900),     // conference audience
   bgCrowd: u('photo-1515187029135-18ee286d815b', 1900),    // hackathon crowd, laptops open
 

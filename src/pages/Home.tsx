@@ -2,7 +2,6 @@ import React from 'react';
 import Hero from '../components/home/Hero';
 import Stats from '../components/home/Stats';
 import WhatWeDo from '../components/home/WhatWeDo';
-import FeaturedProjects from '../components/home/FeaturedProjects';
 import Throwback from '../components/home/Throwback';
 import HowWeWork from '../components/home/HowWeWork';
 import OpenSourceHighlight from '../components/home/OpenSourceHighlight';
@@ -24,7 +23,6 @@ const Home: React.FC = () => (
     <Scene bg={IMG.bgHero}><Hero /></Scene>
     <Stats />
     <Scene bg={IMG.bgCommunity}><WhatWeDo /></Scene>
-    <Scene bg={IMG.bgBuild}><FeaturedProjects /></Scene>
     <Throwback />
     <Scene bg={null}><HowWeWork /></Scene>
     <Scene bg={IMG.bgTalk}><OpenSourceHighlight /></Scene>
