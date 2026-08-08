@@ -269,6 +269,8 @@
   position: absolute;
   inset: 0;
   z-index: 0;
+  /* children (badge) anchor here */
+  contain: layout;
 }
 
 /* gradient scrim — dark at bottom for text legibility */
@@ -361,40 +363,52 @@
 }
 
 /* ── Upcoming badge ──────────────────────────────────────────── */
+/* Pinned top-left inside the media div so it sits directly on
+   the photo in the z-order, never in the text area below.       */
 .ev-card__badge {
+  /* anchor relative to .ev-card__media */
   position: absolute;
-  top: 12px;
-  left: 12px;
-  z-index: 3;
+  top: 13px;
+  left: 13px;
+  z-index: 4;  /* above the photo slider and scrim */
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  padding: 5px 11px;
+  padding: 5px 11px 5px 9px;
   border-radius: var(--r-pill);
-  background: rgba(7, 8, 8, 0.75);
-  border: 1px solid rgba(29, 185, 84, 0.5);
+  /* Amber — deliberately not green so it reads as a distinct
+     signal against any photo hue and against the site accent */
+  background: rgba(217, 119, 6, 0.88);
+  border: 1px solid rgba(251, 191, 36, 0.45);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
   font-family: var(--font-mono);
   font-size: 0.58rem;
-  font-weight: 500;
-  letter-spacing: 0.18em;
+  font-weight: 700;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: var(--accent);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+  color: #fff8e1;
+  /* drop-shadow so it reads on very bright photo areas */
+  box-shadow:
+    0 2px 8px rgba(0, 0, 0, 0.45),
+    0 0 0 1px rgba(0, 0, 0, 0.12);
+  /* prevent the badge from being scaled by the card's Tilt */
+  pointer-events: none;
+  user-select: none;
 }
 
 .ev-card__badge-dot {
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background: var(--accent);
-  box-shadow: 0 0 0 0 rgba(29, 185, 84, 0.5);
+  background: #fbbf24;
+  flex-shrink: 0;
   animation: badge-pulse 1.8s ease infinite;
 }
 @keyframes badge-pulse {
-  0%   { box-shadow: 0 0 0 0 rgba(29, 185, 84, 0.55); }
-  60%  { box-shadow: 0 0 0 7px rgba(29, 185, 84, 0); }
-  100% { box-shadow: 0 0 0 0 rgba(29, 185, 84, 0); }
+  0%   { box-shadow: 0 0 0 0 rgba(251, 191, 36, 0.65); }
+  60%  { box-shadow: 0 0 0 6px rgba(251, 191, 36, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(251, 191, 36, 0); }
 }
 
 /* ── Photo slider (shared: cards + modal hero) ───────────────── */

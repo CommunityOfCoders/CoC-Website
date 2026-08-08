@@ -50,6 +50,30 @@ function usePop() {
   return play;
 }
 
+/* Softer, descending close-pop: lower pitch, shorter, quieter than open */
+function usePopClose() {
+  const play = useCallback(() => {
+    try {
+      const ctx = new AudioContext();
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(420, ctx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(180, ctx.currentTime + 0.07);
+      gain.gain.setValueAtTime(0.11, ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.1);
+      osc.start(ctx.currentTime);
+      osc.stop(ctx.currentTime + 0.11);
+      osc.onended = () => ctx.close();
+    } catch {
+      /* silent fallback */
+    }
+  }, []);
+  return play;
+}
+
 /* ---------------------------------------------------------- */
 /* Kinetic word reveal                                         */
 /* ---------------------------------------------------------- */
@@ -323,6 +347,18 @@ const PhotoSlider: React.FC<{
 /* ---------------------------------------------------------- */
 /* Full-bleed image card                                       */
 /* ---------------------------------------------------------- */
+
+/**
+ * Returns true when the event's ISO date is between now and
+ * `windowDays` days in the future (default 45). Events in the
+ * past or too far ahead are silently excluded.
+ */
+function isUpcoming(isoDate: string, windowDays = 45): boolean {
+  const now = Date.now();
+  const eventMs = new Date(isoDate).getTime();
+  return eventMs > now && eventMs <= now + windowDays * 86_400_000;
+}
+
 const cardVariants: Variants = {
   hidden: { opacity: 0, y: 28, scale: 0.95, filter: 'blur(6px)' },
   visible: (i: number) => ({
@@ -372,22 +408,22 @@ const EventCard: React.FC<{
             }
           }}
         >
-          {/* Full-bleed background image */}
+          {/* Full-bleed background image + badge pinned inside the image */}
           <motion.div
             layoutId={reduce ? undefined : `event-photo-${event.id}`}
             className="ev-card__media"
             transition={{ duration: 0.5, ease: EASE }}
           >
             <PhotoSlider photos={event.photos} alt={event.name} mode="dwell" hovered={hovered} />
-          </motion.div>
 
-          {/* Upcoming badge */}
-          {event.upcoming && (
-            <div className="ev-card__badge">
-              <span className="ev-card__badge-dot" />
-              Upcoming
-            </div>
-          )}
+            {/* Badge sits inside the media layer — truly overlaid on the photo */}
+            {isUpcoming(event.isoDate) && (
+              <div className="ev-card__badge" aria-label="Upcoming event">
+                <span className="ev-card__badge-dot" aria-hidden="true" />
+                Upcoming
+              </div>
+            )}
+          </motion.div>
 
           {/* Gradient scrim + text overlay */}
           <div className="ev-card__overlay">
@@ -413,7 +449,13 @@ const EventModal: React.FC<{ event: CoCEvent; onClose: () => void }> = ({ event,
   const ref = useRef<HTMLDivElement>(null);
   const reduce = useReducedMotion();
   const pop = usePop();
+  const popClose = usePopClose();
 
+  /* Play close sound then dismiss — shared by all three close paths */
+  const handleClose = useCallback(() => {
+    popClose();
+    onClose();
+  }, [onClose, popClose]);
   useEffect(() => {
     pop();
 
@@ -421,7 +463,7 @@ const EventModal: React.FC<{ event: CoCEvent; onClose: () => void }> = ({ event,
     ref.current?.querySelector<HTMLElement>('.ev-modal__close')?.focus();
 
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') { onClose(); return; }
+      if (e.key === 'Escape') { handleClose(); return; }
       if (e.key !== 'Tab' || !ref.current) return;
       const focusables = ref.current.querySelectorAll<HTMLElement>(
         'button, [href], [tabindex]:not([tabindex="-1"])',
@@ -445,7 +487,7 @@ const EventModal: React.FC<{ event: CoCEvent; onClose: () => void }> = ({ event,
       document.body.classList.remove('modal-open');
       opener?.focus();
     };
-  }, [onClose, pop]);
+  }, [handleClose, pop]);
 
   const hasPrize = event.prizePool !== 'N/A';
 
@@ -467,7 +509,7 @@ const EventModal: React.FC<{ event: CoCEvent; onClose: () => void }> = ({ event,
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.3, ease: EASE }}
-      onClick={onClose}
+      onClick={handleClose}
     >
       <motion.div
         ref={ref}
@@ -482,7 +524,7 @@ const EventModal: React.FC<{ event: CoCEvent; onClose: () => void }> = ({ event,
         onClick={(e) => e.stopPropagation()}
       >
         <Magnetic className="ev-modal__close-wrap" strength={0.3}>
-          <button type="button" className="ev-modal__close" aria-label="Close" onClick={onClose}>
+          <button type="button" className="ev-modal__close" aria-label="Close" onClick={handleClose}>
             <X />
           </button>
         </Magnetic>
