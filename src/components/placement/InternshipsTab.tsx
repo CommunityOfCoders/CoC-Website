@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { INTERNSHIPS_DATA } from '../../data/placementData';
+import { INTERNSHIPS_DATA, AVAILABLE_YEARS, CURRENT_YEAR } from '../../data/placementData';
 import { CompanyLogo } from './CompanyLogo';
 
 export const InternshipsTab: React.FC = () => {
-  const [selectedYear, setSelectedYear] = useState<'2026' | '2025' | '2024' | '2023' | '2022'>('2026');
+  const [selectedYear, setSelectedYear] = useState<string>(CURRENT_YEAR);
   const [filterMode, setFilterMode] = useState<'all' | 'ppo'>('all');
 
-  const currentYearData = INTERNSHIPS_DATA[selectedYear] || INTERNSHIPS_DATA['2026'];
+  const currentYearData = INTERNSHIPS_DATA[selectedYear] || INTERNSHIPS_DATA[CURRENT_YEAR];
   const items = filterMode === 'ppo' 
     ? currentYearData.items.filter((item) => item.isPpoReceived)
     : currentYearData.items;
@@ -30,7 +30,7 @@ export const InternshipsTab: React.FC = () => {
 
         <div className="placement-controls">
           <div className="pill-group">
-            {(['2026', '2025', '2024', '2023', '2022'] as const).map((year) => (
+            {AVAILABLE_YEARS.map((year) => (
               <button
                 key={year}
                 className={`pill-btn ${selectedYear === year ? 'active-solid' : ''}`}

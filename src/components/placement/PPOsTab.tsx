@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { PPOS_DATA } from '../../data/placementData';
+import { PPOS_DATA, AVAILABLE_YEARS, CURRENT_YEAR } from '../../data/placementData';
 import { CompanyLogo } from './CompanyLogo';
 
 export const PPOsTab: React.FC = () => {
-  const [selectedYear, setSelectedYear] = useState<'2026' | '2025' | '2024' | '2023' | '2022'>('2026');
+  const [selectedYear, setSelectedYear] = useState<string>(CURRENT_YEAR);
 
-  const currentYearData = PPOS_DATA[selectedYear] || PPOS_DATA['2026'];
+  const currentYearData = PPOS_DATA[selectedYear] || PPOS_DATA[CURRENT_YEAR];
   const totalPpos = currentYearData.items.reduce((acc, item) => acc + item.members, 0);
   const totalCompanies = new Set(currentYearData.items.map((item) => item.company)).size;
 
@@ -42,7 +42,7 @@ export const PPOsTab: React.FC = () => {
 
             <div className="placement-controls">
               <div className="pill-group">
-                {(['2026', '2025', '2024', '2023', '2022'] as const).map((year) => (
+                {AVAILABLE_YEARS.map((year) => (
                   <button
                     key={year}
                     className={`pill-btn ${selectedYear === year ? 'active-solid' : ''}`}

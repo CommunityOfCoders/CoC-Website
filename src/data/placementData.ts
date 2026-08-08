@@ -145,6 +145,9 @@ const RAW_PLACEMENTS: Record<string, RawPlacementInput[]> = {
   ]
 };
 
+export const AVAILABLE_YEARS: string[] = Object.keys(RAW_PLACEMENTS).sort((a, b) => Number(b) - Number(a));
+export const CURRENT_YEAR: string = AVAILABLE_YEARS[0] || '2026';
+
 export const INTERNSHIPS_DATA: Record<string, { membersCount: number; companiesCount: number; items: InternshipItem[] }> = Object.keys(RAW_INTERNSHIPS).reduce((acc, year) => {
   const sortedItems = [...RAW_INTERNSHIPS[year]]
     .sort((a, b) => parseAmount(b.stipend) - parseAmount(a.stipend))
@@ -204,7 +207,7 @@ export const PPOS_DATA: Record<string, { totalPpos: number; companiesCount: numb
   return acc;
 }, {} as Record<string, { totalPpos: number; companiesCount: number; season: string; items: PPOItem[] }>);
 
-const YOY_YEARS = ['2022', '2023', '2024', '2025', '2026'];
+const YOY_YEARS = Object.keys(RAW_PLACEMENTS).sort((a, b) => Number(a) - Number(b));
 const AVG_CTC_MAP: Record<string, string> = {
   '2022': '₹11.4L',
   '2023': '₹13.8L',
@@ -226,13 +229,12 @@ export const YEAR_ON_YEAR_DATA: YearGrowthItem[] = YOY_YEARS.map((year) => {
   };
 });
 
-const currentYear = '2026';
-const currentYearYoy = YEAR_ON_YEAR_DATA.find((item) => item.year === currentYear);
+const currentYearYoy = YEAR_ON_YEAR_DATA.find((item) => item.year === CURRENT_YEAR);
 
 export const OVERVIEW_STATS: PlacementStat[] = [
-  { id: 'internships', label: 'INTERNSHIPS THIS YEAR', value: String(currentYearYoy?.internships ?? 0), subtitle: `COC members · ${currentYear}` },
-  { id: 'placements', label: `PLACEMENTS (${currentYear})`, value: String(currentYearYoy?.placements ?? 0), subtitle: 'FTE offers accepted' },
-  { id: 'ppos', label: 'PPOS RECEIVED', value: String(PPOS_DATA[currentYear]?.totalPpos ?? 0), subtitle: 'Accepted by members' },
+  { id: 'internships', label: 'INTERNSHIPS THIS YEAR', value: String(currentYearYoy?.internships ?? 0), subtitle: `COC members · ${CURRENT_YEAR}` },
+  { id: 'placements', label: `PLACEMENTS (${CURRENT_YEAR})`, value: String(currentYearYoy?.placements ?? 0), subtitle: 'FTE offers accepted' },
+  { id: 'ppos', label: 'PPOS RECEIVED', value: String(PPOS_DATA[CURRENT_YEAR]?.totalPpos ?? 0), subtitle: 'Accepted by members' },
   { id: 'highest_ctc', label: 'HIGHEST CTC', value: currentYearYoy?.highestCtc ?? '—', subtitle: 'Tower Research' },
-  { id: 'avg_ctc', label: `AVG CTC (${currentYear})`, value: currentYearYoy?.avgCtc ?? '—', subtitle: 'across all roles' }
+  { id: 'avg_ctc', label: `AVG CTC (${CURRENT_YEAR})`, value: currentYearYoy?.avgCtc ?? '—', subtitle: 'across all roles' }
 ];
