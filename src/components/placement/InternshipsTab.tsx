@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { INTERNSHIPS_DATA, AVAILABLE_YEARS, CURRENT_YEAR } from '../../data/placementData';
+import { INTERNSHIPS_DATA, CURRENT_YEAR } from '../../data/placementData';
 import { CompanyLogo } from './CompanyLogo';
 
 export const InternshipsTab: React.FC = () => {
@@ -25,23 +25,26 @@ export const InternshipsTab: React.FC = () => {
       <div className="placement-tab-header">
         <div className="placement-tab-title-group">
           <h2>Internships · {selectedYear}</h2>
-          <p>{totalMembers} COC members · {totalCompanies} companies</p>
+          <p>{totalMembers} members · {totalCompanies} companies</p>
         </div>
 
         <div className="placement-controls">
-          <div className="pill-group">
-            {AVAILABLE_YEARS.map((year) => (
-              <button
-                key={year}
-                className={`pill-btn ${selectedYear === year ? 'active-solid' : ''}`}
-                onClick={() => setSelectedYear(year)}
-              >
-                {year}
-              </button>
-            ))}
-          </div>
-
-          <div className="divider-vertical" />
+          {Object.keys(INTERNSHIPS_DATA).length > 1 && (
+            <>
+              <div className="pill-group">
+                {Object.keys(INTERNSHIPS_DATA).sort((a, b) => Number(b) - Number(a)).map((year) => (
+                  <button
+                    key={year}
+                    className={`pill-btn ${selectedYear === year ? 'active-solid' : ''}`}
+                    onClick={() => setSelectedYear(year)}
+                  >
+                    {year}
+                  </button>
+                ))}
+              </div>
+              <div className="divider-vertical" />
+            </>
+          )}
 
           <button
             className={`filter-btn ${filterMode === 'all' ? 'active-outline' : ''}`}
