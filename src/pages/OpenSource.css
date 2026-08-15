@@ -111,18 +111,52 @@
 .os-org-mark {
   position: relative;
   display: inline-flex;
+  align-items: center;
+  justify-content: center;
   cursor: pointer;
+  background: transparent;
+  border: none;
+  text-decoration: none;
   transition: transform 0.35s var(--ease);
   animation: os-bob 4.5s ease-in-out infinite;
 }
-.os-org-mark svg { display: block; width: 30px; height: 30px; }
-.os-org-mark:hover { transform: translateY(-4px) scale(1.12); }
-.os-org-mark:nth-child(2) { animation-delay: 0.3s; }
-.os-org-mark:nth-child(3) { animation-delay: 0.6s; }
-.os-org-mark:nth-child(4) { animation-delay: 0.9s; }
-.os-org-mark:nth-child(5) { animation-delay: 1.2s; }
-.os-org-mark:nth-child(6) { animation-delay: 1.5s; }
-.os-org-mark:nth-child(7) { animation-delay: 1.8s; }
+.os-org-mark svg,
+.os-org-mark img {
+  display: block;
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 8px rgba(255, 255, 255, 0.08));
+  transition: filter 0.3s ease, transform 0.3s ease;
+}
+.os-org-mark:hover {
+  transform: translateY(-5px) scale(1.18);
+}
+.os-org-mark:hover svg,
+.os-org-mark:hover img {
+  filter: drop-shadow(0 4px 16px rgba(255, 255, 255, 0.3));
+}
+.os-org-mark:nth-child(2) { animation-delay: 0.2s; }
+.os-org-mark:nth-child(3) { animation-delay: 0.4s; }
+.os-org-mark:nth-child(4) { animation-delay: 0.6s; }
+.os-org-mark:nth-child(5) { animation-delay: 0.8s; }
+.os-org-mark:nth-child(6) { animation-delay: 1.0s; }
+.os-org-mark:nth-child(7) { animation-delay: 1.2s; }
+.os-org-mark:nth-child(8) { animation-delay: 1.4s; }
+.os-org-mark:nth-child(9) { animation-delay: 1.6s; }
+.os-org-mark:nth-child(10) { animation-delay: 1.8s; }
+.os-org-mark:nth-child(11) { animation-delay: 2.0s; }
+.os-org-mark:nth-child(12) { animation-delay: 2.2s; }
+.os-org-mark:nth-child(13) { animation-delay: 2.4s; }
+.os-org-mark:nth-child(14) { animation-delay: 2.6s; }
+.os-org-mark:nth-child(15) { animation-delay: 2.8s; }
+.os-org-mark:nth-child(16) { animation-delay: 3.0s; }
+.os-org-mark:nth-child(17) { animation-delay: 3.2s; }
+.os-org-mark:nth-child(18) { animation-delay: 3.4s; }
+.os-org-mark:nth-child(19) { animation-delay: 3.6s; }
+.os-org-mark:nth-child(20) { animation-delay: 3.8s; }
+.os-org-mark:nth-child(21) { animation-delay: 4.0s; }
+.os-org-mark:nth-child(22) { animation-delay: 4.2s; }
 @keyframes os-bob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
 
 /* tooltip on hover — reveals the real org name */
@@ -312,6 +346,64 @@
 .os-count { font-family: var(--font-mono); font-size: 0.78rem; color: var(--fg-faint); }
 
 .os-empty { padding: 80px 20px; text-align: center; color: var(--fg-faint); font-family: var(--font-mono); }
+
+/* ---------- Contributor Program Divisions ---------- */
+.os-program-divisions {
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+  margin-top: 10px;
+}
+
+.os-division-block {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+.os-division-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding-bottom: 4px;
+}
+
+.os-division-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-mono);
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--fg);
+  background: var(--ink-2);
+  border: 1px solid var(--line);
+  border-left: 3.5px solid var(--division-color, var(--accent));
+  padding: 8px 16px;
+  border-radius: var(--r-sm);
+  letter-spacing: 0.02em;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.25);
+}
+
+.os-division-count {
+  font-family: var(--font-mono);
+  font-size: 0.76rem;
+  color: var(--fg-faint);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+}
+
+.os-division-line {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    var(--line-2),
+    transparent
+  );
+}
 
 .os-contributors-grid { display: grid; grid-template-columns: 1fr; gap: 20px; }
 @media (min-width: 640px) { .os-contributors-grid { grid-template-columns: repeat(2, 1fr); } }

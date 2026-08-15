@@ -516,17 +516,51 @@ export default function OpenSource() {
             <span className="os-count">— {filteredContributors.length} featured</span>
           </div>
 
-          {filteredContributors.length === 0 ? (
-            <div className="os-empty">
-              <p>No contributors found matching &quot;{searchQuery}&quot;.</p>
-            </div>
-          ) : (
-            <div className="os-contributors-grid">
-              {filteredContributors.map((c, i) => (
-                <ContributorCard key={c.id} contributor={c} index={i} onSelect={handleOpenContributor} />
-              ))}
-            </div>
-          )}
+          {(() => {
+            const programGroups = PROGRAMS.filter((p) => p.id === 'gsoc' || p.id === 'lfx' || p.id === 'jsoc')
+              .map((p) => {
+                const list = filteredContributors.filter((c) => c.programId === p.id);
+                return { program: p, contributors: list };
+              })
+              .filter((g) => g.contributors.length > 0);
+
+            if (programGroups.length === 0) {
+              return (
+                <div className="os-empty">
+                  <p>No contributors found matching &quot;{searchQuery}&quot;.</p>
+                </div>
+              );
+            }
+
+            return (
+              <div className="os-program-divisions">
+                {programGroups.map(({ program, contributors }) => (
+                  <div
+                    key={program.id}
+                    className="os-division-block"
+                    style={{ '--division-color': program.color } as React.CSSProperties}
+                  >
+                    <div className="os-division-header">
+                      <div className="os-division-badge">
+                        <program.Logo width={18} height={18} />
+                        <span>{program.name}</span>
+                      </div>
+                      <span className="os-division-count">
+                        {contributors.length} {contributors.length === 1 ? 'contributor' : 'contributors'}
+                      </span>
+                      <div className="os-division-line" />
+                    </div>
+
+                    <div className="os-contributors-grid">
+                      {contributors.map((c, i) => (
+                        <ContributorCard key={c.id} contributor={c} index={i} onSelect={handleOpenContributor} />
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            );
+          })()}
         </div>
       </section>
 

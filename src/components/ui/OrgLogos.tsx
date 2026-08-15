@@ -1,13 +1,22 @@
 import React from 'react';
 
+import apacheImg from '../../assets/Apache_logo.svg';
+import blenderImg from '../../assets/Blender_logo.svg';
+import cncfImg from '../../assets/CNCF_logo.svg';
 import debianImg from '../../assets/Debian_logo.png';
 import fedoraImg from '../../assets/Fedora_logo.svg';
 import gsocImg from '../../assets/GSoC_logo.svg';
 import octaveImg from '../../assets/Gnu-octave-logo.svg';
 import googleImg from '../../assets/Google__G__logo.svg';
 import hacktoberfestImg from '../../assets/Hacktoberfest_logo.png';
+import incfImg from '../../assets/INCF_logo.png';
+import intelImg from '../../assets/Intel_logo.svg';
+import juliaImg from '../../assets/Julia_logo.svg';
+import k8sImg from '../../assets/Kubernetes_logo.svg';
 import opencvImg from '../../assets/OpenCV_Logo_with_text_svg_version.svg';
+import postgresImg from '../../assets/PostgreSQL_logo.svg';
 import prometheusImg from '../../assets/Prometheus_software_logo.svg';
+import pythonImg from '../../assets/Python_logo.svg';
 import sageImg from '../../assets/Sage-logo-2018.svg';
 import sympyImg from '../../assets/Sympy_logo.svg';
 import cocImg from '../../assets/coc.png';
@@ -105,18 +114,54 @@ export const HacktoberfestLogo: React.FC<P> = (props) => (
   <ImageLogo src={hacktoberfestImg} alt="Hacktoberfest" width={props.width} height={props.height} className={props.className} style={props.style} />
 );
 
+/* CNCF (Cloud Native Computing Foundation) — from src/assets/CNCF_logo.svg */
+export const CNCFLogo: React.FC<P> = (props) => (
+  <ImageLogo src={cncfImg} alt="CNCF" width={props.width} height={props.height} className={props.className} style={props.style} />
+);
+
+/* INCF (International Neuroinformatics Coordinating Facility) — from src/assets/INCF_logo.png */
+export const INCFLogo: React.FC<P> = (props) => (
+  <ImageLogo src={incfImg} alt="INCF" width={props.width} height={props.height} className={props.className} style={props.style} />
+);
+
+/* Intel — from src/assets/Intel_logo.svg */
+export const IntelLogo: React.FC<P> = (props) => (
+  <ImageLogo src={intelImg} alt="Intel" width={props.width} height={props.height} className={props.className} style={props.style} />
+);
+
+/* Julia Language — from src/assets/Julia_logo.svg */
+export const JuliaLogo: React.FC<P> = (props) => (
+  <ImageLogo src={juliaImg} alt="Julia Language" width={props.width} height={props.height} className={props.className} style={props.style} />
+);
+
+/* Python Software Foundation — from src/assets/Python_logo.svg */
+export const PythonLogo: React.FC<P> = (props) => (
+  <ImageLogo src={pythonImg} alt="Python" width={props.width} height={props.height} className={props.className} style={props.style} />
+);
+
+/* PostgreSQL — from src/assets/PostgreSQL_logo.svg */
+export const PostgreSQLLogo: React.FC<P> = (props) => (
+  <ImageLogo src={postgresImg} alt="PostgreSQL" width={props.width} height={props.height} className={props.className} style={props.style} />
+);
+
+/* Blender Foundation — from src/assets/Blender_logo.svg */
+export const BlenderLogo: React.FC<P> = (props) => (
+  <ImageLogo src={blenderImg} alt="Blender" width={props.width} height={props.height} className={props.className} style={props.style} />
+);
+
+/* Apache Software Foundation — from src/assets/Apache_logo.svg */
+export const ApacheLogo: React.FC<P> = (props) => (
+  <ImageLogo src={apacheImg} alt="Apache" width={props.width} height={props.height} className={props.className} style={props.style} />
+);
+
+/* Kubernetes — from src/assets/Kubernetes_logo.svg */
+export const KubernetesLogo: React.FC<P> = (props) => (
+  <ImageLogo src={k8sImg} alt="Kubernetes" width={props.width} height={props.height} className={props.className} style={props.style} />
+);
+
 /* Community of Coders — from src/assets/coc.png */
 export const CoCLogo: React.FC<P> = (props) => (
   <ImageLogo src={cocImg} alt="Community of Coders" width={props.width} height={props.height} className={props.className} style={props.style} />
-);
-
-/* Julia — the three-dot mark. */
-export const JuliaLogo: React.FC<P> = (props) => (
-  <svg viewBox="0 0 40 40" aria-hidden {...props}>
-    <circle cx="12" cy="27" r="6.4" fill="#389826" />
-    <circle cx="27" cy="27" r="6.4" fill="#CB3C33" />
-    <circle cx="19.5" cy="13" r="6.4" fill="#9558B2" />
-  </svg>
 );
 
 /* CERN-HSF mark. */
