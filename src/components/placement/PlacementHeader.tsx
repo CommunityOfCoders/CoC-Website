@@ -22,7 +22,7 @@ export const PlacementHeader: React.FC = () => {
       >
         <h1 className="placement-hero-title">
           Internship &amp; Placement<br />
-          <span className="text-green">Statistics · 2024–25</span>
+          <span className="text-green">Statistics · 2025–26</span>
         </h1>
         
         <p className="placement-hero-desc">

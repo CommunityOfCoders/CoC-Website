@@ -9,14 +9,13 @@ import { IMG } from '../../data/placeholderImages';
 /* Dummy throwback deck — captions are placeholders; photos come from
    the central registry (candid/photographic only). */
 const SLIDES = [
-  { img: IMG.throwback[0], title: 'Hack8 — 24hr Hackathon', year: '2026' },
-  { img: IMG.throwback[1], title: 'TechFiesta Opening Night', year: '2025' },
-  { img: IMG.throwback[2], title: 'Intro to LLMs Workshop', year: '2025' },
-  { img: IMG.throwback[3], title: 'Open Source October', year: '2025' },
-  { img: IMG.throwback[4], title: 'Winter of Code Cohort', year: '2024' },
-  { img: IMG.throwback[5], title: 'Systems Design Talk', year: '2024' },
-  { img: IMG.throwback[6], title: 'Algo Arena Finals', year: '2024' },
-  { img: IMG.throwback[7], title: 'Project Demo Day', year: '2023' },
+  { img: IMG.throwback[0], title: 'Codeverse', year: '2026' },
+  { img: IMG.throwback[1], title: 'OpenCV Workshop', year: '2026' },
+  { img: IMG.throwback[2], title: 'Python & Git Workshop', year: '2026' },
+  { img: IMG.throwback[3], title: 'RouteQuest', year: '2026' },
+  { img: IMG.throwback[4], title: 'OpenCV Workshop', year: '2025' },
+  { img: IMG.throwback[5], title: 'RouteQuest', year: '2025' },
+  { img: IMG.throwback[6], title: 'Codeverse', year: '2025' },
 ];
 
 const AUTOPLAY_MS = 4000;

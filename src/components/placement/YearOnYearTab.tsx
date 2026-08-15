@@ -13,7 +13,7 @@ export const YearOnYearTab: React.FC = () => {
       <div className="placement-tab-header">
         <div className="placement-tab-title-group">
           <h2>Year-on-Year Growth</h2>
-          <p>COC placement statistics across all seasons</p>
+          <p>Placement statistics across all seasons</p>
         </div>
       </div>
 
