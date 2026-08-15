@@ -1,48 +1,58 @@
 import React from 'react';
-import { ArrowUpRight, Star, GitPullRequest } from 'lucide-react';
+import { ArrowUpRight } from 'lucide-react';
 import Reveal from '../ui/Reveal';
+import { FEATURED_ORGS, PROGRAMS } from '../../data/openSourceData';
 
-/* Dummy repo stats — wire to the GitHub API (or hardcode real numbers)
-   when the Opensource page lands. */
-const REPOS = [
-  { name: 'coc-website', lang: 'TypeScript', desc: 'This site. Yes, it\'s open source too.', stars: 128, prs: 42 },
-  { name: 'campus-compass', lang: 'React', desc: 'Campus navigation PWA, maintained across batches.', stars: 96, prs: 31 },
-  { name: 'dsa-sheets', lang: 'C++', desc: 'Curated problem sets with editorial solutions.', stars: 210, prs: 57 },
-  { name: 'vjti-results-api', lang: 'Python', desc: 'Clean API over the results portal. You\'re welcome.', stars: 74, prs: 19 },
+const ALL_LOGOS = [
+  ...PROGRAMS.map((p) => ({ name: p.name, Logo: p.Logo })),
+  ...FEATURED_ORGS.filter((o) => !PROGRAMS.some((p) => p.name === o.name)).map((o) => ({
+    name: o.name,
+    Logo: o.Logo,
+  })),
 ];
 
+const MARQUEE_ITEMS = [...ALL_LOGOS, ...ALL_LOGOS];
+
 const OpenSourceHighlight: React.FC = () => (
-  <section className="section oss">
+  <section className="section oss" id="opensource-highlight">
     <div className="container">
       <div className="oss__head">
         <Reveal className="section-head">
           <span className="eyebrow">Open source</span>
-          <h2 className="section-title">Maintained across<br />batches, in public.</h2>
+          <h2 className="section-title">
+            Where we've<br />contributed.
+          </h2>
         </Reveal>
-        <Reveal delay={0.1}>
+        <Reveal delay={0.1} className="oss__head-right">
           <p className="oss__intro">
-            Repos outlive the people who start them here. Each one gets handed
-            down, reviewed and kept alive — that's the whole point.
+            From Google Summer of Code and LFX Mentorship to Julia and CNCF —
+            CoC members contribute to leading open-source organizations worldwide.
           </p>
+          <a href="#opensource" className="oss__head-link">
+            <span>Explore open source</span>
+            <ArrowUpRight size={14} />
+          </a>
         </Reveal>
       </div>
 
-      <div className="oss__list">
-        {REPOS.map((r, i) => (
-          <Reveal key={r.name} delay={i * 0.07} className="repo">
-            <a href="#opensource" className="repo__link">
-              <span className="repo__name">{r.name}</span>
-              <span className="repo__desc">{r.desc}</span>
-              <span className="repo__meta">
-                <span className="repo__lang"><i className="repo__lang-dot" />{r.lang}</span>
-                <span className="repo__stat"><Star /> {r.stars}</span>
-                <span className="repo__stat"><GitPullRequest /> {r.prs} merged</span>
-                <ArrowUpRight className="repo__go" />
-              </span>
-            </a>
-          </Reveal>
-        ))}
-      </div>
+      {/* Infinite scrolling bar with all icons */}
+      <Reveal delay={0.15}>
+        <div className="oss__marquee-wrap">
+          <div className="oss__marquee-track">
+            {MARQUEE_ITEMS.map((item, idx) => (
+              <a
+                key={`${item.name}-${idx}`}
+                href="#opensource"
+                className="oss__marquee-logo"
+                data-tip={item.name}
+                aria-label={item.name}
+              >
+                <item.Logo width={34} height={34} />
+              </a>
+            ))}
+          </div>
+        </div>
+      </Reveal>
     </div>
   </section>
 );
