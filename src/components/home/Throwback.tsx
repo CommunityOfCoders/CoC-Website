@@ -4,18 +4,17 @@ import type { PanInfo } from 'framer-motion';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
 import Reveal from '../ui/Reveal';
 import Magnetic from '../ui/Magnetic';
-import { IMG } from '../../data/placeholderImages';
-
-/* Dummy throwback deck — captions are placeholders; photos come from
-   the central registry (candid/photographic only). */
 const SLIDES = [
-  { img: IMG.throwback[0], title: 'Codeverse', year: '2026' },
-  { img: IMG.throwback[1], title: 'OpenCV Workshop', year: '2026' },
-  { img: IMG.throwback[2], title: 'Python & Git Workshop', year: '2026' },
-  { img: IMG.throwback[3], title: 'RouteQuest', year: '2026' },
-  { img: IMG.throwback[4], title: 'OpenCV Workshop', year: '2025' },
-  { img: IMG.throwback[5], title: 'RouteQuest', year: '2025' },
-  { img: IMG.throwback[6], title: 'Codeverse', year: '2025' },
+  { img: '/photos/codeverseceremony.jpg', title: 'CodeVerse Ceremony', year: '2026' },
+  { img: '/photos/aivshuman.JPG', title: 'AI vs Human', year: '2026' },
+  { img: '/photos/apimurder.JPG', title: 'API Murder Mystery', year: '2026' },
+  { img: '/photos/codeverseteam.jpg', title: 'CodeVerse Team', year: '2026' },
+  { img: '/photos/debugathon.jpg', title: 'Debugathon', year: '2026' },
+  { img: '/photos/ethctf.jpg', title: 'ETH CTF', year: '2026' },
+  { img: '/photos/gridofdoom.jpg', title: 'Grid of Doom', year: '2026' },
+  { img: '/photos/pixelpursuit.jpg', title: 'Pixel Pursuit', year: '2026' },
+  { img: '/photos/auction.jpg', title: 'Tech Auction', year: '2026' },
+  { img: '/photos/travellingcoder.jpg', title: 'Travelling Coder', year: '2026' },
 ];
 
 const AUTOPLAY_MS = 4000;
@@ -102,7 +101,7 @@ const Throwback: React.FC = () => {
           transition={{ type: 'spring', stiffness: 220, damping: 32 }}
         >
           {SLIDES.map((s, i) => (
-            <figure className="tb__slide" key={s.title}>
+            <figure className="tb__slide" key={s.img}>
               <div className="tb__img photo photo--hover">
                 <img src={s.img} alt={`${s.title}, ${s.year}`} draggable={false} loading="lazy" />
               </div>
@@ -119,7 +118,7 @@ const Throwback: React.FC = () => {
       <div className="container tb__dots" role="tablist" aria-label="Slides">
         {SLIDES.map((s, i) => (
           <button
-            key={s.title}
+            key={s.img}
             className={`tb__dot${i === index ? ' is-active' : ''}`}
             aria-label={`Go to ${s.title}`}
             aria-selected={i === index}
