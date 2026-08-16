@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import Reveal from "../components/ui/Reveal";
+import { Tilt } from "../components/ui/Tilt";
 import {
   Activity,
   AlertTriangle,
@@ -210,14 +212,17 @@ interface ProjectCardProps {
   project: Project;
   onSelect: (p: Project) => void;
   showViewDetails?: boolean;
+  index?: number;
 }
 
-function ProjectCard({ project, onSelect, showViewDetails = true }: ProjectCardProps) {
+function ProjectCard({ project, onSelect, showViewDetails = true, index = 0 }: ProjectCardProps) {
   const { stars, forks } = useGithubStats(project);
 
   return (
-    <article className="project-card" onClick={() => onSelect(project)} role="button" tabIndex={0}>
-      <div className="project-card__body">
+    <Reveal delay={(index % 3) * 0.08}>
+      <Tilt rotationFactor={4} springOptions={{ stiffness: 200, damping: 20 }}>
+        <article className="project-card" onClick={() => onSelect(project)} role="button" tabIndex={0}>
+          <div className="project-card__body">
         <div className="project-card__header">
           <h3 className="project-card__title">{project.name}</h3>
           {project.year ? (
@@ -259,6 +264,8 @@ function ProjectCard({ project, onSelect, showViewDetails = true }: ProjectCardP
         </div>
       </div>
     </article>
+      </Tilt>
+    </Reveal>
   );
 }
 
@@ -588,8 +595,8 @@ export default function Projects() {
             </div>
           ) : (
             <div className="projects-grid">
-              {filteredProjects.map((project) => (
-                <ProjectCard key={project.id} project={project} onSelect={handleOpenProject} />
+              {filteredProjects.map((project, idx) => (
+                <ProjectCard key={project.id} project={project} index={idx} onSelect={handleOpenProject} />
               ))}
             </div>
           )}
