@@ -1,6 +1,5 @@
 import React, { useRef } from 'react';
 import { motion, useScroll, useTransform, useReducedMotion } from 'framer-motion';
-import { IMG } from '../../data/placeholderImages';
 
 /**
  * Full-width candid group-photo moment, scroll-choreographed:
@@ -25,15 +24,14 @@ const PhotoBand: React.FC = () => {
     <section className="band" ref={ref}>
       <motion.div className="band__frame" style={reduce ? undefined : { clipPath: clip }}>
         <motion.img
-          src={IMG.groupPhoto}
+          src="/photos/codeverseteam.jpg"
           alt="The CoC community gathered after an event"
           style={reduce ? undefined : { y, scale }}
           loading="lazy"
         />
         <div className="band__shade" aria-hidden />
         <p className="band__cap">
-          <span>The community, after Hack8</span>
-          <span className="band__cap-note">placeholder — swap for the real group shot</span>
+          <span>The community, after CodeVerse</span>
         </p>
       </motion.div>
     </section>

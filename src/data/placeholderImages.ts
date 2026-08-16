@@ -18,8 +18,7 @@ export const IMG = {
   /* how-we-work split */
   howWeWork: u('photo-1556761175-b413da4baf72', 1000),   // pair reviewing code on a laptop
 
-  /* full-width candid band */
-  groupPhoto: u('photo-1511632765486-a01980e01a18', 1800), // group huddle, energetic
+  groupPhoto: '/photos/codeverseteam.jpg',
 
   /* scroll-driven backdrop scenes (shown dimmed behind sections) */
   bgHero: u('photo-1505373877841-8d25f7d46678', 1900),     // stage presentation, dark room
