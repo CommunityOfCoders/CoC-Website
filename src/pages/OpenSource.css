@@ -188,6 +188,12 @@
   will-change: transform;
 }
 
+@media (min-width: 1024px) {
+  .os-floating-showcase {
+    transform: translateY(-55px);
+  }
+}
+
 .os-floating-showcase__grid {
   display: flex;
   flex-wrap: wrap;

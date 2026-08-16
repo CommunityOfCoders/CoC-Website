@@ -168,18 +168,7 @@ function CategoryBadge({ category }: { category: string }) {
   );
 }
 
-function ThumbnailMedia({ project }: { project: Project }) {
-  if (project.image) {
-    return <img src={project.image} alt={project.name} />;
-  }
-  
-  // Blank placeholder space
-  return (
-    <div style={{ width: "100%", height: "100%", backgroundColor: "rgba(255,255,255,0.03)", display: "flex", alignItems: "center", justifyContent: "center", color: "rgba(255,255,255,0.2)" }}>
-      <span style={{ fontSize: "0.8rem", textTransform: "uppercase", letterSpacing: "1px" }}>Image Placeholder</span>
-    </div>
-  );
-}
+
 
 // ─── GITHUB STATS HOOK ──────────────────────────────────────────────────────
 
@@ -228,10 +217,6 @@ function ProjectCard({ project, onSelect, showViewDetails = true }: ProjectCardP
 
   return (
     <article className="project-card" onClick={() => onSelect(project)} role="button" tabIndex={0}>
-      <div className="project-card__media">
-        <ThumbnailMedia project={project} />
-      </div>
-
       <div className="project-card__body">
         <div className="project-card__header">
           <h3 className="project-card__title">{project.name}</h3>
@@ -333,10 +318,6 @@ function ProjectDrawer({ project, isOpen, onClose }: DrawerProps) {
         </div>
 
         <div className="drawer-content">
-          <div className="drawer-media">
-            <ThumbnailMedia project={project} />
-          </div>
-
           <h2 className="drawer-title">{project.name}</h2>
           {project.tagline && <p className="drawer-tagline">{project.tagline}</p>}
           {project.authors && (
@@ -415,38 +396,31 @@ export default function Projects() {
   const [activeFilter, setActiveFilter] = useState("All");
 
   useEffect(() => {
-    let lastScrollY = window.scrollY;
-    let hasSnapped = false;
+    let isAnimating = false;
 
-    const handleScroll = () => {
-      const currentScrollY = window.scrollY;
-      
-      // If we are at the top and scrolling down (past a small threshold)
-      if (currentScrollY > 10 && currentScrollY < 200 && currentScrollY > lastScrollY && !hasSnapped) {
-        hasSnapped = true;
-        const featured = document.getElementById("flagship-section");
-        if (featured) {
-          featured.scrollIntoView({ behavior: "smooth" });
+    const handleWheel = (e: WheelEvent) => {
+      if (window.scrollY <= 10 && e.deltaY > 0 && !isAnimating) {
+        e.preventDefault();
+        isAnimating = true;
+        const browse = document.getElementById("browse-section");
+        if (browse) {
+          browse.scrollIntoView({ behavior: "smooth" });
+          setTimeout(() => {
+            isAnimating = false;
+          }, 800);
         }
       }
-      
-      // Reset the snap if the user scrolls all the way back to the top
-      if (currentScrollY <= 10) {
-        hasSnapped = false;
-      }
-      
-      lastScrollY = currentScrollY;
     };
 
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
+    window.addEventListener("wheel", handleWheel, { passive: false });
+    return () => window.removeEventListener("wheel", handleWheel);
   }, []);
 
   const handleBrowseClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
-    const featured = document.getElementById("flagship-section");
-    if (featured) {
-      featured.scrollIntoView({ behavior: "smooth" });
+    const browse = document.getElementById("browse-section");
+    if (browse) {
+      browse.scrollIntoView({ behavior: "smooth" });
     }
   };
 
@@ -461,7 +435,6 @@ export default function Projects() {
 
   // Filter projects by category & search term
   const filteredProjects = PROJECTS.filter((p) => {
-    if (p.featured) return false;
     const matchesYear = activeFilter === "All" || p.year === activeFilter;
     const q = searchQuery.toLowerCase();
     const matchesSearch =
@@ -494,7 +467,7 @@ export default function Projects() {
               </p>
 
               <div className="projects-hero__actions">
-                <a href="#flagship-section" className="btn" onClick={handleBrowseClick}>
+                <a href="#browse-section" className="btn" onClick={handleBrowseClick}>
                   Browse Projects <ArrowRight size={16} />
                 </a>
                 <a
@@ -527,9 +500,6 @@ export default function Projects() {
             <div className="projects-hero__visual">
               {featuredProjects.slice(0, 3).map((fp, idx) => (
                 <div key={fp.id} className={`floating-preview floating-preview--${idx + 1}`} onClick={() => handleOpenProject(fp)}>
-                  <div className="floating-preview__media">
-                    <ThumbnailMedia project={fp} />
-                  </div>
                   <div className="floating-preview__info">
                     <div className="floating-preview__header">
                       <span className="floating-preview__title">{fp.name}</span>
@@ -539,6 +509,9 @@ export default function Projects() {
                         </span>
                       )}
                     </div>
+                    {fp.tagline && (
+                      <p className="floating-preview__tagline">{fp.tagline}</p>
+                    )}
                     {fp.tech && (
                       <div className="floating-preview__tags">
                         {fp.tech.slice(0, 3).map((t) => (
@@ -559,64 +532,53 @@ export default function Projects() {
         </div>
       </section>
 
-      {/* ─── FEATURED (FLAGSHIP WORK) SECTION ───────────────────────────── */}
-      <section className="projects-featured" id="flagship-section">
-        <div className="container">
-          <div className="projects-section-header">
-            <span className="eyebrow">FEATURED</span>
-            <h2 className="projects-section-title">Flagship work.</h2>
-          </div>
 
-          <div className="projects-featured__grid">
-            {featuredProjects.map((project) => (
-              <ProjectCard key={project.id} project={project} onSelect={handleOpenProject} />
-            ))}
-          </div>
-        </div>
-      </section>
 
       {/* ─── BROWSE & EXPLORE EVERYTHING SECTION ────────────────────────── */}
       <section className="projects-browse" id="browse-section">
         <div className="container">
-          <div className="projects-section-header">
-            <span className="eyebrow">BROWSE</span>
-            <h2 className="projects-section-title">Explore everything.</h2>
-          </div>
+          
+          <div className="projects-browse__sticky-header">
+            <div className="projects-section-header">
+              <span className="eyebrow">BROWSE</span>
+              <h2 className="projects-section-title">Explore everything.</h2>
+            </div>
 
-          {/* Search Bar */}
-          <div className="projects-search-bar">
-            <Search size={18} className="projects-search-icon" />
-            <input
-              type="text"
-              className="projects-search-input"
-              placeholder="Search projects..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-            />
-            {searchQuery && (
-              <button className="projects-search-clear" onClick={() => setSearchQuery("")} aria-label="Clear search">
-                <X size={16} />
-              </button>
-            )}
-          </div>
+            {/* Search Bar */}
+            <div className="projects-search-bar">
+              <Search size={18} className="projects-search-icon" />
+              <input
+                type="text"
+                className="projects-search-input"
+                placeholder="Search projects..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
+              {searchQuery && (
+                <button className="projects-search-clear" onClick={() => setSearchQuery("")} aria-label="Clear search">
+                  <X size={16} />
+                </button>
+              )}
+            </div>
 
-          {/* Filter Pills */}
-          <div className="projects-filters">
-            {FILTERS.map((filter) => (
-              <button
-                key={filter}
-                className={`filter-btn ${activeFilter === filter ? "is-active" : ""}`}
-                onClick={() => setActiveFilter(filter)}
-              >
-                {filter}
-              </button>
-            ))}
-          </div>
+            {/* Filter Pills */}
+            <div className="projects-filters">
+              {FILTERS.map((filter) => (
+                <button
+                  key={filter}
+                  className={`filter-btn ${activeFilter === filter ? "is-active" : ""}`}
+                  onClick={() => setActiveFilter(filter)}
+                >
+                  {filter}
+                </button>
+              ))}
+            </div>
 
-          {/* Subheader Count */}
-          <div className="projects-subhead">
-            <span className="eyebrow">ALL PROJECTS</span>
-            <span className="projects-count">— {filteredProjects.length} projects</span>
+            {/* Subheader Count */}
+            <div className="projects-subhead">
+              <span className="eyebrow">ALL PROJECTS</span>
+              <span className="projects-count">— {filteredProjects.length} projects</span>
+            </div>
           </div>
 
           {/* Projects Grid */}
