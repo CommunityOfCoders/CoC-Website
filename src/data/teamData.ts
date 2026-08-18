@@ -6,6 +6,17 @@
    portraits into /public/photos/ and point the URLs there.
    ============================================================ */
 
+import AvanishImg from '../assets/Avanish.jpg';
+import NihiraImg from '../assets/Nihira.jpg';
+import KavishImg from '../assets/Kavish.jpg';
+import BiancaImg from '../assets/Bianca.jpg';
+import AryanImg from '../assets/Aryan.png';
+import VaishnaviImg from '../assets/vaishnavi.jpeg';
+import AwwabImg from '../assets/Awwab.png';
+import PratyushImg from '../assets/Rao.jpg';
+import DhirajImg from '../assets/Dhiraj.jpg';
+import PratikImg from '../assets/pratik.jpg';
+
 const u = (id: string, w = 800) =>
   `https://images.unsplash.com/${id}?auto=format&fit=crop&w=${w}&q=72`;
 
@@ -30,7 +41,7 @@ export const TEAM: TeamMember[] = [
     role: 'Secretary',
     tagline: 'Building the next chapter of CoC.',
     bio: 'Secretary of the Council of Coders, helping drive operations, coordination, and community initiatives across the council.',
-    photo: u('photo-1500648767791-00dcc994a43e'),
+    photo: AvanishImg,
     github: 'https://github.com/AvanishSalunke',
     linkedin: 'https://linkedin.com/in/avanishsalunke',
   },
@@ -40,7 +51,7 @@ export const TEAM: TeamMember[] = [
     role: 'Secretary',
     tagline: 'Turning ideas into action.',
     bio: 'Secretary of the Council of Coders, focused on enabling collaboration and ensuring the community continues to grow and thrive.',
-    photo: u('photo-1494790108377-be9c29b29330'),
+    photo: NihiraImg,
     github: 'https://github.com/nihira20',
     linkedin: 'https://www.linkedin.com/in/nihira-neralwar-307538337/',
   },
@@ -50,7 +61,7 @@ export const TEAM: TeamMember[] = [
     role: 'AIDSET / BRAIN Head',
     tagline: 'Leading innovation through AI and technology.',
     bio: 'Co-head of AIDSET/BRAIN, driving initiatives, workshops, and projects that explore the future of artificial intelligence.',
-    photo: u('photo-1472099645785-5658abf4ff4e'),
+    photo: KavishImg,
     github: 'https://github.com/kavishnasta',
     linkedin: 'https://www.linkedin.com/in/kavish-nasta-4772a1218/',
   },
@@ -60,7 +71,7 @@ export const TEAM: TeamMember[] = [
     role: 'AIDSET / BRAIN Head',
     tagline: 'Empowering students through AI.',
     bio: 'Co-head of AIDSET/BRAIN, working to build impactful learning experiences and foster innovation in AI.',
-    photo: u('photo-1534528741775-53994a69daeb'),
+    photo: BiancaImg,
     github: 'https://github.com/star-lord1234',
     linkedin: 'https://linkedin.com/in/bianca-sawant-ba7963308',
   },
@@ -70,7 +81,7 @@ export const TEAM: TeamMember[] = [
     role: 'Project X Head',
     tagline: 'Turning ambitious ideas into reality.',
     bio: 'Co-head of Project X, leading high-impact projects and encouraging members to push beyond conventional boundaries.',
-    photo: u('photo-1507003211169-0a1dd7228f2d'),
+    photo: AryanImg,
     github: 'https://github.com/dagaaryan011',
     linkedin: 'https://www.linkedin.com/in/aryan-daga-288542324/',
   },
@@ -80,7 +91,7 @@ export const TEAM: TeamMember[] = [
     role: 'Project X Head',
     tagline: 'Building projects that create impact.',
     bio: 'Co-head of Project X, focused on innovation, execution, and fostering a culture of problem-solving.',
-    photo: u('photo-1544005313-94ddf0286df2'),
+    photo: VaishnaviImg,
     github: 'https://github.com/shnavii11',
     linkedin: 'https://www.linkedin.com/in/vaishnavi-sanap/',
   },
@@ -100,7 +111,7 @@ export const TEAM: TeamMember[] = [
     role: 'CP Head',
     tagline: 'Growing the competitive programming culture.',
     bio: 'Leads the Competitive Programming wing, organizing contests, practice sessions, and coding challenges for the community.',
-    photo: u('photo-1519085360753-af0119f7cbe7'),
+    photo: AwwabImg,
     github: 'https://github.com/Once-1296',
     linkedin: 'https://www.linkedin.com/in/awwab-wadekar-a42a65330/',
   },
@@ -110,7 +121,7 @@ export const TEAM: TeamMember[] = [
     role: 'Dev Head',
     tagline: 'Building products, not just projects.',
     bio: 'Heads the Development wing, mentoring developers and leading technical initiatives across CoC.',
-    photo: u('photo-1539571696357-5a69c17a67c6'),
+    photo: PratyushImg,
     github: 'https://github.com/PratyushRao',
     linkedin: 'https://www.linkedin.com/in/pratyushrao06/',
   },
@@ -150,7 +161,7 @@ export const TEAM: TeamMember[] = [
     role: 'PR Head',
     tagline: 'Amplifying the voice of CoC.',
     bio: 'Co-head of Public Relations, leading outreach, engagement, and communication across the community.',
-    photo: u('photo-1517841905240-472988babdf9'),
+    photo: DhirajImg,
     github: 'https://github.com/Dhiraj201226',
     linkedin: 'https://linkedin.com/in/dhiraj-shirse-645445328/',
   },
@@ -160,7 +171,7 @@ export const TEAM: TeamMember[] = [
     role: 'PR Head',
     tagline: 'Connecting CoC with the campus.',
     bio: 'Co-head of Public Relations, working on community engagement, branding, and communication initiatives.',
-    photo: u('photo-1487412720507-e7ab37603c6f'),
+    photo: PratikImg,
     github: 'https://github.com/PratikShewale21',
     linkedin: 'https://www.linkedin.com/in/pratik-shewale-829194338',
   },
