@@ -397,6 +397,7 @@ const EventCard: React.FC<{
         springOptions={{ stiffness: 120, damping: 18 }}
       >
         <article
+          id={`event-${event.id}`}
           className="ev-card"
           role="button"
           tabIndex={0}
@@ -689,6 +690,37 @@ const PastEvents: React.FC = () => {
   const headRef = useRef<HTMLDivElement>(null);
   const gridRef = useRef<HTMLUListElement>(null);
 
+  useEffect(() => {
+    const checkHashEvent = () => {
+      const hash = window.location.hash;
+      const match = hash.match(/[?&]id=([^&]+)/) || hash.match(/#events\/([^?&]+)/) || hash.match(/[?&]event=([^&]+)/);
+      if (match) {
+        const eventId = decodeURIComponent(match[1]);
+        const found = EVENTS.find((e) => e.id === eventId);
+        if (found) {
+          setSelected(found);
+          setTimeout(() => {
+            const el = document.getElementById(`event-${eventId}`);
+            if (el) {
+              el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+          }, 150);
+        }
+      }
+    };
+
+    checkHashEvent();
+    window.addEventListener('hashchange', checkHashEvent);
+    return () => window.removeEventListener('hashchange', checkHashEvent);
+  }, []);
+
+  const handleClose = () => {
+    setSelected(null);
+    if (window.location.hash.includes('?id=') || window.location.hash.includes('?event=') || window.location.hash.includes('#events/')) {
+      window.history.replaceState(null, '', '#events');
+    }
+  };
+
   const { scrollYProgress } = useScroll({
     target: headRef,
     offset: ['start 0.95', 'end 0.25'],
@@ -754,7 +786,7 @@ const PastEvents: React.FC = () => {
         </div>
 
         <AnimatePresence>
-          {selected && <EventModal event={selected} onClose={() => setSelected(null)} />}
+          {selected && <EventModal event={selected} onClose={handleClose} />}
         </AnimatePresence>
       </section>
 

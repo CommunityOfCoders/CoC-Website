@@ -22,18 +22,20 @@ const PhotoBand: React.FC = () => {
 
   return (
     <section className="band" ref={ref}>
-      <motion.div className="band__frame" style={reduce ? undefined : { clipPath: clip }}>
-        <motion.img
-          src="/photos/codeverseteam.jpg"
-          alt="The CoC community gathered after an event"
-          style={reduce ? undefined : { y, scale }}
-          loading="lazy"
-        />
-        <div className="band__shade" aria-hidden />
-        <p className="band__cap">
-          <span>The community, after CodeVerse</span>
-        </p>
-      </motion.div>
+      <a href="#events?id=codeverse" aria-label="View CodeVerse details" style={{ display: 'block', textDecoration: 'none', color: 'inherit' }}>
+        <motion.div className="band__frame" style={reduce ? undefined : { clipPath: clip }}>
+          <motion.img
+            src="/photos/2025/codeverseteam.jpg"
+            alt="The CoC community gathered after an event"
+            style={reduce ? undefined : { y, scale }}
+            loading="lazy"
+          />
+          <div className="band__shade" aria-hidden />
+          <p className="band__cap">
+            <span>The community, after CodeVerse</span>
+          </p>
+        </motion.div>
+      </a>
     </section>
   );
 };

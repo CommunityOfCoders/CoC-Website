@@ -24,7 +24,8 @@ function App() {
   }, []);
 
   const renderView = () => {
-    switch (route) {
+    const baseRoute = route.split('?')[0].split('/')[0];
+    switch (baseRoute) {
       case '#events': return <PastEvents />;
       case '#projects': return <Projects />;
       case '#opensource': return <OpenSource />;
@@ -35,7 +36,8 @@ function App() {
     }
   };
 
-  return <MainLayout route={route}>{renderView()}</MainLayout>;
+  const baseRoute = route.split('?')[0].split('/')[0];
+  return <MainLayout route={baseRoute}>{renderView()}</MainLayout>;
 }
 
 export default App;

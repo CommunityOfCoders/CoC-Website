@@ -201,6 +201,16 @@
   flex: 0 0 auto;
   width: min(72vw, 560px);
 }
+.tb__slide-link {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+}
+.tb__slide-link:hover .tb__cap-title {
+  color: var(--accent);
+  transition: color 0.2s var(--ease);
+}
 .tb__img {
   aspect-ratio: 16 / 10;
   border-radius: var(--r-lg);
@@ -471,11 +481,20 @@
 .act__head { position: sticky; top: 110px; }
 .act__list { list-style: none; display: flex; flex-direction: column; border-top: 1px solid var(--line); }
 .act__item {
+  border-bottom: 1px solid var(--line);
+}
+.act__link {
   display: grid;
   grid-template-columns: 110px 1fr;
   gap: 24px;
   padding: 26px 0;
-  border-bottom: 1px solid var(--line);
+  text-decoration: none;
+  color: inherit;
+  width: 100%;
+}
+.act__link:hover .act__title {
+  color: var(--accent);
+  transition: color 0.2s var(--ease);
 }
 .act__date {
   font-family: var(--font-mono);
@@ -485,7 +504,7 @@
   color: var(--accent);
   padding-top: 5px;
 }
-.act__title { font-size: 1.3rem; }
+.act__title { font-size: 1.3rem; transition: color 0.2s var(--ease); }
 .act__note { color: var(--fg-dim); font-size: 0.95rem; margin-top: 6px; }
 
 /* ---------- Ethos ("what we're about") ---------- */

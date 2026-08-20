@@ -1,14 +1,13 @@
 import React from 'react';
 import Reveal from '../ui/Reveal';
 
-/* Dummy recent milestones — keep this list short and fresh; it reads
-   as "the club is alive", not as an archive. */
 const ACTIVITY = [
-  { date: 'July 2026', title: 'ProjectX Mentorship \'26 Cohort', note: '150+ applications, 32 accepted.' },
-  { date: 'Jan 2026', title: 'Codeverse', note: 'As series of 12 hackathons, total prize pool of 90k INR.' },
-  { date: 'April 2026', title: 'RouteQuest 2026', note: 'A web development CTF competition, with a prize pool of 20k INR.' },
-  { date: 'April 2026', title: 'OpenCV Workshop', note: 'Learn the fundamentals of computer vision and image processing.' },
-  { date: 'July 2025', title: 'Project X Mentorship \'25 Cohort', note: '140+ applications, 29 accepted.' },
+  { id: 'routequest-2026', date: 'April 2026', title: 'RouteQuest 2026', note: 'FY-only Capture The Flag league and season-closing event.' },
+  { id: 'codehunt-2026', date: 'April 2026', title: 'Codehunt 2026', note: 'Flagship CP and physical campus treasure hunt exclusively for first-years.' },
+  { id: 'icpc-vjti-2026', date: 'March 2026', title: 'ICPC VJTI Internal Round', note: 'Selection round to represent VJTI at the ICPC Regionals.' },
+  { id: 'hackxcelerate-2026', date: 'Feb 2026', title: 'HackXcelerate 2026', note: '12-hour intensive hackathon with dual ML and Dev tracks, ₹35,000 prize pool.' },
+  { id: 'debug-a-thon-2026', date: 'Jan 2026', title: 'CodeVerse 2.0', note: 'Flagship tech symposium with 9 competitions across 4 domains, ₹90,000 prize pool.' },
+  { id: 'project-x-2025', date: 'July 2025', title: 'Project X', note: "VJTI's senior-led flagship mentorship program for junior developers." },
 ];
 
 const CommunityActivity: React.FC = () => (
@@ -22,11 +21,13 @@ const CommunityActivity: React.FC = () => (
       <ol className="act__list">
         {ACTIVITY.map((a, i) => (
           <Reveal as="li" key={a.title} delay={i * 0.06} className="act__item">
-            <span className="act__date">{a.date}</span>
-            <div className="act__body">
-              <h3 className="act__title">{a.title}</h3>
-              <p className="act__note">{a.note}</p>
-            </div>
+            <a href={`#events?id=${a.id}`} className="act__link" aria-label={`View ${a.title} details`}>
+              <span className="act__date">{a.date}</span>
+              <div className="act__body">
+                <h3 className="act__title">{a.title}</h3>
+                <p className="act__note">{a.note}</p>
+              </div>
+            </a>
           </Reveal>
         ))}
       </ol>
