@@ -103,12 +103,12 @@ const Contact: React.FC = () => {
                   {EMAIL} <span className="go"><ArrowUpRight /></span>
                 </a>
               </div>
-              <span className="ct-email-hint">click to copy · underline draws in on hover</span>
+              <span className="ct-email-hint">click to copy </span>
               <span className="ct-status"><span className="ct-status-dot" />usually replies within a few hours</span>
             </Reveal>
 
             <Reveal delay={0.32}>
-              <div className="ct-soc-label"><span className="eyebrow">Community of Coders — hover to light up</span></div>
+              <div className="ct-soc-label"><span className="eyebrow">Community of Coders</span></div>
             </Reveal>
             <Reveal delay={0.4}>
               <div className="ct-soc-cluster">

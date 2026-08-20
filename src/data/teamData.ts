@@ -16,6 +16,7 @@ import AwwabImg from '../assets/Awwab.png';
 import PratyushImg from '../assets/Rao.jpg';
 import DhirajImg from '../assets/Dhiraj.jpg';
 import PratikImg from '../assets/pratik.jpg';
+import JinmayImg from '../assets/Jinmay.jpg';
 
 const u = (id: string, w = 800) =>
   `https://images.unsplash.com/${id}?auto=format&fit=crop&w=${w}&q=72`;
@@ -101,7 +102,7 @@ export const TEAM: TeamMember[] = [
     role: 'Treasurer',
     tagline: 'Keeping every initiative sustainable.',
     bio: 'Treasurer of CoC, managing finances, sponsorship allocations, and ensuring smooth execution of council activities.',
-    photo: u('photo-1506794778202-cad84cf45f1d'),
+    photo: JinmayImg,
     github: 'https://github.com/Borrus-sudo',
     linkedin: 'https://www.linkedin.com/in/jinmay-jhaveri',
   },
