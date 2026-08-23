@@ -92,10 +92,10 @@ export const InternshipsTab: React.FC = () => {
                   <td className="col-stipend">{item.stipend}</td>
                   <td className="col-members">{item.members}</td>
                   <td>
-                    {item.ppos !== '—' && Number(item.ppos) > 0 ? (
+                    {item.ppos !== '-' && Number(item.ppos) > 0 ? (
                       <span className="col-ppos">{item.ppos}</span>
                     ) : (
-                      <span className="col-ppos-none">—</span>
+                      <span className="col-ppos-none">-</span>
                     )}
                   </td>
                 </tr>

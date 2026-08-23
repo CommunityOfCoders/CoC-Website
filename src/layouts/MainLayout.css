@@ -2,7 +2,7 @@
 .shell main { flex: 1; }
 
 /* ============================================================
-   Header / nav — transparent over hero, solid on scroll
+   Header / nav - transparent over hero, solid on scroll
    ============================================================ */
 .nav {
   position: fixed;

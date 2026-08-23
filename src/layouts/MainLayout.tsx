@@ -45,7 +45,7 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children, route }) => {
     <div className="shell">
       <header className={`nav${scrolled ? ' nav--scrolled' : ''}`}>
         <div className="container nav__inner">
-          <a href="#" className="brand" aria-label="Community of Coders — home">
+          <a href="#" className="brand" aria-label="Community of Coders - home">
             <img src={cocLogo} alt="CoC Logo" style={{ width: '32px', height: '32px', borderRadius: '6px', objectFit: 'contain' }} />
             <span className="brand__meta">Community of Coders<em>VJTI · Matunga</em></span>
           </a>
@@ -63,8 +63,8 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children, route }) => {
             ))}
           </nav>
 
-          <a href="https://github.com/CommunityOfCoders" target="_blank" rel="noreferrer" className="btn nav__cta">
-            GitHub <ArrowUpRight />
+          <a href="https://www.linkedin.com/company/community-of-coders-vjti" target="_blank" rel="noreferrer" className="btn nav__cta">
+            LinkedIn <ArrowUpRight />
           </a>
 
           <button
@@ -118,7 +118,7 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children, route }) => {
               </div>
               <div className="footer__col footer__col--news">
                 <span className="footer__col-title">Stay in the loop</span>
-                <p className="footer__news-copy">New events, drops and open-source calls — no spam.</p>
+                <p className="footer__news-copy">New events, drops and open-source calls - no spam.</p>
                 <form className="news" onSubmit={(e) => e.preventDefault()}>
                   <input
                     type="email"

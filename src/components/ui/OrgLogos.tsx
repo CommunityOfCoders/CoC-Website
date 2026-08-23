@@ -64,102 +64,102 @@ function ImageLogo({
   );
 }
 
-/* Google — from src/assets/Google__G__logo.svg */
+/* Google - from src/assets/Google__G__logo.svg */
 export const GoogleLogo: React.FC<P> = (props) => (
   <ImageLogo src={googleImg} alt="Google" width={props.width} height={props.height} className={props.className} style={props.style} />
 );
 
-/* GSoC — from src/assets/GSoC_logo.svg */
+/* GSoC - from src/assets/GSoC_logo.svg */
 export const GSoCLogo: React.FC<P> = (props) => (
   <ImageLogo src={gsocImg} alt="Google Summer of Code" width={props.width} height={props.height} className={props.className} style={props.style} />
 );
 
-/* OpenCV — from src/assets/OpenCV_Logo_with_text_svg_version.svg */
+/* OpenCV - from src/assets/OpenCV_Logo_with_text_svg_version.svg */
 export const OpenCVLogo: React.FC<P> = (props) => (
   <ImageLogo src={opencvImg} alt="OpenCV" width={props.width} height={props.height} className={props.className} style={props.style} />
 );
 
-/* Prometheus — from src/assets/Prometheus_software_logo.svg */
+/* Prometheus - from src/assets/Prometheus_software_logo.svg */
 export const PrometheusLogo: React.FC<P> = (props) => (
   <ImageLogo src={prometheusImg} alt="Prometheus" width={props.width} height={props.height} className={props.className} style={props.style} />
 );
 
-/* GNU Octave — from src/assets/Gnu-octave-logo.svg */
+/* GNU Octave - from src/assets/Gnu-octave-logo.svg */
 export const OctaveLogo: React.FC<P> = (props) => (
   <ImageLogo src={octaveImg} alt="GNU Octave" width={props.width} height={props.height} className={props.className} style={props.style} />
 );
 
-/* SymPy — from src/assets/Sympy_logo.svg */
+/* SymPy - from src/assets/Sympy_logo.svg */
 export const SymPyLogo: React.FC<P> = (props) => (
   <ImageLogo src={sympyImg} alt="SymPy" width={props.width} height={props.height} className={props.className} style={props.style} />
 );
 
-/* Debian — from src/assets/Debian_logo.png */
+/* Debian - from src/assets/Debian_logo.png */
 export const DebianLogo: React.FC<P> = (props) => (
   <ImageLogo src={debianImg} alt="Debian" width={props.width} height={props.height} className={props.className} style={props.style} />
 );
 
-/* Fedora — from src/assets/Fedora_logo.svg */
+/* Fedora - from src/assets/Fedora_logo.svg */
 export const FedoraLogo: React.FC<P> = (props) => (
   <ImageLogo src={fedoraImg} alt="Fedora" width={props.width} height={props.height} className={props.className} style={props.style} />
 );
 
-/* SageMath — from src/assets/Sage-logo-2018.svg */
+/* SageMath - from src/assets/Sage-logo-2018.svg */
 export const SageLogo: React.FC<P> = (props) => (
   <ImageLogo src={sageImg} alt="SageMath" width={props.width} height={props.height} className={props.className} style={props.style} />
 );
 
-/* Hacktoberfest — from src/assets/Hacktoberfest_logo.png */
+/* Hacktoberfest - from src/assets/Hacktoberfest_logo.png */
 export const HacktoberfestLogo: React.FC<P> = (props) => (
   <ImageLogo src={hacktoberfestImg} alt="Hacktoberfest" width={props.width} height={props.height} className={props.className} style={props.style} />
 );
 
-/* CNCF (Cloud Native Computing Foundation) — from src/assets/CNCF_logo.svg */
+/* CNCF (Cloud Native Computing Foundation) - from src/assets/CNCF_logo.svg */
 export const CNCFLogo: React.FC<P> = (props) => (
   <ImageLogo src={cncfImg} alt="CNCF" width={props.width} height={props.height} className={props.className} style={props.style} />
 );
 
-/* INCF (International Neuroinformatics Coordinating Facility) — from src/assets/INCF_logo.png */
+/* INCF (International Neuroinformatics Coordinating Facility) - from src/assets/INCF_logo.png */
 export const INCFLogo: React.FC<P> = (props) => (
   <ImageLogo src={incfImg} alt="INCF" width={props.width} height={props.height} className={props.className} style={props.style} />
 );
 
-/* Intel — from src/assets/Intel_logo.svg */
+/* Intel - from src/assets/Intel_logo.svg */
 export const IntelLogo: React.FC<P> = (props) => (
   <ImageLogo src={intelImg} alt="Intel" width={props.width} height={props.height} className={props.className} style={props.style} />
 );
 
-/* Julia Language — from src/assets/Julia_logo.svg */
+/* Julia Language - from src/assets/Julia_logo.svg */
 export const JuliaLogo: React.FC<P> = (props) => (
   <ImageLogo src={juliaImg} alt="Julia Language" width={props.width} height={props.height} className={props.className} style={props.style} />
 );
 
-/* Python Software Foundation — from src/assets/Python_logo.svg */
+/* Python Software Foundation - from src/assets/Python_logo.svg */
 export const PythonLogo: React.FC<P> = (props) => (
   <ImageLogo src={pythonImg} alt="Python" width={props.width} height={props.height} className={props.className} style={props.style} />
 );
 
-/* PostgreSQL — from src/assets/PostgreSQL_logo.svg */
+/* PostgreSQL - from src/assets/PostgreSQL_logo.svg */
 export const PostgreSQLLogo: React.FC<P> = (props) => (
   <ImageLogo src={postgresImg} alt="PostgreSQL" width={props.width} height={props.height} className={props.className} style={props.style} />
 );
 
-/* Blender Foundation — from src/assets/Blender_logo.svg */
+/* Blender Foundation - from src/assets/Blender_logo.svg */
 export const BlenderLogo: React.FC<P> = (props) => (
   <ImageLogo src={blenderImg} alt="Blender" width={props.width} height={props.height} className={props.className} style={props.style} />
 );
 
-/* Apache Software Foundation — from src/assets/Apache_logo.svg */
+/* Apache Software Foundation - from src/assets/Apache_logo.svg */
 export const ApacheLogo: React.FC<P> = (props) => (
   <ImageLogo src={apacheImg} alt="Apache" width={props.width} height={props.height} className={props.className} style={props.style} />
 );
 
-/* Kubernetes — from src/assets/Kubernetes_logo.svg */
+/* Kubernetes - from src/assets/Kubernetes_logo.svg */
 export const KubernetesLogo: React.FC<P> = (props) => (
   <ImageLogo src={k8sImg} alt="Kubernetes" width={props.width} height={props.height} className={props.className} style={props.style} />
 );
 
-/* Community of Coders — from src/assets/coc.png */
+/* Community of Coders - from src/assets/coc.png */
 export const CoCLogo: React.FC<P> = (props) => (
   <ImageLogo src={cocImg} alt="Community of Coders" width={props.width} height={props.height} className={props.className} style={props.style} />
 );

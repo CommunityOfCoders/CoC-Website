@@ -1,5 +1,5 @@
 /* ============================================================
-   Contact page — headline-led, photo-anchored, one hero block
+   Contact page - headline-led, photo-anchored, one hero block
    plus a quiet "also find us" row. Same v3 language as the rest
    of the site: true black, one spring-green accent, untinted
    photography. The email is the actual hero element, not a
@@ -123,7 +123,7 @@
 .ct-soc-mark[data-tip]:hover::after { opacity: 1; transform: translateX(-50%) translateY(0); }
 .ct-soc-mark[data-tip]:hover::before { opacity: 1; }
 
-/* ---------- photo collage — identical geometry to Home's Hero.tsx ---------- */
+/* ---------- photo collage - identical geometry to Home's Hero.tsx ---------- */
 .ct-media { position: relative; aspect-ratio: 4 / 4.3; will-change: transform; }
 .ct-media-shape {
   position: absolute; inset: 8% -4% -6% 16%;

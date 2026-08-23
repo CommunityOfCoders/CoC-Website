@@ -48,7 +48,7 @@ const FLOATING_HERO_LOGOS = [
   },
 ];
 
-/** Live public-repo count + star total for the org — snapshot from
+/** Live public-repo count + star total for the org - snapshot from
  *  REPOS until the fetch resolves, cached per tab so repeat visits
  *  to the page don't re-hit the API. */
 function useOrgStats() {
@@ -255,6 +255,11 @@ function ContributorDrawer({ contributor, isOpen, onClose }: DrawerProps) {
                 <BlogIcon url={contributor.blog} /> Blog
               </a>
             )}
+            {contributor.projectLink && (
+              <a href={contributor.projectLink} target="_blank" rel="noreferrer" className="os-action-btn">
+                <ArrowUpRight size={15} /> Project Link
+              </a>
+            )}
           </div>
 
           <div className="os-drawer-section">
@@ -274,9 +279,9 @@ function ContributorDrawer({ contributor, isOpen, onClose }: DrawerProps) {
           </div>
 
           {contributor.mentor && (
-            <div className="os-drawer-mentor">
-              <span className="os-drawer-mentor__label">Mentored by</span>
-              <span className="os-drawer-mentor__name">{contributor.mentor}</span>
+            <div className="os-drawer-section">
+              <div className="os-drawer-section-label">Mentored by</div>
+              <div className="os-drawer-mentor-name">{contributor.mentor}</div>
             </div>
           )}
         </div>
@@ -364,7 +369,7 @@ export default function OpenSource() {
               <Reveal delay={0.22}>
                 <p className="os-hero__subtitle">
                   Celebrating Community of Coders members who&apos;ve carried VJTI into global open-source
-                  programs — real people, real merged pull requests.
+                  programs - real people, real merged pull requests.
                 </p>
               </Reveal>
 
@@ -513,7 +518,7 @@ export default function OpenSource() {
 
           <div className="os-subhead">
             <span className="eyebrow">Contributors</span>
-            <span className="os-count">— {filteredContributors.length} featured</span>
+            <span className="os-count">- {filteredContributors.length} featured</span>
           </div>
 
           {(() => {

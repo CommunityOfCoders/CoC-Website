@@ -11,14 +11,14 @@ const EMAIL = 'communityofcoders@gmail.com';
 type IconType = React.FC<React.SVGProps<SVGSVGElement>>;
 interface Social { label: string; href: string; tip: string; Icon: IconType; cls?: string; size?: number }
 
-/* CoC's own channels — shown big, front and centre */
+/* CoC's own channels - shown big, front and centre */
 const COC_SOCIALS: Social[] = [
   { label: 'Instagram', href: 'https://instagram.com/coc_vjti', tip: '@coc_vjti', Icon: InstagramColor, cls: 'ig', size: 60 },
   { label: 'LinkedIn', href: 'https://linkedin.com/company/community-of-coders-vjti', tip: 'Community Of Coders, VJTI', Icon: LinkedinColor, cls: 'li', size: 52 },
   { label: 'GitHub', href: 'https://github.com/CommunityOfCoders', tip: 'github.com/CommunityOfCoders', Icon: Github, cls: 'gh', size: 44 },
 ];
 
-/* affiliated communities — every confirmed channel per community.
+/* affiliated communities - every confirmed channel per community.
    Project X's X/Twitter is intentionally left out: no confirmed handle
    was found, and a guessed link isn't worth shipping. Add it as soon
    as it's confirmed. */
@@ -45,7 +45,7 @@ const NETWORK: { name: string; socials: Social[] }[] = [
   },
 ];
 
-/* site accent, not a third-party brand — kept local rather than in BrandIcons */
+/* site accent, not a third-party brand - kept local rather than in BrandIcons */
 const MailMark: IconType = (props) => (
   <svg viewBox="0 0 50 50" {...props}>
     <rect width="50" height="50" rx="13" fill="var(--accent)" />
@@ -91,7 +91,7 @@ const Contact: React.FC = () => {
             </Reveal>
             <Reveal delay={0.16}>
               <p className="ct-intro">
-                Questions about an event, a project, or just want to say hi — this is every way
+                Questions about an event, a project, or just want to say hi - this is every way
                 to reach the people behind CoC.
               </p>
             </Reveal>

@@ -2,10 +2,10 @@ import React from 'react';
 import { Users, Compass, Hammer, GitFork, Briefcase, Trophy } from 'lucide-react';
 import Reveal from '../ui/Reveal';
 
-/* "What we're about" — descriptive, not persuasive. */
+/* "What we're about" - descriptive, not persuasive. */
 const FEATURES = [
   { Icon: Users, title: 'Community', body: 'A few hundred people across batches who actually answer at 1am.' },
-  { Icon: Compass, title: 'Mentorship', body: 'Seniors and alumni pass down what worked — and what didn\'t.' },
+  { Icon: Compass, title: 'Mentorship', body: 'Seniors and alumni pass down what worked - and what didn\'t.' },
   { Icon: Hammer, title: 'Real projects', body: 'The tools on this page run on campus right now. That\'s the bar.' },
   { Icon: GitFork, title: 'Open source', body: 'Public repos, proper reviews, the same workflow industry uses.' },
   { Icon: Briefcase, title: 'Placements', body: 'A decade of outcomes documented, so juniors can see the path.' },

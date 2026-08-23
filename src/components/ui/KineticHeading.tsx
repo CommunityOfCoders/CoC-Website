@@ -9,7 +9,7 @@ export interface KineticWord {
 }
 
 /**
- * Kinetic word reveal — each word rises out of its own clip, staggered,
+ * Kinetic word reveal - each word rises out of its own clip, staggered,
  * once the given ref scrolls into view. Reduced motion: plain static text.
  * Shared by Events/Projects/OpenSource page headings.
  */

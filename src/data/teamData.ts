@@ -1,9 +1,5 @@
 /* ============================================================
-   TEAM ROSTER — dummy data, single source of truth.
-   Mirrors eventsData.ts / placeholderImages.ts: portraits are
-   Unsplash stock stand-ins shown as real, untinted photography.
-   To swap in real members: edit the entries below; drop real
-   portraits into /public/photos/ and point the URLs there.
+   TEAM ROSTER - real data for CoC team members.
    ============================================================ */
 
 import AvanishImg from '../assets/Avanish.jpg';

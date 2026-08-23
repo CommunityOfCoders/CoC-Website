@@ -1,5 +1,5 @@
 /* ============================================================
-   Home page — section styles, v3
+   Home page - section styles, v3
    (electric green + white + greys on true black; photography
    reads as photography; scroll-driven backdrop behind sections)
    ============================================================ */
@@ -176,7 +176,7 @@
 .pillar__go svg { width: 16px; height: 16px; transition: transform 0.3s var(--ease); }
 .pillar:hover .pillar__go svg { transform: translate(3px, -3px); }
 
-/* featured (accent-filled) middle card — near-black text for contrast */
+/* featured (accent-filled) middle card - near-black text for contrast */
 .pillar--feat { background: var(--accent); border-color: var(--accent); }
 .pillar--feat:hover { background: var(--accent); border-color: var(--accent); }
 .pillar--feat .pillar__title,

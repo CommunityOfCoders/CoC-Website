@@ -9,9 +9,6 @@ import {
    REAL data: repos (see REPOS below), featured orgs and programs
    are real organisations with real links. Star/fork counts are a
    snapshot from the public GitHub API for CommunityOfCoders.
-
-   CONTRIBUTORS is a different story — see the comment above that
-   array. Those three entries are placeholders, not people.
    ============================================================ */
 
 export interface Repo {
@@ -26,19 +23,19 @@ export interface Repo {
 const repo = (name: string) => `https://github.com/CommunityOfCoders/${name}`;
 
 export const REPOS: Repo[] = [
-  { name: 'COCWebsite', desc: "The official website of Community Of Coders, VJTI — yes, it's open source too.", lang: 'TypeScript', stars: 27, forks: 48, href: repo('COCWebsite') },
-  { name: 'Inheritance2k25', desc: "This year's submissions for Inheritance — CoC's flagship project-building fest.", lang: 'JavaScript', stars: 4, forks: 26, href: repo('Inheritance2k25') },
+  { name: 'COCWebsite', desc: "The official website of Community Of Coders, VJTI - yes, it's open source too.", lang: 'TypeScript', stars: 27, forks: 48, href: repo('COCWebsite') },
+  { name: 'Inheritance2k25', desc: "This year's submissions for Inheritance - CoC's flagship project-building fest.", lang: 'JavaScript', stars: 4, forks: 26, href: repo('Inheritance2k25') },
   { name: 'Inheritance-2021', desc: "Culmination of projects under Inheritance '21.", lang: 'JavaScript', stars: 28, forks: 69, href: repo('Inheritance-2021') },
   { name: 'Inheritance-2020', desc: 'Official repository for Inheritance submissions, 2020.', lang: 'JavaScript', stars: 17, forks: 53, href: repo('Inheritance-2020') },
-  { name: 'Project-X-2023', desc: 'Project ideas and repos for the Project X mentorship programme — by the seniors, for the juniors.', lang: 'JavaScript', stars: 7, forks: 10, href: repo('Project-X-2023') },
+  { name: 'Project-X-2023', desc: 'Project ideas and repos for the Project X mentorship programme - by the seniors, for the juniors.', lang: 'JavaScript', stars: 7, forks: 10, href: repo('Project-X-2023') },
   { name: 'WebGenesis', desc: "Starter templates and resources from CoC's web-development workshop series.", lang: 'HTML', stars: 10, forks: 77, href: repo('WebGenesis') },
-  { name: 'Git-Workshop-22', desc: 'Hands-on material from the Git & GitHub workshop — branching, PRs, real collaboration workflows.', lang: 'JavaScript', stars: 26, forks: 42, href: repo('Git-Workshop-22') },
+  { name: 'Git-Workshop-22', desc: 'Hands-on material from the Git & GitHub workshop - branching, PRs, real collaboration workflows.', lang: 'JavaScript', stars: 26, forks: 42, href: repo('Git-Workshop-22') },
   { name: 'ML-DS-Workshop-22', desc: 'Notebooks and datasets from the Machine Learning & Data Science workshop.', lang: 'Jupyter Notebook', stars: 22, forks: 13, href: repo('ML-DS-Workshop-22') },
-  { name: 'Inheritance-Bot', desc: "A Discord bot built for Inheritance '22 — submissions, reminders and leaderboard pings.", lang: 'JavaScript', stars: 8, forks: 11, href: repo('Inheritance-Bot') },
+  { name: 'Inheritance-Bot', desc: "A Discord bot built for Inheritance '22 - submissions, reminders and leaderboard pings.", lang: 'JavaScript', stars: 8, forks: 11, href: repo('Inheritance-Bot') },
   { name: 'EthVJTI-Web3-Bootcamp-2024', desc: 'Resources from the Web3 Bootcamp run by ETH VJTI, 2024.', lang: 'JavaScript', stars: 3, forks: 0, href: repo('EthVJTI-Web3-Bootcamp-2024') },
 ];
 
-/* ---------- featured organisations (hero logo wall) — all real ---------- */
+/* ---------- featured organisations (hero logo wall) - all real ---------- */
 export interface FeaturedOrg { name: string; href: string; Logo: React.FC<React.SVGProps<SVGSVGElement>> }
 
 export const FEATURED_ORGS: FeaturedOrg[] = [
@@ -65,7 +62,7 @@ export const FEATURED_ORGS: FeaturedOrg[] = [
   { name: 'ML4Sci', href: 'https://ml4sci.org/', Logo: ML4SciLogo },
 ];
 
-/* ---------- programs students plug into — all real, all link out ---------- */
+/* ---------- programs students plug into - all real, all link out ---------- */
 export interface Program {
   id: 'gsoc' | 'lfx' | 'jsoc' | 'hacktoberfest';
   name: string;
@@ -108,7 +105,7 @@ export const PROGRAMS: Program[] = [
     id: 'hacktoberfest',
     name: 'Hacktoberfest',
     shortName: 'Hacktoberfest',
-    description: 'A month-long open-source celebration every October — four accepted pull requests to any participating repo, no application or mentor needed.',
+    description: 'A month-long open-source celebration every October - four accepted pull requests to any participating repo, no application or mentor needed.',
     href: 'https://hacktoberfest.com/',
     Logo: HacktoberfestLogo,
     color: '#BA3925',
@@ -116,7 +113,7 @@ export const PROGRAMS: Program[] = [
 ];
 
 /* ============================================================
-   CONTRIBUTORS — Community of Coders members across GSoC,
+   CONTRIBUTORS - Community of Coders members across GSoC,
    LFX Mentorship, and Julia Season of Contributions (JSoC).
    ============================================================ */
 
@@ -131,6 +128,7 @@ export interface Contributor {
   tech: string[];
   description: string;
   mentor?: string;
+  projectLink?: string;
   github?: string;
   linkedin?: string;
   blog?: string;
@@ -149,6 +147,8 @@ export const CONTRIBUTORS: Contributor[] = [
     tech: ['C++', 'MATLAB', 'Octave', 'Statistics'],
     description:
       'Add LinearModel and CompactLinearModel objects to the statistics package in GNU Octave, enhancing statistical and regression modelling capabilities.',
+    mentor: 'Colin MacDonald, Andreas Bertsatos',
+    projectLink: 'https://summerofcode.withgoogle.com/programs/2024/projects/3eNfTfB9',
     github: 'https://github.com/AvanishSalunke',
     linkedin: 'https://www.linkedin.com/in/avanish-salunke-539042330',
   },
@@ -163,6 +163,8 @@ export const CONTRIBUTORS: Contributor[] = [
     tech: ['Python', 'Machine Learning', 'Astrophysics', 'Deep Learning'],
     description:
       'Develop machine learning models for exoplanet atmosphere characterization utilizing astrophysical transmission spectroscopy data under ML4SCI.',
+    mentor: 'Katia Matcheva, Emilie Panek',
+    projectLink: 'https://summerofcode.withgoogle.com/programs/2024/organizations/ml4sci',
     github: 'https://github.com/AnushreeUpasham',
   },
   {
@@ -176,6 +178,8 @@ export const CONTRIBUTORS: Contributor[] = [
     tech: ['Python', 'Neuroscience', 'Neuroinformatics', 'Open Science'],
     description:
       'Develop open-source neuroinformatics tools and reproducible workflows to support neuroscience research and open science initiatives at INCF.',
+    mentor: 'Bradly Alicea',
+    projectLink: 'https://summerofcode.withgoogle.com/programs/2024/organizations/incf',
     github: 'https://github.com/vidhirohira',
     blog: 'https://vidhirohira.github.io/blog/2025/06/12/week2-task-allocation-mab.html',
   },
@@ -190,6 +194,8 @@ export const CONTRIBUTORS: Contributor[] = [
     tech: ['Python', 'Qiskit', 'Quantum ML', 'Spectroscopy'],
     description:
       'Apply quantum machine learning techniques to characterize exoplanet atmospheres from transmission spectra under ML4SCI in GSoC.',
+    mentor: 'Katia Matcheva, Konstantin Matchev, Emilie Panek',
+    projectLink: 'https://summerofcode.withgoogle.com/programs/2024/organizations/ml4sci',
     blog: 'https://medium.com/@sourishphate/quantum-machine-learning-for-exoplanet-characterization-gsoc-25-ml4sci-c6c6cb4590b9',
   },
   {
@@ -204,6 +210,7 @@ export const CONTRIBUTORS: Contributor[] = [
     description:
       "Implemented KDTreeSearcher, ExhaustiveSearcher and hnswSearcher classes for GNU Octave's Statistics package, plus a unified createns() factory function for nearest-neighbour search.",
     mentor: 'Andreas Bertsatos & Colin Macdonald',
+    projectLink: 'https://summerofcode.withgoogle.com/programs/2024/organizations/gnu-octave',
     github: 'https://github.com/Sonu0305',
     linkedin: 'https://www.linkedin.com/in/swayamshahh/',
     blog: 'https://swayams.medium.com/embarking-on-my-google-summer-of-code-25-journey-with-gnu-octave-cfa50a4681fb',
@@ -219,6 +226,8 @@ export const CONTRIBUTORS: Contributor[] = [
     tech: ['C++', 'JAX', 'FLAX', 'Keras', 'TMVA SOFIE'],
     description:
       'Enhance TMVA SOFIE by improving Keras parsing and adding JAX/FLAX support for optimized C++ machine learning inference code generation for high-energy physics.',
+    mentor: 'Lorenzo Moneta, Sanjiban Sengupta',
+    projectLink: 'https://summerofcode.withgoogle.com/programs/2024/organizations/cern-hsf',
     github: 'https://github.com/prasannakasar',
   },
   {
@@ -232,6 +241,8 @@ export const CONTRIBUTORS: Contributor[] = [
     tech: ['Python', 'SymPy', 'Biomechanics', 'Symbolic Math'],
     description:
       'Add symbolic wrapping obstacle geometry models to SymPy mechanics module for efficient musculoskeletal biomechanics simulations.',
+    mentor: 'Hwayeon Kang, Jason Moore',
+    projectLink: 'https://summerofcode.withgoogle.com/programs/2024/organizations/sympy',
     github: 'https://github.com/RushabhMehta2005',
     linkedin: 'https://www.linkedin.com/in/mehtarushabh/',
     blog: 'https://rushabh-mehta.medium.com/',
@@ -247,13 +258,15 @@ export const CONTRIBUTORS: Contributor[] = [
     tech: ['Python', 'Intel OpenVINO', 'Datumaro', 'Multimodal AI'],
     description:
       'Build an Interactive Multimodal Data Explorer for Intel Datumaro / OpenVINO to inspect, filter, and visualize complex AI computer vision datasets.',
+    mentor: 'Laurens Hogeweg, Rajesh Gangireddy, Samet Akcay',
+    projectLink: 'https://summerofcode.withgoogle.com/programs/2024/organizations/intel',
     github: 'https://github.com/aaryapandey',
   },
 
   // ─── LFX Mentorship Contributors ─────────────────────────────────────────
   {
-    id: 'rushab-mehta-lfx',
-    name: 'Rushab Mehta',
+    id: 'rushabh-mehta-lfx',
+    name: 'Rushabh Mehta',
     initials: 'RM',
     programId: 'lfx',
     org: 'CNCF',
@@ -262,6 +275,8 @@ export const CONTRIBUTORS: Contributor[] = [
     tech: ['Go', 'Prometheus', 'CNCF', 'WAL Replay'],
     description:
       'Improving Prometheus startup performance by enabling metric scraping to run concurrently in parallel with WAL replay under CNCF.',
+    mentor: 'Prometheus Maintainers',
+    projectLink: 'https://mentorship.lfx.linuxfoundation.org/project/',
     github: 'https://github.com/RushabhMehta2005',
     linkedin: 'https://www.linkedin.com/in/mehtarushabh/',
   },
@@ -276,6 +291,8 @@ export const CONTRIBUTORS: Contributor[] = [
     tech: ['Rust', 'WebAssembly', 'WasmEdge', 'bitnet.cpp', 'LLMs'],
     description:
       'Build a WASI-NN backend plugin for WasmEdge (CNCF) that integrates bitnet.cpp to run ultra-efficient 1-bit quantized LLMs on CPU architectures.',
+    mentor: 'WasmEdge Maintainers',
+    projectLink: 'https://mentorship.lfx.linuxfoundation.org/project/',
     github: 'https://github.com/Khushmagrawal',
     linkedin: 'https://www.linkedin.com/in/khush-agrawal-36916b207/',
     blog: 'https://khush3.github.io/',
@@ -293,6 +310,8 @@ export const CONTRIBUTORS: Contributor[] = [
     tech: ['Julia', 'Symbolic Computation', 'PINNs', 'Loss Functions'],
     description:
       'Building a high-performance symbolic parser for automatically generating optimized loss functions for Physics-Informed Neural Networks (PINNs) in Julia.',
+    mentor: 'Julia Maintainers',
+    projectLink: 'https://julialang.org/jsoc/',
     github: 'https://github.com/utsavojha',
   },
 ];

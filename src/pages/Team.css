@@ -1,5 +1,5 @@
 /* ============================================================
-   Team page — wrapping roster grid + layoutId morph profile.
+   Team page - wrapping roster grid + layoutId morph profile.
    Same v3 language as the homepage: true black, one spring-
    green accent, untinted portrait photography.
    ============================================================ */
@@ -72,7 +72,7 @@
 }
 
 /* faint background texture: the member's own portrait, nearly
-   swallowed by the near-black gradient — depth, not decoration */
+   swallowed by the near-black gradient - depth, not decoration */
 .team-card__bg {
   position: absolute;
   inset: 0;

@@ -1,5 +1,5 @@
 /* ============================================================
-   CoC — Community of Coders, VJTI
+   CoC - Community of Coders, VJTI
    Global design system, v3.
    True-black canvas · one electric spring-green accent · white
    + grey scale. Cabinet Grotesk display / Switzer body / DM Mono
@@ -144,6 +144,17 @@ button { font-family: inherit; cursor: pointer; }
 }
 .btn--ghost:hover { border-color: var(--fg); background: rgba(245,247,245,0.05); }
 .btn--ghost:active { background: rgba(245,247,245,0.05); }
+
+.btn--hero-cta {
+  --_bg: transparent;
+  --_fg: var(--fg);
+  border-color: var(--line-2);
+}
+.btn--hero-cta:hover {
+  background: var(--accent-deep);
+  color: var(--accent-ink);
+  border-color: var(--accent-deep);
+}
 
 .btn--on-bone { --_fg: var(--bone-ink); }
 .btn--on-bone.btn--ghost { --_fg: var(--bone-ink); border-color: var(--bone-line); }

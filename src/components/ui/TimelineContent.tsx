@@ -4,7 +4,7 @@ import type { Variants } from 'framer-motion';
 
 interface TimelineContentProps {
   children?: React.ReactNode;
-  /** sequence index — multiplies the per-step delay */
+  /** sequence index - multiplies the per-step delay */
   animationNum: number;
   /** the element whose viewport entry triggers the whole sequence */
   timelineRef: React.RefObject<HTMLElement | null>;

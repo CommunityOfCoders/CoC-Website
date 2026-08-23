@@ -1,5 +1,5 @@
 /* ============================================================
-   PLACEHOLDER IMAGERY — single source of truth.
+   PLACEHOLDER IMAGERY - single source of truth.
    Every photo on the homepage resolves through this file.
    All are Unsplash stock stand-ins: real photographs of people
    coding / collaborating / presenting. Shown as full-colour
@@ -26,7 +26,7 @@ export const IMG = {
   bgTalk: u('photo-1540575467063-178a50c2df87', 1900),     // conference audience
   bgCrowd: u('photo-1515187029135-18ee286d815b', 1900),    // hackathon crowd, laptops open
 
-  /* throwback slider — event candids */
+  /* throwback slider - event candids */
   throwback: [
     u('photo-1504384308090-c894fdcc538d', 1100), // hackathon table, laptops everywhere
     u('photo-1515187029135-18ee286d815b', 1100), // crowd at a tech event

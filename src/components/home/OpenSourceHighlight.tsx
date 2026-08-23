@@ -25,7 +25,7 @@ const OpenSourceHighlight: React.FC = () => (
         </Reveal>
         <Reveal delay={0.1} className="oss__head-right">
           <p className="oss__intro">
-            From Google Summer of Code and LFX Mentorship to Julia and CNCF —
+            From Google Summer of Code and LFX Mentorship to Julia and CNCF -
             CoC members contribute to leading open-source organizations worldwide.
           </p>
           <a href="#opensource" className="oss__head-link">

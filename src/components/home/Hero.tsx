@@ -15,7 +15,7 @@ const Hero: React.FC = () => {
   const yMain = useTransform(scrollYProgress, [0, 1], [0, -60]);
   const ySub = useTransform(scrollYProgress, [0, 1], [0, 48]);
 
-  // cursor parallax — the collage leans gently toward the mouse
+  // cursor parallax - the collage leans gently toward the mouse
   const mx = useMotionValue(0);
   const my = useMotionValue(0);
   const sx = useSpring(mx, { stiffness: 55, damping: 15 });
@@ -72,8 +72,8 @@ const Hero: React.FC = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1], delay: 0.75 }}
           >
-            <Magnetic><a href="#projects" className="btn">See our work <ArrowUpRight /></a></Magnetic>
-            <Magnetic><a href="#events" className="btn btn--ghost">Explore events</a></Magnetic>
+            <Magnetic strength={0.05}><a href="#projects" className="btn btn--hero-cta">See our work <ArrowUpRight /></a></Magnetic>
+            <Magnetic strength={0.05}><a href="#events" className="btn btn--hero-cta">Explore events <ArrowUpRight /></a></Magnetic>
           </motion.div>
         </div>
 

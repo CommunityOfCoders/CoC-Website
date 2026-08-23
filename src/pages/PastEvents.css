@@ -1,5 +1,5 @@
 /* ============================================================
-   Events page — Memory Gallery header · full-bleed image grid ·
+   Events page - Memory Gallery header · full-bleed image grid ·
    upcoming badge · testimonials marquee · pop-sound modal.
    Design language: true-black canvas · spring-green accent ·
    Cabinet Grotesk / Switzer / DM Mono.
@@ -30,7 +30,7 @@
 .ev-page__title .ev-kinetic__word:not(.is-mark):hover { color: var(--accent); }
 
 /* ================================================================
-   HERO — polaroid collage flanks + centred heading
+   HERO - polaroid collage flanks + centred heading
    ================================================================ */
 .ev-hero {
   position: relative;
@@ -95,7 +95,7 @@
 .ev-polaroid {
   --rot: 0deg;
   position: absolute;
-  /* warm off-white — more natural than pure white against dark canvas */
+  /* warm off-white - more natural than pure white against dark canvas */
   background: #F5F3EE;
   /* polaroid proportions: thin border top/sides, generous border bottom */
   padding: 7px 7px 26px;
@@ -135,7 +135,7 @@
   height: 100%;
 }
 
-/* Star — top-right corner of the polaroid, slightly overlapping */
+/* Star - top-right corner of the polaroid, slightly overlapping */
 .ev-sticker--star {
   width: 38px;
   height: 38px;
@@ -145,7 +145,7 @@
   filter: drop-shadow(0 2px 4px rgba(0,0,0,0.35));
 }
 
-/* Heart — bottom-right corner, peeking past the border */
+/* Heart - bottom-right corner, peeking past the border */
 .ev-sticker--heart {
   width: 30px;
   height: 28px;
@@ -155,7 +155,7 @@
   filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
 }
 
-/* CoC code-mark — top-left corner, slightly rotated */
+/* CoC code-mark - top-left corner, slightly rotated */
 .ev-sticker--coc {
   width: 34px;
   height: 34px;
@@ -173,7 +173,7 @@
 
 
 /* ================================================================
-   EVENTS GRID — full-bleed image cards, max 3 columns
+   EVENTS GRID - full-bleed image cards, max 3 columns
    ================================================================ */
 .ev-grid {
   list-style: none;
@@ -227,7 +227,7 @@
   contain: layout;
 }
 
-/* gradient scrim — dark at bottom for text legibility */
+/* gradient scrim - dark at bottom for text legibility */
 .ev-card::before {
   content: '';
   position: absolute;
@@ -330,7 +330,7 @@
   gap: 6px;
   padding: 5px 11px 5px 9px;
   border-radius: var(--r-pill);
-  /* Amber — deliberately not green so it reads as a distinct
+  /* Amber - deliberately not green so it reads as a distinct
      signal against any photo hue and against the site accent */
   background: rgba(217, 119, 6, 0.88);
   border: 1px solid rgba(251, 191, 36, 0.45);

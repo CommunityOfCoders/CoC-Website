@@ -5,12 +5,12 @@ import Parallax from '../ui/Parallax';
 import { IMG } from '../../data/placeholderImages';
 
 const POINTS = [
-  'Everything ships — workshops end with working code, not certificates',
+  'Everything ships - workshops end with working code, not certificates',
   'Code review culture: seniors read your PRs the way industry will',
   'Teams mix years, so first-years work on the same repos as final-years',
 ];
 
-/** "How we work" — informational split. Showcase framing, not a pitch. */
+/** "How we work" - informational split. Showcase framing, not a pitch. */
 const HowWeWork: React.FC = () => (
   <section className="section section--bone how">
     <div className="container how__grid">

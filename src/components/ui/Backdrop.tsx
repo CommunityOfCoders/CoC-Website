@@ -5,7 +5,7 @@ import { AnimatePresence, motion, useInView, useScroll, useTransform, useReduced
  * Scroll-driven photographic backdrop.
  *
  * <BackdropProvider> renders a fixed full-viewport layer behind the page.
- * Wrap any section in <Scene bg={...}> — when that section scrolls into the
+ * Wrap any section in <Scene bg={...}> - when that section scrolls into the
  * middle band of the viewport, its image animates in (rise + settle) while
  * the previous one drifts out. While on screen, the image also drifts
  * against scroll, so the backdrop never sits still.

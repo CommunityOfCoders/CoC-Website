@@ -23,7 +23,7 @@ const DWELL_DELAY = 1500;
 const SLIDE_STEP = 2800;
 
 /* ---------------------------------------------------------- */
-/* Web Audio "pop" synthesiser — no asset file needed.
+/* Web Audio "pop" synthesiser - no asset file needed.
    A short sine burst at 880 Hz → 440 Hz, 80 ms decay.        */
 /* ---------------------------------------------------------- */
 function usePop() {
@@ -43,7 +43,7 @@ function usePop() {
       osc.stop(ctx.currentTime + 0.14);
       osc.onended = () => ctx.close();
     } catch {
-      /* Safari private / blocked autoplay — silent fallback */
+      /* Safari private / blocked autoplay - silent fallback */
     }
   }, []);
   return play;
@@ -225,7 +225,7 @@ const PolaroidFlank: React.FC<{ side: 'left' | 'right' }> = ({ side }) => {
 
 
 /* ---------------------------------------------------------- */
-/* Photo slider — used in both grid cards (dwell) and modal   */
+/* Photo slider - used in both grid cards (dwell) and modal   */
 /* ---------------------------------------------------------- */
 const PhotoSlider: React.FC<{
   photos: string[];
@@ -401,7 +401,7 @@ const EventCard: React.FC<{
           className="ev-card"
           role="button"
           tabIndex={0}
-          aria-label={`${event.name} — open details`}
+          aria-label={`${event.name} - open details`}
           onMouseEnter={() => setHovered(true)}
           onMouseLeave={() => setHovered(false)}
           onClick={() => onOpen(event)}
@@ -421,7 +421,7 @@ const EventCard: React.FC<{
           >
             <PhotoSlider photos={event.photos} alt={event.name} mode="dwell" hovered={hovered} />
 
-            {/* Badge sits inside the media layer — truly overlaid on the photo */}
+            {/* Badge sits inside the media layer - truly overlaid on the photo */}
             {isUpcoming(event.isoDate) && (
               <div className="ev-card__badge" aria-label="Upcoming event">
                 <span className="ev-card__badge-dot" aria-hidden="true" />
@@ -456,7 +456,7 @@ const EventModal: React.FC<{ event: CoCEvent; onClose: () => void }> = ({ event,
   const pop = usePop();
   const popClose = usePopClose();
 
-  /* Play close sound then dismiss — shared by all three close paths */
+  /* Play close sound then dismiss - shared by all three close paths */
   const handleClose = useCallback(() => {
     popClose();
     onClose();
@@ -760,7 +760,7 @@ const PastEvents: React.FC = () => {
               once
               className="ev-page__intro"
             >
-              From late-night hackathons to quiet Sunday workshops — a running record of what
+              From late-night hackathons to quiet Sunday workshops - a running record of what
               we've built together, one gathering at a time.
             </TimelineContent>
             <TimelineContent

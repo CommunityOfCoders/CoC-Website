@@ -60,7 +60,7 @@ const Throwback: React.FC = () => {
     setIndex((i) => (i + dir + SLIDES.length) % SLIDES.length);
   }, []);
 
-  // autoplay — timer restarts on every index change (manual or automatic),
+  // autoplay - timer restarts on every index change (manual or automatic),
   // so a click/drag never causes an awkward double-advance
   useEffect(() => {
     if (paused || reduce) return;

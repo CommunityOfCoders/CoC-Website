@@ -10,7 +10,7 @@ import './Team.css';
 const EASE = [0.16, 1, 0.3, 1] as const;
 
 /* ---------------------------------------------------------- */
-/* Outside-click hook — closes the expanded view when a click
+/* Outside-click hook - closes the expanded view when a click
    or touch lands anywhere outside the card itself.            */
 /* ---------------------------------------------------------- */
 
@@ -33,7 +33,7 @@ const useOutsideClick = (
 };
 
 /* ---------------------------------------------------------- */
-/* Scroll lock — freezes the page while the expanded view is
+/* Scroll lock - freezes the page while the expanded view is
    open and restores the exact scroll position on close.       */
 /* ---------------------------------------------------------- */
 
@@ -52,7 +52,7 @@ const useScrollLock = () => {
   }, []);
 };
 
-/* social links — shared by card and expanded view */
+/* social links - shared by card and expanded view */
 const Socials: React.FC<{ member: TeamMember; large?: boolean }> = ({ member, large }) => (
   <div className={`team-socials${large ? ' team-socials--lg' : ''}`}>
     <a
@@ -79,7 +79,7 @@ const Socials: React.FC<{ member: TeamMember; large?: boolean }> = ({ member, la
 );
 
 /* ---------------------------------------------------------- */
-/* Collapsed card — morphs into the expanded view via shared
+/* Collapsed card - morphs into the expanded view via shared
    layoutIds on the surface, photo, name and role.             */
 /* ---------------------------------------------------------- */
 
@@ -96,7 +96,7 @@ const MemberCard: React.FC<{
         className="team-card"
         role="button"
         tabIndex={0}
-        aria-label={`${member.name}, ${member.role} — open profile`}
+        aria-label={`${member.name}, ${member.role} - open profile`}
         whileHover={reduce ? undefined : { y: -7, rotate: index % 2 ? 0.5 : -0.5 }}
         transition={{ duration: 0.4, ease: EASE }}
         onClick={() => onOpen(member)}
@@ -142,7 +142,7 @@ const MemberCard: React.FC<{
 };
 
 /* ---------------------------------------------------------- */
-/* Expanded profile — the card grown into a detail view.
+/* Expanded profile - the card grown into a detail view.
    Escape / outside click / X all close it; body scroll locks. */
 /* ---------------------------------------------------------- */
 
@@ -282,7 +282,7 @@ const Team: React.FC = () => {
           </Reveal>
           <Reveal delay={0.16}>
             <p className="team-page__intro">
-              Council, leads and core members — the crew that keeps the repos merged, the events
+              Council, leads and core members - the crew that keeps the repos merged, the events
               running and the labs open late. Click anyone for the full story.
             </p>
           </Reveal>

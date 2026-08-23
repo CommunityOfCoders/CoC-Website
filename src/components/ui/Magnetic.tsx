@@ -8,7 +8,7 @@ interface MagneticProps {
   className?: string;
 }
 
-/** Magnetic hover wrapper — the child leans toward the cursor and
+/** Magnetic hover wrapper - the child leans toward the cursor and
  *  springs back on leave. No-op under reduced motion. */
 const Magnetic: React.FC<MagneticProps> = ({ children, strength = 0.25, className }) => {
   const ref = useRef<HTMLDivElement>(null);

@@ -28,7 +28,7 @@ export const XLogo: React.FC<P> = (props) => (
   </svg>
 );
 
-/* full-colour brand marks — the badge shape IS the logo (Instagram's
+/* full-colour brand marks - the badge shape IS the logo (Instagram's
    rounded gradient square, LinkedIn's rounded blue square), unlike
    Github/XLogo above which have no official colour and stay currentColor */
 export const InstagramColor: React.FC<P> = ({ width = 48, height = 48, ...props }) => (
@@ -59,7 +59,7 @@ export const LinkedinColor: React.FC<P> = ({ width = 44, height = 44, ...props }
 );
 
 /* Medium's real mark IS just these three primitives (circle, ellipse,
-   sliver) at specific proportions — this isn't a stylised guess. */
+   sliver) at specific proportions - this isn't a stylised guess. */
 export const MediumLogo: React.FC<P> = ({ width = 40, height = 40, ...props }) => (
   <svg viewBox="0 0 40 40" width={width} height={height} aria-hidden {...props}>
     <g fill="currentColor">
