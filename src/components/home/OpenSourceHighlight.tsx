@@ -38,6 +38,8 @@ const OpenSourceHighlight: React.FC = () => (
       {/* Infinite scrolling bar with all icons */}
       <Reveal delay={0.15}>
         <div className="oss__marquee-wrap">
+          <div className="oss__fade-left" />
+          <div className="oss__fade-right" />
           <div className="oss__marquee-track">
             {MARQUEE_ITEMS.map((item, idx) => (
               <a

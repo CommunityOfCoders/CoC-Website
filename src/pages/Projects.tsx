@@ -298,6 +298,11 @@ function ProjectDrawer({ project, isOpen, onClose }: DrawerProps) {
 
   if (!project) return null;
 
+  /* Split project name: outlined first words + accent last word */
+  const words = project.name.split(" ");
+  const firstName = words.slice(0, -1).join(" ") || words[0];
+  const lastName = words.length > 1 ? words[words.length - 1] : "";
+
   return (
     <>
       {/* Backdrop */}
@@ -305,62 +310,59 @@ function ProjectDrawer({ project, isOpen, onClose }: DrawerProps) {
 
       {/* Slide Panel */}
       <aside className={`drawer-panel ${isOpen ? "is-open" : ""}`} aria-modal="true" role="dialog">
+        {/* Sticky header — eyebrow label + close pill */}
         <div className="drawer-header">
-          <div className="drawer-header__meta">
-            {project.year ? (
-              <span className="project-card__badge" style={{ background: "rgba(126, 217, 87, 0.15)", color: "#7ED957" }}>
-                {project.year}
-              </span>
-            ) : (
-              project.category && <CategoryBadge category={project.category} />
-            )}
-            <span className="project-card__stat" style={{ color: "var(--fg-faint)", fontSize: "0.8rem" }}>
-              · <Star size={12} style={{ marginLeft: 4, marginRight: 2 }} /> {stars}
-              <GitFork size={12} style={{ marginLeft: 10, marginRight: 2 }} /> {forks}
-            </span>
-          </div>
+          <span className="eyebrow">Projects</span>
           <button className="drawer-close" onClick={onClose} aria-label="Close details">
             <X size={16} />
           </button>
         </div>
 
         <div className="drawer-content">
-          <h2 className="drawer-title">{project.name}</h2>
-          {project.tagline && <p className="drawer-tagline">{project.tagline}</p>}
-          {project.authors && (
-            <p className="drawer-tagline" style={{ fontSize: "0.9rem", color: "var(--fg-muted)" }}>
-              Authors: {project.authors.join(", ")}
-            </p>
-          )}
+          {/* Big display title — outlined first part + accent last word */}
+          <h2 className="drawer-title">
+            <span className="drawer-title__first">{firstName}</span>
+            {lastName && <span className="drawer-title__last"> {lastName}</span>}
+          </h2>
 
+          {/* Meta: year · authors */}
+          <div className="drawer-meta">
+            {[project.year, project.authors?.join(", ")].filter(Boolean).join(" · ")}
+          </div>
+
+          {/* GitHub + Demo action buttons */}
           <div className="drawer-actions">
             {(project.github || project.githubLink) && (
-              <a href={project.github || project.githubLink} target="_blank" rel="noreferrer" className="btn btn--ghost">
-                <GitBranch size={15} /> GitHub Repository
+              <a href={project.github || project.githubLink} target="_blank" rel="noreferrer" className="drawer-action-btn">
+                <GitBranch size={14} /> GitHub
               </a>
             )}
             {project.demo && (
-              <a href={project.demo} target="_blank" rel="noreferrer" className="btn">
-                <ExternalLink size={15} /> Live Demo
+              <a href={project.demo} target="_blank" rel="noreferrer" className="drawer-action-btn">
+                <ExternalLink size={14} /> Live Demo
               </a>
+            )}
+            {(stars > 0 || forks > 0) && (
+              <span className="drawer-action-btn drawer-action-btn--stat">
+                <Star size={13} /> {stars}
+                <GitFork size={13} style={{ marginLeft: 8 }} /> {forks}
+              </span>
             )}
           </div>
 
-          <div className="drawer-divider" />
-
-          <div style={{ marginBottom: "28px" }}>
-            <div className="drawer-section-label">ABOUT</div>
+          {/* About */}
+          <div className="drawer-section">
+            <div className="drawer-section-label">About</div>
             <p className="drawer-about-text">{project.description}</p>
           </div>
 
-          
-
+          {/* Tech stack */}
           {project.tech && project.tech.length > 0 && (
-            <div style={{ marginBottom: "28px" }}>
-              <div className="drawer-section-label">TECH STACK</div>
+            <div className="drawer-section">
+              <div className="drawer-section-label">Tech Stack</div>
               <div className="project-card__tech">
                 {project.tech.map((t) => (
-                  <span key={t} className="tech-chip" style={{ fontSize: "0.78rem", padding: "4px 12px" }}>
+                  <span key={t} className="tech-chip">
                     {t}
                   </span>
                 ))}
@@ -368,9 +370,10 @@ function ProjectDrawer({ project, isOpen, onClose }: DrawerProps) {
             </div>
           )}
 
+          {/* Features */}
           {project.features && project.features.length > 0 && (
-            <div>
-              <div className="drawer-section-label">FEATURES</div>
+            <div className="drawer-section">
+              <div className="drawer-section-label">Features</div>
               <div className="drawer-features-grid">
                 {project.features.map((f, i) => {
                   const Icon = f.icon;
@@ -386,13 +389,12 @@ function ProjectDrawer({ project, isOpen, onClose }: DrawerProps) {
               </div>
             </div>
           )}
-
-
         </div>
       </aside>
     </>
   );
 }
+
 
 // ─── MAIN PROJECTS PAGE COMPONENT ─────────────────────────────────────────────
 

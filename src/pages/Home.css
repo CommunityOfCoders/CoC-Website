@@ -309,25 +309,33 @@
 .oss__marquee-wrap {
   position: relative;
   width: 100%;
-  overflow: hidden;
+  /* overflow visible so tooltip pseudo-elements can appear above the band */
+  overflow: visible;
   padding: 24px 0;
   margin-top: 16px;
   border-block: 1px solid var(--line);
   background: rgba(245, 247, 245, 0.02);
-  mask-image: linear-gradient(
-    to right,
-    transparent 0%,
-    rgba(0, 0, 0, 1) 10%,
-    rgba(0, 0, 0, 1) 90%,
-    transparent 100%
-  );
-  -webkit-mask-image: linear-gradient(
-    to right,
-    transparent 0%,
-    rgba(0, 0, 0, 1) 10%,
-    rgba(0, 0, 0, 1) 90%,
-    transparent 100%
-  );
+}
+
+/* Replicate the left/right fade using real child overlays instead of mask-image
+   (mask-image clips vertically too, which would hide the upward tooltip) */
+.oss__marquee-wrap .oss__fade-left,
+.oss__marquee-wrap .oss__fade-right {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 10%;
+  pointer-events: none;
+  z-index: 2;
+}
+.oss__marquee-wrap .oss__fade-left {
+  left: 0;
+  background: linear-gradient(to right, var(--ink, #070808) 0%, transparent 100%);
+}
+.oss__marquee-wrap .oss__fade-right {
+  right: 0;
+  background: linear-gradient(to left, var(--ink, #070808) 0%, transparent 100%);
 }
 
 .oss__marquee-track {
@@ -384,11 +392,11 @@
   filter: drop-shadow(0 4px 18px rgba(255, 255, 255, 0.35));
 }
 
-/* Tooltip on hover */
+/* Tooltip on hover — position:absolute works now that marquee-wrap uses overflow:visible */
 .oss__marquee-logo[data-tip]::after {
   content: attr(data-tip);
   position: absolute;
-  bottom: calc(100% + 8px);
+  bottom: calc(100% + 10px);
   left: 50%;
   transform: translateX(-50%) translateY(4px);
   white-space: nowrap;
@@ -407,7 +415,7 @@
 .oss__marquee-logo[data-tip]::before {
   content: '';
   position: absolute;
-  bottom: calc(100% + 3px);
+  bottom: calc(100% + 5px);
   left: 50%;
   transform: translateX(-50%);
   border: 5px solid transparent;
