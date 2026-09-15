@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import { ArrowUpRight, Menu, X } from 'lucide-react';
-import { Github, Linkedin, Instagram } from '../components/ui/BrandIcons';
-import cocLogo from '../assets/coc.png';
-import './MainLayout.css';
+import React, { useEffect, useState } from "react";
+import { ArrowUpRight, Menu, X } from "lucide-react";
+import { Github, Linkedin, Instagram } from "../components/ui/BrandIcons";
+import cocLogo from "../assets/coc.png";
+import "./MainLayout.css";
 
 interface MainLayoutProps {
   children: React.ReactNode;
@@ -10,19 +10,31 @@ interface MainLayoutProps {
 }
 
 const NAV = [
-  { label: 'Home', hash: '' },
-  { label: 'Events', hash: '#events' },
-  { label: 'Projects', hash: '#projects' },
-  { label: 'Opensource', hash: '#opensource' },
-  { label: 'Team', hash: '#team' },
-  { label: 'Placements', hash: '#placements' },
-  { label: 'Contact', hash: '#contact' },
+  { label: "Home", hash: "" },
+  { label: "Events", hash: "#events" },
+  { label: "Projects", hash: "#projects" },
+  { label: "Opensource", hash: "#opensource" },
+  { label: "Team", hash: "#team" },
+  { label: "Placements", hash: "#placements" },
+  { label: "Contact", hash: "#contact" },
 ];
 
 const SOCIALS = [
-  { label: 'GitHub', href: 'https://github.com/CommunityOfCoders', Icon: Github },
-  { label: 'LinkedIn', href: 'https://linkedin.com/company/community-of-coders-vjti/', Icon: Linkedin },
-  { label: 'Instagram', href: 'https://instagram.com/coc_vjti', Icon: Instagram },
+  {
+    label: "GitHub",
+    href: "https://github.com/CommunityOfCoders",
+    Icon: Github,
+  },
+  {
+    label: "LinkedIn",
+    href: "https://linkedin.com/company/community-of-coders-vjti/",
+    Icon: Linkedin,
+  },
+  {
+    label: "Instagram",
+    href: "https://instagram.com/coc_vjti",
+    Icon: Instagram,
+  },
 ];
 
 const MainLayout: React.FC<MainLayoutProps> = ({ children, route }) => {
@@ -32,44 +44,63 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children, route }) => {
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);
     onScroll();
-    window.addEventListener('scroll', onScroll, { passive: true });
-    return () => window.removeEventListener('scroll', onScroll);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
   // close the mobile menu whenever the route changes
-  useEffect(() => { setMenuOpen(false); }, [route]);
+  useEffect(() => {
+    setMenuOpen(false);
+  }, [route]);
 
-  const isActive = (hash: string) => (hash === '' ? route === '' : route === hash);
+  const isActive = (hash: string) =>
+    hash === "" ? route === "" : route === hash;
 
   return (
     <div className="shell">
-      <header className={`nav${scrolled ? ' nav--scrolled' : ''}`}>
+      <header className={`nav${scrolled ? " nav--scrolled" : ""}`}>
         <div className="container nav__inner">
           <a href="#" className="brand" aria-label="Community of Coders - home">
-            <img src={cocLogo} alt="CoC Logo" style={{ width: '32px', height: '32px', borderRadius: '6px', objectFit: 'contain' }} />
-            <span className="brand__meta">Community of Coders<em>VJTI · Matunga</em></span>
+            <img
+              src={cocLogo}
+              alt="CoC Logo"
+              style={{
+                width: "32px",
+                height: "32px",
+                borderRadius: "6px",
+                objectFit: "contain",
+              }}
+            />
+            <span className="brand__meta">
+              Community of Coders<em>VJTI · Matunga</em>
+            </span>
           </a>
 
           <nav className="nav__links" aria-label="Primary">
             {NAV.map((item) => (
               <a
                 key={item.label}
-                href={item.hash || '#'}
-                className={`nav__link${isActive(item.hash) ? ' is-active' : ''}`}
-                aria-current={isActive(item.hash) ? 'page' : undefined}
+                href={item.hash || "#"}
+                className={`nav__link${isActive(item.hash) ? " is-active" : ""}`}
+                aria-current={isActive(item.hash) ? "page" : undefined}
               >
                 {item.label}
               </a>
             ))}
           </nav>
 
-          <a href="https://www.linkedin.com/company/community-of-coders-vjti" target="_blank" rel="noreferrer" className="btn nav__cta">
+          <a
+            href="https://www.linkedin.com/company/community-of-coders-vjti"
+            target="_blank"
+            rel="noreferrer"
+            className="btn nav__cta"
+          >
             LinkedIn <ArrowUpRight />
           </a>
 
           <button
             className="nav__burger"
-            aria-label={menuOpen ? 'Close menu' : 'Open menu'}
+            aria-label={menuOpen ? "Close menu" : "Open menu"}
             aria-expanded={menuOpen}
             onClick={() => setMenuOpen((v) => !v)}
           >
@@ -78,12 +109,12 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children, route }) => {
         </div>
 
         {/* mobile drawer */}
-        <div className={`nav__drawer${menuOpen ? ' is-open' : ''}`}>
+        <div className={`nav__drawer${menuOpen ? " is-open" : ""}`}>
           {NAV.map((item) => (
             <a
               key={item.label}
-              href={item.hash || '#'}
-              className={`nav__drawer-link${isActive(item.hash) ? ' is-active' : ''}`}
+              href={item.hash || "#"}
+              className={`nav__drawer-link${isActive(item.hash) ? " is-active" : ""}`}
             >
               {item.label}
               <ArrowUpRight />
@@ -98,39 +129,53 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children, route }) => {
         <div className="container">
           <div className="footer__top">
             <div className="footer__brand">
-              <span className="footer__wordmark">Community<br />of Coders<span className="footer__dot">.</span></span>
-              <p className="footer__tag">VJTI's student-run engineering community. Code. Create. Connect.</p>
+              <span className="footer__wordmark">
+                Community
+                <br />
+                of Coders<span className="footer__dot">.</span>
+              </span>
+              <p className="footer__tag">
+                VJTI's student-run engineering community. Code. Create. Connect.
+              </p>
             </div>
 
             <div className="footer__cols">
               <div className="footer__col">
                 <span className="footer__col-title">Explore</span>
                 {NAV.slice(1, 5).map((i) => (
-                  <a key={i.label} href={i.hash} className="footer__link">{i.label}</a>
+                  <a key={i.label} href={i.hash} className="footer__link">
+                    {i.label}
+                  </a>
                 ))}
               </div>
               <div className="footer__col">
                 <span className="footer__col-title">Connect</span>
                 {SOCIALS.map((s) => (
-                  <a key={s.label} href={s.href} target="_blank" rel="noreferrer" className="footer__link">{s.label}</a>
+                  <a
+                    key={s.label}
+                    href={s.href}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="footer__link"
+                  >
+                    {s.label}
+                  </a>
                 ))}
-                <a href="#contact" className="footer__link">Contact</a>
+                <a href="#contact" className="footer__link">
+                  Contact
+                </a>
               </div>
-              <div className="footer__col footer__col--news">
-                <span className="footer__col-title">Stay in the loop</span>
-                <p className="footer__news-copy">New events, drops and open-source calls - no spam.</p>
-                <form className="news" onSubmit={(e) => e.preventDefault()}>
-                  <input
-                    type="email"
-                    className="news__input"
-                    placeholder="you@vjti.ac.in"
-                    aria-label="Email address"
-                    required
-                  />
-                  <button type="submit" className="news__btn" aria-label="Subscribe">
-                    <ArrowUpRight />
-                  </button>
-                </form>
+              <div className="footer__col footer__col--identity">
+                <span className="footer__col-title">Built at VJTI</span>
+                <p className="footer__identity-stat">
+                  <span className="footer__identity-num">Since '16</span>{" "}
+                  Student-run, every year.
+                </p>
+                <p className="footer__identity-stat">
+                  <span className="footer__identity-num">Mumbai</span> Matunga,
+                  Maharashtra.
+                </p>
+                <p className="footer__identity-motto">Code. Create. Connect.</p>
               </div>
             </div>
           </div>
@@ -139,7 +184,14 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children, route }) => {
             <span>© {new Date().getFullYear()} Community of Coders, VJTI.</span>
             <div className="footer__socials">
               {SOCIALS.map((s) => (
-                <a key={s.label} href={s.href} target="_blank" rel="noreferrer" aria-label={s.label} className="footer__social">
+                <a
+                  key={s.label}
+                  href={s.href}
+                  target="_blank"
+                  rel="noreferrer"
+                  aria-label={s.label}
+                  className="footer__social"
+                >
                   <s.Icon />
                 </a>
               ))}

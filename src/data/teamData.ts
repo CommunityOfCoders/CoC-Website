@@ -58,9 +58,9 @@ export const TEAM: TeamMember[] = [
   {
     id: "kavish-nasta",
     name: "Kavish Nasta",
-    role: "AIDSET / BRAIN Head",
+    role: "AIDSET / BRAIN Secretary",
     tagline: "Leading innovation through AI and technology.",
-    bio: "Co-head of AIDSET/BRAIN, driving initiatives, workshops, and projects that explore the future of artificial intelligence.",
+    bio: "Secretary of AIDSET/BRAIN, driving initiatives, workshops, and projects that explore the future of artificial intelligence.",
     photo: KavishImg,
     github: "https://github.com/kavishnasta",
     linkedin: "https://www.linkedin.com/in/kavish-nasta-4772a1218/",
@@ -68,9 +68,9 @@ export const TEAM: TeamMember[] = [
   {
     id: "bianca-sawant",
     name: "Bianca Sawant",
-    role: "AIDSET / BRAIN Head",
+    role: "AIDSET / BRAIN Secretary",
     tagline: "Empowering students through AI.",
-    bio: "Co-head of AIDSET/BRAIN, working to build impactful learning experiences and foster innovation in AI.",
+    bio: "Secretary of AIDSET/BRAIN, working to build impactful learning experiences and foster innovation in AI.",
     photo: BiancaImg,
     github: "https://github.com/star-lord1234",
     linkedin: "https://linkedin.com/in/bianca-sawant-ba7963308",
