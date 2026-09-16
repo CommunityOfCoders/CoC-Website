@@ -12,7 +12,6 @@ import type { Variants } from "framer-motion";
 import { ChevronLeft, ChevronRight, X, Quote } from "lucide-react";
 import { TimelineContent } from "../components/ui/TimelineContent";
 import { Tilt } from "../components/ui/Tilt";
-import Magnetic from "../components/ui/Magnetic";
 import CountUp from "../components/ui/CountUp";
 import { EVENTS, type CoCEvent } from "../data/eventsData";
 import { TESTIMONIALS } from "../data/testimonialsData";
@@ -176,8 +175,7 @@ const CoCSticker: React.FC = () => (
 /* sticker decal pinned at a corner.                           */
 /* ---------------------------------------------------------- */
 
-const u = (id: string) =>
-  `https://images.unsplash.com/${id}?auto=format&fit=crop&w=480&q=72`;
+
 
 interface PolaroidItem {
   src: string;

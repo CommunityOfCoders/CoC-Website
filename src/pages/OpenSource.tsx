@@ -456,7 +456,7 @@ export default function OpenSource() {
 
           <div className="os-programs-grid">
             {PROGRAMS.map((program, i) => (
-              <Reveal delay={i * 0.08} key={program.id}>
+              <Reveal delay={i * 0.08} key={program.id} className="os-program-reveal">
                 <a href={program.href} target="_blank" rel="noreferrer" className="os-program-card">
 
                   <div className="os-program-card__logo">

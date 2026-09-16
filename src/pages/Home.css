@@ -309,8 +309,8 @@
 .oss__marquee-wrap {
   position: relative;
   width: 100%;
-  /* overflow visible so tooltip pseudo-elements can appear above the band */
-  overflow: visible;
+  /* overflow hidden to prevent logos from overflowing past the box container */
+  overflow: hidden;
   padding: 24px 0;
   margin-top: 16px;
   border-block: 1px solid var(--line);

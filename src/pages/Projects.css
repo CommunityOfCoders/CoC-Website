@@ -274,7 +274,12 @@
 
 
 /* --- Project Card Styling --- */
+.project-card-reveal {
+  height: 100%;
+}
+
 .project-card {
+  height: 100%;
   background: var(--ink-2);
   border-radius: var(--r-md);
   overflow: hidden;

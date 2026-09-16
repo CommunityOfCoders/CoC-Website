@@ -17,8 +17,7 @@ import AnkitaImg from "../assets/ankita.jpeg";
 import OjasImg from "../assets/ojas.jpeg";
 import SanskarImg from "../assets/snaksar.jpeg";
 
-const u = (id: string, w = 800) =>
-  `https://images.unsplash.com/${id}?auto=format&fit=crop&w=${w}&q=72`;
+
 
 export interface TeamMember {
   id: string;

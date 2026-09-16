@@ -286,7 +286,12 @@
 @media (min-width: 640px) { .os-programs-grid { grid-template-columns: repeat(2, 1fr); } }
 @media (min-width: 1100px) { .os-programs-grid { grid-template-columns: repeat(4, 1fr); } }
 
+.os-program-reveal {
+  height: 100%;
+}
+
 .os-program-card {
+  height: 100%;
   display: flex;
   flex-direction: column;
   background: var(--ink-2);
