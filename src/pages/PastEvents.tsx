@@ -9,12 +9,11 @@ import {
   useTransform,
 } from "framer-motion";
 import type { Variants } from "framer-motion";
-import { ChevronLeft, ChevronRight, X, Quote } from "lucide-react";
+import { ChevronLeft, ChevronRight, X } from "lucide-react";
 import { TimelineContent } from "../components/ui/TimelineContent";
 import { Tilt } from "../components/ui/Tilt";
 import CountUp from "../components/ui/CountUp";
 import { EVENTS, type CoCEvent } from "../data/eventsData";
-import { TESTIMONIALS } from "../data/testimonialsData";
 import photo2 from "../assets/2.jpg";
 import photo3 from "../assets/3.jpg";
 import photo4 from "../assets/4.jpeg";
@@ -23,6 +22,28 @@ import photo6 from "../assets/6.jpeg";
 import photo7 from "../assets/7.jpg";
 import photo8 from "../assets/8.jpg";
 import photo9 from "../assets/9.jpg";
+
+import review1 from "../assets/reviews/Screenshot 2026-09-16 153005.png";
+import review2 from "../assets/reviews/Screenshot 2026-09-16 153012.png";
+import review3 from "../assets/reviews/Screenshot 2026-09-16 153024.png";
+import review4 from "../assets/reviews/Screenshot 2026-09-16 153028.png";
+import review5 from "../assets/reviews/Screenshot 2026-09-16 153032.png";
+import review6 from "../assets/reviews/Screenshot 2026-09-16 153036.png";
+import review7 from "../assets/reviews/Screenshot 2026-09-16 153041.png";
+import review8 from "../assets/reviews/Screenshot 2026-09-16 153045.png";
+import review9 from "../assets/reviews/Screenshot 2026-09-16 153515.png";
+
+const REVIEWS = [
+  { src: review1, position: "center 51.5%" },
+  { src: review2, position: "center 44.5%" },
+  { src: review3, position: "center 40.4%" },
+  { src: review4, position: "center 43.7%" },
+  { src: review5, position: "center 45.9%" },
+  { src: review6, position: "center 47.4%" },
+  { src: review7, position: "center 44.5%" },
+  { src: review8, position: "center 42.4%" },
+  { src: review9, position: "center 64.3%" },
+];
 import "./PastEvents.css";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
@@ -702,37 +723,18 @@ const TestimonialsMarquee: React.FC = () => {
           aria-live="off"
         >
           {/* Duplicate for seamless loop */}
-          {[...TESTIMONIALS, ...TESTIMONIALS].map((t, i) => (
+          {[...REVIEWS, ...REVIEWS].map((review, i) => (
             <article
-              key={`${t.id}-${i}`}
+              key={`review-${i}`}
               className="ev-tcard"
-              aria-label={`Testimonial by ${t.author}`}
+              aria-label={`Review ${i}`}
             >
-              <Quote className="ev-tcard__icon" aria-hidden="true" />
-              <p className="ev-tcard__quote">{t.quote}</p>
-              <footer className="ev-tcard__footer">
-                <div className="ev-tcard__avatar" aria-hidden="true">
-                  {t.author.charAt(0)}
-                </div>
-                <div className="ev-tcard__info">
-                  <a
-                    href={t.profileUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="ev-tcard__username"
-                  >
-                    @{t.username}
-                  </a>
-                  <a
-                    href={t.companyUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="ev-tcard__company"
-                  >
-                    {t.company}
-                  </a>
-                </div>
-              </footer>
+              <img 
+                src={review.src} 
+                alt="Member Review" 
+                className="ev-tcard__image" 
+                style={{ objectPosition: review.position }}
+              />
             </article>
           ))}
         </div>
