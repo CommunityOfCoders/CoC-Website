@@ -14,6 +14,7 @@ const NAV = [
   { label: "Events", hash: "#events" },
   { label: "Projects", hash: "#projects" },
   { label: "Opensource", hash: "#opensource" },
+  { label: "Achievements", hash: "#achievements" },
   { label: "Team", hash: "#team" },
   { label: "Placements", hash: "#placements" },
   { label: "Contact", hash: "#contact" },
@@ -142,7 +143,7 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children, route }) => {
             <div className="footer__cols">
               <div className="footer__col">
                 <span className="footer__col-title">Explore</span>
-                {NAV.slice(1, 5).map((i) => (
+                {NAV.slice(1, 6).map((i) => (
                   <a key={i.label} href={i.hash} className="footer__link">
                     {i.label}
                   </a>
