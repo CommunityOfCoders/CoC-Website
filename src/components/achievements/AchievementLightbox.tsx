@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback } from 'react';
+import React, { useEffect, useCallback, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, ChevronLeft, ChevronRight, Sparkles } from 'lucide-react';
@@ -19,6 +19,7 @@ export const AchievementLightbox: React.FC<AchievementLightboxProps> = ({
 }) => {
   const isOpen = currentIndex !== null;
   const current = isOpen ? achievements[currentIndex] : null;
+  const isMouseDownOnBox = useRef(false);
 
   const handlePrev = useCallback(() => {
     if (currentIndex === null) return;
@@ -29,6 +30,14 @@ export const AchievementLightbox: React.FC<AchievementLightboxProps> = ({
     if (currentIndex === null) return;
     onSelect((currentIndex + 1) % achievements.length);
   }, [currentIndex, achievements.length, onSelect]);
+
+  const handleBackdropClick = () => {
+    if (isMouseDownOnBox.current) {
+      isMouseDownOnBox.current = false;
+      return;
+    }
+    onClose();
+  };
 
   useEffect(() => {
     if (!isOpen) return;
@@ -59,9 +68,13 @@ export const AchievementLightbox: React.FC<AchievementLightboxProps> = ({
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.25 }}
+          onMouseDown={() => {
+            isMouseDownOnBox.current = false;
+          }}
+          onClick={handleBackdropClick}
         >
-          {/* Backdrop click to close */}
-          <div className="achievement-lightbox__backdrop" onClick={onClose} />
+          {/* Backdrop */}
+          <div className="achievement-lightbox__backdrop" />
 
           {/* Top header controls */}
           <div className="achievement-lightbox__header">
@@ -70,7 +83,10 @@ export const AchievementLightbox: React.FC<AchievementLightboxProps> = ({
             </div>
             <button
               className="achievement-lightbox__close"
-              onClick={onClose}
+              onClick={(e) => {
+                e.stopPropagation();
+                onClose();
+              }}
               aria-label="Close modal"
             >
               <X size={24} />
@@ -81,7 +97,11 @@ export const AchievementLightbox: React.FC<AchievementLightboxProps> = ({
           <div className="achievement-lightbox__stage">
             <button
               className="achievement-lightbox__nav achievement-lightbox__nav--prev"
-              onClick={handlePrev}
+              onMouseDown={(e) => e.stopPropagation()}
+              onClick={(e) => {
+                e.stopPropagation();
+                handlePrev();
+              }}
               aria-label="Previous achievement"
             >
               <ChevronLeft size={28} />
@@ -94,6 +114,12 @@ export const AchievementLightbox: React.FC<AchievementLightboxProps> = ({
               animate={{ scale: 1, opacity: 1, y: 0 }}
               exit={{ scale: 0.94, opacity: 0, y: -10 }}
               transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+              onMouseDown={() => {
+                isMouseDownOnBox.current = true;
+              }}
+              onClick={(e) => {
+                e.stopPropagation();
+              }}
             >
               <div className="achievement-lightbox__img-wrapper">
                 <img
@@ -110,7 +136,11 @@ export const AchievementLightbox: React.FC<AchievementLightboxProps> = ({
 
             <button
               className="achievement-lightbox__nav achievement-lightbox__nav--next"
-              onClick={handleNext}
+              onMouseDown={(e) => e.stopPropagation()}
+              onClick={(e) => {
+                e.stopPropagation();
+                handleNext();
+              }}
               aria-label="Next achievement"
             >
               <ChevronRight size={28} />

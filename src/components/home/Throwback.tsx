@@ -1,6 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { motion, useReducedMotion } from 'framer-motion';
-import type { PanInfo } from 'framer-motion';
+import { useReducedMotion } from 'framer-motion';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
 import Reveal from '../ui/Reveal';
 import Magnetic from '../ui/Magnetic';
@@ -35,52 +34,179 @@ const AUTOPLAY_MS = 4000;
 
 const Throwback: React.FC = () => {
   const [index, setIndex] = useState(0);
-  const [step, setStep] = useState(0);
   const [paused, setPaused] = useState(false);
-  const trackRef = useRef<HTMLDivElement>(null);
+  const [isHovered, setIsHovered] = useState(false);
+  const viewportRef = useRef<HTMLDivElement>(null);
+  const isMouseDownRef = useRef(false);
+  const startXRef = useRef(0);
+  const scrollLeftStartRef = useRef(0);
   const isDraggingRef = useRef(false);
+  const isProgrammaticScrollRef = useRef(false);
+  const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const reduce = useReducedMotion();
   const last = SLIDES.length - 1;
 
-  // measure one slide's width (+ gap) so translation is pixel-accurate
-  useEffect(() => {
-    const measure = () => {
-      const first = trackRef.current?.querySelector<HTMLElement>('.tb__slide');
-      if (!first) return;
-      const gap = parseFloat(getComputedStyle(trackRef.current!).columnGap || '0');
-      setStep(first.offsetWidth + gap);
-    };
-    measure();
-    window.addEventListener('resize', measure);
-    return () => window.removeEventListener('resize', measure);
+  const getStep = useCallback(() => {
+    if (!viewportRef.current) return 0;
+    const first = viewportRef.current.querySelector<HTMLElement>('.tb__slide');
+    if (!first) return 0;
+    const track = viewportRef.current.querySelector<HTMLElement>('.tb__track');
+    const gap = track ? parseFloat(getComputedStyle(track).columnGap || '22') : 22;
+    return first.offsetWidth + gap;
   }, []);
+
+  const scrollToSlide = useCallback((targetIndex: number, smooth = true) => {
+    if (!viewportRef.current) return;
+    const stepSize = getStep();
+    if (stepSize <= 0) return;
+
+    isProgrammaticScrollRef.current = true;
+    if (scrollTimeoutRef.current) clearTimeout(scrollTimeoutRef.current);
+    scrollTimeoutRef.current = setTimeout(() => {
+      isProgrammaticScrollRef.current = false;
+    }, 600);
+
+    setIndex(targetIndex);
+    viewportRef.current.scrollTo({
+      left: targetIndex * stepSize,
+      behavior: smooth ? 'smooth' : 'auto',
+    });
+  }, [getStep]);
 
   const go = useCallback((dir: number) => {
-    // arrows wrap so the reel never dead-ends
-    setIndex((i) => (i + dir + SLIDES.length) % SLIDES.length);
-  }, []);
+    setIndex((currentIdx) => {
+      const nextIdx = (currentIdx + dir + SLIDES.length) % SLIDES.length;
+      scrollToSlide(nextIdx, true);
+      return nextIdx;
+    });
+  }, [scrollToSlide]);
 
-  // autoplay - timer restarts on every index change (manual or automatic),
-  // so a click/drag never causes an awkward double-advance
+  const onScroll = useCallback(() => {
+    if (isProgrammaticScrollRef.current) return;
+    if (!viewportRef.current) return;
+    const scrollLeft = viewportRef.current.scrollLeft;
+    const stepSize = getStep();
+    if (stepSize <= 0) return;
+    const newIndex = Math.round(scrollLeft / stepSize);
+    const clamped = Math.max(0, Math.min(newIndex, last));
+    setIndex(clamped);
+  }, [getStep, last]);
+
+  // autoplay - timer restarts on every index change
   useEffect(() => {
     if (paused || reduce) return;
-    const id = setTimeout(() => setIndex((i) => (i >= last ? 0 : i + 1)), AUTOPLAY_MS);
+    const id = setTimeout(() => {
+      const nextIdx = index >= last ? 0 : index + 1;
+      scrollToSlide(nextIdx, true);
+    }, AUTOPLAY_MS);
     return () => clearTimeout(id);
-  }, [index, paused, reduce, last]);
+  }, [index, paused, reduce, last, scrollToSlide]);
 
-  const onDragStart = () => {
-    isDraggingRef.current = true;
+  // Keypad & keyboard navigation when hovering or interacting with section
+  useEffect(() => {
+    if (!isHovered) return;
+    const onKey = (e: KeyboardEvent) => {
+      const activeEl = document.activeElement;
+      const isInput = activeEl && ['INPUT', 'TEXTAREA', 'SELECT'].includes(activeEl.tagName);
+      if (isInput) return;
+
+      if (e.key === 'ArrowRight' || e.key === 'PageDown') {
+        e.preventDefault();
+        go(1);
+      } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+        e.preventDefault();
+        go(-1);
+      } else if (e.key === 'Home') {
+        e.preventDefault();
+        scrollToSlide(0, true);
+      } else if (e.key === 'End') {
+        e.preventDefault();
+        scrollToSlide(last, true);
+      }
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [isHovered, go, scrollToSlide, last]);
+
+  // Mouse wheel: smoothly slides blocks horizontally when scrolling over the carousel
+  useEffect(() => {
+    const el = viewportRef.current;
+    if (!el) return;
+
+    const handleWheel = (e: WheelEvent) => {
+      // If user is scrolling horizontally on trackpad, let browser handle natively
+      if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) return;
+
+      const isAtStart = el.scrollLeft <= 0;
+      const isAtEnd = el.scrollLeft + el.clientWidth >= el.scrollWidth - 6;
+
+      // If scrolling down/right and not at end, or scrolling up/left and not at start:
+      if ((e.deltaY > 0 && !isAtEnd) || (e.deltaY < 0 && !isAtStart)) {
+        e.preventDefault();
+        el.scrollLeft += e.deltaY;
+      }
+    };
+
+    el.addEventListener('wheel', handleWheel, { passive: false });
+    return () => el.removeEventListener('wheel', handleWheel);
+  }, []);
+
+  // Global mouse up for desktop click & drag
+  useEffect(() => {
+    const handleGlobalMouseUp = () => {
+      if (isMouseDownRef.current) {
+        isMouseDownRef.current = false;
+        setPaused(false);
+        setTimeout(() => {
+          isDraggingRef.current = false;
+        }, 50);
+      }
+    };
+    window.addEventListener('mouseup', handleGlobalMouseUp);
+    return () => window.removeEventListener('mouseup', handleGlobalMouseUp);
+  }, []);
+
+  const onMouseDown = (e: React.MouseEvent) => {
+    if (!viewportRef.current) return;
+    isMouseDownRef.current = true;
+    isDraggingRef.current = false;
+    startXRef.current = e.pageX;
+    scrollLeftStartRef.current = viewportRef.current.scrollLeft;
     setPaused(true);
   };
 
-  const onDragEnd = (_e: unknown, info: PanInfo) => {
-    const { offset, velocity } = info;
-    if (offset.x < -60 || velocity.x < -400) setIndex((i) => Math.min(i + 1, last));
-    else if (offset.x > 60 || velocity.x > 400) setIndex((i) => Math.max(i - 1, 0));
+  const onMouseMove = (e: React.MouseEvent) => {
+    if (!isMouseDownRef.current || !viewportRef.current) return;
+    const deltaX = e.pageX - startXRef.current;
+    if (Math.abs(deltaX) > 5) {
+      isDraggingRef.current = true;
+    }
+    viewportRef.current.scrollLeft = scrollLeftStartRef.current - deltaX;
+  };
+
+  const onMouseUp = () => {
+    if (!isMouseDownRef.current) return;
+    isMouseDownRef.current = false;
     setPaused(false);
     setTimeout(() => {
       isDraggingRef.current = false;
     }, 50);
+  };
+
+  const onKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'ArrowRight') {
+      e.preventDefault();
+      go(1);
+    } else if (e.key === 'ArrowLeft') {
+      e.preventDefault();
+      go(-1);
+    } else if (e.key === 'Home') {
+      e.preventDefault();
+      scrollToSlide(0, true);
+    } else if (e.key === 'End') {
+      e.preventDefault();
+      scrollToSlide(last, true);
+    }
   };
 
   const handleSlideClick = (e: React.MouseEvent) => {
@@ -92,8 +218,14 @@ const Throwback: React.FC = () => {
   return (
     <section
       className="section tb"
-      onMouseEnter={() => setPaused(true)}
-      onMouseLeave={() => setPaused(false)}
+      onMouseEnter={() => {
+        setIsHovered(true);
+        setPaused(true);
+      }}
+      onMouseLeave={() => {
+        setIsHovered(false);
+        setPaused(false);
+      }}
       onTouchStart={() => setPaused(true)}
       onTouchEnd={() => setPaused(false)}
     >
@@ -116,19 +248,19 @@ const Throwback: React.FC = () => {
         </Reveal>
       </div>
 
-      <div className="tb__viewport">
-        <motion.div
-          className="tb__track"
-          ref={trackRef}
-          drag="x"
-          dragConstraints={{ left: -step * last, right: 0 }}
-          dragElastic={0.08}
-          dragMomentum={false}
-          onDragStart={onDragStart}
-          onDragEnd={onDragEnd}
-          animate={{ x: -index * step }}
-          transition={{ type: 'spring', stiffness: 220, damping: 32 }}
-        >
+      <div
+        className="tb__viewport"
+        ref={viewportRef}
+        onScroll={onScroll}
+        onMouseDown={onMouseDown}
+        onMouseMove={onMouseMove}
+        onMouseUp={onMouseUp}
+        onKeyDown={onKeyDown}
+        tabIndex={0}
+        role="region"
+        aria-label="Throwback timeline carousel"
+      >
+        <div className="tb__track">
           {SLIDES.map((s, i) => (
             <figure className="tb__slide" key={`${s.id}-${i}`}>
               <a
@@ -148,7 +280,7 @@ const Throwback: React.FC = () => {
               </a>
             </figure>
           ))}
-        </motion.div>
+        </div>
       </div>
 
       <div className="container tb__dots" role="tablist" aria-label="Slides">
@@ -159,7 +291,7 @@ const Throwback: React.FC = () => {
             aria-label={`Go to ${s.title}`}
             aria-selected={i === index}
             role="tab"
-            onClick={() => setIndex(i)}
+            onClick={() => scrollToSlide(i, true)}
           />
         ))}
       </div>

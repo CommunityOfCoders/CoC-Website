@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
 import { motion, useInView, useReducedMotion } from 'framer-motion';
-import { Maximize2, Sparkles } from 'lucide-react';
+import { Sparkles } from 'lucide-react';
 import type { Achievement } from '../../data/achievementsData';
 import { SpotlightCard } from './SpotlightCard';
 
@@ -57,11 +57,6 @@ export const AchievementCard: React.FC<AchievementCardProps> = ({
                 loading="lazy"
                 className="achievement-card__img"
               />
-              <div className="achievement-card__overlay">
-                <span className="achievement-card__zoom-hint">
-                  <Maximize2 size={16} /> View Fullscreen
-                </span>
-              </div>
             </div>
 
             {/* Info Box */}

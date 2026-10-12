@@ -387,42 +387,6 @@
   transform: scale(1.025);
 }
 
-/* Hover Overlay Hint */
-.achievement-card__overlay {
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(circle at center, rgba(7, 8, 8, 0.2) 0%, rgba(7, 8, 8, 0.65) 100%);
-  backdrop-filter: blur(4px);
-  opacity: 0;
-  display: grid;
-  place-items: center;
-  transition: opacity 0.35s ease;
-  pointer-events: none;
-}
-
-.spotlight-card.achievement-card:hover .achievement-card__overlay {
-  opacity: 1;
-}
-
-.achievement-card__zoom-hint {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  padding: 12px 24px;
-  background: rgba(14, 16, 15, 0.9);
-  border: 1px solid rgba(29, 185, 84, 0.4);
-  border-radius: var(--r-pill);
-  font-family: var(--font-mono);
-  font-size: 0.82rem;
-  color: var(--fg);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(29, 185, 84, 0.3);
-  transform: translateY(12px);
-  transition: transform 0.35s var(--ease);
-}
-
-.spotlight-card.achievement-card:hover .achievement-card__zoom-hint {
-  transform: translateY(0);
-}
 
 /* Description Box inside Achievement Card */
 .achievement-card__desc-box {
