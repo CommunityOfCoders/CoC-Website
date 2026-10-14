@@ -114,7 +114,7 @@ export const PROJECTS: Project[] = [
   
   // 2026 Projects
   { id: '32', name: 'Optimum Fallax', tagline: 'Evolutionary multi-agent simulation for studying reward hacking and AI alignment.', description: 'Optimum Fallax is an advanced multi-agent simulation framework focused on AI safety. It provides a controlled environment to study reward hacking, evolutionary adaptation, and alignment failures, allowing researchers to observe how agents exploit poorly specified reward models to achieve unintended objectives.', tech: ['Python', 'Ray', 'PyTorch'], features: [{ icon: Users, label: 'Multi-agent simulation environment' }, { icon: Shield, label: 'Study of reward hacking and AI alignment' }, { icon: Eye, label: 'Evolutionary adaptation strategy observation' }], year: '2026', githubLink: '#', authors: ['Rushil Shah', 'Pratyush Lokhande'] },
-  { id: '33', name: 'Pharmacon', tagline: 'AI framework for predicting and interpreting drug–drug interactions.', description: 'Pharmacon utilizes deep learning on graph and sequence-based molecular representations to accurately predict potential drug-drug interactions. By uncovering hidden biochemical relationships, this framework assists pharmacologists in preventing adverse drug reactions and accelerating the safe development of new therapeutic combinations.', tech: ['Python', 'PyTorch Geometric', 'RDKit'], features: [{ icon: Network, label: 'Graph and sequence-based molecular representation analysis' }, { icon: Activity, label: 'Prediction of drug-drug interactions' }, { icon: Search, label: 'Identification of hidden biochemical relationships' }], year: '2026', githubLink: '#', authors: ['Bianca Sawant', 'Ankita Sagar'] },
+  { id: '33', name: 'Pharmacon', tagline: 'AI framework for predicting and interpreting drug–drug interactions.', description: 'Pharmacon utilizes deep learning on graph and sequence-based molecular representations to accurately predict potential drug-drug interactions. By uncovering hidden biochemical relationships, this framework assists pharmacologists in preventing adverse drug reactions and accelerating the safe development of new therapeutic combinations.', tech: ['Python', 'PyTorch Geometric', 'RDKit'], features: [{ icon: Network, label: 'Graph and sequence-based molecular representation analysis' }, { icon: Activity, label: 'Prediction of drug-drug interactions' }, { icon: Search, label: 'Identification of hidden biochemical relationships' }], year: '2026', githubLink: '#', authors: ['Jaanya J.', 'Aarya Burande'] },
   { id: '34', name: 'Sentient Shadow', tagline: '2D RPG with an adaptive AI companion that evolves its behavior based on player choices.', description: 'Sentient Shadow offers a deeply personalized 2D RPG experience through an adaptive AI companion. The companion analyzes your in-game decisions, dialogue choices, and moral alignments, organically evolving its personality and shaping branching narrative paths for a truly responsive, dynamic storytelling adventure.', tech: ['C++', 'Unreal Engine', 'Behavior Trees'], features: [{ icon: User, label: 'Adaptive AI companion evolving via player choices' }, { icon: GitBranch, label: 'Branching narrative paths shaping' }, { icon: Heart, label: 'Real-time moral alignment analysis' }], year: '2026', githubLink: '#', authors: ['Jiya Choksi', 'Hishant Kudalkar', 'Samyak Kose'] },
   { id: '35', name: 'AI-Git', tagline: 'Git-style version control system optimized for AI projects with dataset and model management.', description: 'AI-Git solves the data versioning bottleneck in machine learning workflows. It operates as a Git-style version control system specifically optimized for large datasets and massive model checkpoints, offering deduplication, rapid branching, and seamless collaboration features tailored for modern AI engineering teams.', tech: ['Go', 'gRPC', 'PostgreSQL'], features: [{ icon: GitBranch, label: 'Git-style version control optimized for AI' }, { icon: Copy, label: 'Deduplication and rapid branching' }, { icon: Database, label: 'Massive model checkpoint and dataset management' }], year: '2026', githubLink: '#', authors: ['Sanvi Naik', 'Aarya Doshi'] },
   { id: '36', name: 'Archaeological Site Detection', tagline: 'Geospatial AI system that combines LiDAR and satellite imagery to identify historical sites.', description: 'This Geospatial AI system revolutionizes modern archaeology by combining high-resolution LiDAR scans with multispectral satellite imagery. Utilizing specialized convolutional neural networks, the model autonomously detects subtle topographic anomalies, successfully identifying unexcavated historical sites hidden beneath dense vegetation.', tech: ['Python', 'GDAL', 'Keras'], features: [{ icon: Map, label: 'High-resolution LiDAR and multispectral satellite imagery fusion' }, { icon: Eye, label: 'CNN-based subtle topographic anomaly detection' }, { icon: Search, label: 'Unexcavated historical site identification' }], year: '2026', githubLink: '#', authors: ['Aashita Singh', 'Shreyans Deshpande'] },
@@ -292,12 +292,19 @@ function ProjectDrawer({ project, isOpen, onClose }: DrawerProps) {
     };
     if (isOpen) {
       window.addEventListener("keydown", handleKeyDown);
+      const originalBodyOverflow = document.body.style.overflow;
+      const originalHtmlOverflow = document.documentElement.style.overflow;
       document.body.style.overflow = "hidden";
+      document.documentElement.style.overflow = "hidden";
+      document.body.classList.add("project-panel-open");
+
+      return () => {
+        window.removeEventListener("keydown", handleKeyDown);
+        document.body.style.overflow = originalBodyOverflow;
+        document.documentElement.style.overflow = originalHtmlOverflow;
+        document.body.classList.remove("project-panel-open");
+      };
     }
-    return () => {
-      window.removeEventListener("keydown", handleKeyDown);
-      document.body.style.overflow = "";
-    };
   }, [isOpen, onClose]);
 
   // We always call useGithubStats unconditionally
@@ -314,18 +321,19 @@ function ProjectDrawer({ project, isOpen, onClose }: DrawerProps) {
   return (
     <>
       {/* Backdrop */}
-      <div className={`drawer-backdrop ${isOpen ? "is-open" : ""}`} onClick={onClose} />
+      <div
+        className={`drawer-backdrop ${isOpen ? "is-open" : ""}`}
+        onClick={onClose}
+        aria-hidden="true"
+      />
 
       {/* Slide Panel */}
-      <aside className={`drawer-panel ${isOpen ? "is-open" : ""}`} aria-modal="true" role="dialog">
-        {/* Sticky header — eyebrow label + close pill */}
-        <div className="drawer-header">
-          <span className="eyebrow">Projects</span>
-          <button className="drawer-close" onClick={onClose} aria-label="Close details">
-            <X size={16} />
-          </button>
-        </div>
-
+      <aside
+        className={`drawer-panel ${isOpen ? "is-open" : ""}`}
+        aria-modal="true"
+        role="dialog"
+        aria-label={project.name}
+      >
         <div className="drawer-content">
           {/* Big display title — outlined first part + accent last word */}
           <h2 className="drawer-title">
@@ -416,6 +424,9 @@ export default function Projects() {
     let isAnimating = false;
 
     const handleWheel = (e: WheelEvent) => {
+      if (drawerOpen || document.body.classList.contains("project-panel-open")) {
+        return;
+      }
       if (window.scrollY <= 10 && e.deltaY > 0 && !isAnimating) {
         e.preventDefault();
         isAnimating = true;
@@ -431,7 +442,7 @@ export default function Projects() {
 
     window.addEventListener("wheel", handleWheel, { passive: false });
     return () => window.removeEventListener("wheel", handleWheel);
-  }, []);
+  }, [drawerOpen]);
 
   const handleBrowseClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
