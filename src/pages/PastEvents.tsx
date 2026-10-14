@@ -9,9 +9,10 @@ import {
   useTransform,
 } from "framer-motion";
 import type { Variants } from "framer-motion";
-import { ChevronLeft, ChevronRight, X } from "lucide-react";
+import { ChevronLeft, ChevronRight, X, ArrowLeft, ArrowRight } from "lucide-react";
 import { TimelineContent } from "../components/ui/TimelineContent";
 import { Tilt } from "../components/ui/Tilt";
+import Magnetic from "../components/ui/Magnetic";
 import CountUp from "../components/ui/CountUp";
 import { EVENTS, type CoCEvent } from "../data/eventsData";
 import photo2 from "../assets/2.jpg";
@@ -23,26 +24,24 @@ import photo7 from "../assets/7.jpg";
 import photo8 from "../assets/8.jpg";
 import photo9 from "../assets/9.jpg";
 
-import review1 from "../assets/reviews/Screenshot 2026-09-16 153005.png";
-import review2 from "../assets/reviews/Screenshot 2026-09-16 153012.png";
-import review3 from "../assets/reviews/Screenshot 2026-09-16 153024.png";
-import review4 from "../assets/reviews/Screenshot 2026-09-16 153028.png";
-import review5 from "../assets/reviews/Screenshot 2026-09-16 153032.png";
-import review6 from "../assets/reviews/Screenshot 2026-09-16 153036.png";
-import review7 from "../assets/reviews/Screenshot 2026-09-16 153041.png";
-import review8 from "../assets/reviews/Screenshot 2026-09-16 153045.png";
-import review9 from "../assets/reviews/Screenshot 2026-09-16 153515.png";
+import review1 from "../assets/Reviews/review1.jpg";
+import review2 from "../assets/Reviews/review2.jpg";
+import review3 from "../assets/Reviews/review3.jpg";
+import review4 from "../assets/Reviews/review4.jpg";
+import review5 from "../assets/Reviews/review5.jpg";
+import review6 from "../assets/Reviews/review6.jpg";
+import review7 from "../assets/Reviews/review7.jpg";
+import review8 from "../assets/Reviews/review8.jpg";
 
 const REVIEWS = [
-  { src: review1, position: "center 51.5%" },
-  { src: review2, position: "center 44.5%" },
-  { src: review3, position: "center 40.4%" },
-  { src: review4, position: "center 43.7%" },
-  { src: review5, position: "center 45.9%" },
-  { src: review6, position: "center 47.4%" },
-  { src: review7, position: "center 44.5%" },
-  { src: review8, position: "center 42.4%" },
-  { src: review9, position: "center 64.3%" },
+  { src: review1, author: "Breejesh Rathod" },
+  { src: review2, author: "Piyusha Sawant" },
+  { src: review3, author: "Priya Nayak" },
+  { src: review4, author: "Saleem Shaikh" },
+  { src: review5, author: "Sunaina Punyani" },
+  { src: review6, author: "Saif Kazi" },
+  { src: review7, author: "Palak Mantry" },
+  { src: review8, author: "Shubhankar Gupta" },
 ];
 import "./PastEvents.css";
 
@@ -693,49 +692,254 @@ const EventModal: React.FC<{ event: CoCEvent; onClose: () => void }> = ({
 
 
 /* ---------------------------------------------------------- */
-/* Testimonials horizontal marquee                            */
 /* ---------------------------------------------------------- */
-const TestimonialsMarquee: React.FC = () => {
-  const trackRef = useRef<HTMLDivElement>(null);
+/* Testimonials reviews horizontal slider                     */
+/* ---------------------------------------------------------- */
+const AUTOPLAY_REVIEWS_MS = 3000;
+
+const TestimonialsSlider: React.FC = () => {
+  const [index, setIndex] = useState(0);
   const [paused, setPaused] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
+  const viewportRef = useRef<HTMLDivElement>(null);
+  const isMouseDownRef = useRef(false);
+  const startXRef = useRef(0);
+  const scrollLeftStartRef = useRef(0);
+  const isDraggingRef = useRef(false);
+  const isProgrammaticScrollRef = useRef(false);
+  const scrollTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const reduce = useReducedMotion();
+  const last = REVIEWS.length - 1;
+
+  const getStep = useCallback(() => {
+    if (!viewportRef.current) return 0;
+    const first = viewportRef.current.querySelector<HTMLElement>(".ev-tcard");
+    if (!first) return 0;
+    const track = viewportRef.current.querySelector<HTMLElement>(".ev-testimonials__track");
+    const gap = track ? parseFloat(getComputedStyle(track).gap || "22") : 22;
+    return first.offsetWidth + gap;
+  }, []);
+
+  const scrollToSlide = useCallback(
+    (targetIndex: number, smooth = true) => {
+      if (!viewportRef.current) return;
+      const stepSize = getStep();
+      if (stepSize <= 0) return;
+
+      isProgrammaticScrollRef.current = true;
+      if (scrollTimeoutRef.current) clearTimeout(scrollTimeoutRef.current);
+      scrollTimeoutRef.current = setTimeout(() => {
+        isProgrammaticScrollRef.current = false;
+      }, 600);
+
+      setIndex(targetIndex);
+      viewportRef.current.scrollTo({
+        left: targetIndex * stepSize,
+        behavior: smooth ? "smooth" : "auto",
+      });
+    },
+    [getStep]
+  );
+
+  const go = useCallback(
+    (dir: number) => {
+      setIndex((currentIdx) => {
+        const nextIdx = (currentIdx + dir + REVIEWS.length) % REVIEWS.length;
+        scrollToSlide(nextIdx, true);
+        return nextIdx;
+      });
+    },
+    [scrollToSlide]
+  );
+
+  const onScroll = useCallback(() => {
+    if (isProgrammaticScrollRef.current) return;
+    if (!viewportRef.current) return;
+    const scrollLeft = viewportRef.current.scrollLeft;
+    const stepSize = getStep();
+    if (stepSize <= 0) return;
+    const newIndex = Math.round(scrollLeft / stepSize);
+    const clamped = Math.max(0, Math.min(newIndex, last));
+    setIndex(clamped);
+  }, [getStep, last]);
+
+  useEffect(() => {
+    if (paused || reduce) return;
+    const id = setTimeout(() => {
+      const nextIdx = index >= last ? 0 : index + 1;
+      scrollToSlide(nextIdx, true);
+    }, AUTOPLAY_REVIEWS_MS);
+    return () => clearTimeout(id);
+  }, [index, paused, reduce, last, scrollToSlide]);
+
+  useEffect(() => {
+    if (!isHovered) return;
+    const onKey = (e: KeyboardEvent) => {
+      const activeEl = document.activeElement;
+      const isInput = activeEl && ["INPUT", "TEXTAREA", "SELECT"].includes(activeEl.tagName);
+      if (isInput) return;
+
+      if (e.key === "ArrowRight") {
+        e.preventDefault();
+        go(1);
+      } else if (e.key === "ArrowLeft") {
+        e.preventDefault();
+        go(-1);
+      } else if (e.key === "Home") {
+        e.preventDefault();
+        scrollToSlide(0, true);
+      } else if (e.key === "End") {
+        e.preventDefault();
+        scrollToSlide(last, true);
+      }
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [isHovered, go, scrollToSlide, last]);
+
+  useEffect(() => {
+    const handleGlobalMouseUp = () => {
+      if (isMouseDownRef.current) {
+        isMouseDownRef.current = false;
+        setPaused(false);
+        setTimeout(() => {
+          isDraggingRef.current = false;
+        }, 50);
+      }
+    };
+    window.addEventListener("mouseup", handleGlobalMouseUp);
+    return () => window.removeEventListener("mouseup", handleGlobalMouseUp);
+  }, []);
+
+  const onMouseDown = (e: React.MouseEvent) => {
+    if (!viewportRef.current) return;
+    isMouseDownRef.current = true;
+    isDraggingRef.current = false;
+    startXRef.current = e.pageX;
+    scrollLeftStartRef.current = viewportRef.current.scrollLeft;
+    setPaused(true);
+  };
+
+  const onMouseMove = (e: React.MouseEvent) => {
+    if (!isMouseDownRef.current || !viewportRef.current) return;
+    const deltaX = e.pageX - startXRef.current;
+    if (Math.abs(deltaX) > 5) {
+      isDraggingRef.current = true;
+    }
+    viewportRef.current.scrollLeft = scrollLeftStartRef.current - deltaX;
+  };
+
+  const onMouseUp = () => {
+    if (!isMouseDownRef.current) return;
+    isMouseDownRef.current = false;
+    setPaused(false);
+    setTimeout(() => {
+      isDraggingRef.current = false;
+    }, 50);
+  };
+
+  const onKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === "ArrowRight") {
+      e.preventDefault();
+      go(1);
+    } else if (e.key === "ArrowLeft") {
+      e.preventDefault();
+      go(-1);
+    }
+  };
 
   return (
-    <section className="ev-testimonials" aria-label="What members say">
+    <section
+      className="ev-testimonials"
+      aria-label="What members say"
+      onMouseEnter={() => {
+        setIsHovered(true);
+        setPaused(true);
+      }}
+      onMouseLeave={() => {
+        setIsHovered(false);
+        setPaused(false);
+      }}
+      onTouchStart={() => setPaused(true)}
+      onTouchEnd={() => setPaused(false)}
+    >
       <div className="container">
         <div className="ev-testimonials__head">
-          <span className="eyebrow">What members say</span>
-          <h2 className="ev-testimonials__title">
-            Rooms full of
-            <br />
-            <span className="ev-testimonials__title-mark">real people.</span>
-          </h2>
+          <div>
+            <span className="eyebrow">What members say</span>
+            <h2 className="ev-testimonials__title">
+              Rooms full of
+              <br />
+              <span className="ev-testimonials__title-mark">real people.</span>
+            </h2>
+          </div>
+          <div className="ev-testimonials__controls">
+            <Magnetic strength={0.35}>
+              <button
+                type="button"
+                className="icon-btn"
+                onClick={() => go(-1)}
+                aria-label="Previous review"
+              >
+                <ArrowLeft />
+              </button>
+            </Magnetic>
+            <Magnetic strength={0.35}>
+              <button
+                type="button"
+                className="icon-btn"
+                onClick={() => go(1)}
+                aria-label="Next review"
+              >
+                <ArrowRight />
+              </button>
+            </Magnetic>
+          </div>
         </div>
       </div>
 
       <div
-        className="ev-testimonials__track-wrap"
-        onMouseEnter={() => setPaused(true)}
-        onMouseLeave={() => setPaused(false)}
+        className="ev-testimonials__viewport"
+        ref={viewportRef}
+        onScroll={onScroll}
+        onMouseDown={onMouseDown}
+        onMouseMove={onMouseMove}
+        onMouseUp={onMouseUp}
+        onKeyDown={onKeyDown}
+        tabIndex={0}
+        role="region"
+        aria-label="Reviews slider"
       >
-        <div
-          ref={trackRef}
-          className={`ev-testimonials__track${paused ? " is-paused" : ""}`}
-          aria-live="off"
-        >
-          {/* Duplicate for seamless loop */}
-          {[...REVIEWS, ...REVIEWS].map((review, i) => (
+        <div className="ev-testimonials__track">
+          {REVIEWS.map((review, i) => (
             <article
               key={`review-${i}`}
               className="ev-tcard"
-              aria-label={`Review ${i}`}
+              aria-label={`Review by ${review.author}`}
             >
-              <img 
-                src={review.src} 
-                alt="Member Review" 
-                className="ev-tcard__image" 
-                style={{ objectPosition: review.position }}
+              <img
+                src={review.src}
+                alt={`Review by ${review.author}`}
+                className="ev-tcard__image"
+                loading="lazy"
+                draggable={false}
               />
             </article>
+          ))}
+        </div>
+      </div>
+
+      <div className="container">
+        <div className="ev-testimonials__dots" role="tablist" aria-label="Review slides">
+          {REVIEWS.map((review, i) => (
+            <button
+              key={`dot-${i}`}
+              role="tab"
+              aria-selected={i === index}
+              aria-label={`Go to review by ${review.author}`}
+              className={`ev-testimonials__dot${i === index ? " is-active" : ""}`}
+              onClick={() => scrollToSlide(i, true)}
+            />
           ))}
         </div>
       </div>
@@ -878,6 +1082,9 @@ const PastEvents: React.FC = () => {
           </div>
         </div>
 
+        {/* ── Testimonials slider (in middle) ──────────────── */}
+        <TestimonialsSlider />
+
         {/* ── Events grid ─────────────────────────────────── */}
         <div className="container">
           <ul className="ev-grid" ref={gridRef}>
@@ -897,9 +1104,6 @@ const PastEvents: React.FC = () => {
           {selected && <EventModal event={selected} onClose={handleClose} />}
         </AnimatePresence>
       </section>
-
-      {/* ── Testimonials marquee ─────────────────────────── */}
-      <TestimonialsMarquee />
     </>
   );
 };

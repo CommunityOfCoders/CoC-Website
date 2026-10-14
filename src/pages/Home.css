@@ -417,46 +417,6 @@
   filter: drop-shadow(0 4px 18px rgba(255, 255, 255, 0.35));
 }
 
-/* Tooltip on hover — position:absolute works now that marquee-wrap uses overflow:visible */
-.oss__marquee-logo[data-tip]::after {
-  content: attr(data-tip);
-  position: absolute;
-  bottom: calc(100% + 10px);
-  left: 50%;
-  transform: translateX(-50%) translateY(4px);
-  white-space: nowrap;
-  background: var(--fg);
-  color: var(--ink);
-  font-family: var(--font-mono);
-  font-size: 11px;
-  font-weight: 600;
-  padding: 5px 10px;
-  border-radius: var(--r-pill);
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.2s var(--ease), transform 0.2s var(--ease);
-  z-index: 10;
-}
-.oss__marquee-logo[data-tip]::before {
-  content: '';
-  position: absolute;
-  bottom: calc(100% + 5px);
-  left: 50%;
-  transform: translateX(-50%);
-  border: 5px solid transparent;
-  border-top-color: var(--fg);
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.2s var(--ease);
-  z-index: 10;
-}
-.oss__marquee-logo[data-tip]:hover::after {
-  opacity: 1;
-  transform: translateX(-50%) translateY(0);
-}
-.oss__marquee-logo[data-tip]:hover::before {
-  opacity: 1;
-}
 
 @media (prefers-reduced-motion: reduce) {
   .oss__marquee-track {

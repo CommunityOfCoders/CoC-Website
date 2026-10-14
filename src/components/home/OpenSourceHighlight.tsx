@@ -46,7 +46,6 @@ const OpenSourceHighlight: React.FC = () => (
                 key={`${item.name}-${idx}`}
                 href="#opensource"
                 className="oss__marquee-logo"
-                data-tip={item.name}
                 aria-label={item.name}
               >
                 <item.Logo width={34} height={34} />

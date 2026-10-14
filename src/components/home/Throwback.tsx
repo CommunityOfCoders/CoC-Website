@@ -42,7 +42,7 @@ const Throwback: React.FC = () => {
   const scrollLeftStartRef = useRef(0);
   const isDraggingRef = useRef(false);
   const isProgrammaticScrollRef = useRef(false);
-  const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const scrollTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const reduce = useReducedMotion();
   const last = SLIDES.length - 1;
 

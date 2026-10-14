@@ -602,13 +602,18 @@
    TESTIMONIALS MARQUEE
    ================================================================ */
 .ev-testimonials {
+  position: relative;
   padding-block: clamp(72px, 10vw, 120px);
   background: var(--ink-1);
-  border-top: 1px solid var(--line);
+  border-block: 1px solid var(--line);
   overflow: hidden;
 }
 
 .ev-testimonials__head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 32px;
   margin-bottom: clamp(36px, 5vw, 56px);
 }
 .ev-testimonials__title {
@@ -621,48 +626,47 @@
 }
 .ev-testimonials__title-mark { color: var(--accent); }
 
-/* ── Scrolling track wrapper ─────────────────────────────────── */
-.ev-testimonials__track-wrap {
-  /* full-bleed: no container constraint */
-  width: 100%;
-  overflow: hidden;
-  /* gradient fade on left & right edges */
-  mask-image: linear-gradient(
-    to right,
-    transparent 0%,
-    rgba(0,0,0,1) 8%,
-    rgba(0,0,0,1) 92%,
-    transparent 100%
-  );
-  -webkit-mask-image: linear-gradient(
-    to right,
-    transparent 0%,
-    rgba(0,0,0,1) 8%,
-    rgba(0,0,0,1) 92%,
-    transparent 100%
-  );
+.ev-testimonials__controls {
+  display: flex;
+  gap: 12px;
 }
 
-/* duplicate content: track holds 2× the cards for seamless loop */
+/* ── Scrolling track wrapper / slider ────────────────────────── */
+.ev-testimonials__viewport {
+  padding-left: var(--gutter);
+  padding-right: var(--gutter);
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+  scroll-padding-left: var(--gutter);
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-x pan-y;
+  outline: none;
+}
+.ev-testimonials__viewport::-webkit-scrollbar {
+  display: none;
+}
+
 .ev-testimonials__track {
   display: flex;
-  gap: 20px;
+  gap: 22px;
+  cursor: grab;
   width: max-content;
-  animation: marquee-scroll 48s linear infinite;
+  user-select: none;
+  padding-right: var(--gutter);
 }
-.ev-testimonials__track.is-paused {
-  animation-play-state: paused;
-}
-@keyframes marquee-scroll {
-  from { transform: translateX(0); }
-  to   { transform: translateX(-50%); }
+.ev-testimonials__track:active {
+  cursor: grabbing;
 }
 
 /* ── Testimonial card ────────────────────────────────────────── */
 .ev-tcard {
-  flex: none;
-  width: clamp(280px, 30vw, 380px);
-  height: 250px; /* Reduced box size for screenshots */
+  flex: 0 0 auto;
+  width: clamp(260px, 28vw, 340px);
+  aspect-ratio: 1 / 1;
+  scroll-snap-align: start;
+  scroll-snap-stop: normal;
   display: flex;
   flex-direction: column;
   padding: 0;
@@ -677,7 +681,7 @@
 .ev-tcard:hover {
   border-color: rgba(29, 185, 84, 0.3);
   background: var(--ink-3);
-  transform: translateY(-3px);
+  transform: translateY(-4px);
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
 }
 
@@ -685,6 +689,27 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+  pointer-events: none;
+}
+
+.ev-testimonials__dots {
+  display: flex;
+  gap: 10px;
+  margin-top: clamp(28px, 4vw, 44px);
+}
+.ev-testimonials__dot {
+  width: 30px;
+  height: 4px;
+  border-radius: 999px;
+  border: none;
+  background: var(--line-2);
+  padding: 0;
+  cursor: pointer;
+  transition: background 0.3s var(--ease), width 0.3s var(--ease);
+}
+.ev-testimonials__dot.is-active {
+  background: var(--accent);
+  width: 46px;
 }
 
 .ev-tcard__footer {
