@@ -1082,9 +1082,6 @@ const PastEvents: React.FC = () => {
           </div>
         </div>
 
-        {/* ── Testimonials slider (in middle) ──────────────── */}
-        <TestimonialsSlider />
-
         {/* ── Events grid ─────────────────────────────────── */}
         <div className="container">
           <ul className="ev-grid" ref={gridRef}>
@@ -1099,6 +1096,9 @@ const PastEvents: React.FC = () => {
             ))}
           </ul>
         </div>
+
+        {/* ── Testimonials slider ─────────────────────────── */}
+        <TestimonialsSlider />
 
         <AnimatePresence>
           {selected && <EventModal event={selected} onClose={handleClose} />}
