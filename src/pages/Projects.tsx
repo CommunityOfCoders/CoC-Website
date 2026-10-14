@@ -228,50 +228,66 @@ function ProjectCard({ project, onSelect, showViewDetails = true, index = 0 }: P
 
   return (
     <Reveal delay={(index % 3) * 0.08} className="project-card-reveal">
-      <Tilt rotationFactor={4} springOptions={{ stiffness: 200, damping: 20 }} style={{ height: "100%" }}>
-        <article className="project-card" onClick={() => onSelect(project)} role="button" tabIndex={0}>
+      <Tilt
+        rotationFactor={4}
+        springOptions={{ stiffness: 200, damping: 20 }}
+        className="project-card-tilt"
+        style={{ height: "100%" }}
+      >
+        <article
+          className="project-card"
+          onClick={() => onSelect(project)}
+          role="button"
+          tabIndex={0}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              onSelect(project);
+            }
+          }}
+        >
           <div className="project-card__body">
-        <div className="project-card__header">
-          <h3 className="project-card__title">{project.name}</h3>
-          {project.year ? (
-            <span className="project-card__badge" style={{ background: "rgba(126, 217, 87, 0.15)", color: "#7ED957" }}>
-              {project.year}
-            </span>
-          ) : (
-            project.category && <CategoryBadge category={project.category} />
-          )}
-        </div>
+            <div className="project-card__header">
+              <h3 className="project-card__title">{project.name}</h3>
+              {project.year ? (
+                <span className="project-card__badge" style={{ background: "rgba(126, 217, 87, 0.15)", color: "#7ED957" }}>
+                  {project.year}
+                </span>
+              ) : (
+                project.category && <CategoryBadge category={project.category} />
+              )}
+            </div>
 
-        {project.tagline && <p className="project-card__tagline">{project.tagline}</p>}
+            {project.tagline && <p className="project-card__tagline">{project.tagline}</p>}
 
-        {project.tech && (
-          <div className="project-card__tech">
-            {project.tech.map((t) => (
-              <span key={t} className="tech-chip">
-                {t}
-              </span>
-            ))}
+            {project.tech && (
+              <div className="project-card__tech">
+                {project.tech.map((t) => (
+                  <span key={t} className="tech-chip">
+                    {t}
+                  </span>
+                ))}
+              </div>
+            )}
+
+            <div className="project-card__footer">
+              <div className="project-card__stats">
+                <span className="project-card__stat">
+                  <Star size={13} /> {stars}
+                </span>
+                <span className="project-card__stat">
+                  <GitFork size={13} /> {forks}
+                </span>
+              </div>
+
+              {showViewDetails && (
+                <span className="project-card__link">
+                  View Details <ChevronRight size={13} />
+                </span>
+              )}
+            </div>
           </div>
-        )}
-
-        <div className="project-card__footer">
-          <div className="project-card__stats">
-            <span className="project-card__stat">
-              <Star size={13} /> {stars}
-            </span>
-            <span className="project-card__stat">
-              <GitFork size={13} /> {forks}
-            </span>
-          </div>
-
-          {showViewDetails && (
-            <span className="project-card__link">
-              View Details <ChevronRight size={13} />
-            </span>
-          )}
-        </div>
-      </div>
-    </article>
+        </article>
       </Tilt>
     </Reveal>
   );
