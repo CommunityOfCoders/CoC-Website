@@ -551,6 +551,12 @@ body.project-panel-open {
   overflow: hidden;
 }
 
+body.project-panel-open .shell main,
+body.project-panel-open .projects-page {
+  position: relative;
+  z-index: 50;
+}
+
 body.project-panel-open .nav {
   position: fixed;
   top: 0;
@@ -612,6 +618,9 @@ body.project-panel-open .nav {
   flex-direction: column;
   overflow: hidden;
   overscroll-behavior: contain;
+}
+.drawer-panel:focus {
+  outline: none;
 }
 
 .drawer-panel.is-open {

@@ -167,10 +167,14 @@ function ContributorDrawer({ contributor, isOpen, onClose }: DrawerProps) {
   useEffect(() => {
     if (!isOpen) return undefined;
     openerRef.current = document.activeElement as HTMLElement;
+    const originalBodyOverflow = document.body.style.overflow;
+    const originalHtmlOverflow = document.documentElement.style.overflow;
     document.body.style.overflow = 'hidden';
+    document.documentElement.style.overflow = 'hidden';
+    document.body.classList.add('os-panel-open');
 
     const raf = requestAnimationFrame(() => {
-      panelRef.current?.querySelector<HTMLElement>('.os-drawer-close')?.focus();
+      panelRef.current?.focus();
     });
 
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -196,40 +200,33 @@ function ContributorDrawer({ contributor, isOpen, onClose }: DrawerProps) {
     return () => {
       cancelAnimationFrame(raf);
       window.removeEventListener('keydown', handleKeyDown);
-      document.body.style.overflow = '';
+      document.body.style.overflow = originalBodyOverflow;
+      document.documentElement.style.overflow = originalHtmlOverflow;
+      document.body.classList.remove('os-panel-open');
       openerRef.current?.focus();
     };
   }, [isOpen, onClose]);
 
   if (!contributor) return null;
-  const program = getProgram(contributor.programId);
   const nameParts = contributor.name.split(' ');
   const firstNames = nameParts.slice(0, -1).join(' ') || nameParts[0];
   const lastName = nameParts.length > 1 ? nameParts[nameParts.length - 1] : '';
 
   return (
     <>
-      <div className={`os-drawer-backdrop ${isOpen ? 'is-open' : ''}`} onClick={onClose} />
+      <div
+        className={`os-drawer-backdrop ${isOpen ? 'is-open' : ''}`}
+        onClick={onClose}
+        aria-hidden="true"
+      />
       <aside
         ref={panelRef}
         className={`os-drawer-panel ${isOpen ? 'is-open' : ''}`}
         role="dialog"
         aria-modal="true"
         aria-labelledby="os-drawer-name"
+        tabIndex={-1}
       >
-        <div className="os-drawer-header">
-          {program ? (
-            <span className="os-program-tag" style={{ '--tag-color': program.color } as React.CSSProperties}>
-              <program.Logo width={13} height={13} /> {program.shortName}
-            </span>
-          ) : (
-            <span />
-          )}
-          <button className="os-drawer-close" onClick={onClose} aria-label="Close details">
-            <X size={16} />
-          </button>
-        </div>
-
         <div className="os-drawer-content">
           <h2 id="os-drawer-name" className="os-drawer-name">
             <span className="os-drawer-name__first">{firstNames}</span>

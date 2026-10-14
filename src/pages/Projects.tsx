@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Reveal from "../components/ui/Reveal";
 import { Tilt } from "../components/ui/Tilt";
 import {
@@ -286,25 +286,35 @@ interface DrawerProps {
 }
 
 function ProjectDrawer({ project, isOpen, onClose }: DrawerProps) {
+  const panelRef = useRef<HTMLElement>(null);
+  const openerRef = useRef<HTMLElement | null>(null);
+
   useEffect(() => {
+    if (!isOpen) return;
+    openerRef.current = document.activeElement as HTMLElement;
+    const originalBodyOverflow = document.body.style.overflow;
+    const originalHtmlOverflow = document.documentElement.style.overflow;
+    document.body.style.overflow = "hidden";
+    document.documentElement.style.overflow = "hidden";
+    document.body.classList.add("project-panel-open");
+
+    const raf = requestAnimationFrame(() => {
+      panelRef.current?.focus();
+    });
+
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") onClose();
     };
-    if (isOpen) {
-      window.addEventListener("keydown", handleKeyDown);
-      const originalBodyOverflow = document.body.style.overflow;
-      const originalHtmlOverflow = document.documentElement.style.overflow;
-      document.body.style.overflow = "hidden";
-      document.documentElement.style.overflow = "hidden";
-      document.body.classList.add("project-panel-open");
+    window.addEventListener("keydown", handleKeyDown);
 
-      return () => {
-        window.removeEventListener("keydown", handleKeyDown);
-        document.body.style.overflow = originalBodyOverflow;
-        document.documentElement.style.overflow = originalHtmlOverflow;
-        document.body.classList.remove("project-panel-open");
-      };
-    }
+    return () => {
+      cancelAnimationFrame(raf);
+      window.removeEventListener("keydown", handleKeyDown);
+      document.body.style.overflow = originalBodyOverflow;
+      document.documentElement.style.overflow = originalHtmlOverflow;
+      document.body.classList.remove("project-panel-open");
+      openerRef.current?.focus();
+    };
   }, [isOpen, onClose]);
 
   // We always call useGithubStats unconditionally
@@ -329,10 +339,12 @@ function ProjectDrawer({ project, isOpen, onClose }: DrawerProps) {
 
       {/* Slide Panel */}
       <aside
+        ref={panelRef}
         className={`drawer-panel ${isOpen ? "is-open" : ""}`}
         aria-modal="true"
         role="dialog"
         aria-label={project.name}
+        tabIndex={-1}
       >
         <div className="drawer-content">
           {/* Big display title — outlined first part + accent last word */}
