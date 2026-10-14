@@ -11,6 +11,7 @@ import {
 import type { Variants } from "framer-motion";
 import { ChevronLeft, ChevronRight, X, ArrowLeft, ArrowRight } from "lucide-react";
 import { TimelineContent } from "../components/ui/TimelineContent";
+import Reveal from "../components/ui/Reveal";
 import { Tilt } from "../components/ui/Tilt";
 import Magnetic from "../components/ui/Magnetic";
 import CountUp from "../components/ui/CountUp";
@@ -448,34 +449,17 @@ function isUpcoming(isoDate: string, windowDays = 45): boolean {
   return eventMs > now && eventMs <= now + windowDays * 86_400_000;
 }
 
-const cardVariants: Variants = {
-  hidden: { opacity: 0, y: 28, scale: 0.95, filter: "blur(6px)" },
-  visible: (i: number) => ({
-    opacity: 1,
-    y: 0,
-    scale: 1,
-    filter: "blur(0px)",
-    transition: { delay: i * 0.06, duration: 0.5, ease: EASE },
-  }),
-};
-
 const EventCard: React.FC<{
   event: CoCEvent;
   index: number;
-  gridRef: React.RefObject<HTMLUListElement | null>;
+  gridRef?: React.RefObject<HTMLUListElement | null>;
   onOpen: (ev: CoCEvent) => void;
-}> = ({ event, index, gridRef, onOpen }) => {
+}> = ({ event, index, onOpen }) => {
   const reduce = useReducedMotion();
   const [hovered, setHovered] = useState(false);
 
   return (
-    <TimelineContent
-      as="li"
-      animationNum={index}
-      timelineRef={gridRef}
-      customVariants={cardVariants}
-      once
-    >
+    <Reveal as="li" delay={(index % 3) * 0.08} className="ev-card-reveal">
       <Tilt
         className="ev-tilt"
         rotationFactor={4}
@@ -533,7 +517,7 @@ const EventCard: React.FC<{
           </div>
         </article>
       </Tilt>
-    </TimelineContent>
+    </Reveal>
   );
 };
 
