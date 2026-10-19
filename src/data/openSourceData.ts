@@ -166,6 +166,7 @@ export const CONTRIBUTORS: Contributor[] = [
       'Develop deep learning models (disequilibrium-aware GRU, Variational Autoencoders, and unsupervised Autoencoders) for exoplanet atmosphere parameter retrieval and biosignature detection from transmission spectra validated on JWST observational data.',
     mentor: 'Katia Matcheva, Emilie Panek',
     projectLink: 'https://summerofcode.withgoogle.com/programs/2026/projects/N4VolVhn',
+    linkedin: 'https://www.linkedin.com/in/anushree-upasham/',
   },
   {
     id: 'vidhi-rohira',
@@ -181,6 +182,7 @@ export const CONTRIBUTORS: Contributor[] = [
     mentor: 'Bradly Alicea, Jesse Parent, Sarrah Bastawala, Mehul Arora',
     projectLink: 'https://summerofcode.withgoogle.com/archive/2025/projects/5ar0UXAF',
     blog: 'https://vidhirohira.github.io/blog/2025/06/12/week2-task-allocation-mab.html',
+    linkedin: 'https://www.linkedin.com/in/vidhi-rohira-435a22278/',
   },
   {
     id: 'sourish-phate',
@@ -197,6 +199,7 @@ export const CONTRIBUTORS: Contributor[] = [
     projectLink: 'https://summerofcode.withgoogle.com/archive/2025/projects/xIJEvndL',
     github: 'https://github.com/sourishphate/QML_For_Exoplanet_Characterization_EXXA_GSoC_2025',
     blog: 'https://medium.com/@sourishphate/quantum-machine-learning-for-exoplanet-characterization-gsoc-25-ml4sci-c6c6cb4590b9',
+    linkedin: 'https://www.linkedin.com/in/sourish-phate-066952288/',
   },
   {
     id: 'swayam-shah',
@@ -229,6 +232,7 @@ export const CONTRIBUTORS: Contributor[] = [
     mentor: 'Lorenzo Moneta, Sanjiban Sengupta',
     projectLink: 'https://summerofcode.withgoogle.com/archive/2025/projects/uAjGYhgX',
     github: 'https://gist.github.com/PrasannaKasar/3cf1ccc7109a9bf5d784b973233ed05a',
+    linkedin: 'https://www.linkedin.com/in/prasannakasar/',
   },
   {
     id: 'rushabh-mehta-sympy',
@@ -244,7 +248,7 @@ export const CONTRIBUTORS: Contributor[] = [
     mentor: 'Jason Moore, Hwayeon Kang',
     projectLink: 'https://summerofcode.withgoogle.com/archive/2025/projects/uvXG3nzX',
     github: 'https://github.com/sympy/sympy/wiki/GSoC-2025-Report-Rushabh-Mehta%3A-Implementing-Wrapping-Geometries-for-Musculoskeletal-Modeling',
-    linkedin: 'https://www.linkedin.com/in/mehtarushabh/',
+    linkedin: 'https://www.linkedin.com/in/mehtarushabh2005/',
     blog: 'https://rushabh-mehta.medium.com/',
   },
   {
@@ -261,6 +265,7 @@ export const CONTRIBUTORS: Contributor[] = [
     mentor: 'Samet Akcay, Laurens Hogeweg',
     projectLink: 'https://summerofcode.withgoogle.com/archive/2025/projects/j834yUmd',
     github: 'https://github.com/geeky33/mmee2025',
+    linkedin: 'https://www.linkedin.com/in/aaryavjti/',
   },
   {
     id: 'kshitij-shah',
@@ -277,6 +282,7 @@ export const CONTRIBUTORS: Contributor[] = [
     projectLink: 'https://summerofcode.withgoogle.com/archive/2024/projects/lccFY8AH',
     github: 'https://github.com/kshitijdshah99/Pippy_Activity',
     blog: 'https://medium.com/@sugarlabs/gsoc-2024-students-weekly-reports-6-and-7-9eacb78e4093',
+    linkedin: 'https://www.linkedin.com/in/kshitij-shah-contact/',
   },
   {
     id: 'sharan-poojari',
@@ -293,6 +299,7 @@ export const CONTRIBUTORS: Contributor[] = [
     projectLink: 'https://summerofcode.withgoogle.com/archive/2024/projects/l9XgEOnp',
     github: 'https://github.com/aiidateam/aiida-explorer/blob/gsoc/gsoc/README.md',
     blog: 'https://aiida.net/blog/2024-10-17-google-summer-of-code/',
+    linkedin: 'https://www.linkedin.com/in/sharanrp35/',
   },
   {
     id: 'vedant-mehra',
@@ -309,6 +316,7 @@ export const CONTRIBUTORS: Contributor[] = [
     projectLink: 'https://summerofcode.withgoogle.com/archive/2024/projects/6DDnly0z',
     github: 'https://github.com/extint/gsoc24-blog/blob/main/Final-Evaluation-Gsoc.md',
     blog: 'https://hepsoftwarefoundation.org/gsoc/blogs/2024/blog_SOFIE_VedantMehra.html',
+    linkedin: 'https://www.linkedin.com/in/vedant-mehra207/',
   },
   {
     id: 'mayank-palan',
@@ -324,6 +332,7 @@ export const CONTRIBUTORS: Contributor[] = [
     mentor: 'Mark Turner, Francis Steen, Ankit Gupta, Homa Hosseinmardi, Rajesh Kasturirangan, Santanu Chakraborty',
     projectLink: 'https://summerofcode.withgoogle.com/archive/2024/projects/fRdO8ACC',
     github: 'https://github.com/MayankPalan2004/Modeling-Wayfinding',
+    linkedin: 'https://www.linkedin.com/in/mayank-b-palan/',
   },
   {
     id: 'raya-chakravarty',
@@ -340,6 +349,7 @@ export const CONTRIBUTORS: Contributor[] = [
     projectLink: 'https://summerofcode.withgoogle.com/archive/2024/projects/W7ATppvz',
     github: 'https://github.com/neurobagel/query-tool-ai',
     blog: 'https://raya679.github.io/gsoc/',
+    linkedin: 'https://www.linkedin.com/in/raya-chakravarty/',
   },
   {
     id: 'tvisha-vedant',
@@ -356,6 +366,7 @@ export const CONTRIBUTORS: Contributor[] = [
     projectLink: 'https://summerofcode.withgoogle.com/archive/2024/projects/RbOlafUP',
     github: 'https://github.com/neurobagel/annotation-tool-ai',
     blog: 'https://tvilight4.github.io/MyBlog/',
+    linkedin: 'https://www.linkedin.com/in/tvisha-vedant-2718501b1/',
   },
   {
     id: 'warren-jacinto',
@@ -371,6 +382,7 @@ export const CONTRIBUTORS: Contributor[] = [
     mentor: 'Mohammad Akhlaghi, Labib Asari',
     projectLink: 'https://summerofcode.withgoogle.com/archive/2024/projects/ehBYTrDa',
     github: 'https://github.com/DeadSpheroid/gnuastro/tree/final',
+    linkedin: 'https://www.linkedin.com/in/warren-jacinto/',
   },
   {
     id: 'dhruvanshu-joshi',
@@ -387,6 +399,7 @@ export const CONTRIBUTORS: Contributor[] = [
     projectLink: 'https://summerofcode.withgoogle.com/archive/2024/projects/Tkk88oFl',
     github: 'https://gist.github.com/Dhruvanshu-Joshi/a0c700cf55ec29ee45e0cc638b83edc5',
     blog: 'https://gist.github.com/Dhruvanshu-Joshi/a0c700cf55ec29ee45e0cc638b83edc5',
+    linkedin: 'https://www.linkedin.com/in/dhruvanshu-joshi/',
   },
   {
     id: 'om-doiphode',
@@ -403,6 +416,7 @@ export const CONTRIBUTORS: Contributor[] = [
     projectLink: 'https://summerofcode.withgoogle.com/archive/2024/projects/uN8mA5zq',
     github: 'https://gist.github.com/Om-Doiphode/77ac70ab14c9134182cebe6077480de1',
     blog: 'https://gist.github.com/Om-Doiphode/77ac70ab14c9134182cebe6077480de1',
+    linkedin: 'https://www.linkedin.com/in/om-doiphode/',
   },
   {
     id: 'vaibhav-patel',
@@ -417,6 +431,7 @@ export const CONTRIBUTORS: Contributor[] = [
       'Contributed to frontend and backend enhancements for book ratings, ratings components, and issue resolution in the Internet Archive Open Library repository.',
     mentor: 'Open Library Maintainers',
     projectLink: 'https://www.linkedin.com/posts/vaibhavpatel2892_openlibrary-openlibrary-gsoc-activity-7211661788323450882-93U9',
+    linkedin: 'https://www.linkedin.com/in/vaibhavpatel2892/',
     github: 'https://github.com/noobCoderVP/openlibrary',
   },
   {
@@ -433,6 +448,7 @@ export const CONTRIBUTORS: Contributor[] = [
     mentor: 'Baidyanath Kundu, Vassil Vassilev',
     projectLink: 'https://summerofcode.withgoogle.com/archive/2023/projects/GGwZBrTf',
     github: 'https://gist.github.com/Smit1603/628b56019d19bfb6dd3bd5ee53f0eab1',
+    linkedin: 'https://www.linkedin.com/in/smit-shah-5b6990222/',
   },
   {
     id: 'dishie-vinchhi',
@@ -449,6 +465,7 @@ export const CONTRIBUTORS: Contributor[] = [
     projectLink: 'https://summerofcode.withgoogle.com/archive/2023/projects/z6hGpvLS',
     github: 'https://github.com/brainets/hoi',
     blog: 'https://dishie2498.github.io/gsoc/',
+    linkedin: 'https://www.linkedin.com/in/dishie-vinchhi2498/',
   },
   {
     id: 'soham-mulye',
@@ -464,6 +481,7 @@ export const CONTRIBUTORS: Contributor[] = [
     mentor: 'Dr. Suresh Krishna, Arvind Chandna, Yohaï-Eliel Berreby, Floris van Vugt',
     projectLink: 'https://summerofcode.withgoogle.com/archive/2023/projects/NNz2NNsS',
     github: 'https://github.com/Shazam213/automated-preferential-looking',
+    linkedin: 'https://www.linkedin.com/in/soham-mulye-13364022b/',
   },
   {
     id: 'labib-asari',
@@ -480,6 +498,7 @@ export const CONTRIBUTORS: Contributor[] = [
     projectLink: 'https://summerofcode.withgoogle.com/archive/2023/projects/pwivQF02',
     github: 'https://github.com/labeeb-7z/cuda-gnu',
     blog: 'https://openastronomy.org/Universe_OA/posts/2023/08/20230822_0000_labeeb-7z/',
+    linkedin: 'https://www.linkedin.com/in/labib-asari/',
   },
   {
     id: 'siddheshsingh-tanwar',
@@ -495,6 +514,7 @@ export const CONTRIBUTORS: Contributor[] = [
     mentor: 'José María Cañas, Toshan Luktuke',
     projectLink: 'https://summerofcode.withgoogle.com/archive/2023/projects/SPqrs4g7',
     github: 'https://github.com/JdeRobot/VisualCircuit/pull/222',
+    linkedin: 'https://www.linkedin.com/in/siddheshsingh-tanwar-3a8588213/',
   },
 
   // ─── LFX Mentorship Contributors ─────────────────────────────────────────
@@ -512,7 +532,7 @@ export const CONTRIBUTORS: Contributor[] = [
     mentor: 'Prometheus Maintainers',
     projectLink: 'https://github.com/prometheus/prometheus/issues/17058',
     github: 'https://github.com/prometheus/prometheus/issues/17058',
-    linkedin: 'https://www.linkedin.com/in/mehtarushabh/',
+    linkedin: 'https://www.linkedin.com/in/mehtarushabh2005/',
   },
   {
     id: 'khush-agrawal',
@@ -528,8 +548,7 @@ export const CONTRIBUTORS: Contributor[] = [
     mentor: 'WasmEdge Maintainers',
     projectLink: 'https://github.com/WasmEdge/WasmEdge/issues/4110',
     github: 'https://github.com/WasmEdge/WasmEdge/issues/4110',
-    linkedin: 'https://www.linkedin.com/in/khush-agrawal-36916b207/',
-    blog: 'https://khush3.github.io/',
+    linkedin: 'https://www.linkedin.com/in/khushmagrawal/'
   },
 
   // ─── Julia Contributors ─────────────────────────────────────────────────
