@@ -62,7 +62,6 @@ const RAW_INTERNSHIPS: Record<string, RawInternshipInput[]> = {
     { company: 'Citi Bank', stipend: '₹75k/mo', members: 7, ppos: 7 },
     { company: 'BNY Mellon', stipend: '₹75k/mo', members: 7, ppos: 2 },
     { company: 'JPMC', stipend: '₹75k/mo', members: 4, ppos: 3 },
-    { company: 'Texas Instruments', stipend: '₹60k/mo', members: 4, ppos: 2 },
     { company: 'Russell Investments', stipend: '₹60k/mo', members: 1, ppos: 1 },
     { company: 'UPL', stipend: '₹40k/mo', members: 3, ppos: 2 },
     { company: 'Mastercard', stipend: '₹40k/mo', members: 2, ppos: 2 },
@@ -79,7 +78,6 @@ const RAW_PLACEMENTS: Record<string, RawPlacementInput[]> = {
   '2026': [
     { company: 'DE Shaw', ctc: '₹67L', members: 1, ppos: 1 },
     { company: 'Google', ctc: '₹50L', members: 4, ppos: 4 },
-    { company: 'Texas Instruments', ctc: '₹40L', members: 2, ppos: 2 },
     { company: 'Goldman Sachs', ctc: '₹30L', members: 4, ppos: 4 },
     { company: 'Morgan Stanley', ctc: '₹29L', members: 7, ppos: 7 },
     { company: 'Wells Fargo', ctc: '₹24L', members: 4, ppos: 4 },
@@ -131,7 +129,6 @@ const RAW_PLACEMENTS: Record<string, RawPlacementInput[]> = {
     { company: 'Google', ctc: '₹54L', members: 1, ppos: 1 },
     { company: 'Microsoft', ctc: '₹51L', members: 1, ppos: 1 },
     { company: 'IMC Trading', ctc: '₹40L', members: 1, ppos: '-' },
-    { company: 'Texas Instruments', ctc: '₹38.53L', members: 2, ppos: '-' },
     { company: 'Goldman Sachs', ctc: '₹30L', members: 3, ppos: 3 },
     { company: 'Morgan Stanley', ctc: '₹29.48L', members: 3, ppos: 3 },
     { company: 'SAP Labs', ctc: '₹23.5L', members: 9, ppos: 4 },

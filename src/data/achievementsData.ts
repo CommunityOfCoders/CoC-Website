@@ -207,15 +207,16 @@ function parseAchievements(): Achievement[] {
       const numA = parseInt(a.number, 10);
       const numB = parseInt(b.number, 10);
       if (!isNaN(numA) && !isNaN(numB) && numA !== numB) {
-        return numA - numB;
+        return numB - numA;
       }
-      return a.id.localeCompare(b.id);
+      return b.id.localeCompare(a.id);
     });
   }
 
   // Fallback if glob yields empty array
   return Array.from({ length: 24 }, (_, i) => {
-    const numStr = String(i + 1).padStart(2, '0');
+    const num = 24 - i;
+    const numStr = String(num).padStart(2, '0');
     const idKey = `achievement_${numStr}`;
     const meta = METADATA_MAP[idKey] || {
       title: `Milestone ${numStr}`,

@@ -14,7 +14,7 @@ import mediumLogoImg from '../assets/Medium-Icon-Black.svg';
 import './OpenSource.css';
 
 const GH_ORG = 'CommunityOfCoders';
-const STATIC_STARS = REPOS.reduce((sum, r) => sum + r.stars, 0);
+const STATIC_STARS = '200+';
 const STATIC_REPOS = REPOS.length;
 
 const getProgram = (id: Contributor['programId']): Program | undefined => PROGRAMS.find((p) => p.id === id);
@@ -52,10 +52,10 @@ const FLOATING_HERO_LOGOS = [
  *  REPOS until the fetch resolves, cached per tab so repeat visits
  *  to the page don't re-hit the API. */
 function useOrgStats() {
-  const [stats, setStats] = useState({ repos: STATIC_REPOS, stars: STATIC_STARS });
+  const [stats, setStats] = useState<{ repos: number; stars: string }>({ repos: STATIC_REPOS, stars: STATIC_STARS });
 
   useEffect(() => {
-    const cacheKey = `gh_org_stats_${GH_ORG}`;
+    const cacheKey = `gh_org_stats_v2_${GH_ORG}`;
     const cached = sessionStorage.getItem(cacheKey);
     if (cached) {
       setStats(JSON.parse(cached));
@@ -65,8 +65,9 @@ function useOrgStats() {
       .then((r) => r.json())
       .then((repos) => {
         if (Array.isArray(repos) && repos.length) {
-          const stars = repos.reduce((sum, r) => sum + (r.stargazers_count || 0), 0);
-          const data = { repos: repos.length, stars };
+          const starsCount = repos.reduce((sum, r) => sum + (r.stargazers_count || 0), 0);
+          const starsDisplay = starsCount >= 200 ? `${Math.floor(starsCount / 100) * 100}+` : `${starsCount}+`;
+          const data = { repos: repos.length, stars: starsDisplay };
           setStats(data);
           sessionStorage.setItem(cacheKey, JSON.stringify(data));
         }
@@ -377,7 +378,7 @@ export default function OpenSource() {
                     <span className="os-stat__label">Repositories</span>
                   </div>
                   <div className="os-stat">
-                    <span className="os-stat__num">{stats.stars}+</span>
+                    <span className="os-stat__num">{stats.stars.endsWith('+') ? stats.stars : `${stats.stars}+`}</span>
                     <span className="os-stat__label">GitHub stars</span>
                   </div>
                   <div className="os-stat">
