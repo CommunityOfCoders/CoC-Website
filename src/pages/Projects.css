@@ -776,3 +776,65 @@ body.project-panel-open .nav {
   .drawer-content { padding: 24px 20px 40px; }
   .drawer-features-grid { grid-template-columns: 1fr; }
 }
+
+/* Drawer Author Links & Contributor Chips */
+.drawer-author-link {
+  color: var(--fg);
+  text-decoration: underline;
+  text-decoration-color: rgba(255, 255, 255, 0.25);
+  text-underline-offset: 3px;
+  transition: color 0.2s var(--ease), text-decoration-color 0.2s var(--ease);
+}
+
+.drawer-author-link:hover {
+  color: var(--accent);
+  text-decoration-color: var(--accent);
+}
+
+.drawer-authors-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.drawer-author-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 6px 14px;
+  border-radius: var(--r-pill);
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  background: rgba(245, 247, 245, 0.05);
+  border: 1px solid var(--line-2);
+  color: var(--fg);
+  text-decoration: none;
+  transition: all 0.2s var(--ease);
+}
+
+.drawer-author-chip:hover {
+  background: rgba(126, 217, 87, 0.1);
+  border-color: rgba(126, 217, 87, 0.4);
+  color: var(--accent);
+  transform: translateY(-1px);
+}
+
+.drawer-author-chip--static {
+  opacity: 0.75;
+  cursor: default;
+}
+
+.drawer-author-chip--static:hover {
+  background: rgba(245, 247, 245, 0.05);
+  border-color: var(--line-2);
+  color: var(--fg);
+  transform: none;
+}
+
+.drawer-author-chip__ext {
+  opacity: 0.6;
+}
+
+.drawer-author-chip:hover .drawer-author-chip__ext {
+  opacity: 1;
+}

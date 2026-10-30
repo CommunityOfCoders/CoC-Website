@@ -509,7 +509,9 @@ const EventCard: React.FC<{
             <div className="ev-card__meta">
               <span className="ev-card__date">{event.date}</span>
               {event.prizePool !== "N/A" && (
-                <span className="ev-card__prize">{event.prizePool}</span>
+                <span className="ev-card__prize" aria-label={`Prize pool: ${event.prizePool}`}>
+                  {event.prizePool}
+                </span>
               )}
             </div>
             <h3 className="ev-card__name">{event.name}</h3>

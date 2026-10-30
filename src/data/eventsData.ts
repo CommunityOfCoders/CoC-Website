@@ -22,6 +22,55 @@ export interface CoCEvent {
 }
 
 export const EVENTS: CoCEvent[] = [
+  /* ──────────────── 2026–2027 Academic Year Events ──────────────── */
+  {
+    id: "hello-world-2026",
+    name: "Hello World – FY Domain Exhibition",
+    date: "8th and 9th October 2026",
+    isoDate: "2026-10-09",
+    location: "VJTI, Mumbai",
+    summary: "Open Door first-year domain exhibition introducing 300+ students to diverse tech tracks.",
+    description:
+      "Hello World is a first-year domain exhibition organized by the Community of Coders (CoC), VJTI, in collaboration with the AIDSET VJTI Committee. The event welcomed over 300 first-year students and introduced them to the diverse technical domains within the community.\n\nUnlike a conventional orientation, Hello World offered an interactive experience where students could explore different domains, witness projects and demonstrations, and interact with students actively working in these fields.\n\nDomains Covered:\n- Cybersecurity\n- Systems\n- Artificial Intelligence and Machine Learning\n- Quantum Computing\n- Game Development\n- Open Source and Blockchain\n- Modern AI\n- Fun Events and Activities\n\nThe exhibition was planned and conducted by second-year and third-year students, providing first-years with an opportunity to discover their interests, explore new technologies, and understand the practical applications of different domains.\n\nWith over 300 first-year students participating, Hello World marked an exciting beginning to their journey with the Community of Coders, encouraging curiosity, collaboration, and hands-on learning.",
+    prizePool: "N/A",
+    photos: ["/photos/2026/helloworld.jpeg", "/photos/2026/helloworld2.jpeg", "/events/ai_workshop.jpg"],
+  },
+  {
+    id: "icpc-prelims-2026",
+    name: "ICPC 2026 College Prelims",
+    date: "3rd October 2026",
+    isoDate: "2026-10-03",
+    location: "College Labs, VJTI",
+    summary: "Single-computer team contest selecting VJTI's representatives for ICPC 2026.",
+    description:
+      "The ICPC 2026 College Prelims were conducted on 3 October at Veermata Jijabai Technological Institute (VJTI) by the CP Club under the Community of Coders (CoC), VJTI. The event marked the first stage of the journey towards the International Collegiate Programming Contest (ICPC), one of the most prestigious competitive programming competitions.\n\nParticipants competed in teams of three, sharing a single computer to solve algorithmic problems within a limited time. The contest tested their problem-solving abilities, logical thinking, coding skills, and teamwork under pressure.\n\nThe event provided students with an opportunity to challenge themselves, apply their programming knowledge, and experience the intensity of competitive programming in a collaborative environment.\n\nThe prelims were made possible through the combined efforts of the CP Club, the Community of Coders team, student volunteers, and the support of VJTI faculty and the department.\n\nThe event celebrated the spirit of competitive programming and encouraged students to continue developing their skills as they progressed towards the next stages of ICPC 2026.",
+    prizePool: "N/A",
+    photos: ["/photos/2026/icpc2.jpeg", "/events/algo_arena.jpg"],
+  },
+  {
+    id: "project-x-final-meet-2026",
+    name: "Project X – Final Meet",
+    date: "27th September 2026",
+    isoDate: "2026-09-27",
+    location: "VJTI",
+    summary: "Mentorship reviews, project demonstrations, and open-source guidance across batches.",
+    description:
+      "The Project X Final Meet, organized by the Community of Coders (CoC), VJTI, marks an important milestone in the Project X mentorship program. The session brings together students from the second, third, and final years for project reviews, technical discussions, and knowledge sharing.\n\nThe meet provides a platform for project teams to present their progress, demonstrate their implementations, discuss challenges, and receive constructive feedback to improve their work. It encourages collaboration across batches, promotes practical learning, and helps students gain valuable insights from their peers.\n\nThe session also includes guidance for second-year students on opportunities such as Google Summer of Code (GSoC), Linux Foundation Mentorship programs (LFX), and other open-source initiatives, helping them explore ways to contribute to real-world projects and strengthen their technical skills.\n\nThrough Project X, the Community of Coders aims to foster a culture of consistent learning, collaboration, and building meaningful projects.",
+    prizePool: "N/A",
+    photos: ["/photos/2026/ProjectX.png", "/events/open_source.jpg"],
+  },
+  {
+    id: "sih-2026",
+    name: "Community of Coders × Smart India Hackathon 2026",
+    date: "25th August 2026",
+    isoDate: "2026-08-25",
+    location: "VJTI, Mumbai",
+    summary: "Internal hackathon for SIH 2026 featuring 100+ teams and 10+ expert panels.",
+    description:
+      "The Internal Hackathon of Smart India Hackathon (SIH) 2026 at VJTI brought together students to develop innovative solutions to real-world challenges. Organized under the Community of Coders, the event witnessed participation from 100+ teams and 10+ expert panels, creating a dynamic environment for innovation, collaboration, and problem-solving.\n\nThroughout the day, teams presented their ideas to expert panels, received constructive feedback, and refined their solutions through challenging questions and interactive discussions. The hackathon encouraged participants to think critically, adapt to feedback, and strengthen their ideas under pressure. It also highlighted the contributions of women-led teams, bringing diverse perspectives and fresh approaches to the challenges.\n\nThe event was conducted under the guidance of Shraddha Suratkar Ma'am, VJTI's Smart India Hackathon SPOC, whose dedication and coordination played a vital role in its successful execution.\n\nMore than a competition, the internal hackathon provided a platform for students to transform ideas into impactful solutions and prepare for the next stage of the competition. It reflected VJTI's commitment to fostering innovation and building technology for the nation, with teams looking ahead to the SIH 2026 Nationals.",
+    prizePool: "N/A",
+    photos: ["/events/hackathon.jpg"],
+  },
   /* ──────────────── 2025–2026 Academic Year Events ──────────────── */
   {
     id: "routequest-2026",
@@ -50,8 +99,8 @@ export const EVENTS: CoCEvent[] = [
   {
     id: "icpc-vjti-2026",
     name: "ICPC VJTI Internal Round",
-    date: "March 2026",
-    isoDate: "2026-03-01",
+    date: "November 2025",
+    isoDate: "2025-11-01",
     location: "College Labs, VJTI",
     summary: "Internal round to select VJTI's ICPC teams.",
     description:

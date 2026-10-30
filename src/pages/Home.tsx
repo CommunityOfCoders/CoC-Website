@@ -3,7 +3,6 @@ import Hero from '../components/home/Hero';
 import Stats from '../components/home/Stats';
 import WhatWeDo from '../components/home/WhatWeDo';
 import Throwback from '../components/home/Throwback';
-import HowWeWork from '../components/home/HowWeWork';
 import OpenSourceHighlight from '../components/home/OpenSourceHighlight';
 import PhotoBand from '../components/home/PhotoBand';
 import CommunityActivity from '../components/home/CommunityActivity';
@@ -24,7 +23,6 @@ const Home: React.FC = () => (
     <Stats />
     <Scene bg={IMG.bgCommunity}><WhatWeDo /></Scene>
     <Throwback />
-    <Scene bg={null}><HowWeWork /></Scene>
     <Scene bg={IMG.bgTalk}><OpenSourceHighlight /></Scene>
     <PhotoBand />
     <Scene bg={IMG.bgCrowd}><CommunityActivity /></Scene>

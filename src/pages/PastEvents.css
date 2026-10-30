@@ -271,6 +271,7 @@
   display: flex;
   align-items: center;
   gap: 10px;
+  flex-wrap: wrap;
 }
 
 .ev-card__date {
@@ -280,15 +281,29 @@
   text-transform: uppercase;
   color: rgba(245, 247, 245, 0.55);
 }
+
+/* Solid, sharp engineering prize tag - 100% opaque, zero glassmorphism */
 .ev-card__prize {
+  display: inline-flex;
+  align-items: center;
   font-family: var(--font-mono);
-  font-size: 0.6rem;
-  letter-spacing: 0.1em;
+  font-size: 0.62rem;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 0.04em;
   color: var(--accent);
-  background: rgba(29, 185, 84, 0.12);
-  border: 1px solid rgba(29, 185, 84, 0.3);
-  border-radius: var(--r-pill);
-  padding: 2px 8px;
+  background: #0E100F;
+  border: 1px solid #282C2A;
+  border-radius: 3px;
+  padding: 3px 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.6);
+  vertical-align: middle;
+  transition: border-color 0.25s var(--ease), background 0.25s var(--ease);
+}
+
+.ev-card:hover .ev-card__prize {
+  border-color: rgba(29, 185, 84, 0.6);
+  background: #141715;
 }
 .ev-card__name {
   font-size: clamp(1rem, 2vw, 1.25rem);
@@ -331,25 +346,19 @@
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  padding: 5px 11px 5px 9px;
-  border-radius: var(--r-pill);
-  /* Amber - deliberately not green so it reads as a distinct
-     signal against any photo hue and against the site accent */
-  background: rgba(217, 119, 6, 0.88);
-  border: 1px solid rgba(251, 191, 36, 0.45);
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
+  padding: 4px 10px 4px 8px;
+  border-radius: 3px;
+  background: #0E100F;
+  border: 1px solid #D97706;
   font-family: var(--font-mono);
   font-size: 0.58rem;
   font-weight: 700;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: #fff8e1;
-  /* drop-shadow so it reads on very bright photo areas */
+  color: #FBBF24;
   box-shadow:
-    0 2px 8px rgba(0, 0, 0, 0.45),
-    0 0 0 1px rgba(0, 0, 0, 0.12);
-  /* prevent the badge from being scaled by the card's Tilt */
+    0 2px 8px rgba(0, 0, 0, 0.65),
+    0 0 0 1px rgba(0, 0, 0, 0.2);
   pointer-events: none;
   user-select: none;
 }
@@ -864,6 +873,7 @@
   font-size: 0.96rem;
   color: var(--fg-dim);
   line-height: 1.7;
+  white-space: pre-line;
 }
 
 .ev-drawer-value {
@@ -872,8 +882,19 @@
   font-weight: 500;
 }
 .ev-drawer-value--prize {
+  display: inline-flex;
+  align-items: center;
   font-family: var(--font-mono);
+  font-size: 1.15rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
   color: var(--accent);
+  background: #121413;
+  border: 1px solid #282C2A;
+  border-left: 3px solid var(--accent);
+  border-radius: 3px;
+  padding: 6px 14px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
 }
 
 /* Photo slot inside the drawer */

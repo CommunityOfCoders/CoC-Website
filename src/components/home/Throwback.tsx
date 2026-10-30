@@ -13,7 +13,7 @@ const SLIDES = [
   { id: 'routing-rush-2026', img: '/photos/2026/routerush.png', title: 'Routing Rush', year: '2026' },
   { id: 'routequest-2026', img: '/photos/2026/routequest.png', title: 'RouteQuest', year: '2026' },
   { id: 'codehunt-2026', img: '/photos/2026/codehunt.png', title: 'Codehunt', year: '2026' },
-  { id: 'icpc-vjti-2026', img: '/photos/2026/icpc2.jpeg', title: 'ICPC VJTI Round', year: '2026' },
+  { id: 'icpc-vjti-2026', img: '/photos/2026/icpc2.jpeg', title: 'ICPC VJTI Round', year: '2025' },
   { id: 'inheritance-2025-26', img: '/photos/2026/inheritance.png', title: 'Inheritance', year: '2026' },
   { id: 'webgenesis-2026', img: '/photos/2026/webgenesis.png', title: 'Webgenesis', year: '2026' },
   { id: 'eth-evening-2025', img: '/photos/2026/ethhevening.png', title: 'ETH Evening', year: '2025' },
@@ -30,12 +30,20 @@ const SLIDES = [
   { id: 'travelling-coder', img: '/photos/2025/travellingcoder.jpg', title: 'Travelling Coder', year: '2023' },
 ];
 
+// Tripled sets: Set A (clones before), Set B (main set), Set C (clones after) for seamless infinite looping
+const EXTENDED_SLIDES = [...SLIDES, ...SLIDES, ...SLIDES];
+
 const AUTOPLAY_MS = 4000;
 
 const Throwback: React.FC = () => {
   const [index, setIndex] = useState(0);
+  const indexRef = useRef(0);
+  const virtualIndexRef = useRef(SLIDES.length);
   const [paused, setPaused] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
+  const [isInView, setIsInView] = useState(true);
+
+  const sectionRef = useRef<HTMLElement>(null);
   const viewportRef = useRef<HTMLDivElement>(null);
   const isMouseDownRef = useRef(false);
   const startXRef = useRef(0);
@@ -44,7 +52,6 @@ const Throwback: React.FC = () => {
   const isProgrammaticScrollRef = useRef(false);
   const scrollTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const reduce = useReducedMotion();
-  const last = SLIDES.length - 1;
 
   const getStep = useCallback(() => {
     if (!viewportRef.current) return 0;
@@ -55,31 +62,122 @@ const Throwback: React.FC = () => {
     return first.offsetWidth + gap;
   }, []);
 
-  const scrollToSlide = useCallback((targetIndex: number, smooth = true) => {
-    if (!viewportRef.current) return;
-    const stepSize = getStep();
-    if (stepSize <= 0) return;
+  // When scroll animation ends or during scroll bounds check,
+  // silently normalize position back into Set B without visual jump
+  const normalizeScrollPosition = useCallback(() => {
+    const el = viewportRef.current;
+    if (!el) return;
+    const step = getStep();
+    if (step <= 0) return;
+
+    const curScroll = el.scrollLeft;
+    const curVIdx = Math.round(curScroll / step);
+    const N = SLIDES.length;
+
+    // If outside middle set [N, 2N - 1], seamlessly jump back into Set B
+    if (curVIdx >= 2 * N || curVIdx < N) {
+      const realIdx = ((curVIdx % N) + N) % N;
+      const newVIdx = N + realIdx;
+      virtualIndexRef.current = newVIdx;
+
+      el.style.scrollSnapType = 'none';
+      el.style.scrollBehavior = 'auto';
+      el.scrollLeft = newVIdx * step;
+
+      requestAnimationFrame(() => {
+        if (el) el.style.scrollSnapType = '';
+      });
+    }
+  }, [getStep]);
+
+  // Initial scroll alignment to Set B
+  useEffect(() => {
+    const el = viewportRef.current;
+    if (!el) return;
+    const initPos = () => {
+      const step = getStep();
+      if (step > 0) {
+        el.style.scrollBehavior = 'auto';
+        el.scrollLeft = (SLIDES.length + indexRef.current) * step;
+        virtualIndexRef.current = SLIDES.length + indexRef.current;
+      }
+    };
+    const raf = requestAnimationFrame(initPos);
+    window.addEventListener('resize', initPos);
+    return () => {
+      cancelAnimationFrame(raf);
+      window.removeEventListener('resize', initPos);
+    };
+  }, [getStep]);
+
+  // Pause autoplay when section is scrolled out of viewport
+  useEffect(() => {
+    const el = sectionRef.current;
+    if (!el || typeof IntersectionObserver === 'undefined') return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsInView(entry.isIntersecting);
+      },
+      { threshold: 0.1 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  // Listen to native scrollend for instantaneous silent normalizations
+  useEffect(() => {
+    const el = viewportRef.current;
+    if (!el) return;
+
+    const handleScrollEnd = () => {
+      isProgrammaticScrollRef.current = false;
+      normalizeScrollPosition();
+    };
+
+    el.addEventListener('scrollend', handleScrollEnd);
+    return () => el.removeEventListener('scrollend', handleScrollEnd);
+  }, [normalizeScrollPosition]);
+
+  const scrollToVirtualIndex = useCallback((targetVIdx: number, smooth = true) => {
+    const el = viewportRef.current;
+    if (!el) return;
+    const step = getStep();
+    if (step <= 0) return;
+
+    virtualIndexRef.current = targetVIdx;
+    const realIdx = ((targetVIdx % SLIDES.length) + SLIDES.length) % SLIDES.length;
+    setIndex(realIdx);
+    indexRef.current = realIdx;
 
     isProgrammaticScrollRef.current = true;
     if (scrollTimeoutRef.current) clearTimeout(scrollTimeoutRef.current);
-    scrollTimeoutRef.current = setTimeout(() => {
-      isProgrammaticScrollRef.current = false;
-    }, 600);
 
-    setIndex(targetIndex);
-    viewportRef.current.scrollTo({
-      left: targetIndex * stepSize,
+    el.scrollTo({
+      left: targetVIdx * step,
       behavior: smooth ? 'smooth' : 'auto',
     });
-  }, [getStep]);
+
+    scrollTimeoutRef.current = setTimeout(() => {
+      isProgrammaticScrollRef.current = false;
+      normalizeScrollPosition();
+    }, 600);
+  }, [getStep, normalizeScrollPosition]);
 
   const go = useCallback((dir: number) => {
-    setIndex((currentIdx) => {
-      const nextIdx = (currentIdx + dir + SLIDES.length) % SLIDES.length;
-      scrollToSlide(nextIdx, true);
-      return nextIdx;
-    });
-  }, [scrollToSlide]);
+    const currentVIdx = virtualIndexRef.current;
+    const targetVIdx = currentVIdx + dir;
+    scrollToVirtualIndex(targetVIdx, !reduce);
+  }, [scrollToVirtualIndex, reduce]);
+
+  const goToSlide = useCallback((targetRealIdx: number) => {
+    const currentRealIdx = indexRef.current;
+    const N = SLIDES.length;
+    let diff = targetRealIdx - currentRealIdx;
+    if (diff > N / 2) diff -= N;
+    if (diff < -N / 2) diff += N;
+    const targetVIdx = virtualIndexRef.current + diff;
+    scrollToVirtualIndex(targetVIdx, !reduce);
+  }, [scrollToVirtualIndex, reduce]);
 
   const onScroll = useCallback(() => {
     if (isProgrammaticScrollRef.current) return;
@@ -87,20 +185,22 @@ const Throwback: React.FC = () => {
     const scrollLeft = viewportRef.current.scrollLeft;
     const stepSize = getStep();
     if (stepSize <= 0) return;
-    const newIndex = Math.round(scrollLeft / stepSize);
-    const clamped = Math.max(0, Math.min(newIndex, last));
-    setIndex(clamped);
-  }, [getStep, last]);
 
-  // autoplay - timer restarts on every index change
+    const vIdx = Math.round(scrollLeft / stepSize);
+    virtualIndexRef.current = vIdx;
+    const realIdx = ((vIdx % SLIDES.length) + SLIDES.length) % SLIDES.length;
+    setIndex(realIdx);
+    indexRef.current = realIdx;
+  }, [getStep]);
+
+  // Autoplay - smoothly loops forward infinitely
   useEffect(() => {
-    if (paused || reduce) return;
-    const id = setTimeout(() => {
-      const nextIdx = index >= last ? 0 : index + 1;
-      scrollToSlide(nextIdx, true);
+    if (paused || reduce || !isInView) return;
+    const id = setInterval(() => {
+      go(1);
     }, AUTOPLAY_MS);
-    return () => clearTimeout(id);
-  }, [index, paused, reduce, last, scrollToSlide]);
+    return () => clearInterval(id);
+  }, [paused, reduce, isInView, go]);
 
   // Keypad & keyboard navigation when hovering or interacting with section
   useEffect(() => {
@@ -118,38 +218,15 @@ const Throwback: React.FC = () => {
         go(-1);
       } else if (e.key === 'Home') {
         e.preventDefault();
-        scrollToSlide(0, true);
+        goToSlide(0);
       } else if (e.key === 'End') {
         e.preventDefault();
-        scrollToSlide(last, true);
+        goToSlide(SLIDES.length - 1);
       }
     };
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
-  }, [isHovered, go, scrollToSlide, last]);
-
-  // Mouse wheel: smoothly slides blocks horizontally when scrolling over the carousel
-  useEffect(() => {
-    const el = viewportRef.current;
-    if (!el) return;
-
-    const handleWheel = (e: WheelEvent) => {
-      // If user is scrolling horizontally on trackpad, let browser handle natively
-      if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) return;
-
-      const isAtStart = el.scrollLeft <= 0;
-      const isAtEnd = el.scrollLeft + el.clientWidth >= el.scrollWidth - 6;
-
-      // If scrolling down/right and not at end, or scrolling up/left and not at start:
-      if ((e.deltaY > 0 && !isAtEnd) || (e.deltaY < 0 && !isAtStart)) {
-        e.preventDefault();
-        el.scrollLeft += e.deltaY;
-      }
-    };
-
-    el.addEventListener('wheel', handleWheel, { passive: false });
-    return () => el.removeEventListener('wheel', handleWheel);
-  }, []);
+  }, [isHovered, go, goToSlide]);
 
   // Global mouse up for desktop click & drag
   useEffect(() => {
@@ -159,12 +236,13 @@ const Throwback: React.FC = () => {
         setPaused(false);
         setTimeout(() => {
           isDraggingRef.current = false;
+          normalizeScrollPosition();
         }, 50);
       }
     };
     window.addEventListener('mouseup', handleGlobalMouseUp);
     return () => window.removeEventListener('mouseup', handleGlobalMouseUp);
-  }, []);
+  }, [normalizeScrollPosition]);
 
   const onMouseDown = (e: React.MouseEvent) => {
     if (!viewportRef.current) return;
@@ -190,6 +268,7 @@ const Throwback: React.FC = () => {
     setPaused(false);
     setTimeout(() => {
       isDraggingRef.current = false;
+      normalizeScrollPosition();
     }, 50);
   };
 
@@ -202,10 +281,10 @@ const Throwback: React.FC = () => {
       go(-1);
     } else if (e.key === 'Home') {
       e.preventDefault();
-      scrollToSlide(0, true);
+      goToSlide(0);
     } else if (e.key === 'End') {
       e.preventDefault();
-      scrollToSlide(last, true);
+      goToSlide(SLIDES.length - 1);
     }
   };
 
@@ -217,17 +296,10 @@ const Throwback: React.FC = () => {
 
   return (
     <section
+      ref={sectionRef}
       className="section tb"
-      onMouseEnter={() => {
-        setIsHovered(true);
-        setPaused(true);
-      }}
-      onMouseLeave={() => {
-        setIsHovered(false);
-        setPaused(false);
-      }}
-      onTouchStart={() => setPaused(true)}
-      onTouchEnd={() => setPaused(false)}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
     >
       <div className="container tb__head">
         <Reveal className="section-head">
@@ -256,30 +328,41 @@ const Throwback: React.FC = () => {
         onMouseMove={onMouseMove}
         onMouseUp={onMouseUp}
         onKeyDown={onKeyDown}
+        onMouseEnter={() => setPaused(true)}
+        onMouseLeave={() => {
+          if (!isMouseDownRef.current) setPaused(false);
+        }}
+        onTouchStart={() => setPaused(true)}
+        onTouchEnd={() => setPaused(false)}
         tabIndex={0}
         role="region"
         aria-label="Throwback timeline carousel"
       >
         <div className="tb__track">
-          {SLIDES.map((s, i) => (
-            <figure className="tb__slide" key={`${s.id}-${i}`}>
-              <a
-                href={`#events?id=${s.id}`}
-                className="tb__slide-link"
-                onClick={handleSlideClick}
-                aria-label={`View ${s.title} details`}
-              >
-                <div className="tb__img photo photo--hover">
-                  <img src={s.img} alt={`${s.title}, ${s.year}`} draggable={false} loading="lazy" />
-                </div>
-                <figcaption className="tb__cap">
-                  <span className="tb__cap-title">{s.title}</span>
-                  <span className="tb__cap-year">{s.year}</span>
-                  <span className="tb__cap-idx">{String(i + 1).padStart(2, '0')} / {String(SLIDES.length).padStart(2, '0')}</span>
-                </figcaption>
-              </a>
-            </figure>
-          ))}
+          {EXTENDED_SLIDES.map((s, idx) => {
+            const realIdx = idx % SLIDES.length;
+            return (
+              <figure className="tb__slide" key={`${s.id}-${idx}`}>
+                <a
+                  href={`#events?id=${s.id}`}
+                  className="tb__slide-link"
+                  onClick={handleSlideClick}
+                  aria-label={`View ${s.title} details`}
+                >
+                  <div className="tb__img photo photo--hover">
+                    <img src={s.img} alt={`${s.title}, ${s.year}`} draggable={false} loading="lazy" />
+                  </div>
+                  <figcaption className="tb__cap">
+                    <span className="tb__cap-title">{s.title}</span>
+                    <span className="tb__cap-year">{s.year}</span>
+                    <span className="tb__cap-idx">
+                      {String(realIdx + 1).padStart(2, '0')} / {String(SLIDES.length).padStart(2, '0')}
+                    </span>
+                  </figcaption>
+                </a>
+              </figure>
+            );
+          })}
         </div>
       </div>
 
@@ -291,7 +374,7 @@ const Throwback: React.FC = () => {
             aria-label={`Go to ${s.title}`}
             aria-selected={i === index}
             role="tab"
-            onClick={() => scrollToSlide(i, true)}
+            onClick={() => goToSlide(i)}
           />
         ))}
       </div>
