@@ -5,7 +5,7 @@
    ============================================================ */
 
 .projects-page {
-  background: var(--ink);
+  background: transparent;
   color: var(--fg);
   min-height: 100vh;
   position: relative;

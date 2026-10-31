@@ -15,9 +15,15 @@ import PratikImg from "../assets/pratik.jpg";
 import JinmayImg from "../assets/Jinmay.jpg";
 import AnkitaImg from "../assets/ankita.jpeg";
 import OjasImg from "../assets/ojas.jpeg";
-import SanskarImg from "../assets/snaksar.jpeg";
 
-
+import PurvashaImg from "../assets/purvasha.jpg";
+import ShreyasImg from "../assets/shreyas.jpg";
+import RudrakshiImg from "../assets/rudrakshi.jpg";
+import AnushreeImg from "../assets/anushree.jpg";
+import SudikshaImg from "../assets/sudiksha.jpg";
+import AayushImg from "../assets/aayush.jpg";
+import NathanImg from "../assets/nathan.jpg";
+import TanushImg from "../assets/tanush.jpg";
 
 export interface TeamMember {
   id: string;
@@ -33,7 +39,7 @@ export interface TeamMember {
   linkedin: string;
 }
 
-export const TEAM: TeamMember[] = [
+export const COUNCIL: TeamMember[] = [
   {
     id: "avanish-salunke",
     name: "Avanish Salunke",
@@ -145,16 +151,6 @@ export const TEAM: TeamMember[] = [
     linkedin: "https://www.linkedin.com/in/ojasalai/",
   },
   {
-    id: "sanskar-tarte",
-    name: "Sanskar Tarte",
-    role: "Sponsorship Head",
-    tagline: "Turning collaborations into impact.",
-    bio: "Co-head of Sponsorships, focused on strategic partnerships and supporting the growth of council initiatives.",
-    photo: SanskarImg,
-    github: "https://github.com/snaksartrate",
-    linkedin: "https://www.linkedin.com/in/sanskar-tarte-67b5b2293/",
-  },
-  {
     id: "dhiraj-shirse",
     name: "Dhiraj Shirse",
     role: "PR Head",
@@ -175,3 +171,88 @@ export const TEAM: TeamMember[] = [
     linkedin: "https://www.linkedin.com/in/pratik-shewale-829194338",
   },
 ];
+
+export const TY_CORE: TeamMember[] = [
+  {
+    id: "purvasha-singh",
+    name: "Purvasha Singh",
+    role: "TY CORE",
+    tagline: "Helping our community learn, build, and grow together.",
+    bio: "Third Year Core member at Community of Coders, dedicated to supporting club initiatives, mentoring peers, and helping our developer community grow stronger together.",
+    photo: PurvashaImg,
+    github: "https://github.com/CommunityOfCoders",
+    linkedin: "https://www.linkedin.com/company/community-of-coders-vjti/",
+  },
+  {
+    id: "shreyas",
+    name: "Shreyas",
+    role: "TY CORE",
+    tagline: "Helping our community learn, build, and grow together.",
+    bio: "Third Year Core member at Community of Coders, dedicated to supporting club initiatives, mentoring peers, and helping our developer community grow stronger together.",
+    photo: ShreyasImg,
+    github: "https://github.com/CommunityOfCoders",
+    linkedin: "https://www.linkedin.com/company/community-of-coders-vjti/",
+  },
+  {
+    id: "rudrakshi",
+    name: "Rudrakshi",
+    role: "TY CORE",
+    tagline: "Helping our community learn, build, and grow together.",
+    bio: "Third Year Core member at Community of Coders, dedicated to supporting club initiatives, mentoring peers, and helping our developer community grow stronger together.",
+    photo: RudrakshiImg,
+    github: "https://github.com/CommunityOfCoders",
+    linkedin: "https://www.linkedin.com/company/community-of-coders-vjti/",
+  },
+  {
+    id: "anushree",
+    name: "Anushree",
+    role: "TY CORE",
+    tagline: "Helping our community learn, build, and grow together.",
+    bio: "Third Year Core member at Community of Coders, dedicated to supporting club initiatives, mentoring peers, and helping our developer community grow stronger together.",
+    photo: AnushreeImg,
+    github: "https://github.com/CommunityOfCoders",
+    linkedin: "https://www.linkedin.com/company/community-of-coders-vjti/",
+  },
+  {
+    id: "sudiksha",
+    name: "Sudiksha",
+    role: "TY CORE",
+    tagline: "Helping our community learn, build, and grow together.",
+    bio: "Third Year Core member at Community of Coders, dedicated to supporting club initiatives, mentoring peers, and helping our developer community grow stronger together.",
+    photo: SudikshaImg,
+    github: "https://github.com/CommunityOfCoders",
+    linkedin: "https://www.linkedin.com/company/community-of-coders-vjti/",
+  },
+  {
+    id: "aayush",
+    name: "Aayush",
+    role: "TY CORE",
+    tagline: "Helping our community learn, build, and grow together.",
+    bio: "Third Year Core member at Community of Coders, dedicated to supporting club initiatives, mentoring peers, and helping our developer community grow stronger together.",
+    photo: AayushImg,
+    github: "https://github.com/CommunityOfCoders",
+    linkedin: "https://www.linkedin.com/company/community-of-coders-vjti/",
+  },
+  {
+    id: "nathan-dsouza",
+    name: "Nathan Dsouza",
+    role: "TY CORE",
+    tagline: "Helping our community learn, build, and grow together.",
+    bio: "Third Year Core member at Community of Coders, dedicated to supporting club initiatives, mentoring peers, and helping our developer community grow stronger together.",
+    photo: NathanImg,
+    github: "https://github.com/CommunityOfCoders",
+    linkedin: "https://www.linkedin.com/company/community-of-coders-vjti/",
+  },
+  {
+    id: "tanush-lokhande",
+    name: "Tanush Lokhande",
+    role: "TY CORE",
+    tagline: "Helping our community learn, build, and grow together.",
+    bio: "Third Year Core member at Community of Coders, dedicated to supporting club initiatives, mentoring peers, and helping our developer community grow stronger together.",
+    photo: TanushImg,
+    github: "https://github.com/CommunityOfCoders",
+    linkedin: "https://www.linkedin.com/company/community-of-coders-vjti/",
+  },
+];
+
+export const TEAM: TeamMember[] = [...COUNCIL, ...TY_CORE];

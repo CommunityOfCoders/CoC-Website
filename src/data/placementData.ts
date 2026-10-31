@@ -231,33 +231,18 @@ export const PPOS_DATA: Record<string, { totalPpos: number; companiesCount: numb
   return acc;
 }, {} as Record<string, { totalPpos: number; companiesCount: number; season: string; items: PPOItem[] }>);
 
-const YOY_YEARS = Object.keys(RAW_PLACEMENTS).sort((a, b) => Number(a) - Number(b));
-
-export const YEAR_ON_YEAR_DATA: YearGrowthItem[] = YOY_YEARS.map((year) => {
-  const internData = INTERNSHIPS_DATA[year];
-  const placeData = PLACEMENTS_DATA[year];
-
-  let calculatedAvg = '-';
-  if (placeData && placeData.items.length > 0) {
-    const totalMembers = placeData.offersCount;
-    const totalCtcSum = placeData.items.reduce((sum, item) => {
-      const amount = parseAmount(item.ctc);
-      return sum + (amount * item.members);
-    }, 0);
-    if (totalMembers > 0) {
-      const avgInLakhs = (totalCtcSum / totalMembers / 100000).toFixed(1);
-      calculatedAvg = `₹${avgInLakhs}L`;
-    }
-  }
-
-  return {
-    year,
-    internships: internData?.membersCount ?? 0,
-    placements: placeData?.offersCount ?? 0,
-    avgCtc: calculatedAvg,
-    highestCtc: placeData?.items?.[0]?.ctc || '-'
-  };
-});
+export const YEAR_ON_YEAR_DATA: YearGrowthItem[] = [
+  { year: '2026', internships: 37, placements: 39, avgCtc: '₹19.2L', highestCtc: '₹72.3L' },
+  { year: '2025', internships: 34, placements: 36, avgCtc: '₹18.0L', highestCtc: '₹54.0L' },
+  { year: '2024', internships: 35, placements: 38, avgCtc: '₹18.5L', highestCtc: '₹62.0L' },
+  { year: '2023', internships: 32, placements: 35, avgCtc: '₹17.5L', highestCtc: '₹62.0L' },
+  { year: '2022', internships: 33, placements: 37, avgCtc: '₹16.2L', highestCtc: '₹64.0L' },
+  { year: '2021', internships: 29, placements: 33, avgCtc: '₹14.5L', highestCtc: '₹58.0L' },
+  { year: '2020', internships: 30, placements: 34, avgCtc: '₹12.4L', highestCtc: '₹39.0L' },
+  { year: '2019', internships: 28, placements: 38, avgCtc: '₹11.5L', highestCtc: '₹36.0L' },
+  { year: '2018', internships: 26, placements: 32, avgCtc: '₹9.2L', highestCtc: '₹22.4L' },
+  { year: '2017', internships: 24, placements: 35, avgCtc: '₹8.6L', highestCtc: '₹20.5L' },
+];
 
 const currentYearYoy = YEAR_ON_YEAR_DATA.find((item) => item.year === CURRENT_YEAR);
 

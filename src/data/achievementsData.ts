@@ -161,6 +161,24 @@ const METADATA_MAP: Record<string, MetaItem> = {
     description: "Team ZKnockXI won sponsor track prizes in Witness, Filecoin, and Arbitrum at ETHGlobal Scaling Ethereum 2024.",
     highlights: ["Ananya Bangera", "Sarvagnya Purohit", "Harsh Nag", "Witness", "Filecoin", "Arbitrum"],
   },
+  achievement_25: {
+    title: "Google Summer of Code (GSoC) 2025 Scholars",
+    tag: "GSOC 2025",
+    description: "CoC VJTI students selected for Google Summer of Code (GSoC) 2025, contributing to top global open-source organizations including Intel, CERN-HSF, SymPy, and OREL.",
+    highlights: ["Vidhi Rohira", "Kevin Shah", "Aarya Pandey", "Prasanna Kasar", "Sourish Phate", "Rushabh Mehta", "Swayam Shah"],
+  },
+  achievement_26: {
+    title: "Google Summer of Code (GSoC) 2026 Scholars",
+    tag: "GSOC 2026",
+    description: "VJTI developers selected for Google Summer of Code (GSoC) 2026, contributing to core scientific open-source ecosystems including GNU Octave and ML4SCI.",
+    highlights: ["Anushree Upasham", "Avanish Salunke", "GNU Octave", "ML4SCI", "Google Summer of Code"],
+  },
+  achievement_27: {
+    title: "Hacktoberfest 2026 Winners at KJSCE & S.P.I.T.",
+    tag: "HACKTOBERFEST 2026 WINNERS",
+    description: "Community of Coders VJTI teams dominated Hacktoberfest competitions, securing victories at KJSCE (HackDay x ISTE), Paytm AI x FAIR, and top honors at S.P.I.T. Mumbai.",
+    highlights: ["KJSCE Winners", "S.P.I.T. Finalists", "Paytm AI Winners", "Team Heckers", "Team DataChef", "Team Gravity Falls", "Team Git Guardians"],
+  },
 };
 
 // Use Vite's import.meta.glob to dynamically load images from the local src/assets/achievements folder.
@@ -214,8 +232,8 @@ function parseAchievements(): Achievement[] {
   }
 
   // Fallback if glob yields empty array
-  return Array.from({ length: 24 }, (_, i) => {
-    const num = 24 - i;
+  return Array.from({ length: 27 }, (_, i) => {
+    const num = 27 - i;
     const numStr = String(num).padStart(2, '0');
     const idKey = `achievement_${numStr}`;
     const meta = METADATA_MAP[idKey] || {

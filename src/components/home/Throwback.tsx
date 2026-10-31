@@ -10,7 +10,7 @@ const SLIDES = [
   { id: 'the-lost-probe-2026', img: '/photos/2026/lostprobe2.png', title: 'The Lost Probe', year: '2026' },
   { id: 'coderush-2026', img: '/photos/2026/coderush.png', title: 'CodeRush', year: '2026' },
   { id: 'pixel-perfect-2026', img: '/photos/2026/pixelperfect.png', title: 'Pixel Perfect', year: '2026' },
-  { id: 'routing-rush-2026', img: '/photos/2026/routerush.png', title: 'Routing Rush', year: '2026' },
+  { id: 'routing-rush-2026', img: '/photos/2026/routerush.png', title: 'Route Rush', year: '2026' },
   { id: 'routequest-2026', img: '/photos/2026/routequest.png', title: 'RouteQuest', year: '2026' },
   { id: 'codehunt-2026', img: '/photos/2026/codehunt.png', title: 'Codehunt', year: '2026' },
   { id: 'icpc-vjti-2026', img: '/photos/2026/icpc2.jpeg', title: 'ICPC VJTI Round', year: '2025' },

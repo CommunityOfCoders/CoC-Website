@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { ArrowUpRight, Menu, X } from "lucide-react";
 import { Github, Linkedin, Instagram } from "../components/ui/BrandIcons";
 import cocLogo from "../assets/coc.png";
+import FluxLines from "../components/ui/FluxLines";
 import "./MainLayout.css";
 
 interface MainLayoutProps {
@@ -59,6 +60,11 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children, route }) => {
 
   return (
     <div className="shell">
+      {/* Global Background Layer: FluxLines on black canvas */}
+      <div className="site-flux-bg" aria-hidden="true">
+        <FluxLines />
+      </div>
+
       <header className={`nav${scrolled ? " nav--scrolled" : ""}`}>
         <div className="container nav__inner">
           <a href="#" className="brand" aria-label="Community of Coders - home">

@@ -234,3 +234,15 @@ body.modal-open .nav {
   .footer__bottom { flex-direction: column; gap: 18px; align-items: flex-start; }
 }
 
+
+/* Global FluxLines Fixed Background */
+.site-flux-bg {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+  background: #070808;
+}

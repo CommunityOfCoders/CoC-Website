@@ -33,7 +33,14 @@ export const EVENTS: CoCEvent[] = [
     description:
       "Hello World is a first-year domain exhibition organized by the Community of Coders (CoC), VJTI, in collaboration with the AIDSET VJTI Committee. The event welcomed over 300 first-year students and introduced them to the diverse technical domains within the community.\n\nUnlike a conventional orientation, Hello World offered an interactive experience where students could explore different domains, witness projects and demonstrations, and interact with students actively working in these fields.\n\nDomains Covered:\n- Cybersecurity\n- Systems\n- Artificial Intelligence and Machine Learning\n- Quantum Computing\n- Game Development\n- Open Source and Blockchain\n- Modern AI\n- Fun Events and Activities\n\nThe exhibition was planned and conducted by second-year and third-year students, providing first-years with an opportunity to discover their interests, explore new technologies, and understand the practical applications of different domains.\n\nWith over 300 first-year students participating, Hello World marked an exciting beginning to their journey with the Community of Coders, encouraging curiosity, collaboration, and hands-on learning.",
     prizePool: "N/A",
-    photos: ["/photos/2026/helloworld.jpeg", "/photos/2026/helloworld2.jpeg", "/events/ai_workshop.jpg"],
+    photos: [
+      "/photos/2026/Hello World main.jpg",
+      "/photos/2026/Hello World/20261008_173819.jpg",
+      "/photos/2026/Hello World/20261008_182022.jpg",
+      "/photos/2026/Hello World/IMG-20261008-WA0083.jpg",
+      "/photos/2026/Hello World/IMG-20261009-WA0014.jpg",
+      "/photos/2026/Hello World/IMG20261009171208.jpg",
+    ],
   },
   {
     id: "icpc-prelims-2026",
@@ -45,7 +52,10 @@ export const EVENTS: CoCEvent[] = [
     description:
       "The ICPC 2026 College Prelims were conducted on 3 October at Veermata Jijabai Technological Institute (VJTI) by the CP Club under the Community of Coders (CoC), VJTI. The event marked the first stage of the journey towards the International Collegiate Programming Contest (ICPC), one of the most prestigious competitive programming competitions.\n\nParticipants competed in teams of three, sharing a single computer to solve algorithmic problems within a limited time. The contest tested their problem-solving abilities, logical thinking, coding skills, and teamwork under pressure.\n\nThe event provided students with an opportunity to challenge themselves, apply their programming knowledge, and experience the intensity of competitive programming in a collaborative environment.\n\nThe prelims were made possible through the combined efforts of the CP Club, the Community of Coders team, student volunteers, and the support of VJTI faculty and the department.\n\nThe event celebrated the spirit of competitive programming and encouraged students to continue developing their skills as they progressed towards the next stages of ICPC 2026.",
     prizePool: "N/A",
-    photos: ["/photos/2026/icpc2.jpeg", "/events/algo_arena.jpg"],
+    photos: [
+      "/photos/2026/ICPC 2026/20261003_133339.jpg",
+      "/photos/2026/ICPC 2026/20261003_144716.jpg",
+    ],
   },
   {
     id: "project-x-final-meet-2026",
@@ -57,7 +67,10 @@ export const EVENTS: CoCEvent[] = [
     description:
       "The Project X Final Meet, organized by the Community of Coders (CoC), VJTI, marks an important milestone in the Project X mentorship program. The session brings together students from the second, third, and final years for project reviews, technical discussions, and knowledge sharing.\n\nThe meet provides a platform for project teams to present their progress, demonstrate their implementations, discuss challenges, and receive constructive feedback to improve their work. It encourages collaboration across batches, promotes practical learning, and helps students gain valuable insights from their peers.\n\nThe session also includes guidance for second-year students on opportunities such as Google Summer of Code (GSoC), Linux Foundation Mentorship programs (LFX), and other open-source initiatives, helping them explore ways to contribute to real-world projects and strengthen their technical skills.\n\nThrough Project X, the Community of Coders aims to foster a culture of consistent learning, collaboration, and building meaningful projects.",
     prizePool: "N/A",
-    photos: ["/photos/2026/ProjectX.png", "/events/open_source.jpg"],
+    photos: [
+      "/photos/2026/Project X 2026/Screenshot 2026-10-31 235238.png",
+      "/photos/2026/Project X 2026/Screenshot 2026-10-31 235410.png",
+    ],
   },
   {
     id: "sih-2026",
@@ -69,7 +82,12 @@ export const EVENTS: CoCEvent[] = [
     description:
       "The Internal Hackathon of Smart India Hackathon (SIH) 2026 at VJTI brought together students to develop innovative solutions to real-world challenges. Organized under the Community of Coders, the event witnessed participation from 100+ teams and 10+ expert panels, creating a dynamic environment for innovation, collaboration, and problem-solving.\n\nThroughout the day, teams presented their ideas to expert panels, received constructive feedback, and refined their solutions through challenging questions and interactive discussions. The hackathon encouraged participants to think critically, adapt to feedback, and strengthen their ideas under pressure. It also highlighted the contributions of women-led teams, bringing diverse perspectives and fresh approaches to the challenges.\n\nThe event was conducted under the guidance of Shraddha Suratkar Ma'am, VJTI's Smart India Hackathon SPOC, whose dedication and coordination played a vital role in its successful execution.\n\nMore than a competition, the internal hackathon provided a platform for students to transform ideas into impactful solutions and prepare for the next stage of the competition. It reflected VJTI's commitment to fostering innovation and building technology for the nation, with teams looking ahead to the SIH 2026 Nationals.",
     prizePool: "N/A",
-    photos: ["/events/hackathon.jpg"],
+    photos: [
+      "/photos/2026/SIH-2026 main.jpg",
+      "/photos/2026/SIH 2026/IMG_20260825_142245061_HDR.jpg",
+      "/photos/2026/SIH 2026/IMG_0871.jpg",
+      "/photos/2026/SIH 2026/IMG_7264.jpg",
+    ],
   },
   /* ──────────────── 2025–2026 Academic Year Events ──────────────── */
   {
@@ -98,7 +116,7 @@ export const EVENTS: CoCEvent[] = [
   },
   {
     id: "icpc-vjti-2026",
-    name: "ICPC VJTI Internal Round",
+    name: "ICPC VJTI Internal Round (2025)",
     date: "November 2025",
     isoDate: "2025-11-01",
     location: "College Labs, VJTI",
@@ -135,7 +153,7 @@ export const EVENTS: CoCEvent[] = [
   },
   {
     id: "routing-rush-2026",
-    name: "Routing Rush (CodeVerse 2.0)",
+    name: "Route Rush (CodeVerse 2.0)",
     date: "1st February 2026",
     isoDate: "2026-02-01",
     location: "VJTI",
@@ -207,7 +225,7 @@ export const EVENTS: CoCEvent[] = [
   },
   {
     id: "project-siuca-2026",
-    name: "Project SIUCA (CodeVerse 2.0)",
+    name: "Project Siuca (CodeVerse 2.0)",
     date: "31st January 2026",
     isoDate: "2026-01-31",
     location: "VJTI",
@@ -382,6 +400,7 @@ export const EVENTS: CoCEvent[] = [
     prizePool: "N/A",
     photos: ["/photos/2025/pixelpursuit.jpg"],
   },
+  /* ──────────────── 2023–2024 Academic Year Events ──────────────── */
   {
     id: "travelling-coder",
     name: "Travelling Coder",

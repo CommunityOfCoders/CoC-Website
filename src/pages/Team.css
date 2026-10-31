@@ -21,12 +21,15 @@
 .team-grid {
   list-style: none;
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 22px;
   margin-top: clamp(44px, 6vw, 68px);
 }
+.team-grid > li {
+  min-width: 0;
+}
 @media (max-width: 1080px) {
-  .team-grid { grid-template-columns: repeat(2, 1fr); }
+  .team-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 /* mobile: horizontal scroll-snap row instead of a wrapped grid */
 @media (max-width: 640px) {
@@ -50,6 +53,7 @@
 /* ---------- collapsed card ---------- */
 .team-card {
   position: relative;
+  min-width: 0;
   display: flex;
   flex-direction: column;
   gap: 14px;
@@ -112,6 +116,7 @@
 
 .team-card__text {
   display: flex;
+  min-width: 0;
   flex-direction: column;
   gap: 6px;
 }
