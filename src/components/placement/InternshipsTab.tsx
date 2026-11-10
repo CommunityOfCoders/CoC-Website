@@ -5,12 +5,9 @@ import { CompanyLogo } from './CompanyLogo';
 
 export const InternshipsTab: React.FC = () => {
   const [selectedYear, setSelectedYear] = useState<string>(CURRENT_YEAR);
-  const [filterMode, setFilterMode] = useState<'all' | 'ppo'>('all');
 
   const currentYearData = INTERNSHIPS_DATA[selectedYear] || INTERNSHIPS_DATA[CURRENT_YEAR];
-  const items = filterMode === 'ppo' 
-    ? currentYearData.items.filter((item) => item.isPpoReceived)
-    : currentYearData.items;
+  const items = currentYearData.items;
 
   const totalMembers = items.reduce((acc, item) => acc + item.members, 0);
   const totalCompanies = new Set(items.map((item) => item.company)).size;
@@ -29,35 +26,17 @@ export const InternshipsTab: React.FC = () => {
         </div>
 
         <div className="placement-controls">
-          {Object.keys(INTERNSHIPS_DATA).length > 1 && (
-            <>
-              <div className="pill-group">
-                {Object.keys(INTERNSHIPS_DATA).sort((a, b) => Number(b) - Number(a)).map((year) => (
-                  <button
-                    key={year}
-                    className={`pill-btn ${selectedYear === year ? 'active-solid' : ''}`}
-                    onClick={() => setSelectedYear(year)}
-                  >
-                    {year}
-                  </button>
-                ))}
-              </div>
-              <div className="divider-vertical" />
-            </>
-          )}
-
-          <button
-            className={`filter-btn ${filterMode === 'all' ? 'active-outline' : ''}`}
-            onClick={() => setFilterMode('all')}
-          >
-            All interns
-          </button>
-          <button
-            className={`filter-btn ${filterMode === 'ppo' ? 'active-outline' : ''}`}
-            onClick={() => setFilterMode('ppo')}
-          >
-            PPO received
-          </button>
+          <div className="pill-group">
+            {Object.keys(INTERNSHIPS_DATA).sort((a, b) => Number(b) - Number(a)).map((year) => (
+              <button
+                key={year}
+                className={`pill-btn ${selectedYear === year ? 'active-solid' : ''}`}
+                onClick={() => setSelectedYear(year)}
+              >
+                {year}
+              </button>
+            ))}
+          </div>
         </div>
       </div>
 
@@ -74,7 +53,7 @@ export const InternshipsTab: React.FC = () => {
           </thead>
           <AnimatePresence mode="wait">
             <motion.tbody
-              key={`${selectedYear}-${filterMode}`}
+              key={selectedYear}
               initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -8 }}

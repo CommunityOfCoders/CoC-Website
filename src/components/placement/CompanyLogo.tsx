@@ -349,6 +349,80 @@ export const CompanyLogo: React.FC<CompanyLogoProps> = ({ name, className = "w-7
     );
   }
 
+  // Barclays
+  if (normName.includes('barclays')) {
+    return (
+      <div className={`company-logo-container ${className}`}>
+        <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" className="company-logo-svg">
+          <rect width="32" height="32" rx="8" fill="#00AEEF" />
+          <text x="16" y="21" fontFamily="sans-serif" fontWeight="900" fontSize="9" fill="#FFFFFF" textAnchor="middle">BARCLAYS</text>
+        </svg>
+      </div>
+    );
+  }
+
+  // Amazon
+  if (normName.includes('amazon')) {
+    return (
+      <div className={`company-logo-container ${className}`}>
+        <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" className="company-logo-svg">
+          <rect width="32" height="32" rx="8" fill="#131921" />
+          <text x="16" y="19" fontFamily="sans-serif" fontWeight="bold" fontSize="10" fill="#FFFFFF" textAnchor="middle">amazon</text>
+          <path d="M10 22C13 24 19 24 22 22" stroke="#FF9900" strokeWidth="1.8" strokeLinecap="round" />
+        </svg>
+      </div>
+    );
+  }
+
+  // IBM
+  if (normName.includes('ibm')) {
+    return (
+      <div className={`company-logo-container ${className}`}>
+        <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" className="company-logo-svg">
+          <rect width="32" height="32" rx="8" fill="#0530AD" />
+          <text x="16" y="21" fontFamily="sans-serif" fontWeight="900" fontSize="12" fill="#FFFFFF" textAnchor="middle" letterSpacing="1">IBM</text>
+        </svg>
+      </div>
+    );
+  }
+
+  // Samsung
+  if (normName.includes('samsung')) {
+    return (
+      <div className={`company-logo-container ${className}`}>
+        <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" className="company-logo-svg">
+          <rect width="32" height="32" rx="8" fill="#1428A0" />
+          <text x="16" y="20.5" fontFamily="sans-serif" fontWeight="bold" fontSize="7.5" fill="#FFFFFF" textAnchor="middle" letterSpacing="0.5">SAMSUNG</text>
+        </svg>
+      </div>
+    );
+  }
+
+  // Deutsche Bank
+  if (normName.includes('deutsch') || normName.includes('deutche')) {
+    return (
+      <div className={`company-logo-container ${className}`}>
+        <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" className="company-logo-svg">
+          <rect width="32" height="32" rx="8" fill="#0018A8" />
+          <rect x="9" y="9" width="14" height="14" stroke="#FFFFFF" strokeWidth="2" fill="none" />
+          <line x1="12" y1="20" x2="20" y2="12" stroke="#FFFFFF" strokeWidth="2" strokeLinecap="round" />
+        </svg>
+      </div>
+    );
+  }
+
+  // LinkedIn
+  if (normName.includes('linkin') || normName.includes('linkedin')) {
+    return (
+      <div className={`company-logo-container ${className}`}>
+        <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" className="company-logo-svg">
+          <rect width="32" height="32" rx="8" fill="#0A66C2" />
+          <text x="16" y="21" fontFamily="sans-serif" fontWeight="bold" fontSize="13" fill="#FFFFFF" textAnchor="middle">in</text>
+        </svg>
+      </div>
+    );
+  }
+
   // Default clean styled initial badge
   return (
     <div className={`company-logo-container ${className}`}>

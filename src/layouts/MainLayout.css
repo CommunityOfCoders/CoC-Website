@@ -115,7 +115,7 @@ body.modal-open .nav {
   max-height: 0;
   transition: max-height 0.4s var(--ease);
 }
-.nav__drawer.is-open { max-height: 560px; }
+.nav__drawer.is-open { max-height: 620px; }
 .nav__drawer-link {
   display: flex;
   align-items: center;

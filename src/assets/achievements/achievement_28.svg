@@ -1,0 +1,121 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0a0d14"/>
+      <stop offset="50%" stop-color="#0d111c"/>
+      <stop offset="100%" stop-color="#05070a"/>
+    </linearGradient>
+    <linearGradient id="cardGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#161b26"/>
+      <stop offset="100%" stop-color="#0e131d"/>
+    </linearGradient>
+    <linearGradient id="accentGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#00FFA3"/>
+      <stop offset="100%" stop-color="#00D8F6"/>
+    </linearGradient>
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFDF70"/>
+      <stop offset="100%" stop-color="#FFA800"/>
+    </linearGradient>
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="24" result="blur"/>
+      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1000" height="1000" fill="url(#bgGrad)"/>
+
+  <!-- Decorative Glow Circles -->
+  <circle cx="200" cy="200" r="160" fill="#00ffa3" opacity="0.08" filter="url(#glow)"/>
+  <circle cx="800" cy="800" r="180" fill="#00d8f6" opacity="0.08" filter="url(#glow)"/>
+
+  <!-- Outer Border Frame -->
+  <rect x="30" y="30" width="940" height="940" rx="32" fill="none" stroke="#232936" stroke-width="2"/>
+  <rect x="40" y="40" width="920" height="920" rx="24" fill="none" stroke="#323b4e" stroke-width="1" stroke-dasharray="8 8" opacity="0.4"/>
+
+  <!-- Header Badge -->
+  <g transform="translate(500, 110)">
+    <rect x="-190" y="-24" width="380" height="48" rx="24" fill="#141923" stroke="#2f3747" stroke-width="1.5"/>
+    <circle cx="-155" cy="0" r="8" fill="#00ffa3"/>
+    <text x="-135" y="6" fill="#00ffa3" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-weight="800" font-size="14" letter-spacing="3">COMMUNITY OF CODERS VJTI</text>
+  </g>
+
+  <!-- Main Headline -->
+  <text x="500" y="215" fill="#FFFFFF" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-weight="900" font-size="44" letter-spacing="1">RECORD-BREAKING</text>
+  <text x="500" y="275" fill="url(#accentGrad)" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-weight="900" font-size="48" letter-spacing="2">PLACEMENT SEASON</text>
+
+  <!-- Subtitle -->
+  <text x="500" y="325" fill="#8E99AB" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-weight="500" font-size="20" letter-spacing="0.5">VJTI Engineers Excel Across Global Engineering &amp; Quantitative Firms</text>
+
+  <!-- Main Stats 3-Column Layout -->
+  <!-- Stat 1: Total Offers -->
+  <g transform="translate(80, 380)">
+    <rect width="250" height="240" rx="20" fill="url(#cardGrad)" stroke="#262d3d" stroke-width="1.5"/>
+    <text x="125" y="80" fill="url(#accentGrad)" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-weight="900" font-size="58">82+</text>
+    <text x="125" y="130" fill="#FFFFFF" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-weight="700" font-size="20">FTE OFFERS</text>
+    <text x="125" y="165" fill="#8E99AB" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-weight="500" font-size="14">Accepted by Members</text>
+    <rect x="75" y="195" width="100" height="4" rx="2" fill="#00ffa3"/>
+  </g>
+
+  <!-- Stat 2: Highest CTC -->
+  <g transform="translate(375, 380)">
+    <rect width="250" height="240" rx="20" fill="url(#cardGrad)" stroke="#3b3321" stroke-width="1.5"/>
+    <text x="125" y="80" fill="url(#goldGrad)" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-weight="900" font-size="58">₹62L</text>
+    <text x="125" y="130" fill="#FFFFFF" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-weight="700" font-size="20">HIGHEST CTC</text>
+    <text x="125" y="165" fill="#8E99AB" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-weight="500" font-size="14">Top Tech Tier</text>
+    <rect x="75" y="195" width="100" height="4" rx="2" fill="#FFA800"/>
+  </g>
+
+  <!-- Stat 3: Average CTC -->
+  <g transform="translate(670, 380)">
+    <rect width="250" height="240" rx="20" fill="url(#cardGrad)" stroke="#262d3d" stroke-width="1.5"/>
+    <text x="125" y="80" fill="url(#accentGrad)" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-weight="900" font-size="58">₹19.7L</text>
+    <text x="125" y="130" fill="#FFFFFF" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-weight="700" font-size="20">AVERAGE CTC</text>
+    <text x="125" y="165" fill="#8E99AB" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-weight="500" font-size="14">Across Placed Cohort</text>
+    <rect x="75" y="195" width="100" height="4" rx="2" fill="#00D8F6"/>
+  </g>
+
+  <!-- Recruiters Section -->
+  <g transform="translate(80, 660)">
+    <rect width="840" height="230" rx="24" fill="#10151f" stroke="#232936" stroke-width="1.5"/>
+    
+    <text x="420" y="45" fill="#8E99AB" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-weight="700" font-size="15" letter-spacing="2">KEY RECRUITING PARTNERS</text>
+    
+    <!-- Pills row 1 -->
+    <g transform="translate(45, 75)">
+      <rect x="0" y="0" width="165" height="46" rx="23" fill="#18202d" stroke="#2c3647"/>
+      <text x="82.5" y="28" fill="#FFFFFF" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-weight="600" font-size="15">D. E. Shaw</text>
+    </g>
+    <g transform="translate(230, 75)">
+      <rect x="0" y="0" width="165" height="46" rx="23" fill="#18202d" stroke="#2c3647"/>
+      <text x="82.5" y="28" fill="#FFFFFF" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-weight="600" font-size="15">Amazon</text>
+    </g>
+    <g transform="translate(415, 75)">
+      <rect x="0" y="0" width="175" height="46" rx="23" fill="#18202d" stroke="#2c3647"/>
+      <text x="87.5" y="28" fill="#FFFFFF" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-weight="600" font-size="15">Morgan Stanley</text>
+    </g>
+    <g transform="translate(610, 75)">
+      <rect x="0" y="0" width="185" height="46" rx="23" fill="#18202d" stroke="#2c3647"/>
+      <text x="92.5" y="28" fill="#FFFFFF" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-weight="600" font-size="15">Goldman Sachs</text>
+    </g>
+
+    <!-- Pills row 2 -->
+    <g transform="translate(45, 140)">
+      <rect x="0" y="0" width="165" height="46" rx="23" fill="#18202d" stroke="#2c3647"/>
+      <text x="82.5" y="28" fill="#FFFFFF" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-weight="600" font-size="15">Wells Fargo</text>
+    </g>
+    <g transform="translate(230, 140)">
+      <rect x="0" y="0" width="165" height="46" rx="23" fill="#18202d" stroke="#2c3647"/>
+      <text x="82.5" y="28" fill="#FFFFFF" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-weight="600" font-size="15">SAP Labs</text>
+    </g>
+    <g transform="translate(415, 140)">
+      <rect x="0" y="0" width="175" height="46" rx="23" fill="#18202d" stroke="#2c3647"/>
+      <text x="87.5" y="28" fill="#FFFFFF" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-weight="600" font-size="15">VISA</text>
+    </g>
+    <g transform="translate(610, 140)">
+      <rect x="0" y="0" width="185" height="46" rx="23" fill="#18202d" stroke="#2c3647"/>
+      <text x="92.5" y="28" fill="#FFFFFF" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-weight="600" font-size="15">Bank of America</text>
+    </g>
+  </g>
+</svg>

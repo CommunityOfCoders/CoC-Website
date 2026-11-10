@@ -97,12 +97,15 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children, route }) => {
           </nav>
 
           <a
-            href="https://www.linkedin.com/company/community-of-coders-vjti"
+            href="https://instagram.com/coc_vjti"
             target="_blank"
             rel="noreferrer"
             className="btn nav__cta"
+            aria-label="Instagram"
           >
-            LinkedIn <ArrowUpRight />
+            <Instagram />
+            <span>Instagram</span>
+            <ArrowUpRight />
           </a>
 
           <button
@@ -127,6 +130,16 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children, route }) => {
               <ArrowUpRight />
             </a>
           ))}
+          <a
+            href="https://instagram.com/coc_vjti"
+            target="_blank"
+            rel="noreferrer"
+            className="nav__drawer-link"
+            style={{ color: "var(--accent)" }}
+          >
+            <span>Instagram</span>
+            <ArrowUpRight />
+          </a>
         </div>
       </header>
 

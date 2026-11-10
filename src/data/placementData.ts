@@ -52,25 +52,53 @@ type RawPlacementInput = { company: string; ctc: string; members: number; ppos: 
 
 const RAW_INTERNSHIPS: Record<string, RawInternshipInput[]> = {
   '2026': [
-    { company: 'DE Shaw', stipend: '₹1.5L/mo', members: 1, ppos: 1 },
-    { company: 'Bank of America', stipend: '₹1.41L/mo', members: 1, ppos: 1 },
-    { company: 'Google', stipend: '₹1.23L/mo', members: 5, ppos: 5 },
-    { company: 'Goldman Sachs', stipend: '₹1.0L/mo', members: 6, ppos: 4 },
-    { company: 'Wells Fargo', stipend: '₹90k/mo', members: 5, ppos: 5 },
-    { company: 'Morgan Stanley', stipend: '₹87k/mo', members: 7, ppos: 7 },
-    { company: 'Hilti', stipend: '₹80k/mo', members: 5, ppos: 4 },
-    { company: 'Citi Bank', stipend: '₹75k/mo', members: 7, ppos: 7 },
-    { company: 'BNY Mellon', stipend: '₹75k/mo', members: 7, ppos: 2 },
-    { company: 'JPMC', stipend: '₹75k/mo', members: 4, ppos: 3 },
-    { company: 'Russell Investments', stipend: '₹60k/mo', members: 1, ppos: 1 },
-    { company: 'UPL', stipend: '₹40k/mo', members: 3, ppos: 2 },
-    { company: 'Mastercard', stipend: '₹40k/mo', members: 2, ppos: 2 },
-    { company: 'NPCI', stipend: '₹30k/mo', members: 6, ppos: 4 },
-    { company: 'Deloitte', stipend: '₹25k/mo', members: 1, ppos: '-' },
-    { company: 'Robin Home AI', stipend: '₹25k/mo', members: 1, ppos: '-' },
-    { company: 'Merkle', stipend: '₹20k/mo', members: 3, ppos: 1 },
-    { company: 'BIS', stipend: '₹20k/mo', members: 2, ppos: '-' },
-    { company: 'Dream11', stipend: '₹20k/mo', members: 8, ppos: '-' }
+    { company: 'Bank of America', stipend: '₹1.4L/mo', members: 3, ppos: '-' },
+    { company: 'Hilti', stipend: '₹80k/mo', members: 5, ppos: '-' },
+    { company: 'BNY Mellon', stipend: '₹75k/mo', members: 13, ppos: '-' },
+    { company: 'Barclays', stipend: '₹75k/mo', members: 1, ppos: '-' },
+    { company: 'Russell Investments', stipend: '₹60k/mo', members: 3, ppos: '-' },
+    { company: 'HSBC', stipend: '₹50k/mo', members: 2, ppos: '-' },
+    { company: 'IBM', stipend: '₹30k/mo', members: 1, ppos: '-' },
+    { company: 'Axis Bank', stipend: '₹30k/mo', members: 9, ppos: '-' }
+  ],
+  '2025': [
+    { company: 'DE Shaw', stipend: '₹1.5L/mo', members: 1, ppos: '-' },
+    { company: 'Bank of America', stipend: '₹1.4L/mo', members: 1, ppos: '-' },
+    { company: 'Google', stipend: '₹1.2L/mo', members: 2, ppos: '-' },
+    { company: 'Goldman Sachs', stipend: '₹1.0L/mo', members: 5, ppos: '-' },
+    { company: 'Morgan Stanley', stipend: '₹87k/mo', members: 4, ppos: '-' },
+    { company: 'Hilti', stipend: '₹80k/mo', members: 5, ppos: '-' },
+    { company: 'Citi Bank', stipend: '₹75k/mo', members: 13, ppos: '-' },
+    { company: 'BNY Mellon', stipend: '₹75k/mo', members: 7, ppos: '-' },
+    { company: 'JPMC', stipend: '₹75k/mo', members: 2, ppos: '-' },
+    { company: 'HSBC', stipend: '₹60k/mo', members: 4, ppos: '-' },
+    { company: 'Russell Investments', stipend: '₹60k/mo', members: 3, ppos: '-' },
+    { company: 'Visa', stipend: '₹50k/mo', members: 3, ppos: '-' },
+    { company: 'Mahindra', stipend: '₹40k/mo', members: 4, ppos: '-' },
+    { company: 'Pattern', stipend: '₹35k/mo', members: 4, ppos: '-' },
+    { company: 'NPCI', stipend: '₹30k/mo', members: 3, ppos: '-' }
+  ],
+  '2024': [
+    { company: 'DE Shaw', stipend: '₹1.5L/mo', members: 1, ppos: '-' },
+    { company: 'Goldman Sachs', stipend: '₹1.0L/mo', members: 4, ppos: '-' },
+    { company: 'Wells Fargo', stipend: '₹90k/mo', members: 2, ppos: '-' },
+    { company: 'Morgan Stanley', stipend: '₹87k/mo', members: 3, ppos: '-' },
+    { company: 'Hilti', stipend: '₹80k/mo', members: 5, ppos: '-' },
+    { company: 'BNY Mellon', stipend: '₹75k/mo', members: 3, ppos: '-' },
+    { company: 'Citi Bank', stipend: '₹75k/mo', members: 10, ppos: '-' },
+    { company: 'JPMC', stipend: '₹75k/mo', members: 2, ppos: '-' },
+    { company: 'Texas Instruments', stipend: '₹60k/mo', members: 2, ppos: '-' },
+    { company: 'Oracle', stipend: '₹50k/mo', members: 2, ppos: '-' },
+    { company: 'Mastercard', stipend: '₹40k/mo', members: 1, ppos: '-' }
+  ],
+  '2023': [
+    { company: 'Morgan Stanley', stipend: '₹87k/mo', members: 3, ppos: 2 },
+    { company: 'Microsoft', stipend: '₹80k/mo', members: 1, ppos: 1 },
+    { company: 'Goldman Sachs', stipend: '₹75k/mo', members: 6, ppos: 5 },
+    { company: 'Barclays', stipend: '₹67k/mo', members: 14, ppos: 11 },
+    { company: 'JPMC', stipend: '₹50k/mo', members: 11, ppos: 9 },
+    { company: 'Samsung', stipend: '₹50k/mo', members: 21, ppos: '-' },
+    { company: 'Deutsche Bank', stipend: '₹50k/mo', members: 4, ppos: 3 }
   ]
 };
 
@@ -166,6 +194,48 @@ const RAW_PLACEMENTS: Record<string, RawPlacementInput[]> = {
     { company: 'TCS', ctc: '₹7L', members: 1, ppos: '-' },
     { company: 'AurionPro', ctc: '₹7L', members: 1, ppos: '-' },
     { company: 'Infosys', ctc: '₹3.6L', members: 1, ppos: '-' }
+  ],
+  '2024': [
+    { company: 'US based software company', ctc: '₹62L', members: 1, ppos: '-' },
+    { company: 'DE Shaw', ctc: '₹45L', members: 2, ppos: 2 },
+    { company: 'Amazon', ctc: '₹44.14L', members: 1, ppos: '-' },
+    { company: 'LinkedIn', ctc: '₹30.4L', members: 1, ppos: '-' },
+    { company: 'Texas Instruments', ctc: '₹29.63L', members: 1, ppos: '-' },
+    { company: 'Morgan Stanley', ctc: '₹29.48L', members: 13, ppos: 3 },
+    { company: 'Visa', ctc: '₹28.5L', members: 4, ppos: 3 },
+    { company: 'Myntra', ctc: '₹27L', members: 1, ppos: '-' },
+    { company: 'SAP Labs', ctc: '₹24.5L', members: 13, ppos: 5 },
+    { company: 'Goldman Sachs', ctc: '₹24L', members: 5, ppos: 4 },
+    { company: 'Wells Fargo', ctc: '₹24L', members: 15, ppos: 2 },
+    { company: 'Citi Bank', ctc: '₹18L', members: 8, ppos: 8 },
+    { company: 'Hilti', ctc: '₹16L', members: 4, ppos: 4 },
+    { company: 'BNY Mellon', ctc: '₹16L', members: 4, ppos: 4 },
+    { company: 'Deutsche Bank', ctc: '₹14L', members: 2, ppos: 2 },
+    { company: 'UBS', ctc: '₹14L', members: 4, ppos: 4 },
+    { company: 'JPMC', ctc: '₹14L', members: 2, ppos: 2 },
+    { company: 'Fractal', ctc: '₹9.5L', members: 1, ppos: '-' },
+    { company: 'Mondelez International', ctc: '₹8L', members: 1, ppos: 1 }
+  ],
+  '2023': [
+    { company: 'Microsoft', ctc: '₹42L', members: 1, ppos: 1 },
+    { company: 'WorkIndia', ctc: '₹35L', members: 1, ppos: '-' },
+    { company: 'Rakuten', ctc: '₹35L', members: 1, ppos: '-' },
+    { company: 'Morgan Stanley', ctc: '₹25.3L', members: 4, ppos: 2 },
+    { company: 'Goldman Sachs', ctc: '₹23L', members: 6, ppos: 5 },
+    { company: 'Samsung', ctc: '₹22L', members: 1, ppos: '-' },
+    { company: 'SAP Labs', ctc: '₹20.5L', members: 6, ppos: '-' },
+    { company: 'Deutsche Bank', ctc: '₹19.63L', members: 14, ppos: 3 },
+    { company: 'Barclays', ctc: '₹15L', members: 14, ppos: 11 },
+    { company: 'JPMC', ctc: '₹14L', members: 9, ppos: 9 },
+    { company: 'BNY Mellon', ctc: '₹12L', members: 4, ppos: '-' },
+    { company: 'MSCI', ctc: '₹12L', members: 3, ppos: '-' },
+    { company: 'Oracle', ctc: '₹18L', members: 3, ppos: 2 },
+    { company: 'Wells Fargo', ctc: '₹20L', members: 3, ppos: 1 },
+    { company: 'Fiserv', ctc: '₹10L', members: 5, ppos: '-' },
+    { company: 'Citi Bank', ctc: '₹18L', members: 2, ppos: '-' },
+    { company: 'Astra', ctc: '₹10L', members: 2, ppos: '-' },
+    { company: 'PwC', ctc: '₹9L', members: 2, ppos: '-' },
+    { company: 'UBS', ctc: '₹12.5L', members: 1, ppos: '-' }
   ]
 };
 
@@ -232,16 +302,17 @@ export const PPOS_DATA: Record<string, { totalPpos: number; companiesCount: numb
 }, {} as Record<string, { totalPpos: number; companiesCount: number; season: string; items: PPOItem[] }>);
 
 export const YEAR_ON_YEAR_DATA: YearGrowthItem[] = [
-  { year: '2026', internships: 37, placements: 39, avgCtc: '₹19.2L', highestCtc: '₹72.3L' },
-  { year: '2025', internships: 34, placements: 36, avgCtc: '₹18.0L', highestCtc: '₹54.0L' },
-  { year: '2024', internships: 35, placements: 38, avgCtc: '₹18.5L', highestCtc: '₹62.0L' },
-  { year: '2023', internships: 32, placements: 35, avgCtc: '₹17.5L', highestCtc: '₹62.0L' },
-  { year: '2022', internships: 33, placements: 37, avgCtc: '₹16.2L', highestCtc: '₹64.0L' },
-  { year: '2021', internships: 29, placements: 33, avgCtc: '₹14.5L', highestCtc: '₹58.0L' },
-  { year: '2020', internships: 30, placements: 34, avgCtc: '₹12.4L', highestCtc: '₹39.0L' },
-  { year: '2019', internships: 28, placements: 38, avgCtc: '₹11.5L', highestCtc: '₹36.0L' },
-  { year: '2018', internships: 26, placements: 32, avgCtc: '₹9.2L', highestCtc: '₹22.4L' },
-  { year: '2017', internships: 24, placements: 35, avgCtc: '₹8.6L', highestCtc: '₹20.5L' },
+  { year: '2026', internships: 37, placements: 39, avgCtc: '₹19.2L', highestCtc: '₹67.0L' },
+  { year: '2025', internships: 61, placements: 118, avgCtc: '₹18.0L', highestCtc: '₹54.0L' },
+  { year: '2024', internships: 35, placements: 82, avgCtc: '₹19.7L', highestCtc: '₹57.0L' },
+  { year: '2023', internships: 60, placements: 82, avgCtc: '₹18.19L', highestCtc: '₹44.0L' },
+  { year: '2022', internships: 33, placements: 74, avgCtc: '₹16.48L', highestCtc: '₹64.0L' },
+  { year: '2021', internships: 29, placements: 76, avgCtc: '₹10.16L', highestCtc: '₹58.0L' },
+  { year: '2020', internships: 30, placements: 71, avgCtc: '₹12.7L', highestCtc: '₹39.0L' },
+  { year: '2019', internships: 28, placements: 78, avgCtc: '₹11.28L', highestCtc: '₹36.0L' },
+  { year: '2018', internships: 26, placements: 74, avgCtc: '₹10.33L', highestCtc: '₹22.4L' },
+  { year: '2017', internships: 24, placements: 75, avgCtc: '₹9.5L', highestCtc: '₹20.5L' },
+  { year: '2016', internships: 20, placements: 73, avgCtc: '₹8.2L', highestCtc: '₹18.0L' },
 ];
 
 const currentYearYoy = YEAR_ON_YEAR_DATA.find((item) => item.year === CURRENT_YEAR);
