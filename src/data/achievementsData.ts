@@ -179,12 +179,6 @@ const METADATA_MAP: Record<string, MetaItem> = {
     description: "Community of Coders VJTI teams dominated Hacktoberfest competitions, securing victories at KJSCE (HackDay x ISTE), Paytm AI x FAIR, and top honors at S.P.I.T. Mumbai.",
     highlights: ["KJSCE Winners", "S.P.I.T. Finalists", "Paytm AI Winners", "Team Heckers", "Team DataChef", "Team Gravity Falls", "Team Git Guardians"],
   },
-  achievement_28: {
-    title: "Record Campus Placement Season - 82+ Offers & ₹62 LPA Top CTC",
-    tag: "PLACEMENT RECORD",
-    description: "Community of Coders VJTI members secured 82+ offers with an average CTC of ₹19.7 LPA and highest package of ₹62 LPA across global tech giants.",
-    highlights: ["82+ Offers", "₹62 LPA Highest", "₹19.7 LPA Average", "Google", "Microsoft", "Morgan Stanley", "DE Shaw"],
-  },
 };
 
 // Use Vite's import.meta.glob to dynamically load images from the local src/assets/achievements folder.
@@ -238,8 +232,8 @@ function parseAchievements(): Achievement[] {
   }
 
   // Fallback if glob yields empty array
-  return Array.from({ length: 28 }, (_, i) => {
-    const num = 28 - i;
+  return Array.from({ length: 27 }, (_, i) => {
+    const num = 27 - i;
     const numStr = String(num).padStart(2, '0');
     const idKey = `achievement_${numStr}`;
     const meta = METADATA_MAP[idKey] || {

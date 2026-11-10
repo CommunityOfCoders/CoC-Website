@@ -1,13 +1,23 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { PPOS_DATA, AVAILABLE_YEARS, CURRENT_YEAR } from '../../data/placementData';
+import { PPOS_DATA, AVAILABLE_PPO_YEARS, CURRENT_YEAR } from '../../data/placementData';
 import { CompanyLogo } from './CompanyLogo';
 
 export const PPOsTab: React.FC = () => {
-  const [selectedYear, setSelectedYear] = useState<string>(CURRENT_YEAR);
+  const [selectedYear, setSelectedYear] = useState<string>(
+    AVAILABLE_PPO_YEARS.includes(CURRENT_YEAR) ? CURRENT_YEAR : AVAILABLE_PPO_YEARS[0] || '2026'
+  );
 
-  const currentYearData = PPOS_DATA[selectedYear] || PPOS_DATA[CURRENT_YEAR];
-  const totalPpos = currentYearData.items.reduce((acc, item) => acc + item.members, 0);
+  const currentYearData = PPOS_DATA[selectedYear] || PPOS_DATA[CURRENT_YEAR] || {
+    items: [],
+    totalPpos: 0,
+    companiesCount: 0,
+    season: `${selectedYear} season`
+  };
+  const totalPpos = currentYearData.items.reduce((acc, item) => {
+    const num = typeof item.members === 'number' ? item.members : (parseInt(String(item.members), 10) || 0);
+    return acc + num;
+  }, 0);
   const totalCompanies = new Set(currentYearData.items.map((item) => item.company)).size;
 
   return (
@@ -42,7 +52,7 @@ export const PPOsTab: React.FC = () => {
 
             <div className="placement-controls">
               <div className="pill-group">
-                {AVAILABLE_YEARS.map((year) => (
+                {AVAILABLE_PPO_YEARS.map((year) => (
                   <button
                     key={year}
                     className={`pill-btn ${selectedYear === year ? 'active-solid' : ''}`}
@@ -61,7 +71,7 @@ export const PPOsTab: React.FC = () => {
                 <tr>
                   <th>INTERNED AT</th>
                   <th>MEMBERS</th>
-                  <th>CTC</th>
+                  <th>CTC / STIPEND</th>
                 </tr>
               </thead>
               <AnimatePresence mode="wait">

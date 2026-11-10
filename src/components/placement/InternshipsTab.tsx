@@ -9,7 +9,10 @@ export const InternshipsTab: React.FC = () => {
   const currentYearData = INTERNSHIPS_DATA[selectedYear] || INTERNSHIPS_DATA[CURRENT_YEAR];
   const items = currentYearData.items;
 
-  const totalMembers = items.reduce((acc, item) => acc + item.members, 0);
+  const totalMembers = items.reduce((acc, item) => {
+    const num = typeof item.members === 'number' ? item.members : (parseInt(String(item.members), 10) || 0);
+    return acc + num;
+  }, 0);
   const totalCompanies = new Set(items.map((item) => item.company)).size;
 
   return (
