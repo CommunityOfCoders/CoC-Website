@@ -4,7 +4,7 @@ import CountUp from "../ui/CountUp";
 
 /* Placeholder figures - replace with real club numbers. */
 const STATS = [
-  { to: 20, suffix: "+", label: "Active members" },
+  { to: 60, suffix: "+", label: "Active members" },
   { to: 60, suffix: "+", label: "Events hosted" },
   { to: 120, suffix: "+", label: "Projects built" },
   { to: 30, suffix: "+", label: "Companies hired" },
