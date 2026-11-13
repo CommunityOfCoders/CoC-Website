@@ -27,6 +27,7 @@ import NathanImg from "../assets/nathan.jpg";
 import TanushImg from "../assets/tanush.jpg";
 import AkshatImg from "../assets/akshat.jpg";
 import SarangImg from "../assets/sarang.jpg";
+import MohammedImg from "../assets/mohammed.jpg";
 
 export interface TeamMember {
   id: string;
@@ -285,6 +286,16 @@ export const TY_CORE: TeamMember[] = [
     photo: TanushImg,
     github: "https://github.com/tanushlokhande23",
     linkedin: "https://www.linkedin.com/in/tanush-lokhande-allmyt/",
+  },
+  {
+    id: "mohammed-hedayati",
+    name: "Mohammed Hedayati",
+    role: "TY CORE",
+    tagline: "Helping our community learn, build, and grow together.",
+    bio: "Third Year Core member at Community of Coders, dedicated to supporting club initiatives, mentoring peers, and helping our developer community grow stronger together.",
+    photo: MohammedImg,
+    github: "https://github.com/MohdHedayati",
+    linkedin: "https://www.linkedin.com/in/mohammed-hedayati/",
   },
 ];
 
