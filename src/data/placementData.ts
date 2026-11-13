@@ -58,12 +58,12 @@ const RAW_INTERNSHIPS: Record<string, RawInternshipInput[]> = {
   '2026': [
     // { company: 'Bank of America', stipend: '₹1.4L/mo', members: 3, ppos: '-' },
     { company: 'Hilti', stipend: '₹80k/mo', members: 5, ppos: '-' },
-    { company: 'BNY Mellon', stipend: '₹75k/mo', members: 13, ppos: '-' },
+    { company: 'BNY Mellon', stipend: '₹75k/mo', members: 12, ppos: '-' },
     { company: 'Barclays', stipend: '₹75k/mo', members: 1, ppos: '-' },
     { company: 'Russell Investments', stipend: '₹60k/mo', members: 3, ppos: '-' },
     { company: 'HSBC', stipend: '₹50k/mo', members: 2, ppos: '-' },
     { company: 'IBM', stipend: '₹30k/mo', members: 1, ppos: '-' },
-    { company: 'Axis AMC', stipend: '₹30k/mo', members: 9, ppos: '-' }
+    { company: 'Axis AMC', stipend: '₹30k/mo', members: 4, ppos: '-' }
   ],
   '2025': [
     { company: 'DE Shaw', stipend: '₹2.4L/mo', members: 2, ppos: 1 },
