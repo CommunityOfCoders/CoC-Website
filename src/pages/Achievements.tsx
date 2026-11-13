@@ -22,11 +22,6 @@ export const Achievements: React.FC = () => {
 
   return (
     <div className="achievements-page">
-      {/* Ambient Visual Background Effects */}
-      <div className="achievements-glow-orb achievements-glow-orb--1" />
-      <div className="achievements-glow-orb achievements-glow-orb--2" />
-      <div className="achievements-glow-orb achievements-glow-orb--3" />
-
       {/* Hero Section */}
       <header ref={heroRef} className="achievements-hero">
         <div className="container achievements-hero__container">

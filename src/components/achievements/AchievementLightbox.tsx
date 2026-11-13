@@ -1,6 +1,7 @@
 import React, { useEffect, useCallback, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
+import type { PanInfo } from 'framer-motion';
 import { X, ChevronLeft, ChevronRight, Sparkles } from 'lucide-react';
 import type { Achievement } from '../../data/achievementsData';
 
@@ -11,6 +12,19 @@ interface AchievementLightboxProps {
   onSelect: (index: number) => void;
 }
 
+const EASE = [0.16, 1, 0.3, 1] as const;
+const SWIPE_DISTANCE = 70;
+const SWIPE_VELOCITY = 450;
+
+/* direction-aware slide: new image enters from the side you navigated toward */
+const slide = {
+  enter: (d: number) => ({ x: d * 70, opacity: 0, scale: 0.97 }),
+  center: { x: 0, opacity: 1, scale: 1 },
+  exit: (d: number) => ({ x: d * -70, opacity: 0, scale: 0.97 }),
+};
+
+const pad = (n: number) => String(n).padStart(2, '0');
+
 export const AchievementLightbox: React.FC<AchievementLightboxProps> = ({
   achievements,
   currentIndex,
@@ -20,16 +34,21 @@ export const AchievementLightbox: React.FC<AchievementLightboxProps> = ({
   const isOpen = currentIndex !== null;
   const current = isOpen ? achievements[currentIndex] : null;
   const isMouseDownOnBox = useRef(false);
+  const dirRef = useRef(1);
+  const rootRef = useRef<HTMLDivElement>(null);
+  const total = achievements.length;
 
   const handlePrev = useCallback(() => {
     if (currentIndex === null) return;
-    onSelect((currentIndex - 1 + achievements.length) % achievements.length);
-  }, [currentIndex, achievements.length, onSelect]);
+    dirRef.current = -1;
+    onSelect((currentIndex - 1 + total) % total);
+  }, [currentIndex, total, onSelect]);
 
   const handleNext = useCallback(() => {
     if (currentIndex === null) return;
-    onSelect((currentIndex + 1) % achievements.length);
-  }, [currentIndex, achievements.length, onSelect]);
+    dirRef.current = 1;
+    onSelect((currentIndex + 1) % total);
+  }, [currentIndex, total, onSelect]);
 
   const handleBackdropClick = () => {
     if (isMouseDownOnBox.current) {
@@ -39,35 +58,80 @@ export const AchievementLightbox: React.FC<AchievementLightboxProps> = ({
     onClose();
   };
 
+  const handleDragEnd = (_: unknown, info: PanInfo) => {
+    if (info.offset.x < -SWIPE_DISTANCE || info.velocity.x < -SWIPE_VELOCITY) handleNext();
+    else if (info.offset.x > SWIPE_DISTANCE || info.velocity.x > SWIPE_VELOCITY) handlePrev();
+  };
+
+  /* open/close side effects: scroll lock, focus in, focus restore */
   useEffect(() => {
     if (!isOpen) return;
-
+    const opener = document.activeElement as HTMLElement | null;
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
     document.body.classList.add('modal-open');
+    requestAnimationFrame(() => {
+      rootRef.current?.querySelector<HTMLElement>('.achievement-lightbox__close')?.focus();
+    });
+    return () => {
+      document.body.style.overflow = prevOverflow;
+      document.body.classList.remove('modal-open');
+      opener?.focus?.();
+    };
+  }, [isOpen]);
 
+  /* keyboard: Esc / arrows / Tab focus trap */
+  useEffect(() => {
+    if (!isOpen) return;
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') onClose();
-      if (e.key === 'ArrowLeft') handlePrev();
-      if (e.key === 'ArrowRight') handleNext();
+      else if (e.key === 'ArrowLeft') handlePrev();
+      else if (e.key === 'ArrowRight') handleNext();
+      else if (e.key === 'Tab' && rootRef.current) {
+        const f = rootRef.current.querySelectorAll<HTMLElement>('button');
+        if (!f.length) return;
+        const first = f[0];
+        const last = f[f.length - 1];
+        if (e.shiftKey && document.activeElement === first) {
+          e.preventDefault();
+          last.focus();
+        } else if (!e.shiftKey && document.activeElement === last) {
+          e.preventDefault();
+          first.focus();
+        }
+      }
     };
-
     window.addEventListener('keydown', handleKeyDown);
-    return () => {
-      document.body.classList.remove('modal-open');
-      window.removeEventListener('keydown', handleKeyDown);
-    };
+    return () => window.removeEventListener('keydown', handleKeyDown);
   }, [isOpen, onClose, handlePrev, handleNext]);
 
+  /* preload the neighbours so next/prev never flashes empty */
+  useEffect(() => {
+    if (currentIndex === null) return;
+    [1, -1, 2].forEach((o) => {
+      const img = new Image();
+      img.src = achievements[(currentIndex + o + total) % total].src;
+    });
+  }, [currentIndex, achievements, total]);
+
   if (typeof document === 'undefined') return null;
+
+  const progress = currentIndex !== null ? ((currentIndex + 1) / total) * 100 : 0;
+  const people = current ? current.highlights.slice(0, 8) : [];
 
   return createPortal(
     <AnimatePresence>
       {isOpen && current && (
         <motion.div
+          ref={rootRef}
           className="achievement-lightbox"
+          role="dialog"
+          aria-modal="true"
+          aria-label={current.title}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: 0.25 }}
+          transition={{ duration: 0.35, ease: EASE }}
           onMouseDown={() => {
             isMouseDownOnBox.current = false;
           }}
@@ -77,9 +141,18 @@ export const AchievementLightbox: React.FC<AchievementLightboxProps> = ({
           <div className="achievement-lightbox__backdrop" />
 
           {/* Top header controls */}
-          <div className="achievement-lightbox__header">
+          <motion.div
+            className="achievement-lightbox__header"
+            initial={{ opacity: 0, y: -18 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -12 }}
+            transition={{ duration: 0.45, ease: EASE, delay: 0.05 }}
+          >
             <div className="achievement-lightbox__tag-pill">
               <Sparkles size={14} /> {current.tag}
+            </div>
+            <div className="achievement-lightbox__counter" aria-live="polite">
+              <strong>{pad(currentIndex! + 1)}</strong> / {pad(total)}
             </div>
             <button
               className="achievement-lightbox__close"
@@ -91,10 +164,16 @@ export const AchievementLightbox: React.FC<AchievementLightboxProps> = ({
             >
               <X size={24} />
             </button>
-          </div>
+          </motion.div>
 
           {/* Main Content Area */}
-          <div className="achievement-lightbox__stage">
+          <motion.div
+            className="achievement-lightbox__stage"
+            initial={{ opacity: 0, y: 36, scale: 0.96 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 24, scale: 0.97 }}
+            transition={{ duration: 0.5, ease: EASE }}
+          >
             <button
               className="achievement-lightbox__nav achievement-lightbox__nav--prev"
               onMouseDown={(e) => e.stopPropagation()}
@@ -107,32 +186,52 @@ export const AchievementLightbox: React.FC<AchievementLightboxProps> = ({
               <ChevronLeft size={28} />
             </button>
 
-            <motion.div
-              key={current.id}
-              className="achievement-lightbox__content"
-              initial={{ scale: 0.94, opacity: 0, y: 10 }}
-              animate={{ scale: 1, opacity: 1, y: 0 }}
-              exit={{ scale: 0.94, opacity: 0, y: -10 }}
-              transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-              onMouseDown={() => {
-                isMouseDownOnBox.current = true;
-              }}
-              onClick={(e) => {
-                e.stopPropagation();
-              }}
-            >
-              <div className="achievement-lightbox__img-wrapper">
-                <img
-                  src={current.src}
-                  alt={current.alt}
-                  className="achievement-lightbox__img"
-                />
-              </div>
+            <AnimatePresence mode="wait" custom={dirRef.current} initial={false}>
+              <motion.div
+                key={current.id}
+                custom={dirRef.current}
+                variants={slide}
+                initial="enter"
+                animate="center"
+                exit="exit"
+                transition={{ duration: 0.38, ease: EASE }}
+                className="achievement-lightbox__content"
+                drag="x"
+                dragDirectionLock
+                dragConstraints={{ left: 0, right: 0 }}
+                dragElastic={0.25}
+                onDragEnd={handleDragEnd}
+                onMouseDown={() => {
+                  isMouseDownOnBox.current = true;
+                }}
+                onClick={(e) => {
+                  e.stopPropagation();
+                }}
+              >
+                <div className="achievement-lightbox__img-wrapper">
+                  <img
+                    src={current.src}
+                    alt={current.alt}
+                    className="achievement-lightbox__img"
+                    draggable={false}
+                  />
+                </div>
 
-              <div className="achievement-lightbox__footer">
-                <h3 className="achievement-lightbox__title">{current.title}</h3>
-              </div>
-            </motion.div>
+                <div className="achievement-lightbox__footer">
+                  <h3 className="achievement-lightbox__title">{current.title}</h3>
+                  {current.description && (
+                    <p className="achievement-lightbox__text">{current.description}</p>
+                  )}
+                  {people.length > 0 && (
+                    <ul className="achievement-lightbox__chips">
+                      {people.map((p) => (
+                        <li key={p}>{p}</li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
+              </motion.div>
+            </AnimatePresence>
 
             <button
               className="achievement-lightbox__nav achievement-lightbox__nav--next"
@@ -145,6 +244,11 @@ export const AchievementLightbox: React.FC<AchievementLightboxProps> = ({
             >
               <ChevronRight size={28} />
             </button>
+          </motion.div>
+
+          {/* progress through the timeline */}
+          <div className="achievement-lightbox__progress" aria-hidden="true">
+            <span style={{ width: `${progress}%` }} />
           </div>
         </motion.div>
       )}
