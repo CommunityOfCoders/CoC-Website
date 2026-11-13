@@ -46,9 +46,9 @@ export const COUNCIL: TeamMember[] = [
   {
     id: "avanish-salunke",
     name: "Avanish Salunke",
-    role: "Secretary",
+    role: "General Secretary",
     tagline: "Building the next chapter of CoC as never before.",
-    bio: "Secretary of the Council of Coders, helping drive operations, coordination, and community initiatives across the council.",
+    bio: "General Secretary of the Council of Coders, helping drive operations, coordination, and community initiatives across the council.",
     photo: AvanishImg,
     github: "https://github.com/AvanishSalunke",
     linkedin: "https://linkedin.com/in/avanishsalunke",
@@ -56,9 +56,9 @@ export const COUNCIL: TeamMember[] = [
   {
     id: "nihira-neralwar",
     name: "Nihira Neralwar",
-    role: "Secretary",
+    role: "General Secretary",
     tagline: "Turning ideas into action.",
-    bio: "Secretary of the Council of Coders, focused on enabling collaboration and ensuring the community continues to grow and thrive.",
+    bio: "General Secretary of the Council of Coders, focused on enabling collaboration and ensuring the community continues to grow and thrive.",
     photo: NihiraImg,
     github: "https://github.com/nihira20",
     linkedin: "https://www.linkedin.com/in/nihira-neralwar-307538337/",
