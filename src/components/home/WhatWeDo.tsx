@@ -34,10 +34,21 @@ const WhatWeDo: React.FC = () => (
           <span className="eyebrow">What we do</span>
           <h2 className="section-title">Three things we do<br />seriously well.</h2>
         </div>
-        <p className="wwd__tag" aria-label="for the juniors, by the seniors" data-bg="SENIORS">
-          <span className="wwd__tag-a">for the juniors</span>
-          <span className="wwd__tag-b">by the seniors</span>
-        </p>
+        <div className="wwd__tag" role="img" aria-label="for the juniors, by the seniors" data-bg="CoC">
+          <svg className="wwd__tag-arrow" viewBox="0 0 120 160" aria-hidden="true">
+            <path d="M100 6 C 10 20, 4 100, 78 140" />
+            <path d="M58 138 L 80 142 L 72 120" />
+          </svg>
+          <span className="wwd__tag-small">for the</span>
+          <span className="wwd__tag-big wwd__tag-big--out" data-t="juniors">juniors</span>
+          <span className="wwd__tag-small wwd__tag-small--by">by the</span>
+          <span className="wwd__tag-big wwd__tag-big--fill" data-t="seniors">
+            seniors
+            <svg className="wwd__tag-line" viewBox="0 0 300 18" preserveAspectRatio="none" aria-hidden="true">
+              <path d="M3 12 C 60 2, 110 16, 160 8 S 260 4, 297 11" />
+            </svg>
+          </span>
+        </div>
       </div>
 
       <div className="wwd__grid">
