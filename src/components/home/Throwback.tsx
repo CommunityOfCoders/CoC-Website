@@ -4,24 +4,25 @@ import { ArrowLeft, ArrowRight } from 'lucide-react';
 import Reveal from '../ui/Reveal';
 import Magnetic from '../ui/Magnetic';
 
-const SLIDES = [
-  { id: 'debug-a-thon-2026', img: '/photos/2026/debugathon.png', title: 'Debug-A-Thon', year: '2026' },
-  { id: 'hackxcelerate-2026', img: '/photos/2026/hackX.jpeg', title: 'HackXcelerate 2026', year: '2026' },
-  { id: 'the-lost-probe-2026', img: '/photos/2026/lostprobe2.png', title: 'The Lost Probe', year: '2026' },
-  { id: 'coderush-2026', img: '/photos/2026/coderush.png', title: 'CodeRush', year: '2026' },
-  { id: 'pixel-perfect-2026', img: '/photos/2026/pixelperfect.png', title: 'Pixel Perfect', year: '2026' },
-  { id: 'routing-rush-2026', img: '/photos/2026/routerush.png', title: 'Route Rush', year: '2026' },
-  { id: 'routequest-2026', img: '/photos/2026/routequest.png', title: 'RouteQuest', year: '2026' },
-  { id: 'codehunt-2026', img: '/photos/2026/codehunt.png', title: 'Codehunt', year: '2026' },
+/* pos = object-position: keeps event titles (posters) and people (group shots) inside the 16:10 frame */
+const SLIDES: { id: string; img: string; title: string; year: string; pos?: string }[] = [
+  { id: 'debug-a-thon-2026', pos: '50% 0%', img: '/photos/2026/debugathon.png', title: 'Debug-A-Thon', year: '2026' },
+  { id: 'hackxcelerate-2026', pos: '50% 65%', img: '/photos/2026/hackX.jpeg', title: 'HackXcelerate 2026', year: '2026' },
+  { id: 'the-lost-probe-2026', pos: '50% 0%', img: '/photos/2026/lostprobe2.png', title: 'The Lost Probe', year: '2026' },
+  { id: 'coderush-2026', pos: '50% 0%', img: '/photos/2026/coderush.png', title: 'CodeRush', year: '2026' },
+  { id: 'pixel-perfect-2026', pos: '50% 0%', img: '/photos/2026/pixelperfect.png', title: 'Pixel Perfect', year: '2026' },
+  { id: 'routing-rush-2026', pos: '50% 0%', img: '/photos/2026/routerush.png', title: 'Route Rush', year: '2026' },
+  { id: 'routequest-2026', pos: '50% 0%', img: '/photos/2026/routequest.png', title: 'RouteQuest', year: '2026' },
+  { id: 'codehunt-2026', pos: '50% 0%', img: '/photos/2026/codehunt.png', title: 'Codehunt', year: '2026' },
   { id: 'icpc-vjti-2026', img: '/photos/2026/icpc2.jpeg', title: 'ICPC VJTI Round', year: '2025' },
-  { id: 'inheritance-2025-26', img: '/photos/2026/inheritance.png', title: 'Inheritance', year: '2026' },
-  { id: 'webgenesis-2026', img: '/photos/2026/webgenesis.png', title: 'Webgenesis', year: '2026' },
-  { id: 'eth-evening-2025', img: '/photos/2026/ethhevening.png', title: 'ETH Evening', year: '2025' },
-  { id: 'project-x-2025', img: '/photos/2026/ProjectX.png', title: 'Project X', year: '2025' },
-  { id: 'codeverse', img: '/photos/2025/codeverseceremony.jpg', title: 'CodeVerse Ceremony', year: '2025' },
+  { id: 'inheritance-2025-26', pos: '50% 0%', img: '/photos/2026/inheritance.png', title: 'Inheritance', year: '2026' },
+  { id: 'webgenesis-2026', pos: '50% 0%', img: '/photos/2026/webgenesis.png', title: 'Webgenesis', year: '2026' },
+  { id: 'eth-evening-2025', pos: '50% 0%', img: '/photos/2026/ethhevening.png', title: 'ETH Evening', year: '2025' },
+  { id: 'project-x-2025', pos: '50% 0%', img: '/photos/2026/ProjectX.png', title: 'Project X', year: '2025' },
+  { id: 'codeverse', pos: '50% 70%', img: '/photos/2025/codeverseceremony.jpg', title: 'CodeVerse Ceremony', year: '2025' },
   { id: 'ai-vs-human', img: '/photos/2025/aivshuman.JPG', title: 'AI vs Human', year: '2025' },
   { id: 'api-murder-mystery', img: '/photos/2025/apimurder.JPG', title: 'API Murder Mystery', year: '2025' },
-  { id: 'codeverse', img: '/photos/2025/codeverseteam.jpg', title: 'CodeVerse Team', year: '2025' },
+  { id: 'codeverse', pos: '50% 60%', img: '/photos/2025/codeverseteam.jpg', title: 'CodeVerse Team', year: '2025' },
   { id: 'debugathon', img: '/photos/2025/debugathon.jpg', title: 'Debugathon', year: '2024' },
   { id: 'eth-ctf', img: '/photos/2025/ethctf.jpg', title: 'ETH CTF', year: '2024' },
   { id: 'grid-of-doom', img: '/photos/2025/gridofdoom.jpg', title: 'Grid of Doom', year: '2024' },
@@ -350,7 +351,7 @@ const Throwback: React.FC = () => {
                   aria-label={`View ${s.title} details`}
                 >
                   <div className="tb__img photo photo--hover">
-                    <img src={s.img} alt={`${s.title}, ${s.year}`} draggable={false} loading="lazy" />
+                    <img src={s.img} alt={`${s.title}, ${s.year}`} draggable={false} loading="lazy" style={s.pos ? { objectPosition: s.pos } : undefined} />
                   </div>
                   <figcaption className="tb__cap">
                     <span className="tb__cap-title">{s.title}</span>
