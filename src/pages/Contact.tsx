@@ -109,6 +109,13 @@ const NETWORK: { name: string; socials: Social[] }[] = [
         Icon: InstagramColor,
         size: 30,
       },
+      {
+        label: "LinkedIn",
+        href: "https://www.linkedin.com/company/eth-vjti/",
+        tip: "ETH VJTI",
+        Icon: LinkedinColor,
+        size: 30,
+      },
     ],
   },
 ];
