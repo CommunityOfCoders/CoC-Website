@@ -135,9 +135,11 @@
 .team-card__tagline {
   font-size: 0.9rem;
   color: var(--fg-dim);
-  white-space: nowrap;
+  line-height: 1.35;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
   overflow: hidden;
-  text-overflow: ellipsis;
 }
 
 /* ---------- social links ---------- */
@@ -146,6 +148,8 @@
   gap: 8px;
   margin-top: auto;
 }
+/* socials sit right under the tagline (same gap on every card); extra height from a 2-line tagline falls to the card bottom */
+.team-card .team-socials { margin-top: 0; }
 .team-socials a {
   display: grid;
   place-items: center;

@@ -47,7 +47,7 @@ export const COUNCIL: TeamMember[] = [
     id: "avanish-salunke",
     name: "Avanish Salunke",
     role: "Secretary",
-    tagline: "Building the next chapter of CoC.",
+    tagline: "Building the next chapter of CoC as never before.",
     bio: "Secretary of the Council of Coders, helping drive operations, coordination, and community initiatives across the council.",
     photo: AvanishImg,
     github: "https://github.com/AvanishSalunke",
