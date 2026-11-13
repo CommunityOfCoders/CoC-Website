@@ -24,6 +24,24 @@ export interface CoCEvent {
 export const EVENTS: CoCEvent[] = [
   /* ──────────────── 2026–2027 Academic Year Events ──────────────── */
   {
+    id: "cp-club-selections-2026",
+    name: "CP Club Selections 2026",
+    date: "5th November 2026",
+    isoDate: "2026-11-05",
+    location: "College Labs, VJTI",
+    summary: "Competitive programming selection contest recruiting First Year (FY) and Second Year (SY) problem solvers into the CP Club.",
+    description:
+      "The CP Club Selections 2026 were conducted on 5th November 2026 at Veermata Jijabai Technological Institute (VJTI) by the Competitive Programming wing of the Community of Coders (CoC), VJTI. The recruitment drive was organized to identify, test, and recruit passionate problem solvers from the First Year (FY) and Second Year (SY) batches into the club.\n\nHosted across the college computer laboratories, the contest evaluated candidates on algorithmic problem solving, data structures, logical reasoning, and efficient implementation under timed contest conditions.\n\nThe selection round witnessed strong and enthusiastic participation from students across departments eager to enhance their programming foundations and represent VJTI in collegiate programming contests such as ICPC and beyond.\n\nOrganized by the CP Head and the Competitive Programming Core team, the drive marks the beginning of intensive practice sessions, peer learning circles, and algorithmic mentorship within the Community of Coders.",
+    prizePool: "N/A",
+    photos: [
+      "/photos/2026/CP Selections 2026/main.jpg",
+      "/photos/2026/CP Selections 2026/second.jpg",
+      "/photos/2026/CP Selections 2026/Screenshot_2026-11-13-16-45-57-110_com.instagram.android-edit.jpg",
+      "/photos/2026/CP Selections 2026/Screenshot_2026-11-13-16-46-27-902_com.instagram.android-edit.jpg",
+      "/photos/2026/CP Selections 2026/Screenshot_2026-11-13-16-46-56-539_com.instagram.android-edit.jpg",
+    ],
+  },
+  {
     id: "hello-world-2026",
     name: "Hello World – FY Domain Exhibition",
     date: "8th and 9th October 2026",

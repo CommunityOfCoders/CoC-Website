@@ -3,6 +3,12 @@ import Reveal from '../ui/Reveal';
 
 const ACTIVITY = [
   {
+    id: 'cp-club-selections-2026',
+    date: 'Nov 2026',
+    title: 'CP Club Selections 2026',
+    note: 'Competitive programming contest recruiting First Year (FY) and Second Year (SY) talent.',
+  },
+  {
     id: 'hello-world-2026',
     date: 'Oct 2026',
     title: 'Hello World – FY Domain Exhibition',

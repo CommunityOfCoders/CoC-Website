@@ -56,7 +56,7 @@ export type RawPPOInput = { company: string; ctc: string; members: number | stri
 
 const RAW_INTERNSHIPS: Record<string, RawInternshipInput[]> = {
   '2026': [
-    { company: 'Bank of America', stipend: '₹1.4L/mo', members: 3, ppos: '-' },
+    // { company: 'Bank of America', stipend: '₹1.4L/mo', members: 3, ppos: '-' },
     { company: 'Hilti', stipend: '₹80k/mo', members: 5, ppos: '-' },
     { company: 'BNY Mellon', stipend: '₹75k/mo', members: 13, ppos: '-' },
     { company: 'Barclays', stipend: '₹75k/mo', members: 1, ppos: '-' },
@@ -66,7 +66,7 @@ const RAW_INTERNSHIPS: Record<string, RawInternshipInput[]> = {
     { company: 'Axis AMC', stipend: '₹30k/mo', members: 9, ppos: '-' }
   ],
   '2025': [
-    { company: 'DE Shaw', stipend: '₹2.4L/mo', members: 1, ppos: '-' },
+    { company: 'DE Shaw', stipend: '₹2.4L/mo', members: 2, ppos: 1 },
     { company: 'Goldman Sachs', stipend: '₹1.65L/mo', members: 5, ppos: 3 },
     { company: 'Bank of America', stipend: '₹1.4L/mo', members: 5, ppos: 5 },
     { company: 'Google', stipend: '₹1.25L/mo', members: 2, ppos: 1 },
@@ -218,8 +218,8 @@ const RAW_INTERNSHIPS: Record<string, RawInternshipInput[]> = {
 
 const RAW_PLACEMENTS: Record<string, RawPlacementInput[]> = {
   '2026': [
-    { company: 'DE Shaw', ctc: '₹67L', members: 1, ppos: 1 },
-    { company: 'Google', ctc: '₹50L', members: 2, ppos: 2 },
+    { company: 'DE Shaw', ctc: '₹67L', members: 2, ppos: 1 },
+    { company: 'Google', ctc: '₹50L', members: 2, ppos: 1 },
     { company: 'Goldman Sachs', ctc: '₹30L', members: 4, ppos: 4 },
     { company: 'Morgan Stanley', ctc: '₹29L', members: 7, ppos: 7 },
     { company: 'Wells Fargo', ctc: '₹24L', members: 4, ppos: 4 },

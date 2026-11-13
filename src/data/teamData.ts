@@ -6,6 +6,7 @@ import AvanishImg from "../assets/Avanish.jpg";
 import NihiraImg from "../assets/Nihira.jpg";
 import KavishImg from "../assets/Kavish.jpg";
 import BiancaImg from "../assets/Bianca.jpg";
+import AndersenImg from "../assets/andersen.jpg";
 import AryanImg from "../assets/Aryan.png";
 import VaishnaviImg from "../assets/vaishnavi.jpeg";
 import AwwabImg from "../assets/Awwab.png";
@@ -24,6 +25,8 @@ import SudikshaImg from "../assets/sudiksha.jpg";
 import AayushImg from "../assets/aayush.jpg";
 import NathanImg from "../assets/nathan.jpg";
 import TanushImg from "../assets/tanush.jpg";
+import AkshatImg from "../assets/akshat.jpg";
+import SarangImg from "../assets/sarang.jpg";
 
 export interface TeamMember {
   id: string;
@@ -79,6 +82,16 @@ export const COUNCIL: TeamMember[] = [
     photo: BiancaImg,
     github: "https://github.com/star-lord1234",
     linkedin: "https://linkedin.com/in/bianca-sawant-ba7963308",
+  },
+  {
+    id: "andersen-dsa",
+    name: "Andersen Dsa",
+    role: "Open Source Head",
+    tagline: "Championing open source collaboration.",
+    bio: "Open Source Head at Community of Coders, leading open-source initiatives, community programs, and driving contributions across upstream repositories.",
+    photo: AndersenImg,
+    github: "https://github.com/andersendsa",
+    linkedin: "https://www.linkedin.com/in/andersen-dsa-800ba0294/",
   },
   {
     id: "aryan-daga",
@@ -180,58 +193,58 @@ export const TY_CORE: TeamMember[] = [
     tagline: "Helping our community learn, build, and grow together.",
     bio: "Third Year Core member at Community of Coders, dedicated to supporting club initiatives, mentoring peers, and helping our developer community grow stronger together.",
     photo: PurvashaImg,
-    github: "https://github.com/CommunityOfCoders",
-    linkedin: "https://www.linkedin.com/company/community-of-coders-vjti/",
+    github: "https://github.com/purrvax",
+    linkedin: "https://www.linkedin.com/in/purvasha-singh-941079333/",
   },
   {
-    id: "shreyas",
-    name: "Shreyas",
+    id: "shreyas-kulkarni",
+    name: "Shreyas Kulkarni",
     role: "TY CORE",
     tagline: "Helping our community learn, build, and grow together.",
     bio: "Third Year Core member at Community of Coders, dedicated to supporting club initiatives, mentoring peers, and helping our developer community grow stronger together.",
     photo: ShreyasImg,
-    github: "https://github.com/CommunityOfCoders",
-    linkedin: "https://www.linkedin.com/company/community-of-coders-vjti/",
+    github: "https://github.com/shreydudie",
+    linkedin: "https://www.linkedin.com/in/shreyas-kulkarni-a1a085334/",
   },
   {
     id: "rudrakshi",
-    name: "Rudrakshi",
+    name: "Rudrakshi Chincholkar",
     role: "TY CORE",
     tagline: "Helping our community learn, build, and grow together.",
     bio: "Third Year Core member at Community of Coders, dedicated to supporting club initiatives, mentoring peers, and helping our developer community grow stronger together.",
     photo: RudrakshiImg,
-    github: "https://github.com/CommunityOfCoders",
-    linkedin: "https://www.linkedin.com/company/community-of-coders-vjti/",
+    github: "https://github.com/RudrakshiChincholkar",
+    linkedin: "https://www.linkedin.com/in/rudrakshi-c/",
   },
   {
     id: "anushree",
-    name: "Anushree",
+    name: "Anushree Upasham",
     role: "TY CORE",
     tagline: "Helping our community learn, build, and grow together.",
     bio: "Third Year Core member at Community of Coders, dedicated to supporting club initiatives, mentoring peers, and helping our developer community grow stronger together.",
     photo: AnushreeImg,
-    github: "https://github.com/CommunityOfCoders",
-    linkedin: "https://www.linkedin.com/company/community-of-coders-vjti/",
+    github: "https://github.com/annuuxoxo",
+    linkedin: "https://www.linkedin.com/in/anushree-upasham/",
   },
   {
     id: "sudiksha",
-    name: "Sudiksha",
+    name: "Sudiksha Kadam",
     role: "TY CORE",
     tagline: "Helping our community learn, build, and grow together.",
     bio: "Third Year Core member at Community of Coders, dedicated to supporting club initiatives, mentoring peers, and helping our developer community grow stronger together.",
     photo: SudikshaImg,
-    github: "https://github.com/CommunityOfCoders",
-    linkedin: "https://www.linkedin.com/company/community-of-coders-vjti/",
+    github: "https://github.com/sudigit",
+    linkedin: "https://www.linkedin.com/in/sudiksha-kadam/",
   },
   {
-    id: "aayush",
-    name: "Aayush",
+    id: "aayush-pandey",
+    name: "Aayush Pandey",
     role: "TY CORE",
     tagline: "Helping our community learn, build, and grow together.",
     bio: "Third Year Core member at Community of Coders, dedicated to supporting club initiatives, mentoring peers, and helping our developer community grow stronger together.",
     photo: AayushImg,
-    github: "https://github.com/CommunityOfCoders",
-    linkedin: "https://www.linkedin.com/company/community-of-coders-vjti/",
+    github: "https://github.com/aayushpandeyv2vedtech",
+    linkedin: "https://www.linkedin.com/in/aayush-arun-pandey/",
   },
   {
     id: "nathan-dsouza",
@@ -240,8 +253,8 @@ export const TY_CORE: TeamMember[] = [
     tagline: "Helping our community learn, build, and grow together.",
     bio: "Third Year Core member at Community of Coders, dedicated to supporting club initiatives, mentoring peers, and helping our developer community grow stronger together.",
     photo: NathanImg,
-    github: "https://github.com/CommunityOfCoders",
-    linkedin: "https://www.linkedin.com/company/community-of-coders-vjti/",
+    github: "https://github.com/AsparkArcane",
+    linkedin: "https://www.linkedin.com/in/nathan-j-dsouza",
   },
   {
     id: "tanush-lokhande",
@@ -250,8 +263,28 @@ export const TY_CORE: TeamMember[] = [
     tagline: "Helping our community learn, build, and grow together.",
     bio: "Third Year Core member at Community of Coders, dedicated to supporting club initiatives, mentoring peers, and helping our developer community grow stronger together.",
     photo: TanushImg,
-    github: "https://github.com/CommunityOfCoders",
-    linkedin: "https://www.linkedin.com/company/community-of-coders-vjti/",
+    github: "https://github.com/tanushlokhande23",
+    linkedin: "https://www.linkedin.com/in/tanush-lokhande-allmyt/",
+  },
+  {
+    id: "akshat-chauhan",
+    name: "Akshat Chauhan",
+    role: "TY CORE",
+    tagline: "Helping our community learn, build, and grow together.",
+    bio: "Third Year Core member at Community of Coders, dedicated to supporting club initiatives, mentoring peers, and helping our developer community grow stronger together.",
+    photo: AkshatImg,
+    github: "https://github.com/akshat280706",
+    linkedin: "https://www.linkedin.com/in/akshat-chauhan2807/",
+  },
+  {
+    id: "sarang-meshte",
+    name: "Sarang Meshte",
+    role: "TY CORE",
+    tagline: "Helping our community learn, build, and grow together.",
+    bio: "Third Year Core member at Community of Coders, dedicated to supporting club initiatives, mentoring peers, and helping our developer community grow stronger together.",
+    photo: SarangImg,
+    github: "https://github.com/sarang80040",
+    linkedin: "https://www.linkedin.com/in/sarang-meshte",
   },
 ];
 
