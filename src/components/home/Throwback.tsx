@@ -34,7 +34,7 @@ const SLIDES: { id: string; img: string; title: string; year: string; pos?: stri
 // Tripled sets: Set A (clones before), Set B (main set), Set C (clones after) for seamless infinite looping
 const EXTENDED_SLIDES = [...SLIDES, ...SLIDES, ...SLIDES];
 
-const AUTOPLAY_MS = 4000;
+const AUTOPLAY_MS = 3000;
 
 const Throwback: React.FC = () => {
   const [index, setIndex] = useState(0);
