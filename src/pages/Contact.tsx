@@ -13,7 +13,7 @@ import {
   LinkedinColor,
 } from "../components/ui/BrandIcons";
 import grppic2 from "../assets/grppic2.jpg";
-import working3 from "../assets/working3.jpeg";
+import contactGroup from "../assets/contact-group.jpg";
 import "./Contact.css";
 
 const EMAIL = "communityofcoders@gmail.com";
@@ -264,7 +264,7 @@ const Contact: React.FC = () => {
               </div>
               <div className="ct-img-sub">
                 <img
-                  src={working3}
+                  src={contactGroup}
                   alt="Students collaborating at a CoC session"
                   loading="lazy"
                 />
