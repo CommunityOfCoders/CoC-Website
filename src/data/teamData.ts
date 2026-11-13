@@ -85,6 +85,16 @@ export const COUNCIL: TeamMember[] = [
     linkedin: "https://www.linkedin.com/in/kavish-nasta-4772a1218/",
   },
   {
+    id: "awwab-wadekar",
+    name: "Awwab Wadekar",
+    role: "CP Head",
+    tagline: "Growing the competitive programming culture.",
+    bio: "Leads the Competitive Programming wing, organizing contests, practice sessions, and coding challenges for the community.",
+    photo: AwwabImg,
+    github: "https://github.com/Once-1296",
+    linkedin: "https://www.linkedin.com/in/awwab-wadekar-a42a65330/",
+  },
+  {
     id: "andersen-dsa",
     name: "Andersen Dsa",
     role: "Open Source Head",
@@ -133,16 +143,6 @@ export const COUNCIL: TeamMember[] = [
     photo: AkshatImg,
     github: "https://github.com/akshat280706",
     linkedin: "https://www.linkedin.com/in/akshat-chauhan2807/",
-  },
-  {
-    id: "awwab-wadekar",
-    name: "Awwab Wadekar",
-    role: "CP Head",
-    tagline: "Growing the competitive programming culture.",
-    bio: "Leads the Competitive Programming wing, organizing contests, practice sessions, and coding challenges for the community.",
-    photo: AwwabImg,
-    github: "https://github.com/Once-1296",
-    linkedin: "https://www.linkedin.com/in/awwab-wadekar-a42a65330/",
   },
   {
     id: "jinmay-jhaveri",
