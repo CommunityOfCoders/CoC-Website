@@ -34,9 +34,9 @@ const WhatWeDo: React.FC = () => (
           <span className="eyebrow">What we do</span>
           <h2 className="section-title">Three things we do<br />seriously well.</h2>
         </div>
-        <p className="wwd__intro">
-          CoC runs on three pillars. Each one exists to close the gap between
-          "I'm learning this" and "I shipped this".
+        <p className="wwd__tag" aria-label="for the juniors, by the seniors" data-bg="SENIORS">
+          <span className="wwd__tag-a">for the juniors</span>
+          <span className="wwd__tag-b">by the seniors</span>
         </p>
       </div>
 
