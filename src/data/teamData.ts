@@ -64,16 +64,6 @@ export const COUNCIL: TeamMember[] = [
     linkedin: "https://www.linkedin.com/in/nihira-neralwar-307538337/",
   },
   {
-    id: "kavish-nasta",
-    name: "Kavish Nasta",
-    role: "AIDSET / BRAIN Secretary",
-    tagline: "Leading innovation through AI and technology.",
-    bio: "Secretary of AIDSET/BRAIN, driving initiatives, workshops, and projects that explore the future of artificial intelligence.",
-    photo: KavishImg,
-    github: "https://github.com/kavishnasta",
-    linkedin: "https://www.linkedin.com/in/kavish-nasta-4772a1218/",
-  },
-  {
     id: "bianca-sawant",
     name: "Bianca Sawant",
     role: "AIDSET / BRAIN Secretary",
@@ -82,6 +72,16 @@ export const COUNCIL: TeamMember[] = [
     photo: BiancaImg,
     github: "https://github.com/star-lord1234",
     linkedin: "https://linkedin.com/in/bianca-sawant-ba7963308",
+  },
+  {
+    id: "kavish-nasta",
+    name: "Kavish Nasta",
+    role: "AIDSET / BRAIN Secretary",
+    tagline: "Leading innovation through AI and technology.",
+    bio: "Secretary of AIDSET/BRAIN, driving initiatives, workshops, and projects that explore the future of artificial intelligence.",
+    photo: KavishImg,
+    github: "https://github.com/kavishnasta",
+    linkedin: "https://www.linkedin.com/in/kavish-nasta-4772a1218/",
   },
   {
     id: "andersen-dsa",
