@@ -218,18 +218,18 @@ const RAW_INTERNSHIPS: Record<string, RawInternshipInput[]> = {
 
 const RAW_PLACEMENTS: Record<string, RawPlacementInput[]> = {
   '2026': [
-    { company: 'DE Shaw', ctc: '₹67L', members: 2, ppos: 1 },
+    { company: 'DE Shaw', ctc: '₹67L', members: 2, ppos: 2 },
     { company: 'Google', ctc: '₹50L', members: 2, ppos: 1 },
-    { company: 'Goldman Sachs', ctc: '₹30L', members: 4, ppos: 4 },
-    { company: 'Morgan Stanley', ctc: '₹29L', members: 7, ppos: 7 },
+    { company: 'Goldman Sachs', ctc: '₹30L', members: 4, ppos: 1 },
+    { company: 'Morgan Stanley', ctc: '₹29L', members: 3, ppos: 2 },
     { company: 'Wells Fargo', ctc: '₹24L', members: 4, ppos: 4 },
-    { company: 'BNY Mellon', ctc: '₹22L', members: 7, ppos: 3 },
+    { company: 'BNY Mellon', ctc: '₹22L', members: 7, ppos: 6 },
     { company: 'BrowserStack', ctc: '₹22L', members: 2, ppos: '-' },
     { company: 'Oracle', ctc: '₹21.34L', members: 6, ppos: '-' },
     { company: 'JPMC', ctc: '₹19L', members: 4, ppos: 3 },
     { company: 'Bank of America', ctc: '₹18.9L', members: 5, ppos: 1 },
     { company: 'Citi Bank', ctc: '₹18L', members: 7, ppos: 7 },
-    { company: 'Hilti', ctc: '₹18L', members: 4, ppos: 4 },
+    { company: 'Hilti', ctc: '₹18L', members: 4, ppos: 3 },
     { company: 'Futures First', ctc: '₹17L', members: 1, ppos: '-' },
     { company: 'NPCI', ctc: '₹16L', members: 4, ppos: 4 },
     { company: 'Mahindra Finance', ctc: '₹16L', members: 5, ppos: '-' },
