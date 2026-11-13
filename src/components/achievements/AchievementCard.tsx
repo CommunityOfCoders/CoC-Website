@@ -6,7 +6,6 @@ import {
   useScroll,
   useTransform,
 } from 'framer-motion';
-import { Sparkles } from 'lucide-react';
 import type { Achievement } from '../../data/achievementsData';
 
 interface AchievementCardProps {
@@ -114,7 +113,7 @@ export const AchievementCard: React.FC<AchievementCardProps> = ({
             <motion.div className="achievement-card__desc-box" {...reveal(0.3)}>
               <div className="achievement-card__desc-header">
                 <span className="achievement-card__tag">
-                  <Sparkles size={12} /> {achievement.tag}
+                  {achievement.tag}
                 </span>
               </div>
 

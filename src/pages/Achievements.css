@@ -331,17 +331,19 @@
   justify-content: space-between;
 }
 
+/* same label style as .eyebrow used across the site: tick + tracked mono */
 .achievement-card__tag {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  gap: 10px;
   font-family: var(--font-mono);
-  font-size: 0.74rem;
-  letter-spacing: 0.14em;
+  font-size: 0.72rem;
+  letter-spacing: 0.22em;
   text-transform: uppercase;
-  color: var(--accent);
-  font-weight: 500;
+  color: var(--fg-dim);
+  font-weight: 400;
 }
+.achievement-card__tag::before { content: ''; width: 22px; height: 2px; background: var(--accent); flex-shrink: 0; }
 
 .achievement-card__desc-title {
   font-family: var(--font-display);
@@ -394,17 +396,14 @@
 .achievement-lightbox__tag-pill {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  padding: 6px 16px;
-  background: var(--accent-soft);
-  border: 1px solid rgba(29, 185, 84, 0.3);
-  border-radius: var(--r-pill);
+  gap: 10px;
   font-family: var(--font-mono);
-  font-size: 0.76rem;
-  letter-spacing: 0.12em;
+  font-size: 0.72rem;
+  letter-spacing: 0.22em;
   text-transform: uppercase;
-  color: var(--accent);
+  color: var(--fg-dim);
 }
+.achievement-lightbox__tag-pill::before { content: ''; width: 22px; height: 2px; background: var(--accent); flex-shrink: 0; }
 
 .achievement-lightbox__desc {
   font-size: 0.95rem;

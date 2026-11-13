@@ -2,7 +2,7 @@ import React, { useEffect, useCallback, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import type { PanInfo } from 'framer-motion';
-import { X, ChevronLeft, ChevronRight, Sparkles } from 'lucide-react';
+import { X, ChevronLeft, ChevronRight } from 'lucide-react';
 import type { Achievement } from '../../data/achievementsData';
 
 interface AchievementLightboxProps {
@@ -149,7 +149,7 @@ export const AchievementLightbox: React.FC<AchievementLightboxProps> = ({
             transition={{ duration: 0.45, ease: EASE, delay: 0.05 }}
           >
             <div className="achievement-lightbox__tag-pill">
-              <Sparkles size={14} /> {current.tag}
+              {current.tag}
             </div>
             <div className="achievement-lightbox__counter" aria-live="polite">
               <strong>{pad(currentIndex! + 1)}</strong> / {pad(total)}
