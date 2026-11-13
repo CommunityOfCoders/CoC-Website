@@ -14,7 +14,6 @@ import { TimelineContent } from "../components/ui/TimelineContent";
 import Reveal from "../components/ui/Reveal";
 import { Tilt } from "../components/ui/Tilt";
 import Magnetic from "../components/ui/Magnetic";
-import CountUp from "../components/ui/CountUp";
 import { EVENTS, type CoCEvent } from "../data/eventsData";
 import photo2 from "../assets/2.jpg";
 import photo3 from "../assets/3.jpg";
@@ -1054,16 +1053,6 @@ const PastEvents: React.FC = () => {
             >
               From late-night hackathons to quiet Sunday workshops - a running
               record of what we've built together, one gathering at a time.
-            </TimelineContent>
-            <TimelineContent
-              as="span"
-              animationNum={3}
-              timelineRef={headRef}
-              customVariants={introVariants}
-              once
-              className="ev-page__count"
-            >
-              <CountUp to={EVENTS.length} duration={1.2} /> events · 2016–2026
             </TimelineContent>
           </div>
         </div>
