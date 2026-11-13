@@ -282,28 +282,25 @@
   color: rgba(245, 247, 245, 0.55);
 }
 
-/* Solid, sharp engineering prize tag - 100% opaque, zero glassmorphism */
+/* prize: no box - same tracked mono caps as the date, amount in the accent */
+.ev-card__meta { justify-content: space-between; }
 .ev-card__prize {
   display: inline-flex;
-  align-items: center;
+  align-items: baseline;
+  gap: 7px;
   font-family: var(--font-mono);
-  font-size: 0.62rem;
-  font-weight: 700;
+  font-size: 0.6rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
   line-height: 1;
-  letter-spacing: 0.04em;
-  color: var(--accent);
-  background: #0E100F;
-  border: 1px solid #282C2A;
-  border-radius: 3px;
-  padding: 3px 8px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.6);
-  vertical-align: middle;
-  transition: border-color 0.25s var(--ease), background 0.25s var(--ease);
 }
-
-.ev-card:hover .ev-card__prize {
-  border-color: rgba(29, 185, 84, 0.6);
-  background: #141715;
+.ev-card__prize-k { color: rgba(245, 247, 245, 0.55); }
+.ev-card__prize-v {
+  color: var(--accent);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: none;
 }
 .ev-card__name {
   font-size: clamp(1rem, 2vw, 1.25rem);

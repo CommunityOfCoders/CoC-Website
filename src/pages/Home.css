@@ -678,3 +678,8 @@
   .wwd__tag-big--fill::after { transform: translate(-12px, -10px); }
   .wwd__tag-small--by { margin-top: 22px; }
 }
+
+/* stats in the 2x2 layout: the 4th cell sits right of the divider, so it gets the same left padding as the 2nd */
+@media (max-width: 900px) {
+  .stats__item:nth-child(4) { padding-left: clamp(20px, 3vw, 40px) !important; }
+}
