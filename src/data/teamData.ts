@@ -183,6 +183,26 @@ export const COUNCIL: TeamMember[] = [
     github: "https://github.com/PratikShewale21",
     linkedin: "https://www.linkedin.com/in/pratik-shewale-829194338",
   },
+  {
+    id: "akshat-chauhan",
+    name: "Akshat Chauhan",
+    role: "Cyber Head",
+    tagline: "Securing the community, one exploit at a time.",
+    bio: "Cyber Head at Community of Coders, leading cybersecurity initiatives, CTFs, and workshops that build security skills across the community.",
+    photo: AkshatImg,
+    github: "https://github.com/akshat280706",
+    linkedin: "https://www.linkedin.com/in/akshat-chauhan2807/",
+  },
+  {
+    id: "sarang-meshte",
+    name: "Sarang Meshte",
+    role: "ETH Head",
+    tagline: "Building the future on-chain.",
+    bio: "ETH Head at Community of Coders, leading blockchain and Ethereum initiatives, bootcamps, and events across the community.",
+    photo: SarangImg,
+    github: "https://github.com/sarang80040",
+    linkedin: "https://www.linkedin.com/in/sarang-meshte",
+  },
 ];
 
 export const TY_CORE: TeamMember[] = [
@@ -265,26 +285,6 @@ export const TY_CORE: TeamMember[] = [
     photo: TanushImg,
     github: "https://github.com/tanushlokhande23",
     linkedin: "https://www.linkedin.com/in/tanush-lokhande-allmyt/",
-  },
-  {
-    id: "akshat-chauhan",
-    name: "Akshat Chauhan",
-    role: "TY CORE",
-    tagline: "Helping our community learn, build, and grow together.",
-    bio: "Third Year Core member at Community of Coders, dedicated to supporting club initiatives, mentoring peers, and helping our developer community grow stronger together.",
-    photo: AkshatImg,
-    github: "https://github.com/akshat280706",
-    linkedin: "https://www.linkedin.com/in/akshat-chauhan2807/",
-  },
-  {
-    id: "sarang-meshte",
-    name: "Sarang Meshte",
-    role: "TY CORE",
-    tagline: "Helping our community learn, build, and grow together.",
-    bio: "Third Year Core member at Community of Coders, dedicated to supporting club initiatives, mentoring peers, and helping our developer community grow stronger together.",
-    photo: SarangImg,
-    github: "https://github.com/sarang80040",
-    linkedin: "https://www.linkedin.com/in/sarang-meshte",
   },
 ];
 
