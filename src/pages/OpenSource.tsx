@@ -228,6 +228,9 @@ function ContributorDrawer({ contributor, isOpen, onClose }: DrawerProps) {
         aria-labelledby="os-drawer-name"
         tabIndex={-1}
       >
+        <button type="button" className="os-drawer-mclose" onClick={onClose} aria-label="Close details">
+          <X size={18} />
+        </button>
         <div className="os-drawer-content">
           <h2 id="os-drawer-name" className="os-drawer-name">
             <span className="os-drawer-name__first">{firstNames}</span>

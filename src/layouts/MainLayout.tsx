@@ -62,7 +62,7 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children, route }) => {
     <div className="shell">
       {/* Global Background Layer: FluxLines on black canvas */}
       <div className="site-flux-bg" aria-hidden="true">
-        <FluxLines />
+        <FluxLines dpr={window.matchMedia("(max-width: 768px)").matches ? 1 : undefined} />
       </div>
 
       <header className={`nav${scrolled ? " nav--scrolled" : ""}`}>

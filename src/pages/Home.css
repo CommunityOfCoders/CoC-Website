@@ -655,4 +655,26 @@
   .act__item { grid-template-columns: 1fr; gap: 8px; }
 }
 
-
+/* ================================================================
+   PHONE LAYOUT - grids stay multi-column, tagline tightened.
+   Desktop/tablet rules above are untouched.
+   ================================================================ */
+@media (max-width: 560px) {
+  .wwd__grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+  .pillar--feat { grid-column: 1 / -1; order: -1; }
+  .pillar__link { padding: 18px 16px; gap: 12px; }
+  .pillar__title { font-size: 1.2rem; }
+  .pillar__text { font-size: 0.8rem; margin-top: 6px; }
+  .pillar__go { font-size: 0.72rem; }
+  .pillar__icon { transform: scale(0.85); transform-origin: left top; }
+  .ethos__grid { grid-template-columns: 1fr 1fr; }
+  .ethos__item { padding: 20px 14px; }
+  .ethos__title { font-size: 1.1rem; }
+  .ethos__text { font-size: 0.8rem; }
+  .wwd__tag { margin: 8px 0 18px; }
+  .wwd__tag-big--out::before { transform: translate(6px, 5px); }
+  .wwd__tag-big--out::after { transform: translate(12px, 10px); }
+  .wwd__tag-big--fill::before { transform: translate(-6px, -5px); }
+  .wwd__tag-big--fill::after { transform: translate(-12px, -10px); }
+  .wwd__tag-small--by { margin-top: 22px; }
+}

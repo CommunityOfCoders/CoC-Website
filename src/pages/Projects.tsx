@@ -362,6 +362,9 @@ function ProjectDrawer({ project, isOpen, onClose }: DrawerProps) {
         aria-label={project.name}
         tabIndex={-1}
       >
+        <button type="button" className="drawer-mclose" onClick={onClose} aria-label="Close details">
+          <X size={18} />
+        </button>
         <div className="drawer-content">
           {/* Big display title — outlined first part + accent last word */}
           <h2 className="drawer-title">

@@ -838,3 +838,42 @@ body.project-panel-open .nav {
 .drawer-author-chip:hover .drawer-author-chip__ext {
   opacity: 1;
 }
+
+/* ================================================================
+   PHONE LAYOUT - 2-col card grid, hero that fits, no overlap.
+   Desktop rules above are untouched.
+   ================================================================ */
+@media (max-width: 767px) {
+  .projects-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+  .project-card { border-radius: var(--r-sm); }
+  .project-card__body { padding: 12px; }
+  .project-card__header { flex-direction: column-reverse; align-items: flex-start; gap: 6px; margin-bottom: 6px; }
+  .project-card__title { font-size: 0.95rem; }
+  .project-card__badge { font-size: 0.6rem; padding: 2px 8px; }
+  .project-card__tagline { font-size: 0.74rem; margin-bottom: 10px; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+  .project-card__tech { gap: 4px; margin-bottom: 10px; }
+  .project-card__tech .tech-chip:nth-child(n+3) { display: none; }
+  .project-card__link { display: none; }
+  .project-card__footer { padding-top: 8px; }
+  .projects-browse__sticky-header { position: static; }
+}
+@media (max-width: 640px) {
+  .projects-hero { height: auto; min-height: 0; padding: 104px 0 40px; overflow: visible; display: block; }
+  .projects-title { font-size: clamp(2.8rem, 15vw, 4rem); }
+  .projects-hero__actions { margin-bottom: 28px; }
+  .projects-stats { gap: 20px; }
+  .projects-hero__visual { height: auto; align-items: stretch; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .projects-hero__visual .floating-preview { position: static; width: auto; transform: none; animation: none; }
+  .projects-hero__visual .floating-preview:nth-child(3) { grid-column: 1 / -1; }
+  .floating-preview__info { padding: 12px; }
+  .projects-scroll-hint { display: none; }
+  .drawer-panel .drawer-mclose { display: flex; }
+  .drawer-title { padding-right: 44px; }
+}
+.drawer-mclose {
+  display: none;
+  position: absolute; top: 12px; right: 14px; z-index: 5;
+  width: 36px; height: 36px; border-radius: var(--r-pill);
+  align-items: center; justify-content: center;
+  background: rgba(245,247,245,0.08); border: 1px solid var(--line-2); color: var(--fg);
+}

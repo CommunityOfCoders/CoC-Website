@@ -210,10 +210,6 @@ const Contact: React.FC = () => {
                 </a>
               </div>
               <span className="ct-email-hint">click to copy </span>
-              <span className="ct-status">
-                <span className="ct-status-dot" />
-                usually replies within a few hours
-              </span>
             </Reveal>
 
             <Reveal delay={0.32}>

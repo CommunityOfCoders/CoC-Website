@@ -175,3 +175,17 @@
 @media (max-width: 560px) {
   .ct-soc-cluster { transform: scale(0.86); transform-origin: left top; }
 }
+
+/* phone: badge stays inside the screen, community cards stay 2-up */
+@media (max-width: 560px) {
+  .ct-badge { left: 0; }
+  .ct-media-shape { right: 0; }
+  .ct-also-grid { flex-direction: row; gap: 10px; }
+  .ct-comm { flex: 1 1 calc(50% - 10px); padding: 14px; }
+}
+
+/* small phones: keep the e-mail inside the column */
+@media (max-width: 420px) {
+  .ct-hero { grid-template-columns: minmax(0, 1fr); }
+  .ct-email-line { font-size: clamp(0.95rem, 4.8vw, 1.35rem); }
+}

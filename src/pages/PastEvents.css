@@ -920,3 +920,20 @@
   .ev-drawer-content { padding: 24px 20px 40px; }
 }
 
+/* ================================================================
+   PHONE LAYOUT (<=560px) - keep the 2-col grid, compact cards.
+   Desktop/tablet rules above are untouched.
+   ================================================================ */
+@media (max-width: 560px) {
+  .ev-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+  .ev-card { min-height: 230px; border-radius: var(--r-sm); }
+  .ev-card::before {
+    background: linear-gradient(to bottom, rgba(7,8,8,0.05) 0%, rgba(7,8,8,0.3) 35%, rgba(7,8,8,0.88) 68%, rgba(7,8,8,0.96) 100%);
+  }
+  .ev-card__overlay { padding: 10px 10px 12px; gap: 4px; }
+  .ev-card__name { font-size: 0.92rem; }
+  .ev-card__summary { display: none; }
+  .ev-card__meta { gap: 6px; }
+  .ev-card__date { font-size: 0.56rem; letter-spacing: 0.08em; }
+  .ev-card .ev-slider__arrow { display: none; }
+}
