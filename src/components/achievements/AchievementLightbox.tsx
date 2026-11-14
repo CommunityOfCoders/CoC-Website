@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback, useRef } from 'react';
+import React, { useEffect, useCallback, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import type { PanInfo } from 'framer-motion';
@@ -37,6 +37,21 @@ export const AchievementLightbox: React.FC<AchievementLightboxProps> = ({
   const dirRef = useRef(1);
   const rootRef = useRef<HTMLDivElement>(null);
   const total = achievements.length;
+  const [shot, setShot] = useState(0);
+  useEffect(() => setShot(0), [currentIndex]);
+  const shots = current ? [current.src, ...(current.gallery ?? [])] : [];
+  const shotDir = useRef(1);
+  const [hold, setHold] = useState(false);
+  const shotIdx = Math.min(shot, Math.max(shots.length - 1, 0));
+
+  useEffect(() => {
+    if (!isOpen || shots.length < 2 || hold) return;
+    const t = window.setTimeout(() => {
+      shotDir.current = 1;
+      setShot((i) => (i + 1) % shots.length);
+    }, 2200);
+    return () => window.clearTimeout(t);
+  }, [isOpen, shots.length, shotIdx, hold]);
 
   const handlePrev = useCallback(() => {
     if (currentIndex === null) return;
@@ -209,12 +224,38 @@ export const AchievementLightbox: React.FC<AchievementLightboxProps> = ({
                 }}
               >
                 <div className="achievement-lightbox__img-wrapper">
-                  <img
-                    src={current.src}
-                    alt={current.alt}
-                    className="achievement-lightbox__img"
-                    draggable={false}
-                  />
+                  <div className={`achievement-lightbox__frame${shots.length > 1 ? ' is-gallery' : ''}`} onMouseEnter={() => setHold(true)} onMouseLeave={() => setHold(false)}>
+                  <AnimatePresence initial={false} custom={shotDir.current} >
+                    <motion.img
+                      key={shotIdx}
+                      src={shots[shotIdx]}
+                      alt={current.alt}
+                      className="achievement-lightbox__img"
+                      draggable={false}
+                      custom={shotDir.current}
+                      variants={{
+                        enter: (d: number) => ({ x: d > 0 ? '100%' : '-100%', opacity: 0 }),
+                        center: { x: 0, opacity: 1 },
+                        exit: (d: number) => ({ x: d > 0 ? '-100%' : '100%', opacity: 0 }),
+                      }}
+                      initial="enter"
+                      animate="center"
+                      exit="exit"
+                      transition={{ duration: 0.5, ease: EASE }}
+                    />
+                  </AnimatePresence>
+                  {shots.length > 1 && (
+                    <>
+                      <div className="achievement-lightbox__shots">
+                        {shots.map((_, i) => (
+                          <button key={i} type="button" className={i === shotIdx ? 'is-on' : ''} aria-label={`Photo ${i + 1} of ${shots.length}`}
+                            onMouseDown={(e) => e.stopPropagation()}
+                            onClick={(e) => { e.stopPropagation(); shotDir.current = i > shotIdx ? 1 : -1; setShot(i); }} />
+                        ))}
+                      </div>
+                    </>
+                  )}
+                  </div>
                 </div>
 
                 <div className="achievement-lightbox__footer">

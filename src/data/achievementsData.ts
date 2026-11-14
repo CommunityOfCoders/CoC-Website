@@ -7,9 +7,14 @@ export interface Achievement {
   highlights: string[];
   src: string;
   alt: string;
+  gallery?: string[];
 }
 
+import awc2 from '../assets/achievements-extra/icpc-awc-2.jpg';
+import awc3 from '../assets/achievements-extra/icpc-awc-3.jpg';
+
 interface MetaItem {
+  gallery?: string[];
   title: string;
   tag: string;
   description: string;
@@ -167,6 +172,13 @@ const METADATA_MAP: Record<string, MetaItem> = {
     description: "CoC VJTI students selected for Google Summer of Code (GSoC) 2025, contributing to top global open-source organizations including Intel, CERN-HSF, SymPy, and OREL.",
     highlights: ["Vidhi Rohira", "Kevin Shah", "Aarya Pandey", "Prasanna Kasar", "Sourish Phate", "Rushabh Mehta", "Swayam Shah"],
   },
+  achievement_25_5: {
+    title: "ICPC Asia West Continent Finals 2026 - GLA University, Mathura",
+    tag: "ICPC ASIA WEST FINALS",
+    description: "Qualified through the ICPC Amritapuri Regional (national level, 36th rank) and competed at the ICPC Asia West Finals, GLA University, Mathura on 8 March 2026 - an international contest with 80+ teams from India, Pakistan, Iran and Bangladesh.",
+    highlights: ["Abhay Upadhyay", "Soham Rane", "Amal Verma", "36th Rank Amritapuri", "80+ Teams"],
+    gallery: [awc2, awc3],
+  },
   achievement_26: {
     title: "Google Summer of Code (GSoC) 2026 Scholars",
     tag: "GSOC 2026",
@@ -218,6 +230,7 @@ function parseAchievements(): Achievement[] {
         highlights: meta.highlights,
         src: url,
         alt: meta.title,
+        gallery: meta.gallery,
       };
     });
 
