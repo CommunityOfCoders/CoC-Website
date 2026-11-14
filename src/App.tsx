@@ -8,6 +8,7 @@ import Placements from './pages/Placements';
 import Contact from './pages/Contact';
 import Projects from "./pages/Projects";
 import Achievements from "./pages/Achievements";
+import CompetitiveProgramming from "./pages/CompetitiveProgramming";
 import './App.css';
 
 const normalize = (hash: string) => (hash === '#' ? '' : hash);
@@ -30,6 +31,7 @@ function App() {
       case '#events': return <PastEvents />;
       case '#projects': return <Projects />;
       case '#opensource': return <OpenSource />;
+      case '#cp': return <CompetitiveProgramming />;
       case '#achievements': return <Achievements />;
       case '#team': return <Team />;
       case '#placements': return <Placements />;

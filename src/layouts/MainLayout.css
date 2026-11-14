@@ -70,12 +70,13 @@ body.modal-open .nav {
 }
 
 /* links */
-.nav__links { display: flex; align-items: center; gap: 4px; }
+.nav__links { display: flex; align-items: center; gap: 2px; }
 .nav__link {
   position: relative;
-  padding: 8px 14px;
-  font-size: 0.9rem;
+  padding: 8px 10px;
+  font-size: 0.84rem;
   font-weight: 500;
+  white-space: nowrap;
   color: var(--fg-dim);
   border-radius: var(--r-pill);
   transition: color 0.2s var(--ease), background 0.2s var(--ease);
@@ -85,10 +86,11 @@ body.modal-open .nav {
 .nav__link.is-active::after {
   content: '';
   position: absolute;
-  left: 14px; right: 14px; bottom: 2px;
+  left: 10px; right: 10px; bottom: 2px;
   height: 2px;
   background: var(--accent);
 }
+.nav__link--stack { width: 92px; text-align: center; white-space: normal; line-height: 1.05; font-size: 0.74rem; padding: 6px 10px; }
 .nav__link:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 
 .nav__cta { padding: 11px 18px; font-size: 0.78rem; }

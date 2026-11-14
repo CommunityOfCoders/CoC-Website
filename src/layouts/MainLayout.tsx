@@ -15,6 +15,7 @@ const NAV = [
   { label: "Events", hash: "#events" },
   { label: "Projects", hash: "#projects" },
   { label: "Opensource", hash: "#opensource" },
+  { label: "Competitive Programming", hash: "#cp" },
   { label: "Achievements", hash: "#achievements" },
   { label: "Team", hash: "#team" },
   { label: "Placements", hash: "#placements" },
@@ -88,7 +89,7 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children, route }) => {
               <a
                 key={item.label}
                 href={item.hash || "#"}
-                className={`nav__link${isActive(item.hash) ? " is-active" : ""}`}
+                className={`nav__link${item.hash === "#cp" ? " nav__link--stack" : ""}${isActive(item.hash) ? " is-active" : ""}`}
                 aria-current={isActive(item.hash) ? "page" : undefined}
               >
                 {item.label}
