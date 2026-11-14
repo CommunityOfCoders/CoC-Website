@@ -19,6 +19,8 @@ const PhotoBand: React.FC = () => {
   );
   const y = useTransform(scrollYProgress, [0, 1], ['-9%', '9%']);
   const scale = useTransform(scrollYProgress, [0, 0.5], [1.12, 1]);
+  /* green halftone print that dissolves into the real colours as the frame opens */
+  const print = useTransform(scrollYProgress, [0.08, 0.4], [1, 0]);
 
   return (
     <section className="band" ref={ref}>
@@ -30,6 +32,16 @@ const PhotoBand: React.FC = () => {
             style={reduce ? { objectPosition: '50% 62%' } : { y, scale, objectPosition: '50% 62%' }}
             loading="lazy"
           />
+          {!reduce && (
+            <motion.img
+              className="band__print"
+              src="/photos/2025/codeverse-band-halftone.jpg"
+              alt=""
+              aria-hidden="true"
+              style={{ y, scale, opacity: print, objectPosition: '50% 62%' }}
+              loading="lazy"
+            />
+          )}
           <div className="band__shade" aria-hidden />
           <p className="band__cap">
             <span>The beginning, CODEVERSE 2025</span>
