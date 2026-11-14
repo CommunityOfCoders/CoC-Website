@@ -15,7 +15,7 @@ const NAV = [
   { label: "Events", hash: "#events" },
   { label: "Projects", hash: "#projects" },
   { label: "Opensource", hash: "#opensource" },
-  { label: "Competitive Programming", hash: "#cp" },
+  { label: "Competitive Programming", hash: "#cp", external: "https://vjti-competitive-programming-club-s.vercel.app/" },
   { label: "Achievements", hash: "#achievements" },
   { label: "Team", hash: "#team" },
   { label: "Placements", hash: "#placements" },
@@ -88,7 +88,8 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children, route }) => {
             {NAV.map((item) => (
               <a
                 key={item.label}
-                href={item.hash || "#"}
+                href={item.external ?? (item.hash || "#")}
+                {...(item.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
                 className={`nav__link${item.hash === "#cp" ? " nav__link--stack" : ""}${isActive(item.hash) ? " is-active" : ""}`}
                 aria-current={isActive(item.hash) ? "page" : undefined}
               >
@@ -131,7 +132,8 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children, route }) => {
           {NAV.map((item) => (
             <a
               key={item.label}
-              href={item.hash || "#"}
+              href={item.external ?? (item.hash || "#")}
+              {...(item.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
               className={`nav__drawer-link${isActive(item.hash) ? " is-active" : ""}`}
             >
               {item.label}
@@ -171,7 +173,7 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children, route }) => {
               <div className="footer__col">
                 <span className="footer__col-title">Explore</span>
                 {NAV.slice(1, 6).map((i) => (
-                  <a key={i.label} href={i.hash} className="footer__link">
+                  <a key={i.label} href={i.external ?? i.hash} {...(i.external ? { target: "_blank", rel: "noopener noreferrer" } : {})} className="footer__link">
                     {i.label}
                   </a>
                 ))}
