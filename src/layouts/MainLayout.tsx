@@ -79,7 +79,7 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children, route }) => {
               }}
             />
             <span className="brand__meta">
-              Community of Coders<em>VJTI · Matunga</em>
+              Community of Coders<em>VJTI · Mumbai</em>
             </span>
           </a>
 

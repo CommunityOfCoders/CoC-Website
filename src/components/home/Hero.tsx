@@ -57,7 +57,7 @@ const Hero: React.FC = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
           >
-            Student-run · VJTI Matunga
+            Student-run · VJTI Mumbai
           </motion.span>
 
           <h1 className="hero__title" aria-label="Code. Create. Connect.">
