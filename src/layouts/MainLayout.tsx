@@ -100,12 +100,19 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children, route }) => {
             href="https://instagram.com/coc_vjti"
             target="_blank"
             rel="noreferrer"
-            className="btn nav__cta"
-            aria-label="Instagram"
+            className="btn nav__cta ig-btn"
+            aria-label="Instagram, @coc_vjti"
           >
-            <Instagram />
-            <span>Instagram</span>
-            <ArrowUpRight />
+            <span className="ig-btn__fill" aria-hidden="true" />
+            <Instagram className="ig-btn__icon" />
+            <span className="ig-btn__roll" aria-hidden="true">
+              <span>Instagram</span>
+              <span>@coc_vjti</span>
+            </span>
+            <span className="ig-btn__arrow" aria-hidden="true">
+              <ArrowUpRight />
+              <ArrowUpRight />
+            </span>
           </a>
 
           <button
