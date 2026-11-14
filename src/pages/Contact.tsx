@@ -5,7 +5,7 @@ import {
   useSpring,
   useReducedMotion,
 } from "framer-motion";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowUpRight, Globe } from "lucide-react";
 import Reveal from "../components/ui/Reveal";
 import {
   Github,
@@ -27,6 +27,9 @@ interface Social {
   cls?: string;
   size?: number;
 }
+
+/* website mark in the site accent */
+const WebMark: IconType = (props) => <Globe {...props} color="#1DB954" strokeWidth={1.75} />;
 
 /* CoC's own channels - shown big, front and centre */
 const COC_SOCIALS: Social[] = [
@@ -95,6 +98,13 @@ const NETWORK: { name: string; socials: Social[] }[] = [
         href: "https://linkedin.com/company/cp-club-vjti",
         tip: "CP Club, VJTI",
         Icon: LinkedinColor,
+        size: 30,
+      },
+      {
+        label: "Website",
+        href: "https://vjti-competitive-programming-club-s.vercel.app/",
+        tip: "CP Club website",
+        Icon: WebMark,
         size: 30,
       },
     ],
