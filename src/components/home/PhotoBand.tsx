@@ -32,7 +32,7 @@ const PhotoBand: React.FC = () => {
           />
           <div className="band__shade" aria-hidden />
           <p className="band__cap">
-            <span>CodeVerse 2025</span>
+            <span>The beginning, CODEVERSE 2025</span>
           </p>
         </motion.div>
       </a>
