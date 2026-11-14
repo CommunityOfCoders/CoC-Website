@@ -25,14 +25,14 @@ const PhotoBand: React.FC = () => {
       <a href="#events?id=codeverse" aria-label="View CodeVerse details" style={{ display: 'block', textDecoration: 'none', color: 'inherit' }}>
         <motion.div className="band__frame" style={reduce ? undefined : { clipPath: clip }}>
           <motion.img
-            src="/photos/2025/codeverseteam.jpg"
+            src="/photos/2025/codeverse-band.jpg"
             alt="The CoC community gathered after an event"
-            style={reduce ? undefined : { y, scale }}
+            style={reduce ? { objectPosition: '50% 62%' } : { y, scale, objectPosition: '50% 62%' }}
             loading="lazy"
           />
           <div className="band__shade" aria-hidden />
           <p className="band__cap">
-            <span>The community, after CodeVerse</span>
+            <span>CodeVerse 2025</span>
           </p>
         </motion.div>
       </a>
