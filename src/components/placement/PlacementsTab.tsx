@@ -23,6 +23,7 @@ export const PlacementsTab: React.FC = () => {
           <p>{totalOffers} offers · {totalCompanies} companies</p>
         </div>
 
+        {AVAILABLE_YEARS.length > 1 && (
         <div className="placement-controls">
           <div className="pill-group">
             {AVAILABLE_YEARS.map((year) => (
@@ -36,6 +37,7 @@ export const PlacementsTab: React.FC = () => {
             ))}
           </div>
         </div>
+        )}
       </div>
 
       <div className="placement-table-wrapper">

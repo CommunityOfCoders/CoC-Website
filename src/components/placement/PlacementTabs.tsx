@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 
-export type TabType = 'internships' | 'placements' | 'ppos' | 'yoy';
+export type TabType = 'internships' | 'placements' | 'ppos';
 
 interface PlacementTabsProps {
   activeTab: TabType;
@@ -12,7 +12,6 @@ const tabs: { id: TabType; label: string }[] = [
   { id: 'internships', label: 'Internships' },
   { id: 'placements', label: 'Placements' },
   { id: 'ppos', label: 'PPOs' },
-  { id: 'yoy', label: 'Year-on-Year' },
 ];
 
 export const PlacementTabs: React.FC<PlacementTabsProps> = ({ activeTab, onSelectTab }) => {

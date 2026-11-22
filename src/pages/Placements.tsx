@@ -6,8 +6,7 @@ import {
   type TabType,
   InternshipsTab,
   PlacementsTab,
-  PPOsTab,
-  YearOnYearTab
+  PPOsTab
 } from '../components/placement';
 import '../components/placement/placement.css';
 
@@ -30,7 +29,6 @@ const Placements: React.FC = () => {
           {activeTab === 'internships' && <InternshipsTab />}
           {activeTab === 'placements' && <PlacementsTab />}
           {activeTab === 'ppos' && <PPOsTab />}
-          {activeTab === 'yoy' && <YearOnYearTab />}
         </motion.div>
       </AnimatePresence>
     </main>
