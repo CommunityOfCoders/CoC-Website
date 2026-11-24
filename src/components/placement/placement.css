@@ -437,3 +437,5 @@
 
 .col-company { white-space: nowrap; }
 .col-company span { white-space: nowrap; }
+.company-logo-tile.is-inset { padding: 4px; }
+.company-logo-tile.is-inset img { transform: none; }
