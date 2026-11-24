@@ -51,7 +51,6 @@ export const InternshipsTab: React.FC = () => {
               <th>COMPANY</th>
               <th>STIPEND</th>
               <th>MEMBERS</th>
-              <th>PPOS</th>
             </tr>
           </thead>
           <AnimatePresence mode="wait">
@@ -73,13 +72,6 @@ export const InternshipsTab: React.FC = () => {
                   </td>
                   <td className="col-stipend">{item.stipend}</td>
                   <td className="col-members">{item.members}</td>
-                  <td>
-                    {item.ppos !== '-' && Number(item.ppos) > 0 ? (
-                      <span className="col-ppos">{item.ppos}</span>
-                    ) : (
-                      <span className="col-ppos-none">-</span>
-                    )}
-                  </td>
                 </tr>
               ))}
             </motion.tbody>
