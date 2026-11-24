@@ -5,10 +5,23 @@ export interface Achievement {
   tag: string;
   description: string;
   highlights: string[];
+  /** the people behind it (split out of `highlights`) */
+  people: string[];
+  /** everything else in `highlights`: teams, prizes, places, sponsors */
+  facts: string[];
   src: string;
   alt: string;
   gallery?: string[];
 }
+
+/* `highlights` mixes names with facts ("INR 1,50,000 Prize", "Team SKS",
+   "GLA University"). Anything that reads like a fact goes to `facts`, the
+   rest are people. */
+const FACT = /\d|team |university|cern|quantum|healthcare|bounty|cybersecurity|initiative|finalist|finale|prize|bank|->|devfolio|ethglobal|iiitdm|acm-w|runner-up|witness|filecoin|arbitrum|octave|ml4sci|julia|winners|position|sih/i;
+const splitHighlights = (h: string[]) => ({
+  people: h.filter((x) => !FACT.test(x)),
+  facts: h.filter((x) => FACT.test(x)),
+});
 
 import awc2 from '../assets/achievements-extra/icpc-awc-2.jpg';
 import awc3 from '../assets/achievements-extra/icpc-awc-3.jpg';
@@ -228,6 +241,7 @@ function parseAchievements(): Achievement[] {
         tag: meta.tag,
         description: meta.description,
         highlights: meta.highlights,
+        ...splitHighlights(meta.highlights),
         src: url,
         alt: meta.title,
         gallery: meta.gallery,
@@ -263,6 +277,7 @@ function parseAchievements(): Achievement[] {
       tag: meta.tag,
       description: meta.description,
       highlights: meta.highlights,
+      ...splitHighlights(meta.highlights),
       src: `/achievements/achievement_${numStr}.png`,
       alt: meta.title,
     };
