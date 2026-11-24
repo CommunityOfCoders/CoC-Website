@@ -69,8 +69,7 @@ const RAW_INTERNSHIPS: Record<string, RawInternshipInput[]> = {
 
 const RAW_PLACEMENTS: Record<string, RawPlacementInput[]> = {
   '2026': [
-{ company: 'DE Shaw', ctc: '₹68L', members: 1, ppos: 1 },
-    { company: 'DE Shaw', ctc: '₹62L', members: 1, ppos: 1 },
+    { company: 'DE Shaw', ctc: '₹68L', members: 2, ppos: 2 },
     { company: 'Google', ctc: '₹55L', members: 1, ppos: 1 },
     { company: 'Visa', ctc: '₹35.5L', members: 1, ppos: 1 },
     { company: 'Goldman Sachs', ctc: '₹30L', members: 1, ppos: 1 },
