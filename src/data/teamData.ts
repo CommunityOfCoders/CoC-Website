@@ -7,7 +7,7 @@ import NihiraImg from "../assets/Nihira.jpg";
 import KavishImg from "../assets/Kavish.jpg";
 import BiancaImg from "../assets/Bianca.jpg";
 import AndersenImg from "../assets/andersen.jpg";
-import AryanImg from "../assets/Aryan.png";
+import AryanImg from "../assets/Aryan.jpg";
 import VaishnaviImg from "../assets/vaishnavi.jpeg";
 import AwwabImg from "../assets/Awwab.png";
 import PratyushImg from "../assets/Rao.jpg";
