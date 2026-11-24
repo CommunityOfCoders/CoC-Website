@@ -74,7 +74,8 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children, route }) => {
     <div className="shell">
       {/* Global Background Layer: FluxLines on black canvas */}
       <div className="site-flux-bg" aria-hidden="true">
-        <FluxLines dpr={window.matchMedia("(max-width: 768px)").matches ? 1 : undefined} />
+        {/* the background is soft lines: rendering it at 1x (0.75x on phones) instead of the screen's 2-3x keeps scrolling smooth */}
+        <FluxLines dpr={window.matchMedia("(max-width: 768px)").matches ? 0.75 : 1} />
       </div>
 
       <header className={`nav${scrolled ? " nav--scrolled" : ""}`}>
