@@ -1,10 +1,10 @@
 import React, { useRef } from 'react';
 import { motion } from 'framer-motion';
-import { Trophy, ArrowRight, Award, ChevronDown, Flame } from 'lucide-react';
+import { Trophy, ArrowRight, Award } from 'lucide-react';
 import KineticWords from '../components/ui/KineticHeading';
 import Reveal from '../components/ui/Reveal';
 import { ACHIEVEMENTS } from '../data/achievementsData';
-import { AchievementTimeline } from '../components/achievements/AchievementTimeline';
+import { AchievementStrips } from '../components/achievements/AchievementStrips';
 import './Achievements.css';
 
 const EASE = [0.16, 1, 0.3, 1] as const;
@@ -47,46 +47,13 @@ export const Achievements: React.FC = () => {
             “Celebrating the milestones, victories, and moments that shaped our journey.”
           </motion.p>
 
-          {/* Hero Stats Pill Bar */}
-          <motion.div
-            className="achievements-hero__stats"
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, ease: EASE, delay: 0.45 }}
-          >
-            <div className="achievements-hero__stat-item">
-              <Flame size={14} className="achievements-hero__stat-num" />
-              <span>
-                <strong className="achievements-hero__stat-num">{ACHIEVEMENTS.length + 1}+</strong> Achievements
-              </span>
-            </div>
-            <div className="achievements-hero__stat-divider" />
-            <div className="achievements-hero__stat-item">
-              <span>VJTI's Legacy</span>
-            </div>
-            <div className="achievements-hero__stat-divider" />
-            <div className="achievements-hero__stat-item">
-              <span>Continuous Excellence</span>
-            </div>
-          </motion.div>
-
-          {/* Floating Scroll Indicator */}
-          <motion.div
-            className="achievements-hero__scroll-prompt"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.75, duration: 0.6 }}
-          >
-            <span>Scroll to explore timeline</span>
-            <ChevronDown size={16} />
-          </motion.div>
         </div>
       </header>
 
       {/* Main Single-Column Chained Achievement Journey */}
       <section className="section achievements-journey">
         <div className="container">
-          <AchievementTimeline achievements={ACHIEVEMENTS} />
+          <AchievementStrips achievements={ACHIEVEMENTS} />
         </div>
       </section>
 
