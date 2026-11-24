@@ -5,8 +5,8 @@ import { buzz } from './haptics';
      6-Months, Placements and PPOs.
    - Project + contributor sheets: drag the sheet down to close it
      (starts from the grab handle, or from the top of the content). */
-const SHEETS = '.drawer-panel.is-open, .os-drawer-panel.is-open';
-const CLOSE_BTNS = '.drawer-mclose, .os-drawer-mclose';
+const SHEETS = '.drawer-panel.is-open, .os-drawer-panel.is-open, .ev-drawer-panel.is-open';
+const CLOSE_BTNS = '.drawer-mclose, .os-drawer-mclose, .ev-drawer-close';
 
 export function initGestures(): () => void {
   let sx = 0;
@@ -27,7 +27,8 @@ export function initGestures(): () => void {
 
     const target = e.target as Element;
     sheet = target.closest<HTMLElement>(SHEETS);
-    content = sheet?.querySelector<HTMLElement>('.drawer-content, .os-drawer-content') ?? null;
+    // the events sheet scrolls itself; the others scroll an inner content box
+    content = sheet?.matches('.ev-drawer-panel') ? sheet : (sheet?.querySelector<HTMLElement>('.drawer-content, .os-drawer-content') ?? null);
     swipeArea = sheet ? null : target.closest('.placement-page');
   };
 
