@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { ArrowUp, ArrowUpRight, Menu, X } from "lucide-react";
-import { Github, Linkedin, Instagram } from "../components/ui/BrandIcons";
+import { Github, Instagram, LinkedinColor, InstagramColor } from "../components/ui/BrandIcons";
 import cocLogo from "../assets/coc.png";
 import FluxLines from "../components/ui/FluxLines";
 import { initPhoneFx } from "../phoneFx";
@@ -34,13 +34,13 @@ const SOCIALS = [
     label: "LinkedIn",
     href: "https://linkedin.com/company/community-of-coders-vjti/",
     tip: "Community Of Coders, VJTI",
-    Icon: Linkedin,
+    Icon: LinkedinColor,
   },
   {
     label: "Instagram",
     href: "https://instagram.com/coc_vjti",
     tip: "@coc_vjti",
-    Icon: Instagram,
+    Icon: InstagramColor,
   },
 ];
 
