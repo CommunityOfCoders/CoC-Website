@@ -79,9 +79,28 @@ function App() {
         window.setTimeout(() => setCurtain(null), COVER_MS + REVEAL_MS),
       );
     };
+    // external tab (CP Club): same curtain, then the site opens in a new tab and the curtain lifts
+    const onExternal = (e: Event) => {
+      const { url, label } = (e as CustomEvent<{ url: string; label: string }>).detail;
+      clearTimers();
+      setCurtain({ label, phase: 'in' });
+      timers.current.push(
+        window.setTimeout(() => {
+          // ('noopener' as a feature would make window.open return null, so cut the link by hand)
+          const win = window.open(url, '_blank');
+          if (win) win.opener = null;
+          else window.location.href = url; // popup blocked: go there in this tab instead
+          setCurtain({ label, phase: 'out' });
+        }, COVER_MS),
+        window.setTimeout(() => setCurtain(null), COVER_MS + REVEAL_MS),
+      );
+    };
+
     window.addEventListener('hashchange', onHashChange);
+    window.addEventListener('coc:external', onExternal);
     return () => {
       window.removeEventListener('hashchange', onHashChange);
+      window.removeEventListener('coc:external', onExternal);
       clearTimers();
     };
   }, []);
