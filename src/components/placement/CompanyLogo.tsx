@@ -48,7 +48,7 @@ import sunpharma from '../../assets/company-logos/sunpharma.png';
 
 /* Official brand marks (from each company's own site). `bleed` marks are
    full-square coloured icons that should fill the tile edge to edge. */
-const OFFICIAL: { match: string[]; src: string; alt: string; bleed?: string }[] = [
+const OFFICIAL: { match: string[]; src: string; alt: string; bleed?: string; inset?: boolean }[] = [
   { match: ['goldman'], src: goldman, alt: 'Goldman Sachs' },
   { match: ['google'], src: google, alt: 'Google' },
   { match: ['morgan stanley'], src: morganstanley, alt: 'Morgan Stanley', bleed: '#002B50' },
@@ -89,7 +89,7 @@ const OFFICIAL: { match: string[]; src: string; alt: string; bleed?: string }[] 
   { match: ['revvity'], src: revvity, alt: 'Revvity' },
   { match: ['rubrik'], src: rubrik, alt: 'Rubrik' },
   { match: ['siaa'], src: siaa, alt: 'SIAA' },
-  { match: ['snabbit'], src: snabbit, alt: 'Snabbit', bleed: '#F70F79' },
+  { match: ['snabbit'], src: snabbit, alt: 'Snabbit', bleed: '#F70F79', inset: true },
   { match: ['sun pharma'], src: sunpharma, alt: 'Sun Pharma' },
 ];
 
@@ -105,7 +105,7 @@ export const CompanyLogo: React.FC<CompanyLogoProps> = ({ name, className = "w-7
   if (official) {
     return (
       <div className={`company-logo-container ${className}`}>
-        <div className={`company-logo-tile${official.bleed ? ' is-bleed' : ''}`} style={official.bleed ? { background: official.bleed } : undefined}>
+        <div className={`company-logo-tile${official.bleed ? ' is-bleed' : ''}${official.inset ? ' is-inset' : ''}`} style={official.bleed ? { background: official.bleed } : undefined}>
           <img src={official.src} alt={official.alt} loading="lazy" draggable={false} />
         </div>
       </div>
