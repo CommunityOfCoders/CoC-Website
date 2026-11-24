@@ -466,8 +466,8 @@
   cursor: pointer;
   transition: box-shadow 0.35s var(--ease), transform 0.35s var(--ease), background 0.35s var(--ease);
 }
-.os-card:hover { background: var(--ink-3); transform: translateY(-4px); box-shadow: 0 0 0 1.5px var(--accent), 0 8px 40px rgba(0, 0, 0, 0.55); }
-.os-card:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.os-card:hover { background: var(--ink-3); transform: translateY(-4px); box-shadow: 0 0 0 1.5px var(--card-accent, var(--accent)), 0 8px 40px rgba(0, 0, 0, 0.55); }
+.os-card:focus-visible { outline: 2px solid var(--card-accent, var(--accent)); outline-offset: 3px; }
 .os-card > * { position: relative; z-index: 1; }
 
 .os-card__ghost {
@@ -486,7 +486,7 @@
   user-select: none;
   transition: -webkit-text-stroke-color 0.35s var(--ease);
 }
-.os-card:hover .os-card__ghost { -webkit-text-stroke-color: rgba(29, 185, 84, 0.35); }
+.os-card:hover .os-card__ghost { -webkit-text-stroke-color: color-mix(in srgb, var(--card-accent, var(--accent)) 38%, transparent); }
 
 .os-card__head { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 16px; }
 .os-card__prog { display: inline-flex; align-items: center; gap: 9px; font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--fg-dim); }
@@ -503,14 +503,14 @@
   color: var(--fg);
   transition: color 0.25s var(--ease);
 }
-.os-card:hover .os-card__name { color: var(--accent); }
+.os-card:hover .os-card__name { color: var(--card-accent, var(--accent)); }
 .os-card__org { font-family: var(--font-mono); font-size: 0.74rem; color: var(--fg-faint); margin-top: 6px; }
 .os-card__project { font-size: 0.9rem; color: var(--fg-dim); line-height: 1.5; margin: 14px 0 18px; min-height: calc(1.5em * 3); }
 .os-card__tech { display: flex; flex-wrap: wrap; gap: 6px; margin-top: auto; }
 .os-card__footer {
   margin-top: 16px; padding-top: 12px; border-top: 1px solid rgba(255, 255, 255, 0.06);
   display: flex; align-items: center; justify-content: flex-end; gap: 4px;
-  font-family: var(--font-mono); font-size: 0.75rem; font-weight: 600; color: var(--accent);
+  font-family: var(--font-mono); font-size: 0.75rem; font-weight: 600; color: var(--card-accent, var(--accent));
   opacity: 0; transform: translateX(-4px);
   transition: opacity 0.25s var(--ease), transform 0.25s var(--ease);
 }
