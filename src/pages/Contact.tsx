@@ -171,9 +171,18 @@ const Contact: React.FC = () => {
 
   const copyEmail = (e: React.MouseEvent) => {
     e.preventDefault();
-    navigator.clipboard?.writeText(EMAIL).catch(() => {});
-    setCopied(true);
-    setTimeout(() => setCopied(false), 1400);
+    const done = () => {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 1400);
+    };
+    // no clipboard access (plain http, old browsers): fall back to opening the mail app
+    if (!navigator.clipboard?.writeText) {
+      window.location.href = `mailto:${EMAIL}`;
+      return;
+    }
+    navigator.clipboard.writeText(EMAIL).then(done, () => {
+      window.location.href = `mailto:${EMAIL}`;
+    });
   };
 
   return (
