@@ -188,7 +188,7 @@ function useGithubStats(project: Project) {
   useEffect(() => {
     if (project.stars === undefined && (project.githubLink || project.github)) {
       const url = project.githubLink || project.github;
-      const match = url?.match(/github\.com\/([^\/]+)\/([^\/]+)/);
+      const match = url?.match(/github\.com\/([^/]+)\/([^/]+)/);
       if (match) {
         const [, owner, repo] = match;
         const cacheKey = `gh_stats_${owner}_${repo}`;
