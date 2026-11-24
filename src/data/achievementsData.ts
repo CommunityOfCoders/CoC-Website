@@ -18,7 +18,7 @@ export interface Achievement {
 /* `highlights` mixes names with facts ("INR 1,50,000 Prize", "Team SKS",
    "GLA University"). Anything that reads like a fact goes to `facts`, the
    rest are people. */
-const FACT = /\d|team |university|cern|quantum|healthcare|bounty|cybersecurity|initiative|finalist|finale|prize|bank|->|devfolio|ethglobal|iiitdm|acm-w|runner-up|witness|filecoin|arbitrum|octave|ml4sci|julia|winners|position|sih|college/i;
+const FACT = /\d|team |university|cern|quantum|healthcare|bounty|cybersecurity|initiative|finalist|finale|prize|bank|->|devfolio|ethglobal|iiitdm|acm-w|runner-up|witness|filecoin|arbitrum|octave|ml4sci|julia|winners|position|sih|college|\biit\b/i;
 const splitHighlights = (h: string[]) => ({
   people: h.filter((x) => !FACT.test(x)),
   facts: h.filter((x) => FACT.test(x)),
@@ -27,6 +27,7 @@ const splitHighlights = (h: string[]) => ({
 import awc2 from '../assets/achievements-extra/icpc-awc-2.jpg';
 import awc3 from '../assets/achievements-extra/icpc-awc-3.jpg';
 import sih2025b from '../assets/achievements-extra/sih-2025-2.jpg';
+import sih2025trinetra from '../assets/achievements-extra/sih-2025-trinetra-2.jpg';
 
 /** who won it: one team, several teams, one person, or several individuals (e.g. GSoC) */
 export type AchievementKind = 'team' | 'teams' | 'individual' | 'individuals';
@@ -215,6 +216,14 @@ const METADATA_MAP: Record<string, MetaItem> = {
     tag: "GSOC 2025",
     description: "CoC VJTI students selected as Google Summer of Code (GSoC) 2025 contributors, each working with top global open-source organizations including Intel, CERN-HSF, SymPy, and OREL.",
     highlights: ["Vidhi Rohira", "Kevin Shah", "Aarya Pandey", "Prasanna Kasar", "Sourish Phate", "Rushabh Mehta", "Swayam Shah"],
+  },
+  achievement_25_2: {
+    kind: 'team',
+    title: "Smart India Hackathon 2025 Grand Finale Winners - Team Trinetra915",
+    tag: "SIH 2025 WINNERS",
+    description: "Team Trinetra915 won the Smart India Hackathon 2025 Grand Finale (Software Edition) for problem statement PSID-25234, held on 8-9 December 2025 at IIT Jammu, taking home the winners' prize of INR 1,50,000.",
+    highlights: ["Ishayu Potey", "Nayanesh Gudla", "Ninad Shegaokar", "Sarvesh Ganu", "Swanand Patil", "Manaswi Rane", "INR 1,50,000 Prize", "IIT Jammu", "PSID-25234", "Software Edition 2025"],
+    gallery: [sih2025trinetra],
   },
   achievement_25_3: {
     kind: 'team',
