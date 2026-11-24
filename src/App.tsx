@@ -12,6 +12,16 @@ import './App.css';
 
 const normalize = (hash: string) => (hash === '#' ? '' : hash);
 
+const TITLES: Record<string, string> = {
+  '#events': 'Events',
+  '#projects': 'Projects',
+  '#opensource': 'Open Source',
+  '#achievements': 'Achievements',
+  '#team': 'Team',
+  '#placements': 'Placements',
+  '#contact': 'Contact',
+};
+
 function App() {
   const [route, setRoute] = useState(() => normalize(window.location.hash));
 
@@ -23,6 +33,12 @@ function App() {
     window.addEventListener('hashchange', onHashChange);
     return () => window.removeEventListener('hashchange', onHashChange);
   }, []);
+
+  const titleKey = route.split('?')[0].split('/')[0];
+  useEffect(() => {
+    const page = TITLES[titleKey];
+    document.title = page ? `${page} · Community of Coders · VJTI` : 'Community of Coders · VJTI';
+  }, [titleKey]);
 
   const renderView = () => {
     const baseRoute = route.split('?')[0].split('/')[0];
