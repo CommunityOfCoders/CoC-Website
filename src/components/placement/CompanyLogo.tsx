@@ -24,9 +24,9 @@ import russell from '../../assets/company-logos/russell.png';
 import dolat from '../../assets/company-logos/dolat.png';
 import zycus from '../../assets/company-logos/zycus.png';
 import gep from '../../assets/company-logos/gep.png';
-import cognext from '../../assets/company-logos/cognext.png';
 import iris from '../../assets/company-logos/iris.png';
 import mobisy from '../../assets/company-logos/mobisy.png';
+import deshaw from '../../assets/company-logos/deshaw.png';
 import ibm from '../../assets/company-logos/ibm.svg';
 import applied from '../../assets/company-logos/applied.png';
 import bakerhughes from '../../assets/company-logos/bakerhughes.png';
@@ -46,7 +46,7 @@ import sunpharma from '../../assets/company-logos/sunpharma.png';
 
 /* Official brand marks (from each company's own site). `bleed` marks are
    full-square coloured icons that should fill the tile edge to edge. */
-const OFFICIAL: { match: string[]; src: string; alt: string; bleed?: string }[] = [
+const OFFICIAL: { match: string[]; src: string; alt: string; bleed?: string; wide?: boolean }[] = [
   { match: ['goldman'], src: goldman, alt: 'Goldman Sachs' },
   { match: ['google'], src: google, alt: 'Google' },
   { match: ['morgan stanley'], src: morganstanley, alt: 'Morgan Stanley', bleed: '#002B50' },
@@ -69,9 +69,9 @@ const OFFICIAL: { match: string[]; src: string; alt: string; bleed?: string }[] 
   { match: ['dolat'], src: dolat, alt: 'Dolat Capital' },
   { match: ['zycus'], src: zycus, alt: 'Zycus' },
   { match: ['gep'], src: gep, alt: 'GEP' },
-  { match: ['cognext'], src: cognext, alt: 'Cognext' },
   { match: ['iris'], src: iris, alt: 'IRIS RegTech' },
   { match: ['mobisy'], src: mobisy, alt: 'Mobisy' },
+  { match: ['shaw'], src: deshaw, alt: 'D. E. Shaw', wide: true },
   { match: ['ibm'], src: ibm, alt: 'IBM' },
   { match: ['applied materials'], src: applied, alt: 'Applied Materials' },
   { match: ['baker hughes'], src: bakerhughes, alt: 'Baker Hughes' },
@@ -100,7 +100,7 @@ export const CompanyLogo: React.FC<CompanyLogoProps> = ({ name, className = "w-7
   const official = OFFICIAL.find((o) => o.match.some((m) => normName.includes(m)));
   if (official) {
     return (
-      <div className={`company-logo-container ${className}`}>
+      <div className={`company-logo-container${official.wide ? ' is-wide' : ''} ${className}`}>
         <div className={`company-logo-tile${official.bleed ? ' is-bleed' : ''}`} style={official.bleed ? { background: official.bleed } : undefined}>
           <img src={official.src} alt={official.alt} loading="lazy" draggable={false} />
         </div>
@@ -790,13 +790,14 @@ export const CompanyLogo: React.FC<CompanyLogoProps> = ({ name, className = "w-7
     );
   }
 
-  // Crucibl - no official asset available, clean wordmark tile
-  if (normName.includes('crucibl')) {
+  // Crucibl / Cognext - official logo could not be verified, clean wordmark tile
+  if (normName.includes('crucibl') || normName.includes('cognext')) {
+    const label = normName.includes('cognext') ? 'Cognext' : 'Crucibl';
     return (
       <div className={`company-logo-container ${className}`}>
         <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" className="company-logo-svg">
           <rect width="32" height="32" rx="8" fill="#111827" />
-          <text x="16" y="19.5" fontFamily="sans-serif" fontWeight="800" fontSize="7.5" fill="#FFFFFF" textAnchor="middle" letterSpacing="0.2">Crucibl</text>
+          <text x="16" y="19.5" fontFamily="sans-serif" fontWeight="800" fontSize="7.5" fill="#FFFFFF" textAnchor="middle" letterSpacing="0.2">{label}</text>
         </svg>
       </div>
     );
