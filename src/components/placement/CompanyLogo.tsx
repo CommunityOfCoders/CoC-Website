@@ -2,6 +2,64 @@ import React from 'react';
 import myntraLogo from '../../assets/Myntra_logo.png';
 import adityaBirlaLogo from '../../assets/Aditya_Birla_logo.svg';
 import godrejLogo from '../../assets/Godrej_logo.svg';
+import goldman from '../../assets/company-logos/goldman.png';
+import google from '../../assets/company-logos/google.png';
+import morganstanley from '../../assets/company-logos/morganstanley.png';
+import visa from '../../assets/company-logos/visa.png';
+import hilti from '../../assets/company-logos/hilti.png';
+import bny from '../../assets/company-logos/bny.png';
+import citi from '../../assets/company-logos/citi.png';
+import bofa from '../../assets/company-logos/bofa.png';
+import hsbc from '../../assets/company-logos/hsbc.png';
+import barclays from '../../assets/company-logos/barclays.png';
+import axis from '../../assets/company-logos/axisamc.png';
+import deloitte from '../../assets/company-logos/deloitte.png';
+import pwc from '../../assets/company-logos/pwc.png';
+import cognizant from '../../assets/company-logos/cognizant.png';
+import icicibank from '../../assets/company-logos/icicibank.png';
+import icicihfc from '../../assets/company-logos/icicihfc.png';
+import mahindrafin from '../../assets/company-logos/mahindrafin.png';
+import lpl from '../../assets/company-logos/lpl.png';
+import russell from '../../assets/company-logos/russell.png';
+import dolat from '../../assets/company-logos/dolat.png';
+import zycus from '../../assets/company-logos/zycus.png';
+import gep from '../../assets/company-logos/gep.png';
+import cognext from '../../assets/company-logos/cognext.png';
+import iris from '../../assets/company-logos/iris.png';
+import mobisy from '../../assets/company-logos/mobisy.png';
+import ibm from '../../assets/company-logos/ibm.svg';
+
+
+/* Official brand marks (from each company's own site). `bleed` marks are
+   full-square coloured icons that should fill the tile edge to edge. */
+const OFFICIAL: { match: string[]; src: string; alt: string; bleed?: boolean }[] = [
+  { match: ['goldman'], src: goldman, alt: 'Goldman Sachs' },
+  { match: ['google'], src: google, alt: 'Google' },
+  { match: ['morgan stanley'], src: morganstanley, alt: 'Morgan Stanley', bleed: true },
+  { match: ['visa'], src: visa, alt: 'Visa' },
+  { match: ['hilti'], src: hilti, alt: 'Hilti', bleed: true },
+  { match: ['bny'], src: bny, alt: 'BNY' },
+  { match: ['citi'], src: citi, alt: 'Citi' },
+  { match: ['bank of america', 'bofa'], src: bofa, alt: 'Bank of America' },
+  { match: ['hsbc'], src: hsbc, alt: 'HSBC' },
+  { match: ['barclays'], src: barclays, alt: 'Barclays' },
+  { match: ['axis'], src: axis, alt: 'Axis', bleed: true },
+  { match: ['deloitte'], src: deloitte, alt: 'Deloitte' },
+  { match: ['pwc'], src: pwc, alt: 'PwC' },
+  { match: ['cognizant'], src: cognizant, alt: 'Cognizant' },
+  { match: ['icici home'], src: icicihfc, alt: 'ICICI Home Finance' },
+  { match: ['icici'], src: icicibank, alt: 'ICICI' },
+  { match: ['mahindra'], src: mahindrafin, alt: 'Mahindra Finance' },
+  { match: ['lpl'], src: lpl, alt: 'LPL Financial' },
+  { match: ['russell'], src: russell, alt: 'Russell Investments' },
+  { match: ['dolat'], src: dolat, alt: 'Dolat Capital' },
+  { match: ['zycus'], src: zycus, alt: 'Zycus' },
+  { match: ['gep'], src: gep, alt: 'GEP' },
+  { match: ['cognext'], src: cognext, alt: 'Cognext' },
+  { match: ['iris'], src: iris, alt: 'IRIS RegTech' },
+  { match: ['mobisy'], src: mobisy, alt: 'Mobisy' },
+  { match: ['ibm'], src: ibm, alt: 'IBM' },
+];
 
 interface CompanyLogoProps {
   name: string;
@@ -10,6 +68,17 @@ interface CompanyLogoProps {
 
 export const CompanyLogo: React.FC<CompanyLogoProps> = ({ name, className = "w-7 h-7" }) => {
   const normName = name.toLowerCase().trim();
+
+  const official = OFFICIAL.find((o) => o.match.some((m) => normName.includes(m)));
+  if (official) {
+    return (
+      <div className={`company-logo-container ${className}`}>
+        <div className={`company-logo-tile${official.bleed ? ' is-bleed' : ''}`}>
+          <img src={official.src} alt={official.alt} loading="lazy" draggable={false} />
+        </div>
+      </div>
+    );
+  }
 
   // DE Shaw
   if (normName.includes('shaw')) {

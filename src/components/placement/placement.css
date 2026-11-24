@@ -415,3 +415,17 @@
   .placement-stat-card:last-child { grid-column: 1 / -1; }
   .stat-value { font-size: 1.7rem; margin: 8px 0 6px; }
 }
+
+/* official company marks: centred on a white tile */
+.company-logo-tile {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  place-items: center;
+  padding: 4px;
+  border-radius: 8px;
+  background: #fff;
+  overflow: hidden;
+}
+.company-logo-tile.is-bleed { padding: 0; }
+.company-logo-tile img { width: 100%; height: 100%; object-fit: contain; display: block; }
