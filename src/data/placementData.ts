@@ -69,28 +69,34 @@ const RAW_INTERNSHIPS: Record<string, RawInternshipInput[]> = {
 
 const RAW_PLACEMENTS: Record<string, RawPlacementInput[]> = {
   '2026': [
-    { company: 'DE Shaw', ctc: '₹68L', members: 1, ppos: 1 },
+{ company: 'DE Shaw', ctc: '₹68L', members: 1, ppos: 1 },
     { company: 'DE Shaw', ctc: '₹62L', members: 1, ppos: 1 },
     { company: 'Google', ctc: '₹55L', members: 1, ppos: 1 },
     { company: 'Visa', ctc: '₹35.5L', members: 1, ppos: 1 },
     { company: 'Goldman Sachs', ctc: '₹30L', members: 1, ppos: 1 },
     { company: 'Morgan Stanley', ctc: '₹29.11L', members: 4, ppos: 4 },
-    { company: 'Hilti', ctc: '₹23L', members: 2, ppos: 2 },
+    { company: 'Hilti', ctc: '₹23L', members: 3, ppos: 3 },
     { company: 'BNY', ctc: '₹22L', members: 2, ppos: 2 },
+    { company: 'Bank of America', ctc: '₹18.9L', members: 1, ppos: 1 },
     { company: 'Citi', ctc: '₹18L', members: 8, ppos: 8 },
     { company: 'Cognizant', ctc: '₹18L', members: 1, ppos: '-' },
     { company: 'HSBC', ctc: '₹16.34L', members: 10, ppos: 4 },
+    { company: 'Mahindra Finance', ctc: '₹16L', members: 1, ppos: 1 },
     { company: 'Dolat Capital', ctc: '₹16L', members: 2, ppos: '-' },
+    { company: 'LPL Financial', ctc: '₹16L', members: 2, ppos: '-' },
+    { company: 'Russell Investments', ctc: '₹15.4L', members: 1, ppos: 1 },
     { company: 'Cognext', ctc: '₹13L', members: 2, ppos: '-' },
     { company: 'Crucibl', ctc: '₹12L', members: 1, ppos: 1 },
     { company: 'Zycus', ctc: '₹12L', members: 1, ppos: '-' },
+    { company: 'Cognizant', ctc: '₹12L', members: 1, ppos: '-' },
     { company: 'ICICI Securities', ctc: '₹12L', members: 2, ppos: '-' },
-    { company: 'ICICI Home Finance', ctc: '₹12L', members: 1, ppos: '-' },
-    { company: 'ICICI Bank', ctc: '₹11.65L', members: 3, ppos: '-' },
+    { company: 'ICICI Home Finance', ctc: '₹12L', members: 4, ppos: '-' },
+    { company: 'ICICI Bank', ctc: '₹11.65L', members: 8, ppos: '-' },
     { company: 'Mobisy Technologies', ctc: '₹9L', members: 1, ppos: '-' },
+    { company: 'GEP Worldwide', ctc: '₹9L', members: 1, ppos: '-' },
     { company: 'IRIS RegTech', ctc: '₹9L', members: 1, ppos: '-' },
-    { company: 'PwC India', ctc: '₹8.99L', members: 2, ppos: '-' },
-    { company: 'Deloitte', ctc: '₹8.1L', members: 1, ppos: '-' },
+    { company: 'PwC India', ctc: '₹8.99L', members: 4, ppos: '-' },
+    { company: 'Deloitte', ctc: '₹8.1L', members: 2, ppos: '-' },
     { company: 'Axis Bank', ctc: '₹7.5L', members: 1, ppos: 1 }
   ]
 };
@@ -185,7 +191,7 @@ export const RAW_PPOS: Record<string, RawPPOInput[]> = Object.keys(PPOS_DATA).re
 }, {} as Record<string, RawPPOInput[]>);
 
 export const YEAR_ON_YEAR_DATA: YearGrowthItem[] = [
-  { year: '2026', internships: 37, placements: 50, avgCtc: '₹19.7L', highestCtc: '₹68.0L' },
+  { year: '2026', internships: 37, placements: 69, avgCtc: '₹17.9L', highestCtc: '₹68.0L' },
 ];
 
 const currentYearYoy = YEAR_ON_YEAR_DATA.find((item) => item.year === CURRENT_YEAR);
