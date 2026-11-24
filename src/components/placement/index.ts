@@ -3,5 +3,6 @@ export * from './PlacementHeader';
 export { PlacementTabs } from './PlacementTabs';
 export type { TabType } from './PlacementTabs';
 export * from './InternshipsTab';
+export * from './SixMonthTab';
 export * from './PlacementsTab';
 export * from './PPOsTab';
