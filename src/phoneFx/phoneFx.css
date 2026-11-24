@@ -39,4 +39,25 @@
   .os-card.is-lit .os-card__name, .project-card.is-lit .project-card__title { color: var(--card-accent, var(--accent)); }
   .os-card.is-lit .os-card__head { background: color-mix(in srgb, var(--card-accent, var(--accent)) 14%, var(--ink-3)); }
   .team-card.is-lit, .ev-card.is-lit { box-shadow: 0 0 0 1.5px var(--accent), 0 8px 36px rgba(0, 0, 0, 0.55); }
+
+  /* ---- bottom sheets: the project + contributor panels rise from the bottom ---- */
+  .drawer-panel, .os-drawer-panel {
+    top: auto; right: 0; bottom: 0; left: 0;
+    width: 100%; max-width: 100%;
+    height: 90dvh; max-height: 90dvh;
+    border: 1px solid var(--line); border-bottom: none;
+    border-radius: 26px 26px 0 0;
+    box-shadow: 0 -24px 60px rgba(0, 0, 0, 0.7);
+    transform: translateY(105%);
+    transition: transform 0.5s var(--ease);
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  .drawer-panel.is-open, .os-drawer-panel.is-open { transform: translateY(0); }
+  /* grab handle */
+  .drawer-panel::before, .os-drawer-panel::before {
+    content: ''; position: absolute; top: 8px; left: 50%; z-index: 6;
+    width: 44px; height: 5px; margin-left: -22px; border-radius: 3px; background: rgba(245, 247, 245, 0.28);
+  }
+  .drawer-panel .drawer-mclose, .os-drawer-panel .os-drawer-mclose { top: 18px; }
+  .drawer-content, .os-drawer-content { padding-top: 34px; }
 }
