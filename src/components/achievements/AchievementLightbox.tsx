@@ -34,6 +34,7 @@ const PEOPLE_LABEL: Record<Achievement['kind'], string> = {
   teams: 'Team members',
   individual: 'Achieved by',
   individuals: 'Contributors',
+  selected: 'From CoC',
 };
 
 const line = {

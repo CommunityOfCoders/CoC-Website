@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
 import { motion } from 'framer-motion';
 import KineticWords from '../components/ui/KineticHeading';
-import { ACHIEVEMENTS } from '../data/achievementsData';
+import { ACHIEVEMENTS, FEATURED_ACHIEVEMENT } from '../data/achievementsData';
 import { AchievementGallery } from '../components/achievements/AchievementGallery';
 import './Achievements.css';
 
@@ -49,7 +49,7 @@ export const Achievements: React.FC = () => {
       {/* The awards index flows straight on from the heading - one piece, no separate blocks */}
       <section className="achievements-journey">
         <div className="container">
-          <AchievementGallery achievements={ACHIEVEMENTS} />
+          <AchievementGallery achievements={ACHIEVEMENTS} featured={FEATURED_ACHIEVEMENT} />
         </div>
       </section>
 
