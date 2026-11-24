@@ -508,6 +508,7 @@
 }
 .os-card__mentor em { flex-shrink: 0; font-style: normal; font-size: 0.62rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--fg-faint); }
 .os-card__tech { display: flex; flex-wrap: wrap; gap: 6px; }
+.os-card__tech-line { display: none; }
 .tech-chip--more { color: var(--fg-faint); }
 
 .os-card__footer {

@@ -173,6 +173,9 @@ function ContributorCard({ contributor, index, onSelect }: ContributorCardProps)
             <h3 className="os-card__name">{contributor.name}</h3>
             <p className="os-card__project">{contributor.project}</p>
 
+            {/* phones: one tidy line instead of pill chips */}
+            <p className="os-card__tech-line">{contributor.tech.join(' · ')}</p>
+
             <div className="os-card__tech">
               {contributor.tech.slice(0, TAGS_SHOWN).map((t) => (
                 <span key={t} className="tech-chip">
