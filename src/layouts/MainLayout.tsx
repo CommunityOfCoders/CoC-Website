@@ -27,16 +27,19 @@ const SOCIALS = [
   {
     label: "GitHub",
     href: "https://github.com/CommunityOfCoders",
+    tip: "github.com/CommunityOfCoders",
     Icon: Github,
   },
   {
     label: "LinkedIn",
     href: "https://linkedin.com/company/community-of-coders-vjti/",
+    tip: "Community Of Coders, VJTI",
     Icon: Linkedin,
   },
   {
     label: "Instagram",
     href: "https://instagram.com/coc_vjti",
+    tip: "@coc_vjti",
     Icon: Instagram,
   },
 ];
@@ -237,6 +240,7 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children, route }) => {
                   target="_blank"
                   rel="noreferrer"
                   aria-label={s.label}
+                  data-tip={s.tip}
                   className="footer__social"
                 >
                   <s.Icon />
