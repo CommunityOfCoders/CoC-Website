@@ -50,14 +50,18 @@
 .ach-view__photo {
   grid-area: 1 / 1;
   width: 100%; height: 100%;
+  min-height: 0;
   display: grid; place-items: center;
+  container-type: size;
   padding: clamp(20px, 3vw, 40px) clamp(64px, 8vw, 110px);
   cursor: grab;
   touch-action: pan-y;
 }
 .ach-view__photo:active { cursor: grabbing; }
+/* the photo always fits whole inside the stage (container units = the padded box) */
 .ach-view__photo img {
-  max-width: 100%; max-height: 100%;
+  width: auto; height: auto;
+  max-width: 100cqw; max-height: 100cqh;
   object-fit: contain;
   border-radius: 12px;
   box-shadow: 0 24px 70px rgba(0, 0, 0, 0.55);
@@ -141,6 +145,10 @@
   font-family: var(--font-mono); font-size: 0.68rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--fg-faint);
 }
 /* names set like a credits line */
+.ach-view__team {
+  margin-bottom: 8px;
+  font-family: var(--font-mono); font-size: 0.8rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent);
+}
 .ach-view__people {
   font-family: var(--font-display); font-size: clamp(1.2rem, 1.8vw, 1.5rem); font-weight: 700;
   line-height: 1.45; letter-spacing: -0.015em; color: var(--fg);
