@@ -12,6 +12,17 @@ import gsocLogoImg from '../assets/GSoC_logo.svg';
 import lfxLogoImg from '../assets/lfx-seeklogo.png';
 import hacktoberfestLogoImg from '../assets/Hacktoberfest_logo.png';
 import mediumLogoImg from '../assets/Medium-Icon-Black.svg';
+import orgImg_aiida from '../assets/org-logos/aiida.png';
+import orgImg_archive from '../assets/org-logos/archive.png';
+import orgImg_compiler from '../assets/org-logos/compiler.png';
+import orgImg_gnuastro from '../assets/org-logos/gnuastro.png';
+import orgImg_jderobot from '../assets/org-logos/jderobot.png';
+import orgImg_numfocus from '../assets/org-logos/numfocus.png';
+import orgImg_neurobagel from '../assets/org-logos/neurobagel.png';
+import orgImg_openastro from '../assets/org-logos/openastro.png';
+import orgImg_root from '../assets/org-logos/root.png';
+import orgImg_sugar from '../assets/org-logos/sugar.png';
+import orgImg_redhen from '../assets/org-logos/redhen.png';
 import './OpenSource.css';
 
 const GH_ORG = 'CommunityOfCoders';
@@ -84,19 +95,32 @@ function BlogIcon({ url }: { url: string }) {
   return <Rss size={15} />;
 }
 
-/* real organisation marks we hold; anyone else falls back to their program's logo */
-const ORG_LOGOS: { match: RegExp; Logo: React.FC<React.SVGProps<SVGSVGElement>> }[] = [
-  { match: /octave/i, Logo: OctaveLogo },
-  { match: /ml4sci/i, Logo: ML4SciLogo },
+/* real organisation marks (first match wins); anyone else falls back to
+   their program's logo */
+type OrgMarkDef = { match: RegExp; Logo?: React.FC<React.SVGProps<SVGSVGElement>>; src?: string };
+const ORG_LOGOS: OrgMarkDef[] = [
+  { match: /compiler research/i, src: orgImg_compiler },
+  { match: /\/ root/i, src: orgImg_root },
+  { match: /neurobagel/i, src: orgImg_neurobagel },
   { match: /incf/i, Logo: INCFLogo },
   { match: /cern/i, Logo: CERNLogo },
+  { match: /octave/i, Logo: OctaveLogo },
+  { match: /ml4sci/i, Logo: ML4SciLogo },
   { match: /cncf/i, Logo: CNCFLogo },
   { match: /intel/i, Logo: IntelLogo },
   { match: /julia/i, Logo: JuliaLogo },
   { match: /sympy/i, Logo: SymPyLogo },
+  { match: /aiida/i, src: orgImg_aiida },
+  { match: /numfocus/i, src: orgImg_numfocus },
+  { match: /gnuastro|gnu astronomy/i, src: orgImg_gnuastro },
+  { match: /openastronomy/i, src: orgImg_openastro },
+  { match: /internet archive|open library/i, src: orgImg_archive },
+  { match: /jderobot/i, src: orgImg_jderobot },
+  { match: /sugar labs/i, src: orgImg_sugar },
+  { match: /red hen/i, src: orgImg_redhen },
 ];
 
-const TAGS_SHOWN = 3;
+const TAGS_SHOWN = 4;
 
 // ─── CONTRIBUTOR CARD ─────────────────────────────────────────────────────────
 
@@ -109,7 +133,8 @@ interface ContributorCardProps {
 function ContributorCard({ contributor, index, onSelect }: ContributorCardProps) {
   const program = getProgram(contributor.programId);
   const orgLogo = ORG_LOGOS.find((o) => o.match.test(contributor.org));
-  const OrgMark = orgLogo?.Logo ?? program?.Logo ?? (() => null);
+  const FallbackLogo = program?.Logo;
+  const mentors = (contributor.mentor ?? '').split(',').map((m) => m.trim()).filter(Boolean);
 
   const activate = () => onSelect(contributor);
   const onKeyDown = (e: React.KeyboardEvent) => {
@@ -132,7 +157,13 @@ function ContributorCard({ contributor, index, onSelect }: ContributorCardProps)
         >
           <div className="os-card__head">
             <span className="os-card__prog-logo">
-              <OrgMark />
+              {orgLogo?.src ? (
+                <img src={orgLogo.src} alt="" draggable={false} />
+              ) : orgLogo?.Logo ? (
+                <orgLogo.Logo width={20} height={20} />
+              ) : FallbackLogo ? (
+                <FallbackLogo width={20} height={20} />
+              ) : null}
             </span>
             <span className="os-card__org">{contributor.org}</span>
             <span className="os-card__year">{contributor.year}</span>
@@ -154,6 +185,16 @@ function ContributorCard({ contributor, index, onSelect }: ContributorCardProps)
             </div>
 
             <div className="os-card__footer">
+              <span className="os-card__mentor">
+                {mentors.length > 0 ? (
+                  <>
+                    <em>Mentor</em> {mentors[0]}
+                    {mentors.length > 1 && ` +${mentors.length - 1}`}
+                  </>
+                ) : (
+                  <em>{program?.name}</em>
+                )}
+              </span>
               <span className="os-card__links" onClick={(e) => e.stopPropagation()} onKeyDown={(e) => e.stopPropagation()}>
                 {contributor.github && (
                   <a href={contributor.github} target="_blank" rel="noreferrer" aria-label={`${contributor.name} on GitHub`}>
@@ -170,9 +211,9 @@ function ContributorCard({ contributor, index, onSelect }: ContributorCardProps)
                     <BlogIcon url={contributor.blog} />
                   </a>
                 )}
-              </span>
-              <span className="os-card__more">
-                View profile <ChevronRight size={13} />
+                <span className="os-card__go" aria-hidden="true">
+                  <ChevronRight size={15} />
+                </span>
               </span>
             </div>
           </div>
