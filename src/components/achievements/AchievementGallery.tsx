@@ -173,7 +173,7 @@ const Featured: React.FC<{ item: Achievement; onOpen: () => void }> = ({ item, o
   const words = main.split(' ');
   const head = words.slice(0, -1).join(' ');
   const last = words[words.length - 1];
-  const stats = item.facts.filter((f) => /^\d/.test(f));
+  const stats = item.stats ?? item.facts.filter((f) => /^\d/.test(f));
   const thumbs = item.gallery ?? [];
 
   return (
