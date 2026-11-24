@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { ArrowUpRight, Menu, X } from "lucide-react";
+import { ArrowUp, ArrowUpRight, Menu, X } from "lucide-react";
 import { Github, Linkedin, Instagram } from "../components/ui/BrandIcons";
 import cocLogo from "../assets/coc.png";
 import FluxLines from "../components/ui/FluxLines";
@@ -42,10 +42,14 @@ const SOCIALS = [
 
 const MainLayout: React.FC<MainLayoutProps> = ({ children, route }) => {
   const [scrolled, setScrolled] = useState(false);
+  const [showTop, setShowTop] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 8);
+    const onScroll = () => {
+      setScrolled(window.scrollY > 8);
+      setShowTop(window.scrollY > 1200);
+    };
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
@@ -154,6 +158,15 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children, route }) => {
       </header>
 
       <main>{children}</main>
+
+      <button
+        type="button"
+        className={`to-top${showTop ? " is-visible" : ""}`}
+        aria-label="Back to top"
+        onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+      >
+        <ArrowUp />
+      </button>
 
       <footer className="footer">
         <div className="container">
