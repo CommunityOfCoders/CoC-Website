@@ -722,3 +722,42 @@ body.os-panel-open .nav {
   align-items: center; justify-content: center;
   background: rgba(245,247,245,0.08); border: 1px solid var(--line-2); color: var(--fg);
 }
+
+/* ================================================================
+   Hover motion - drawer buttons and the card's icon links. The fill
+   takes the contributor's program colour (GSoC yellow / LFX blue /
+   Julia purple). Hover-capable devices only; off under reduced motion.
+   ================================================================ */
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .os-action-btn {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+    transition: color 0.3s var(--ease), border-color 0.3s var(--ease), transform 0.3s var(--ease);
+  }
+  .os-action-btn::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: var(--card-accent, var(--accent));
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition: transform 0.4s var(--ease);
+  }
+  .os-action-btn:hover {
+    background: rgba(245, 247, 245, 0.06);
+    color: var(--card-ink, #0b0c0b);
+    border-color: var(--card-accent, var(--accent));
+    transform: translateY(-2px);
+  }
+  .os-action-btn:hover::before { transform: scaleX(1); }
+  .os-action-btn svg, .os-action-btn img { transition: transform 0.4s var(--ease); }
+  .os-action-btn:hover svg, .os-action-btn:hover img { transform: rotate(-12deg) scale(1.15); }
+  .os-action-btn:active { transform: translateY(0) scale(0.97); }
+
+  /* round GitHub / LinkedIn / blog icons on the cards */
+  .os-card__links a { transition: border-color 0.2s var(--ease), color 0.2s var(--ease), transform 0.3s var(--ease), background 0.3s var(--ease); }
+  .os-card__links a:hover { transform: translateY(-3px) rotate(-8deg) scale(1.1); background: color-mix(in srgb, var(--card-accent, var(--accent)) 18%, transparent); }
+  .os-card__links a:active { transform: scale(0.94); }
+}
