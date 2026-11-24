@@ -3,6 +3,7 @@ import { ArrowUp, ArrowUpRight, Menu, X } from "lucide-react";
 import { Github, Linkedin, Instagram } from "../components/ui/BrandIcons";
 import cocLogo from "../assets/coc.png";
 import FluxLines from "../components/ui/FluxLines";
+import { initPhoneFx } from "../phoneFx";
 import "./MainLayout.css";
 
 interface MainLayoutProps {
@@ -54,6 +55,9 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children, route }) => {
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  // phone-only touch effects (press feedback, page transitions, ...)
+  useEffect(() => initPhoneFx(), []);
 
   // close the mobile menu whenever the route changes
   useEffect(() => {

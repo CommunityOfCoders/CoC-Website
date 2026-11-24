@@ -1,0 +1,32 @@
+/* ============================================================
+   Phone-only touch effects (see ./index.ts). All inside the
+   phone media query so desktop is untouched.
+   ============================================================ */
+@media (max-width: 640px) {
+  /* ---- press feedback: uses the independent `scale` property so it never
+     fights the transforms the cards already animate ---- */
+  .is-pressed { scale: 0.965; transition: scale 0.12s var(--ease); }
+  .project-card.is-pressed, .team-card.is-pressed, .ev-card.is-pressed, .achievement-card.is-pressed { background: var(--ink-3); }
+  .os-card.is-pressed, .project-card.is-pressed { box-shadow: 0 0 0 1.5px var(--card-accent, var(--accent)), 0 4px 24px rgba(0, 0, 0, 0.45); }
+  .btn.is-pressed { background: var(--accent-deep); }
+  .placement-tab-btn.is-pressed { color: var(--fg); }
+  .nav__drawer-link.is-pressed, .footer__link.is-pressed { color: var(--accent); scale: 0.985; }
+  .drawer-action-btn.is-pressed, .os-action-btn.is-pressed, .drawer-author-chip.is-pressed { background: var(--card-accent, var(--accent)); color: var(--card-ink, var(--accent-ink)); border-color: transparent; }
+  .os-card__links a.is-pressed { scale: 0.9; border-color: var(--card-accent, var(--accent)); }
+  /* no grey flash / text-selection callout when holding cards */
+  .project-card, .os-card, .ev-card, .team-card { -webkit-touch-callout: none; -webkit-user-select: none; user-select: none; }
+
+  /* ---- page change: accent bar + fade-in ---- */
+  .page-bar {
+    position: fixed; top: 0; left: 0; right: 0; height: 3px; z-index: 200;
+    background: var(--accent); transform: scaleX(0); transform-origin: left center; opacity: 0; pointer-events: none;
+  }
+  .page-bar.is-running { animation: pageBar 0.7s var(--ease) forwards; }
+  @keyframes pageBar {
+    0% { transform: scaleX(0); opacity: 1; }
+    70% { transform: scaleX(1); opacity: 1; }
+    100% { transform: scaleX(1); opacity: 0; }
+  }
+  main.page-in { animation: pageIn 0.5s var(--ease); }
+  @keyframes pageIn { from { opacity: 0; } to { opacity: 1; } }
+}
