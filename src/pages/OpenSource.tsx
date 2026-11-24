@@ -120,7 +120,7 @@ const ORG_LOGOS: OrgMarkDef[] = [
   { match: /red hen/i, src: orgImg_redhen },
 ];
 
-const TAGS_SHOWN = 4;
+const TAGS_SHOWN = 3;
 
 // ─── CONTRIBUTOR CARD ─────────────────────────────────────────────────────────
 
@@ -185,36 +185,34 @@ function ContributorCard({ contributor, index, onSelect }: ContributorCardProps)
             </div>
 
             <div className="os-card__footer">
-              <span className="os-card__mentor">
-                {mentors.length > 0 ? (
-                  <>
-                    <em>Mentor</em> {mentors[0]}
-                    {mentors.length > 1 && ` +${mentors.length - 1}`}
-                  </>
-                ) : (
-                  <em>{program?.name}</em>
-                )}
-              </span>
-              <span className="os-card__links" onClick={(e) => e.stopPropagation()} onKeyDown={(e) => e.stopPropagation()}>
-                {contributor.github && (
-                  <a href={contributor.github} target="_blank" rel="noreferrer" aria-label={`${contributor.name} on GitHub`}>
-                    <Github width={15} height={15} />
-                  </a>
-                )}
-                {contributor.linkedin && (
-                  <a href={contributor.linkedin} target="_blank" rel="noreferrer" aria-label={`${contributor.name} on LinkedIn`}>
-                    <LinkedinColor width={15} height={15} />
-                  </a>
-                )}
-                {contributor.blog && (
-                  <a href={contributor.blog} target="_blank" rel="noreferrer" aria-label={`${contributor.name}'s blog`}>
-                    <BlogIcon url={contributor.blog} />
-                  </a>
-                )}
-                <span className="os-card__go" aria-hidden="true">
-                  <ChevronRight size={15} />
+              {mentors.length > 0 && (
+                <div className="os-card__mentor">
+                  <em>{mentors.length > 1 ? 'Mentors' : 'Mentor'}</em>
+                  <span>{mentors.join(', ')}</span>
+                </div>
+              )}
+              <div className="os-card__actions">
+                <span className="os-card__links" onClick={(e) => e.stopPropagation()} onKeyDown={(e) => e.stopPropagation()}>
+                  {contributor.github && (
+                    <a href={contributor.github} target="_blank" rel="noreferrer" aria-label={`${contributor.name} on GitHub`}>
+                      <Github width={15} height={15} />
+                    </a>
+                  )}
+                  {contributor.linkedin && (
+                    <a href={contributor.linkedin} target="_blank" rel="noreferrer" aria-label={`${contributor.name} on LinkedIn`}>
+                      <LinkedinColor width={15} height={15} />
+                    </a>
+                  )}
+                  {contributor.blog && (
+                    <a href={contributor.blog} target="_blank" rel="noreferrer" aria-label={`${contributor.name}'s blog`}>
+                      <BlogIcon url={contributor.blog} />
+                    </a>
+                  )}
                 </span>
-              </span>
+                <span className="os-card__go">
+                  View profile <ChevronRight size={14} />
+                </span>
+              </div>
             </div>
           </div>
         </article>
