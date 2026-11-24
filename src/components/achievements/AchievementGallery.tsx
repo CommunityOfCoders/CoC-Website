@@ -198,7 +198,7 @@ const Featured: React.FC<{ item: Achievement; onOpen: () => void }> = ({ item, o
         </motion.span>
         {sub && (
           <motion.span className="ach-feature__sub" variants={rise} custom={0.8}>
-            {sub} · 15-17 Nov 2026
+            {sub} · <span className="ach-feature__date">15-17 Nov 2026</span>
           </motion.span>
         )}
         {item.people.length > 0 && (
