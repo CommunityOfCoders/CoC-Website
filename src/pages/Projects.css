@@ -877,3 +877,6 @@ body.project-panel-open .nav {
   align-items: center; justify-content: center;
   background: rgba(245,247,245,0.08); border: 1px solid var(--line-2); color: var(--fg);
 }
+
+/* MemoraDB: single-word title shown solid green */
+.drawer-title__first.is-green { color: var(--accent); -webkit-text-stroke: 0; }
