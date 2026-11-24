@@ -309,3 +309,40 @@ body.modal-open .nav {
   overflow: hidden;
   background: #070808;
 }
+
+/* ---- footer social marks: same playful behaviour as the Contact page ----
+   each sits at its own small tilt; on hover it grows, swings the other way
+   and shows its handle in a tooltip */
+.footer__social { position: relative; transition: transform 0.4s var(--ease), color 0.25s var(--ease), border-color 0.25s var(--ease), background 0.25s var(--ease); }
+.footer__social:nth-child(1) { transform: rotate(-8deg); }
+.footer__social:nth-child(2) { transform: rotate(6deg); }
+.footer__social:nth-child(3) { transform: rotate(-4deg); }
+.footer__social:nth-child(4) { transform: rotate(5deg); }
+.footer__social:nth-child(1):hover { transform: scale(1.14) rotate(4deg); }
+.footer__social:nth-child(2):hover { transform: scale(1.14) rotate(-4deg); }
+.footer__social:nth-child(3):hover { transform: scale(1.14) rotate(8deg); }
+.footer__social:nth-child(4):hover { transform: scale(1.14) rotate(-5deg); }
+.footer__social svg { transition: transform 0.4s var(--ease); }
+.footer__social:hover svg { transform: scale(1.1); }
+.footer__social[data-tip]::after {
+  content: attr(data-tip);
+  position: absolute; bottom: calc(100% + 10px); left: 50%;
+  transform: translateX(-50%) translateY(4px); white-space: nowrap;
+  background: var(--fg); color: var(--ink); font-family: var(--font-mono);
+  font-size: 11px; font-weight: 600; padding: 5px 10px; border-radius: var(--r-pill);
+  opacity: 0; pointer-events: none; transition: opacity 0.2s var(--ease), transform 0.2s var(--ease);
+}
+.footer__social[data-tip]::before {
+  content: ''; position: absolute; bottom: calc(100% + 5px); left: 50%; transform: translateX(-50%);
+  border: 5px solid transparent; border-top-color: var(--fg); opacity: 0; transition: opacity 0.2s var(--ease);
+}
+.footer__social[data-tip]:hover::after { opacity: 1; transform: translateX(-50%) translateY(0); }
+.footer__social[data-tip]:hover::before { opacity: 1; }
+/* touch screens have no hover: keep the marks straight and skip the tooltip */
+@media (hover: none) {
+  .footer__social, .footer__social:nth-child(n) { transform: none; }
+  .footer__social[data-tip]::after, .footer__social[data-tip]::before { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .footer__social, .footer__social:nth-child(n), .footer__social:nth-child(n):hover { transform: none; }
+}
