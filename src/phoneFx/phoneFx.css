@@ -60,4 +60,25 @@
   }
   .drawer-panel .drawer-mclose, .os-drawer-panel .os-drawer-mclose { top: 18px; }
   .drawer-content, .os-drawer-content { padding-top: 34px; }
+
+  /* ---- long-press peek: a bigger copy of the card with the hidden details ---- */
+  .peek-overlay {
+    position: fixed; inset: 0; z-index: 250;
+    display: grid; place-items: center; padding: 24px;
+    background: rgba(7, 8, 8, 0.78);
+    opacity: 0; pointer-events: none;
+    transition: opacity 0.25s var(--ease);
+  }
+  .peek-overlay.is-open { opacity: 1; }
+  .peek-card {
+    width: min(88vw, 360px);
+    scale: 0.88; transition: scale 0.35s var(--ease);
+  }
+  .peek-overlay.is-open .peek-card { scale: 1; }
+  .peek-card > * { height: auto !important; min-height: 0 !important; scale: 1 !important; box-shadow: 0 0 0 1.5px var(--card-accent, var(--accent)), 0 24px 60px rgba(0, 0, 0, 0.7) !important; }
+  .peek-card .os-card__tech { display: flex !important; flex-wrap: wrap; }
+  .peek-card .os-card__tech-line { display: none !important; }
+  .peek-card .os-card__mentor { display: flex !important; }
+  .peek-card .os-card__project, .peek-card .project-card__tagline { -webkit-line-clamp: unset !important; display: block !important; }
+  .peek-card .os-card__tech .tech-chip { display: inline-block !important; max-width: none !important; }
 }
