@@ -13,6 +13,8 @@ export interface Achievement {
   src: string;
   alt: string;
   gallery?: string[];
+  /** short figures for the featured banner */
+  stats?: string[];
 }
 
 /* `highlights` mixes names with facts ("INR 1,50,000 Prize", "Team SKS",
@@ -351,7 +353,8 @@ export const ACHIEVEMENTS: Achievement[] = parseAchievements();
 const SG_HIGHLIGHTS = [
   'Ankita Sagar',
   'Sofia Abidi',
-  '120 students',
+  '60 students from India',
+  '60 students from Singapore',
   '55 institutes',
   '20 India-Singapore teams',
   '36 hours',
@@ -366,10 +369,11 @@ export const FEATURED_ACHIEVEMENT: Achievement = {
   title: 'Singapore-India Hackathon 2026 - Singapore Management University',
   tag: 'SINGAPORE-INDIA HACKATHON 2026',
   description:
-    "Ankita Sagar and Sofia Abidi represented VJTI among 120 tertiary students from 55 institutes across India and Singapore for the fourth Singapore-India Hackathon, held at Singapore Management University from 15 to 17 November 2026 alongside TiECon 2026. Working in mixed India-Singapore teams for 36 hours on the theme 'Build a Better Future', they took on real challenges set by Singtel, Income Insurance, the Singapore government and raiSE, and presented at the Grand Finals. The hackathon is co-organised by SMU's Institute of Innovation & Entrepreneurship, AICTE and the Ministry of Education's Innovation Cell, with TiE Singapore.",
+    "Ankita Sagar and Sofia Abidi represented VJTI among 120 tertiary students - 60 from India and 60 from Singapore - drawn from 55 institutes for the fourth Singapore-India Hackathon, held at Singapore Management University from 15 to 17 November 2026 alongside TiECon 2026. Working in mixed India-Singapore teams for 36 hours on the theme 'Build a Better Future', they took on real challenges set by Singtel, Income Insurance, the Singapore government and raiSE, and presented at the Grand Finals. The hackathon is co-organised by SMU's Institute of Innovation & Entrepreneurship, AICTE and the Ministry of Education's Innovation Cell, with TiE Singapore.",
   highlights: SG_HIGHLIGHTS,
   ...splitHighlights(SG_HIGHLIGHTS),
   src: sgIndia1,
   alt: 'Participants and guests of the Singapore-India Hackathon 2026 at Singapore Management University',
   gallery: [sgIndia2, sgIndia3, sgIndia4, sgIndia5],
+  stats: ['60 students', '55 institutes', '20 India-Singapore teams', '36 hours'],
 };
