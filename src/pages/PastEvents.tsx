@@ -296,7 +296,7 @@ const PolaroidFlank: React.FC<{ side: "left" | "right" }> = ({ side }) => {
           }
         >
           <div className="ev-polaroid__img">
-            <img src={p.src} alt="" draggable={false} />
+            <img src={p.src} alt="" draggable={false} decoding="async" />
           </div>
           {p.sticker === "star" && <StarSticker />}
           {p.sticker === "heart" && <HeartSticker />}
