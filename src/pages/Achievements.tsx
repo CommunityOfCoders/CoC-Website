@@ -1,10 +1,8 @@
 import React, { useRef } from 'react';
 import { motion } from 'framer-motion';
-import { Trophy, ArrowRight, Award } from 'lucide-react';
 import KineticWords from '../components/ui/KineticHeading';
-import Reveal from '../components/ui/Reveal';
 import { ACHIEVEMENTS } from '../data/achievementsData';
-import { AchievementStrips } from '../components/achievements/AchievementStrips';
+import { AchievementIndex } from '../components/achievements/AchievementIndex';
 import './Achievements.css';
 
 const EASE = [0.16, 1, 0.3, 1] as const;
@@ -44,49 +42,19 @@ export const Achievements: React.FC = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, ease: EASE, delay: 0.35 }}
           >
-            “Celebrating the milestones, victories, and moments that shaped our journey.”
+            Hackathon finals, ICPC regionals, open-source scholarships and the wins in between. Open any of them to see the moment.
           </motion.p>
 
         </div>
       </header>
 
-      {/* Main Single-Column Chained Achievement Journey */}
-      <section className="section achievements-journey">
+      {/* The awards index flows straight on from the heading - one piece, no separate blocks */}
+      <section className="achievements-journey">
         <div className="container">
-          <AchievementStrips achievements={ACHIEVEMENTS} />
+          <AchievementIndex achievements={ACHIEVEMENTS} />
         </div>
       </section>
 
-      {/* End of Journey / Closing Section */}
-      <section className="achievements-closing">
-        <div className="container achievements-closing__container">
-          <Reveal variant="up" y={30}>
-            <div className="achievements-closing__card">
-              <div className="achievements-closing__badge">
-                <Trophy size={18} />
-                <span>End of Timeline</span>
-              </div>
-
-              <h2 className="achievements-closing__title">
-                And many more milestones ahead<span className="achievements-closing__dot">.</span>
-              </h2>
-
-              <p className="achievements-closing__subtext">
-                Our story doesn't stop here. Community of Coders continues to innovate, compete, and build the future of software together.
-              </p>
-
-              <div className="achievements-closing__actions">
-                <a href="#events" className="btn btn--hero-cta">
-                  Explore Past Events <ArrowRight size={16} />
-                </a>
-                <a href="#contact" className="btn btn--ghost">
-                  Get In Touch <Award size={16} />
-                </a>
-              </div>
-            </div>
-          </Reveal>
-        </div>
-      </section>
     </div>
   );
 };
