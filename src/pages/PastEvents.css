@@ -402,7 +402,7 @@
   height: 34px;
   border-radius: var(--r-pill);
   border: 1px solid rgba(245, 247, 245, 0.28);
-  background: rgba(7, 8, 8, 0.45);
+  background: rgba(7, 8, 8, 0.8);
   color: var(--fg);
   opacity: 0;
   transition: opacity 0.3s var(--ease), background 0.3s var(--ease),
@@ -441,8 +441,8 @@
   padding: 5px 10px;
   border-radius: var(--r-pill);
   background: rgba(7, 8, 8, 0.45);
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
+
+
 }
 .ev-slider__dot {
   width: 7px;
@@ -472,8 +472,8 @@
   place-items: center;
   padding: clamp(16px, 4vw, 48px);
   background: rgba(7, 8, 8, 0.82);
-  backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px);
+
+
 }
 
 .ev-modal {
@@ -501,9 +501,8 @@
   height: 42px;
   border-radius: var(--r-pill);
   border: 1px solid rgba(245, 247, 245, 0.2);
-  background: rgba(14, 16, 15, 0.7);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+  background: rgba(14, 16, 15, 0.92);
+
   color: var(--fg);
   transition: background 0.25s var(--ease), border-color 0.25s var(--ease),
     color 0.25s var(--ease);
@@ -795,7 +794,6 @@
 .ev-drawer-backdrop {
   position: fixed; inset: 0;
   background: rgba(0, 0, 0, 0.78);
-  backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
   z-index: 1000; opacity: 0; pointer-events: none;
   transition: opacity 0.35s var(--ease);
 }
@@ -814,8 +812,7 @@
 
 .ev-drawer-header {
   position: sticky; top: 0;
-  background: rgba(14, 16, 15, 0.92);
-  backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+  background: rgba(14, 16, 15, 0.98);
   padding: 20px 28px;
   display: flex; align-items: center; justify-content: space-between;
   border-bottom: 1px solid var(--line);

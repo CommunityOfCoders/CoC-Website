@@ -27,8 +27,7 @@ body.modal-open .nav {
 }
 .nav--scrolled {
   /* solid enough that content scrolling beneath never shows through */
-  background: rgba(10, 10, 10, 0.92);
-  backdrop-filter: blur(12px);
+  background: rgba(10, 10, 10, 0.97);
   border-bottom-color: var(--line);
 }
 

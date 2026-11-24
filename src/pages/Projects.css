@@ -598,8 +598,7 @@ body.project-panel-open .nav {
   right: 0;
   height: 78px;
   background: rgba(10, 10, 10, 0.95) !important;
-  backdrop-filter: blur(12px) !important;
-  -webkit-backdrop-filter: blur(12px) !important;
+
   border-bottom: 1px solid var(--line) !important;
   pointer-events: auto !important;
   filter: none !important;
@@ -615,8 +614,7 @@ body.project-panel-open .nav {
   right: 0;
   bottom: 0;
   background: rgba(0, 0, 0, 0.78);
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
+
   z-index: 90;
   opacity: 0;
   pointer-events: none;
