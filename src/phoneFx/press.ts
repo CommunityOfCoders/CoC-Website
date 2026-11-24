@@ -4,7 +4,7 @@ import { buzz } from './haptics';
    it squishes under the finger and takes its accent colour, with a
    light buzz on Android. Removed the moment the finger moves (scroll). */
 const SEL = [
-  '.project-card', '.os-card', '.ev-card', '.team-card', '.achievement-card', '.os-program-card',
+  '.project-card', '.os-card', '.ev-card', '.team-card', '.ach-tile', '.os-program-card',
   '.btn', '.placement-tab-btn', '.nav__drawer-link', '.footer__link', '.footer__social',
   '.drawer-action-btn', '.os-action-btn', '.drawer-author-chip', '.os-card__links a',
 ].join(',');

@@ -1,7 +1,7 @@
 /* Phone replacement for hover: as you scroll, the card closest to the
    middle of the screen "lights up" (accent outline, tinted header) so
    there is always one clear focus - like hovering, without a mouse. */
-const CARDS = '.project-card, .os-card, .team-card, .ev-card';
+const CARDS = '.project-card, .os-card, .team-card, .ev-card, .ach-tile';
 
 export function initSpotlight(): () => void {
   let raf = 0;
