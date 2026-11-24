@@ -169,6 +169,30 @@ const Featured: React.FC<{ item: Achievement; onOpen: () => void }> = ({ item, o
   const reduce = useReducedMotion();
   const { scrollYProgress } = useScroll({ target: ref, offset: ['start end', 'end start'] });
   const coverY = useTransform(scrollYProgress, [0, 1], ['-8%', '8%']);
+
+  // same depth-tilt as the grid tiles, gentler because the banner is wide
+  const px = useMotionValue(0);
+  const py = useMotionValue(0);
+  const sx = useSpring(px, { stiffness: 180, damping: 18, mass: 0.5 });
+  const sy = useSpring(py, { stiffness: 180, damping: 18, mass: 0.5 });
+  const rotateY = useTransform(sx, [-0.5, 0.5], [-5, 5]);
+  const rotateX = useTransform(sy, [-0.5, 0.5], [5, -5]);
+  const coverX = useTransform(sx, [-0.5, 0.5], [18, -18]);
+  const coverShiftY = useTransform(sy, [-0.5, 0.5], [14, -14]);
+  const copyX = useTransform(sx, [-0.5, 0.5], [-8, 8]);
+  const copyY = useTransform(sy, [-0.5, 0.5], [-6, 6]);
+  const stripX = useTransform(sx, [-0.5, 0.5], [-14, 14]);
+  const stripY = useTransform(sy, [-0.5, 0.5], [-10, 10]);
+  const onMove = (e: React.PointerEvent) => {
+    if (e.pointerType !== 'mouse' || reduce) return;
+    const r = e.currentTarget.getBoundingClientRect();
+    px.set((e.clientX - r.left) / r.width - 0.5);
+    py.set((e.clientY - r.top) / r.height - 0.5);
+  };
+  const onLeave = () => {
+    px.set(0);
+    py.set(0);
+  };
   const { main, sub } = splitTitle(item.title);
   const words = main.split(' ');
   const head = words.slice(0, -1).join(' ');
@@ -182,16 +206,19 @@ const Featured: React.FC<{ item: Achievement; onOpen: () => void }> = ({ item, o
       type="button"
       className="ach-feature"
       onClick={onOpen}
+      onPointerMove={onMove}
+      onPointerLeave={onLeave}
       aria-label={`Open ${item.title}`}
       initial={reduce ? false : 'hidden'}
       whileInView="show"
       viewport={{ once: true, margin: '-10% 0px' }}
+      style={reduce ? undefined : { rotateX, rotateY, transformPerspective: 1400 }}
     >
-      <span className="ach-feature__cover">
+      <motion.span className="ach-feature__cover" style={reduce ? undefined : { x: coverX, y: coverShiftY }}>
         <motion.img src={item.src} alt={item.alt} draggable={false} variants={photo} custom={0} style={reduce ? undefined : { y: coverY }} />
-      </span>
+      </motion.span>
 
-      <span className="ach-feature__copy">
+      <motion.span className="ach-feature__copy" style={reduce ? undefined : { x: copyX, y: copyY }}>
         <motion.span className="ach-feature__title" variants={rise} custom={0.7}>
           {head && <span className="ach-feature__title-out">{head} </span>}
           <span className="ach-feature__title-last">{last}</span>
@@ -224,16 +251,16 @@ const Featured: React.FC<{ item: Achievement; onOpen: () => void }> = ({ item, o
             })}
           </motion.span>
         )}
-      </span>
+      </motion.span>
 
       {thumbs.length > 0 && (
-        <span className="ach-feature__strip" aria-hidden="true">
+        <motion.span className="ach-feature__strip" aria-hidden="true" style={reduce ? undefined : { x: stripX, y: stripY }}>
           {thumbs.slice(0, 4).map((src, i) => (
             <motion.span key={src} className="ach-feature__thumb" variants={rise} custom={0.9 + i * 0.08}>
               <img src={src} alt="" draggable={false} />
             </motion.span>
           ))}
-        </span>
+        </motion.span>
       )}
 
       <span className="ach-feature__go" aria-hidden="true">
