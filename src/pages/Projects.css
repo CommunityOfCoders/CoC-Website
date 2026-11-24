@@ -878,5 +878,5 @@ body.project-panel-open .nav {
   background: rgba(245,247,245,0.08); border: 1px solid var(--line-2); color: var(--fg);
 }
 
-/* MemoraDB: single-word title shown solid green */
-.drawer-title__first.is-green { color: var(--accent); -webkit-text-stroke: 0; }
+/* MemoraDB: single-word title keeps its outline, in green */
+.drawer-title__first.is-green { color: transparent; -webkit-text-stroke: 1.5px var(--accent); }
