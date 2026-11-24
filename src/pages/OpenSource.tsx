@@ -113,8 +113,6 @@ function ContributorCard({ contributor, index, onSelect }: ContributorCardProps)
           tabIndex={0}
           style={{ '--card-accent': program?.hover } as React.CSSProperties}
         >
-          <span className="os-card__ghost" aria-hidden="true">{contributor.initials}</span>
-
           <div className="os-card__head">
             <span className="os-card__prog">
               {program && (
