@@ -23,6 +23,16 @@ const NAV = [
   { label: "Contact", hash: "#contact" },
 ];
 
+
+/* External tabs (the CP Club site) get the same curtain as internal ones:
+   App plays it, then opens the site in a new tab as before. */
+const openExternal = (e: React.MouseEvent<HTMLAnchorElement>, url: string, label: string) => {
+  if (e.metaKey || e.ctrlKey || e.shiftKey || e.button !== 0) return; // let modified clicks behave normally
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  e.preventDefault();
+  window.dispatchEvent(new CustomEvent('coc:external', { detail: { url, label } }));
+};
+
 const SOCIALS = [
   {
     label: "GitHub",
@@ -101,7 +111,9 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children, route }) => {
               <a
                 key={item.label}
                 href={item.external ?? (item.hash || "#")}
-                {...(item.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+                {...(item.external
+                  ? { target: "_blank", rel: "noopener noreferrer", onClick: (e: React.MouseEvent<HTMLAnchorElement>) => openExternal(e, item.external!, item.label) }
+                  : {})}
                 className={`nav__link${item.hash === "#cp" ? " nav__link--stack" : ""}${isActive(item.hash) ? " is-active" : ""}`}
                 aria-current={isActive(item.hash) ? "page" : undefined}
               >
@@ -145,7 +157,9 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children, route }) => {
             <a
               key={item.label}
               href={item.external ?? (item.hash || "#")}
-              {...(item.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+              {...(item.external
+                ? { target: "_blank", rel: "noopener noreferrer", onClick: (e: React.MouseEvent<HTMLAnchorElement>) => openExternal(e, item.external!, item.label) }
+                : {})}
               className={`nav__drawer-link${isActive(item.hash) ? " is-active" : ""}`}
             >
               {item.label}
@@ -194,7 +208,7 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children, route }) => {
               <div className="footer__col">
                 <span className="footer__col-title">Explore</span>
                 {NAV.slice(1, 6).map((i) => (
-                  <a key={i.label} href={i.external ?? i.hash} {...(i.external ? { target: "_blank", rel: "noopener noreferrer" } : {})} className="footer__link">
+                  <a key={i.label} href={i.external ?? i.hash} {...(i.external ? { target: "_blank", rel: "noopener noreferrer", onClick: (e: React.MouseEvent<HTMLAnchorElement>) => openExternal(e, i.external!, i.label) } : {})} className="footer__link">
                     {i.label}
                   </a>
                 ))}
