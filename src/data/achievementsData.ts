@@ -28,9 +28,14 @@ import awc2 from '../assets/achievements-extra/icpc-awc-2.jpg';
 import awc3 from '../assets/achievements-extra/icpc-awc-3.jpg';
 import sih2025b from '../assets/achievements-extra/sih-2025-2.jpg';
 import sih2025trinetra from '../assets/achievements-extra/sih-2025-trinetra-2.jpg';
+import sgIndia1 from '../assets/achievements-featured/sg-india-2026-1.jpg';
+import sgIndia2 from '../assets/achievements-featured/sg-india-2026-2.jpg';
+import sgIndia3 from '../assets/achievements-featured/sg-india-2026-3.jpg';
+import sgIndia4 from '../assets/achievements-featured/sg-india-2026-4.jpg';
+import sgIndia5 from '../assets/achievements-featured/sg-india-2026-5.jpg';
 
 /** who won it: one team, several teams, one person, or several individuals (e.g. GSoC) */
-export type AchievementKind = 'team' | 'teams' | 'individual' | 'individuals';
+export type AchievementKind = 'team' | 'teams' | 'individual' | 'individuals' | 'selected';
 
 interface MetaItem {
   kind?: AchievementKind;
@@ -338,3 +343,33 @@ function parseAchievements(): Achievement[] {
 }
 
 export const ACHIEVEMENTS: Achievement[] = parseAchievements();
+
+/* ------------------------------------------------------------
+   The featured achievement shown across the top of the page,
+   above the grid.
+   ------------------------------------------------------------ */
+const SG_HIGHLIGHTS = [
+  'Ankita Sagar',
+  'Sofia Abidi',
+  '120 students',
+  '55 institutes',
+  '20 India-Singapore teams',
+  '36 hours',
+  'Singapore Management University',
+  'TiECon 2026',
+];
+
+export const FEATURED_ACHIEVEMENT: Achievement = {
+  id: 'featured_sg_india_2026',
+  number: '00',
+  kind: 'selected',
+  title: 'Singapore-India Hackathon 2026 - Singapore Management University',
+  tag: 'SINGAPORE-INDIA HACKATHON 2026',
+  description:
+    "Ankita Sagar and Sofia Abidi represented VJTI among 120 tertiary students from 55 institutes across India and Singapore for the fourth Singapore-India Hackathon, held at Singapore Management University from 15 to 17 November 2026 alongside TiECon 2026. Working in mixed India-Singapore teams for 36 hours on the theme 'Build a Better Future', they took on real challenges set by Singtel, Income Insurance, the Singapore government and raiSE, and presented at the Grand Finals. The hackathon is co-organised by SMU's Institute of Innovation & Entrepreneurship, AICTE and the Ministry of Education's Innovation Cell, with TiE Singapore.",
+  highlights: SG_HIGHLIGHTS,
+  ...splitHighlights(SG_HIGHLIGHTS),
+  src: sgIndia1,
+  alt: 'Participants and guests of the Singapore-India Hackathon 2026 at Singapore Management University',
+  gallery: [sgIndia2, sgIndia3, sgIndia4, sgIndia5],
+};
