@@ -1,0 +1,62 @@
+/* ============================================================
+   Page-change curtain. Two full-screen blades (green, then ink)
+   rise to cover, the destination name appears, then they lift
+   away upward. Only transforms + opacity are animated.
+   ============================================================ */
+.curtain {
+  position: fixed;
+  inset: 0;
+  z-index: 600;
+  pointer-events: all;
+  overflow: hidden;
+}
+.curtain__blade {
+  position: absolute;
+  inset: 0;
+  will-change: transform;
+}
+.curtain__blade--green { background: var(--accent); }
+.curtain__blade--ink {
+  background: var(--ink);
+  display: grid;
+  place-items: center;
+}
+
+.curtain__label {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(3.2rem, 13vw, 11rem);
+  line-height: 0.9;
+  letter-spacing: -0.05em;
+  color: transparent;
+  -webkit-text-stroke: 2px var(--fg);
+  white-space: nowrap;
+  will-change: transform, opacity;
+}
+.curtain__dot { color: var(--accent); -webkit-text-stroke: 0; }
+
+/* cover: green first, ink right behind it */
+.curtain.is-in .curtain__blade--green { animation: curtainUp 0.46s cubic-bezier(0.7, 0, 0.3, 1) both; }
+.curtain.is-in .curtain__blade--ink { animation: curtainUp 0.46s cubic-bezier(0.7, 0, 0.3, 1) 0.07s both; }
+.curtain.is-in .curtain__label { animation: labelIn 0.55s cubic-bezier(0.16, 1, 0.3, 1) 0.2s both; }
+
+/* reveal: ink lifts first, green follows, the label drifts up and out */
+.curtain.is-out .curtain__blade--ink { animation: curtainAway 0.62s cubic-bezier(0.7, 0, 0.3, 1) 0.12s both; }
+.curtain.is-out .curtain__blade--green { animation: curtainAway 0.62s cubic-bezier(0.7, 0, 0.3, 1) 0.2s both; }
+.curtain.is-out .curtain__label { animation: labelOut 0.4s cubic-bezier(0.7, 0, 0.3, 1) both; }
+.curtain.is-out { pointer-events: none; }
+
+@keyframes curtainUp { from { transform: translate3d(0, 100%, 0); } to { transform: translate3d(0, 0, 0); } }
+@keyframes curtainAway { from { transform: translate3d(0, 0, 0); } to { transform: translate3d(0, -100%, 0); } }
+@keyframes labelIn {
+  from { transform: translate3d(0, 40%, 0) scale(0.92); opacity: 0; }
+  to { transform: translate3d(0, 0, 0) scale(1); opacity: 1; }
+}
+@keyframes labelOut {
+  from { transform: translate3d(0, 0, 0); opacity: 1; }
+  to { transform: translate3d(0, -30%, 0); opacity: 0; }
+}
+
+@media (max-width: 640px) {
+  .curtain__label { -webkit-text-stroke-width: 1.5px; }
+}
