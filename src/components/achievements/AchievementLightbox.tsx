@@ -29,6 +29,13 @@ const splitTitle = (t: string) => {
   return i > 0 ? { main: t.slice(0, i), sub: t.slice(i + 3) } : { main: t, sub: '' };
 };
 
+const PEOPLE_LABEL: Record<Achievement['kind'], string> = {
+  team: 'The team',
+  teams: 'Team members',
+  individual: 'Achieved by',
+  individuals: 'Contributors',
+};
+
 const line = {
   hidden: { opacity: 0, y: 24 },
   show: { opacity: 1, y: 0, transition: { duration: 0.65, ease: EASE } },
@@ -150,6 +157,9 @@ export const AchievementLightbox: React.FC<AchievementLightboxProps> = ({
     const prevItem = achievements[(currentIndex - 1 + total) % total];
     const nextItem = achievements[(currentIndex + 1) % total];
     const sd = shotDirRef.current;
+    // for a single team, its name ("Team SKS") heads the people block instead of sitting in the facts
+    const teamName = current.kind === 'team' ? current.facts.find((f) => /^team /i.test(f)) : undefined;
+    const facts = current.facts.filter((f) => f !== teamName);
 
     body = (
       <>
@@ -252,9 +262,11 @@ export const AchievementLightbox: React.FC<AchievementLightboxProps> = ({
               )}
 
               <motion.aside className="ach-view__side" variants={line}>
-                {current.people.length > 0 && (
+                {(current.people.length > 0 || teamName) && (
                   <div className="ach-view__block">
-                    <span className="ach-view__label">{current.people.length > 1 ? 'The team' : 'Achieved by'}</span>
+                    <span className="ach-view__label">{PEOPLE_LABEL[current.kind]}</span>
+                    {teamName && <p className="ach-view__team">{teamName}</p>}
+                    {current.people.length > 0 && (
                     <p className="ach-view__people">
                       {current.people.map((p, i) => (
                         <React.Fragment key={p}>
@@ -268,13 +280,14 @@ export const AchievementLightbox: React.FC<AchievementLightboxProps> = ({
                         </React.Fragment>
                       ))}
                     </p>
+                    )}
                   </div>
                 )}
-                {current.facts.length > 0 && (
+                {facts.length > 0 && (
                   <div className="ach-view__block">
                     <span className="ach-view__label">At a glance</span>
                     <ul className="ach-view__facts">
-                      {current.facts.map((f) => (
+                      {facts.map((f) => (
                         <li key={f}>{f}</li>
                       ))}
                     </ul>
