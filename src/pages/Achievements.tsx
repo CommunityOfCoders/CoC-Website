@@ -27,7 +27,7 @@ export const Achievements: React.FC = () => {
             transition={{ duration: 0.6, ease: EASE, delay: 0.1 }}
             className="eyebrow achievements-hero__eyebrow"
           >
-            Hall of fame · 2022 - 2026
+            Hall of fame
           </motion.div>
 
           <h1 className="achievements-hero__title">
