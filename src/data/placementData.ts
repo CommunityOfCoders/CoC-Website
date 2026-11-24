@@ -67,6 +67,37 @@ const RAW_INTERNSHIPS: Record<string, RawInternshipInput[]> = {
   ]
 };
 
+const RAW_SIX_MONTH: Record<string, RawInternshipInput[]> = {
+  '2026': [
+    { company: 'DE Shaw', stipend: '₹2.5L/mo', members: 2, ppos: '-' },
+    { company: 'Rubrik', stipend: '₹1.75L/mo', members: 1, ppos: '-' },
+    { company: 'Visa', stipend: '₹90k/mo', members: 1, ppos: '-' },
+    { company: 'Hilti', stipend: '₹80k/mo', members: 3, ppos: '-' },
+    { company: 'Snabbit', stipend: '₹75k/mo', members: 2, ppos: '-' },
+    { company: 'Applied Materials', stipend: '₹55k/mo', members: 2, ppos: '-' },
+    { company: 'Persistent Systems', stipend: '₹55k/mo', members: 1, ppos: '-' },
+    { company: 'BNP Paribas', stipend: '₹50k/mo', members: 2, ppos: '-' },
+    { company: 'Baker Hughes', stipend: '₹50k/mo', members: 1, ppos: '-' },
+    { company: 'Pfizer', stipend: '₹50k/mo', members: 3, ppos: '-' },
+    { company: 'Zycus', stipend: '₹50k/mo', members: 1, ppos: '-' },
+    { company: 'Crucibl', stipend: '₹40k/mo', members: 1, ppos: '-' },
+    { company: 'Mahindra Finance', stipend: '₹40k/mo', members: 1, ppos: '-' },
+    { company: 'Mobisy Technologies', stipend: '₹40k/mo', members: 1, ppos: '-' },
+    { company: 'Sun Pharma', stipend: '₹40k/mo', members: 1, ppos: '-' },
+    { company: 'Cognext', stipend: '₹30k/mo', members: 2, ppos: '-' },
+    { company: 'NCDEX', stipend: '₹30k/mo', members: 6, ppos: '-' },
+    { company: 'Colgate', stipend: '₹25k/mo', members: 3, ppos: '-' },
+    { company: 'Dolat Capital', stipend: '₹25k/mo', members: 2, ppos: '-' },
+    { company: 'IDfy', stipend: '₹25k/mo', members: 1, ppos: '-' },
+    { company: 'IRIS RegTech', stipend: '₹25k/mo', members: 1, ppos: '-' },
+    { company: 'Revvity', stipend: '₹25k/mo', members: 3, ppos: '-' },
+    { company: 'SIAA', stipend: '₹25k/mo', members: 1, ppos: '-' },
+    { company: 'Deloitte', stipend: '₹5k/mo', members: 2, ppos: '-' },
+    { company: 'GEP Worldwide', stipend: '-', members: 1, ppos: '-' },
+    { company: 'Morgan Stanley', stipend: '-', members: 4, ppos: '-' }
+  ]
+};
+
 const RAW_PLACEMENTS: Record<string, RawPlacementInput[]> = {
   '2026': [
     { company: 'DE Shaw', ctc: '₹68L', members: 2, ppos: 2 },
@@ -103,8 +134,9 @@ const RAW_PLACEMENTS: Record<string, RawPlacementInput[]> = {
 export const AVAILABLE_YEARS: string[] = Object.keys(RAW_PLACEMENTS).sort((a, b) => Number(b) - Number(a));
 export const CURRENT_YEAR: string = AVAILABLE_YEARS[0] || '2026';
 
-export const INTERNSHIPS_DATA: Record<string, { membersCount: number; companiesCount: number; items: InternshipItem[] }> = Object.keys(RAW_INTERNSHIPS).reduce((acc, year) => {
-  const sortedItems = [...RAW_INTERNSHIPS[year]]
+type InternshipBlock = { membersCount: number; companiesCount: number; items: InternshipItem[] };
+const buildInternships = (raw: Record<string, RawInternshipInput[]>): Record<string, InternshipBlock> => Object.keys(raw).reduce((acc, year) => {
+  const sortedItems = [...raw[year]]
     .sort((a, b) => parseAmount(b.stipend) - parseAmount(a.stipend))
     .map((item, idx) => ({
       id: idx + 1,
@@ -126,7 +158,10 @@ export const INTERNSHIPS_DATA: Record<string, { membersCount: number; companiesC
     items: sortedItems
   };
   return acc;
-}, {} as Record<string, { membersCount: number; companiesCount: number; items: InternshipItem[] }>);
+}, {} as Record<string, InternshipBlock>);
+
+export const INTERNSHIPS_DATA = buildInternships(RAW_INTERNSHIPS);
+export const SIX_MONTH_DATA = buildInternships(RAW_SIX_MONTH);
 
 export const PLACEMENTS_DATA: Record<string, { offersCount: number; companiesCount: number; items: PlacementItem[] }> = Object.keys(RAW_PLACEMENTS).reduce((acc, year) => {
   const sortedItems = [...RAW_PLACEMENTS[year]]
