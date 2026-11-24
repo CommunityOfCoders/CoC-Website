@@ -323,8 +323,8 @@
 }
 
 .company-logo-container {
-  width: 32px;
-  height: 32px;
+  width: 40px;
+  height: 40px;
   flex-shrink: 0;
   display: grid;
   place-items: center;
@@ -430,5 +430,10 @@
 .company-logo-tile.is-bleed { padding: 0; }
 .company-logo-tile img { width: 100%; height: 100%; object-fit: contain; display: block; }
 .company-logo-tile.is-bleed img { transform: scale(1.08); }
-.company-logo-container.is-wide { width: 72px; }
-.company-logo-container.is-wide .company-logo-tile { padding: 3px 5px; }
+
+/* company names stay on a single line next to the logo */
+.col-company span { white-space: nowrap; }
+.col-company { flex-wrap: nowrap; }
+
+.col-company { white-space: nowrap; }
+.col-company span { white-space: nowrap; }
