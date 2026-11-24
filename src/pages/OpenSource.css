@@ -451,7 +451,7 @@
    Same family as the Projects grid: ink surface, hairline ring, the
    site's one green accent on hover. The program's real logo sits in a
    small white tile (like the company logos) so it carries the only
-   outside colour; a huge outlined monogram sits behind the text. */
+   outside colour. */
 .os-card {
   position: relative;
   height: 100%;
@@ -468,25 +468,7 @@
 }
 .os-card:hover { background: var(--ink-3); transform: translateY(-4px); box-shadow: 0 0 0 1.5px var(--card-accent, var(--accent)), 0 8px 40px rgba(0, 0, 0, 0.55); }
 .os-card:focus-visible { outline: 2px solid var(--card-accent, var(--accent)); outline-offset: 3px; }
-.os-card > * { position: relative; z-index: 1; }
 
-.os-card__ghost {
-  position: absolute !important;
-  z-index: 0 !important;
-  right: -10px;
-  bottom: -34px;
-  font-family: var(--font-display);
-  font-weight: 800;
-  font-size: 9.5rem;
-  line-height: 1;
-  letter-spacing: -0.04em;
-  color: transparent;
-  -webkit-text-stroke: 1px rgba(245, 247, 245, 0.07);
-  pointer-events: none;
-  user-select: none;
-  transition: -webkit-text-stroke-color 0.35s var(--ease);
-}
-.os-card:hover .os-card__ghost { -webkit-text-stroke-color: color-mix(in srgb, var(--card-accent, var(--accent)) 38%, transparent); }
 
 .os-card__head { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 16px; }
 .os-card__prog { display: inline-flex; align-items: center; gap: 9px; font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--fg-dim); }
@@ -678,7 +660,6 @@ body.os-panel-open .nav {
   .os-card__prog-logo { width: 22px; height: 22px; border-radius: 6px; }
   .os-card__prog { font-size: 0.58rem; gap: 6px; }
   .os-card__year { font-size: 0.6rem; }
-  .os-card__ghost { font-size: 5.5rem; bottom: -18px; }
   .os-card__name { font-size: 1.1rem; }
   .os-card__org { font-size: 0.64rem; }
   .os-card__project { font-size: 0.74rem; min-height: 0; margin: 8px 0 10px; display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden; }
