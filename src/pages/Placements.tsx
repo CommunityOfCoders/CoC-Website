@@ -5,6 +5,7 @@ import {
   PlacementTabs,
   type TabType,
   InternshipsTab,
+  SixMonthTab,
   PlacementsTab,
   PPOsTab
 } from '../components/placement';
@@ -27,6 +28,7 @@ const Placements: React.FC = () => {
           transition={{ duration: 0.25 }}
         >
           {activeTab === 'internships' && <InternshipsTab />}
+          {activeTab === 'sixmonths' && <SixMonthTab />}
           {activeTab === 'placements' && <PlacementsTab />}
           {activeTab === 'ppos' && <PPOsTab />}
         </motion.div>
