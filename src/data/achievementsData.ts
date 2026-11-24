@@ -18,7 +18,7 @@ export interface Achievement {
 /* `highlights` mixes names with facts ("INR 1,50,000 Prize", "Team SKS",
    "GLA University"). Anything that reads like a fact goes to `facts`, the
    rest are people. */
-const FACT = /\d|team |university|cern|quantum|healthcare|bounty|cybersecurity|initiative|finalist|finale|prize|bank|->|devfolio|ethglobal|iiitdm|acm-w|runner-up|witness|filecoin|arbitrum|octave|ml4sci|julia|winners|position|sih|college|\biit\b/i;
+const FACT = /\d|team |university|cern|quantum|healthcare|bounty|cybersecurity|initiative|finalist|finale|prize|bank|->|devfolio|ethglobal|iiitdm|acm-w|runner-up|witness|filecoin|arbitrum|octave|ml4sci|julia|winners|position|sih|college|ntro|problem|\biit\b/i;
 const splitHighlights = (h: string[]) => ({
   people: h.filter((x) => !FACT.test(x)),
   facts: h.filter((x) => FACT.test(x)),
@@ -221,8 +221,8 @@ const METADATA_MAP: Record<string, MetaItem> = {
     kind: 'team',
     title: "Smart India Hackathon 2025 Grand Finale Winners - Team Trinetra915",
     tag: "SIH 2025 WINNERS",
-    description: "Team Trinetra915 won the Smart India Hackathon 2025 Grand Finale (Software Edition) for problem statement PSID-25234, held on 8-9 December 2025 at IIT Jammu, taking home the winners' prize of INR 1,50,000.",
-    highlights: ["Ishayu Potey", "Nayanesh Gudla", "Ninad Shegaokar", "Sarvesh Ganu", "Swanand Patil", "Manaswi Rane", "INR 1,50,000 Prize", "IIT Jammu", "PSID-25234", "Software Edition 2025"],
+    description: "Team Trinetra915 won the Smart India Hackathon 2025 Grand Finale (Software Edition) at IIT Jammu on 8-9 December 2025. The centre hosted 20 teams from across India on four problem statements set by the National Technical Research Organisation (NTRO); Trinetra915 was one of the four winning teams, solving PSID-25234 and taking home INR 1,50,000.",
+    highlights: ["Ishayu Potey", "Nayanesh Gudla", "Ninad Shegaokar", "Sarvesh Ganu", "Swanand Patil", "Manaswi Rane", "INR 1,50,000 Prize", "IIT Jammu", "NTRO problem statement", "PSID-25234", "Software Edition 2025"],
     gallery: [sih2025trinetra],
   },
   achievement_25_3: {
