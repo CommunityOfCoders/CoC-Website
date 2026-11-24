@@ -175,6 +175,22 @@ export const CONTRIBUTORS: Contributor[] = [
     linkedin: 'https://www.linkedin.com/in/anushree-upasham/',
   },
   {
+    id: 'param-thakkar',
+    name: 'Param Thakkar',
+    initials: 'PT',
+    programId: 'gsoc',
+    org: 'The Julia Language',
+    project: 'A Generalized RAG-LLM Workflow Support Tool for JuliaHealth',
+    year: '2026',
+    tech: ['Julia', 'PostgreSQL', 'pgvector', 'Ollama', 'Hugging Face Transformers', 'RAG'],
+    description:
+      'Builds a domain-grounded Retrieval-Augmented Generation system within JuliaHealth (HealthLLM.jl) that tackles unreliable LLM outputs in health informatics. It turns natural language queries into accurate, executable FunSQL.jl workflows by grounding answers in curated resources like OMOP and OHDSI, and delivers a modular baseline RAG pipeline, a reproducible evaluation framework to benchmark query quality, and documentation with an end-to-end demo.',
+    mentor: 'Jacob S. Zelko (TheCedarPrince), cncastillo',
+    projectLink: 'https://summerofcode.withgoogle.com/programs/2026/projects/WQuvjY26',
+    github: 'https://github.com/JuliaHealth/HealthLLM.jl',
+    linkedin: 'https://www.linkedin.com/in/paramthakkar2307/',
+  },
+  {
     id: 'vidhi-rohira',
     name: 'Vidhi Rohira',
     initials: 'VR',
