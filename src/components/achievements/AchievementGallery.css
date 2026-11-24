@@ -37,21 +37,20 @@
 
 .ach-tile:hover,
 .ach-tile:focus-visible {
-  translate: 0 -4px;
-  box-shadow: 0 0 0 1.5px var(--accent), 0 10px 44px rgba(0, 0, 0, 0.55);
+  box-shadow: 0 0 0 1.5px var(--accent), 0 18px 50px rgba(0, 0, 0, 0.6);
   outline: none;
+  z-index: 2;
 }
 
 /* photo: slightly oversized so it can drift with the scroll */
-.ach-tile__media { position: absolute; inset: 0; z-index: -2; overflow: hidden; }
+.ach-tile__media { position: absolute; inset: -18px; z-index: -2; overflow: hidden; transition: scale 0.8s var(--ease); }
+.ach-tile:hover .ach-tile__media { scale: 1.05; }
 .ach-tile__media img {
   position: absolute; left: 0; top: -8%;
   width: 100%; height: 116%;
   object-fit: cover; object-position: 50% 30%;
   display: block;
-  transition: scale 0.8s var(--ease);
 }
-.ach-tile:hover .ach-tile__media img { scale: 1.06; }
 
 /* shade so the type always reads, heavier on hover */
 .ach-tile::before {
@@ -67,6 +66,7 @@
 }
 .ach-tile__tag {
   max-width: 80%;
+  font-weight: 500;
   padding: 5px 11px;
   border-radius: var(--r-pill);
   background: rgba(7, 8, 8, 0.78);
@@ -90,19 +90,41 @@
 }
 .ach-tile__title {
   font-family: var(--font-display);
-  font-size: clamp(1rem, 1.35vw, 1.2rem);
-  font-weight: 700; line-height: 1.15; letter-spacing: -0.015em;
+  font-size: clamp(1.02rem, 1.4vw, 1.25rem);
+  font-weight: 800; line-height: 1.08; letter-spacing: -0.025em;
   display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
   transition: color 0.3s var(--ease);
 }
-.ach-tile.is-big .ach-tile__title { font-size: clamp(1.5rem, 2.6vw, 2.3rem); line-height: 1.05; letter-spacing: -0.025em; }
-.ach-tile__sub { font-family: var(--font-mono); font-size: 0.7rem; color: var(--fg-dim); letter-spacing: 0.02em; }
-.ach-tile__desc {
-  margin-top: 4px;
-  font-size: 0.9rem; line-height: 1.5; color: var(--fg-dim);
-  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
-  max-width: 52ch;
+.ach-tile.is-big .ach-tile__title { font-size: clamp(1.7rem, 3vw, 2.7rem); line-height: 0.98; letter-spacing: -0.035em; }
+.ach-tile__sub {
+  font-family: var(--font-mono); font-size: 0.64rem; letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--accent);
 }
+/* details: always on feature tiles, slide up on hover for the small ones */
+.ach-tile__desc {
+  font-family: var(--font-body);
+  font-size: 0.86rem; line-height: 1.5; color: var(--fg-dim);
+  display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
+  max-width: 52ch;
+  max-height: 0; opacity: 0; translate: 0 10px;
+  transition: max-height 0.5s var(--ease), opacity 0.35s var(--ease), translate 0.5s var(--ease);
+}
+.ach-tile.is-big .ach-tile__desc { max-height: 5em; opacity: 1; translate: 0 0; -webkit-line-clamp: 2; font-size: 0.95rem; margin-top: 4px; }
+.ach-tile:hover .ach-tile__desc { max-height: 5em; opacity: 1; translate: 0 0; }
+.ach-tile:hover::before { opacity: 1; }
+.ach-tile::after {
+  content: ''; position: absolute; inset: 0; z-index: -1; pointer-events: none;
+  background: linear-gradient(to top, rgba(7, 8, 8, 0.92) 0%, rgba(7, 8, 8, 0.55) 55%, rgba(7, 8, 8, 0) 100%);
+  opacity: 0; transition: opacity 0.45s var(--ease);
+}
+.ach-tile:hover::after { opacity: 1; }
+
+/* camera-shutter entrance */
+.ach-tile__shutter { position: absolute; inset: 0; z-index: 5; pointer-events: none; }
+.ach-tile__blade { position: absolute; left: 0; right: 0; height: 50.5%; background: var(--ink-1); }
+.ach-tile__blade--top { top: 0; transform-origin: top center; }
+.ach-tile__blade--bottom { bottom: 0; transform-origin: bottom center; }
+.ach-tile__seam { position: absolute; left: 0; right: 0; top: calc(50% - 1px); height: 2px; background: var(--accent); transform-origin: center; }
 .ach-tile:hover .ach-tile__title { color: var(--accent); }
 
 .ach-tile__go {
@@ -124,11 +146,12 @@
   .ach-tile.is-big .ach-tile__title { font-size: 1.4rem; }
   .ach-tile__sub { font-size: 0.62rem; }
   .ach-tile.is-big .ach-tile__body { right: 52px; }
-  .ach-tile__desc { font-size: 0.8rem; }
+  .ach-tile__desc { display: none; }
+  .ach-tile.is-big .ach-tile__desc { display: -webkit-box; font-size: 0.8rem; }
   .ach-tile__go { display: none; }
   .ach-tile.is-big .ach-tile__go { display: grid; right: 10px; bottom: 10px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .ach-tile, .ach-tile__media img, .ach-tile__go { transition: none; }
+  .ach-tile, .ach-tile__media, .ach-tile__go, .ach-tile__desc { transition: none; }
 }
