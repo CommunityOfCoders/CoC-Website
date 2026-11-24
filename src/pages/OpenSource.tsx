@@ -295,6 +295,12 @@ function ContributorDrawer({ contributor, isOpen, onClose }: DrawerProps) {
         aria-modal="true"
         aria-labelledby="os-drawer-name"
         tabIndex={-1}
+        style={
+          {
+            '--card-accent': getProgram(contributor.programId)?.hover,
+            '--card-ink': contributor.programId === 'jsoc' ? '#ffffff' : '#0b0c0b',
+          } as React.CSSProperties
+        }
       >
         <button type="button" className="os-drawer-mclose" onClick={onClose} aria-label="Close details">
           <X size={18} />
