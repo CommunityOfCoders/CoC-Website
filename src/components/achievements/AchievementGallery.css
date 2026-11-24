@@ -1,0 +1,134 @@
+/* ============================================================
+   Achievements wall: square full-colour photo tiles in the same
+   language as the Events / Projects cards - ink surfaces, a bottom
+   shade for legible type, mono tags, the green ring on hover.
+   ============================================================ */
+.ach-wall {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-auto-flow: dense;
+  gap: clamp(12px, 1.6vw, 20px);
+}
+@media (max-width: 1000px) { .ach-wall { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (max-width: 700px) { .ach-wall { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; } }
+
+.ach-tile {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  border-radius: var(--r-md);
+  overflow: hidden;
+  background: var(--ink-2);
+  color: var(--fg);
+  text-align: left;
+  font: inherit;
+  cursor: pointer;
+  isolation: isolate;
+  box-shadow: 0 0 0 1px rgba(245, 247, 245, 0.08), 0 4px 24px rgba(0, 0, 0, 0.4);
+  transition: box-shadow 0.35s var(--ease), translate 0.35s var(--ease);
+}
+.ach-tile.is-big { grid-column: span 2; grid-row: span 2; }
+.ach-tile.is-big.is-right { grid-column: 3 / span 2; }
+@media (max-width: 1000px) { .ach-tile.is-big.is-right { grid-column: span 2; } }
+@media (max-width: 700px) { .ach-tile.is-big, .ach-tile.is-big.is-right { grid-column: 1 / -1; } }
+
+.ach-tile:hover,
+.ach-tile:focus-visible {
+  translate: 0 -4px;
+  box-shadow: 0 0 0 1.5px var(--accent), 0 10px 44px rgba(0, 0, 0, 0.55);
+  outline: none;
+}
+
+/* photo: slightly oversized so it can drift with the scroll */
+.ach-tile__media { position: absolute; inset: 0; z-index: -2; overflow: hidden; }
+.ach-tile__media img {
+  position: absolute; left: 0; top: -8%;
+  width: 100%; height: 116%;
+  object-fit: cover; object-position: 50% 30%;
+  display: block;
+  transition: scale 0.8s var(--ease);
+}
+.ach-tile:hover .ach-tile__media img { scale: 1.06; }
+
+/* shade so the type always reads, heavier on hover */
+.ach-tile::before {
+  content: '';
+  position: absolute; inset: 0; z-index: -1;
+  background: linear-gradient(to bottom, rgba(7, 8, 8, 0.55) 0%, rgba(7, 8, 8, 0) 26%, rgba(7, 8, 8, 0) 42%, rgba(7, 8, 8, 0.82) 78%, rgba(7, 8, 8, 0.96) 100%);
+  transition: opacity 0.4s var(--ease);
+}
+
+.ach-tile__top {
+  position: absolute; top: 14px; left: 14px; right: 14px;
+  display: flex; align-items: flex-start; justify-content: space-between; gap: 10px;
+}
+.ach-tile__tag {
+  max-width: 80%;
+  padding: 5px 11px;
+  border-radius: var(--r-pill);
+  background: rgba(7, 8, 8, 0.78);
+  border: 1px solid var(--line-2);
+  font-family: var(--font-mono); font-size: 0.62rem; letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--fg);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.ach-tile__trophy {
+  flex-shrink: 0;
+  width: 30px; height: 30px; border-radius: 50%;
+  display: grid; place-items: center;
+  background: var(--accent); color: var(--accent-ink);
+}
+.ach-tile.is-big .ach-tile__trophy { width: 38px; height: 38px; }
+
+.ach-tile__body {
+  position: absolute; left: 16px; right: 56px; bottom: 16px;
+  display: flex; flex-direction: column; gap: 6px;
+  transition: translate 0.45s var(--ease);
+}
+.ach-tile__title {
+  font-family: var(--font-display);
+  font-size: clamp(1rem, 1.35vw, 1.2rem);
+  font-weight: 700; line-height: 1.15; letter-spacing: -0.015em;
+  display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
+  transition: color 0.3s var(--ease);
+}
+.ach-tile.is-big .ach-tile__title { font-size: clamp(1.5rem, 2.6vw, 2.3rem); line-height: 1.05; letter-spacing: -0.025em; }
+.ach-tile__sub { font-family: var(--font-mono); font-size: 0.7rem; color: var(--fg-dim); letter-spacing: 0.02em; }
+.ach-tile__desc {
+  margin-top: 4px;
+  font-size: 0.9rem; line-height: 1.5; color: var(--fg-dim);
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+  max-width: 52ch;
+}
+.ach-tile:hover .ach-tile__title { color: var(--accent); }
+
+.ach-tile__go {
+  position: absolute; right: 14px; bottom: 14px;
+  width: 34px; height: 34px; border-radius: 50%;
+  display: grid; place-items: center;
+  border: 1px solid var(--line-2); background: rgba(7, 8, 8, 0.6); color: var(--fg);
+  transition: background 0.3s var(--ease), color 0.3s var(--ease), border-color 0.3s var(--ease), rotate 0.4s var(--ease);
+}
+.ach-tile:hover .ach-tile__go { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); rotate: 45deg; }
+
+@media (max-width: 700px) {
+  .ach-tile__top { top: 10px; left: 10px; right: 10px; }
+  .ach-tile__tag { font-size: 0.56rem; padding: 4px 8px; letter-spacing: 0.08em; }
+  .ach-tile__trophy { width: 24px; height: 24px; }
+  .ach-tile__trophy svg { width: 12px; height: 12px; }
+  .ach-tile__body { left: 10px; right: 10px; bottom: 10px; gap: 4px; }
+  .ach-tile__title { font-size: 0.86rem; -webkit-line-clamp: 3; }
+  .ach-tile.is-big .ach-tile__title { font-size: 1.4rem; }
+  .ach-tile__sub { font-size: 0.62rem; }
+  .ach-tile.is-big .ach-tile__body { right: 52px; }
+  .ach-tile__desc { font-size: 0.8rem; }
+  .ach-tile__go { display: none; }
+  .ach-tile.is-big .ach-tile__go { display: grid; right: 10px; bottom: 10px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ach-tile, .ach-tile__media img, .ach-tile__go { transition: none; }
+}

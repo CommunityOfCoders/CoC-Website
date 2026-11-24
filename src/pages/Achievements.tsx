@@ -2,7 +2,7 @@ import React, { useRef } from 'react';
 import { motion } from 'framer-motion';
 import KineticWords from '../components/ui/KineticHeading';
 import { ACHIEVEMENTS } from '../data/achievementsData';
-import { AchievementIndex } from '../components/achievements/AchievementIndex';
+import { AchievementGallery } from '../components/achievements/AchievementGallery';
 import './Achievements.css';
 
 const EASE = [0.16, 1, 0.3, 1] as const;
@@ -11,11 +11,9 @@ export const Achievements: React.FC = () => {
   const heroRef = useRef<HTMLDivElement>(null);
 
   const heroWords = [
-    { t: 'Celebrating' },
-    { t: 'Our' },
-    { t: 'Milestones' },
-    { t: '&' },
-    { t: 'Victories', mark: true },
+    { t: 'Wins' },
+    { t: 'worth' },
+    { t: 'framing.', mark: true },
   ];
 
   return (
@@ -29,7 +27,7 @@ export const Achievements: React.FC = () => {
             transition={{ duration: 0.6, ease: EASE, delay: 0.1 }}
             className="eyebrow achievements-hero__eyebrow"
           >
-            Milestones & Honors
+            Hall of fame · 2022 - 2026
           </motion.div>
 
           <h1 className="achievements-hero__title">
@@ -42,7 +40,7 @@ export const Achievements: React.FC = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, ease: EASE, delay: 0.35 }}
           >
-            Hackathon finals, ICPC regionals, open-source scholarships and the wins in between. Open any of them to see the moment.
+            Hackathon finals, ICPC regionals, open-source scholarships and research grants, won by Community of Coders members. Open any of them for the full story.
           </motion.p>
 
         </div>
@@ -51,7 +49,7 @@ export const Achievements: React.FC = () => {
       {/* The awards index flows straight on from the heading - one piece, no separate blocks */}
       <section className="achievements-journey">
         <div className="container">
-          <AchievementIndex achievements={ACHIEVEMENTS} />
+          <AchievementGallery achievements={ACHIEVEMENTS} />
         </div>
       </section>
 
