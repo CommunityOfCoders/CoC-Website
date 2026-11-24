@@ -368,7 +368,7 @@ function ProjectDrawer({ project, isOpen, onClose }: DrawerProps) {
         <div className="drawer-content">
           {/* Big display title — outlined first part + accent last word */}
           <h2 className="drawer-title">
-            <span className="drawer-title__first">{firstName}</span>
+            <span className={`drawer-title__first${project.id === '38' ? ' is-green' : ''}`}>{firstName}</span>
             {lastName && <span className="drawer-title__last"> {lastName}</span>}
           </h2>
 
