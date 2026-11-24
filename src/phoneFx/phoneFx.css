@@ -29,4 +29,14 @@
   }
   main.page-in { animation: pageIn 0.5s var(--ease); }
   @keyframes pageIn { from { opacity: 0; } to { opacity: 1; } }
+
+  /* ---- scroll spotlight: the card nearest the screen centre lights up ---- */
+  .project-card, .os-card, .team-card, .ev-card { transition: box-shadow 0.35s var(--ease), background 0.35s var(--ease), scale 0.12s var(--ease); }
+  .project-card.is-lit, .os-card.is-lit {
+    background: var(--ink-3);
+    box-shadow: 0 0 0 1.5px var(--card-accent, var(--accent)), 0 8px 36px rgba(0, 0, 0, 0.55);
+  }
+  .os-card.is-lit .os-card__name, .project-card.is-lit .project-card__title { color: var(--card-accent, var(--accent)); }
+  .os-card.is-lit .os-card__head { background: color-mix(in srgb, var(--card-accent, var(--accent)) 14%, var(--ink-3)); }
+  .team-card.is-lit, .ev-card.is-lit { box-shadow: 0 0 0 1.5px var(--accent), 0 8px 36px rgba(0, 0, 0, 0.55); }
 }
