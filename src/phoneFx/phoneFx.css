@@ -81,4 +81,20 @@
   .peek-card .os-card__mentor { display: flex !important; }
   .peek-card .os-card__project, .peek-card .project-card__tagline { -webkit-line-clamp: unset !important; display: block !important; }
   .peek-card .os-card__tech .tech-chip { display: inline-block !important; max-width: none !important; }
+
+  /* ---- tilt parallax (opt-in): layers drift at different depths ---- */
+  .tilt-toggle {
+    position: fixed; left: max(16px, env(safe-area-inset-left)); bottom: calc(16px + env(safe-area-inset-bottom)); z-index: 90;
+    width: 46px; height: 46px; display: grid; place-items: center;
+    border-radius: 50%; border: 1px solid var(--line-2);
+    background: rgba(14, 16, 15, 0.92); color: var(--fg-dim);
+    transition: background 0.2s var(--ease), color 0.2s var(--ease), border-color 0.2s var(--ease);
+  }
+  .tilt-toggle.is-on { background: var(--accent); color: var(--accent-ink); border-color: transparent; }
+  html.tilt-on .hero__img { translate: calc(var(--tx, 0) * -10px) calc(var(--ty, 0) * -8px); }
+  html.tilt-on .hero__img--main { translate: calc(var(--tx, 0) * 7px) calc(var(--ty, 0) * 5px); }
+  html.tilt-on .os-card__prog-logo { translate: calc(var(--tx, 0) * 4px) calc(var(--ty, 0) * 3px); }
+  html.tilt-on .os-card__name, html.tilt-on .project-card__title { translate: calc(var(--tx, 0) * -3px) calc(var(--ty, 0) * -2px); }
+  html.tilt-on .project-card__badge, html.tilt-on .ev-card__date { translate: calc(var(--tx, 0) * 5px) calc(var(--ty, 0) * 4px); }
+  html.tilt-on .team-card img, html.tilt-on .ev-card img, html.tilt-on .band__frame img { translate: calc(var(--tx, 0) * -6px) calc(var(--ty, 0) * -6px); scale: 1.06; }
 }
