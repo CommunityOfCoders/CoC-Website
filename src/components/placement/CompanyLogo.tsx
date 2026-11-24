@@ -32,18 +32,18 @@ import ibm from '../../assets/company-logos/ibm.svg';
 
 /* Official brand marks (from each company's own site). `bleed` marks are
    full-square coloured icons that should fill the tile edge to edge. */
-const OFFICIAL: { match: string[]; src: string; alt: string; bleed?: boolean }[] = [
+const OFFICIAL: { match: string[]; src: string; alt: string; bleed?: string }[] = [
   { match: ['goldman'], src: goldman, alt: 'Goldman Sachs' },
   { match: ['google'], src: google, alt: 'Google' },
-  { match: ['morgan stanley'], src: morganstanley, alt: 'Morgan Stanley', bleed: true },
+  { match: ['morgan stanley'], src: morganstanley, alt: 'Morgan Stanley', bleed: '#002B50' },
   { match: ['visa'], src: visa, alt: 'Visa' },
-  { match: ['hilti'], src: hilti, alt: 'Hilti', bleed: true },
+  { match: ['hilti'], src: hilti, alt: 'Hilti', bleed: '#D2051E' },
   { match: ['bny'], src: bny, alt: 'BNY' },
   { match: ['citi'], src: citi, alt: 'Citi' },
   { match: ['bank of america', 'bofa'], src: bofa, alt: 'Bank of America' },
   { match: ['hsbc'], src: hsbc, alt: 'HSBC' },
   { match: ['barclays'], src: barclays, alt: 'Barclays' },
-  { match: ['axis'], src: axis, alt: 'Axis', bleed: true },
+  { match: ['axis'], src: axis, alt: 'Axis', bleed: '#97144D' },
   { match: ['deloitte'], src: deloitte, alt: 'Deloitte' },
   { match: ['pwc'], src: pwc, alt: 'PwC' },
   { match: ['cognizant'], src: cognizant, alt: 'Cognizant' },
@@ -73,7 +73,7 @@ export const CompanyLogo: React.FC<CompanyLogoProps> = ({ name, className = "w-7
   if (official) {
     return (
       <div className={`company-logo-container ${className}`}>
-        <div className={`company-logo-tile${official.bleed ? ' is-bleed' : ''}`}>
+        <div className={`company-logo-tile${official.bleed ? ' is-bleed' : ''}`} style={official.bleed ? { background: official.bleed } : undefined}>
           <img src={official.src} alt={official.alt} loading="lazy" draggable={false} />
         </div>
       </div>
