@@ -83,16 +83,6 @@ function BlogIcon({ url }: { url: string }) {
   return <Rss size={15} />;
 }
 
-function ProgramTag({ programId }: { programId: Contributor['programId'] }) {
-  const program = getProgram(programId);
-  if (!program) return null;
-  return (
-    <span className="os-program-tag" style={{ '--tag-color': program.color } as React.CSSProperties}>
-      <program.Logo width={13} height={13} /> {program.shortName}
-    </span>
-  );
-}
-
 // ─── CONTRIBUTOR CARD ─────────────────────────────────────────────────────────
 
 interface ContributorCardProps {
@@ -121,19 +111,23 @@ function ContributorCard({ contributor, index, onSelect }: ContributorCardProps)
           onKeyDown={onKeyDown}
           role="button"
           tabIndex={0}
-          style={{ '--card-accent': program?.color } as React.CSSProperties}
         >
-          <div className="os-card__top">
-            <div className="os-avatar" style={{ background: program?.color }}>
-              {contributor.initials}
-            </div>
-            <ProgramTag programId={contributor.programId} />
+          <span className="os-card__ghost" aria-hidden="true">{contributor.initials}</span>
+
+          <div className="os-card__head">
+            <span className="os-card__prog">
+              {program && (
+                <span className="os-card__prog-logo">
+                  <program.Logo width={18} height={18} />
+                </span>
+              )}
+              {program?.shortName}
+            </span>
+            <span className="os-card__year">{contributor.year}</span>
           </div>
 
           <h3 className="os-card__name">{contributor.name}</h3>
-          <div className="os-card__org">
-            {contributor.org} · {contributor.year}
-          </div>
+          <div className="os-card__org">{contributor.org}</div>
           <p className="os-card__project">{contributor.project}</p>
 
           <div className="os-card__tech">
@@ -544,11 +538,12 @@ export default function OpenSource() {
                   <div
                     key={program.id}
                     className="os-division-block"
-                    style={{ '--division-color': program.color } as React.CSSProperties}
                   >
                     <div className="os-division-header">
                       <div className="os-division-badge">
-                        <program.Logo width={18} height={18} />
+                        <span className="os-card__prog-logo">
+                          <program.Logo width={20} height={20} />
+                        </span>
                         <span>{program.name}</span>
                       </div>
                       <span className="os-division-count">
