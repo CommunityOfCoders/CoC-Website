@@ -28,6 +28,20 @@ import cognext from '../../assets/company-logos/cognext.png';
 import iris from '../../assets/company-logos/iris.png';
 import mobisy from '../../assets/company-logos/mobisy.png';
 import ibm from '../../assets/company-logos/ibm.svg';
+import applied from '../../assets/company-logos/applied.png';
+import bakerhughes from '../../assets/company-logos/bakerhughes.png';
+import bnp from '../../assets/company-logos/bnp.png';
+import colgate from '../../assets/company-logos/colgate.png';
+import fractal from '../../assets/company-logos/fractal.png';
+import idfy from '../../assets/company-logos/idfy.png';
+import ncdex from '../../assets/company-logos/ncdex.png';
+import persistent from '../../assets/company-logos/persistent.png';
+import pfizer from '../../assets/company-logos/pfizer.png';
+import revvity from '../../assets/company-logos/revvity.png';
+import rubrik from '../../assets/company-logos/rubrik.png';
+import siaa from '../../assets/company-logos/siaa.png';
+import snabbit from '../../assets/company-logos/snabbit.png';
+import sunpharma from '../../assets/company-logos/sunpharma.png';
 
 
 /* Official brand marks (from each company's own site). `bleed` marks are
@@ -59,6 +73,20 @@ const OFFICIAL: { match: string[]; src: string; alt: string; bleed?: string }[] 
   { match: ['iris'], src: iris, alt: 'IRIS RegTech' },
   { match: ['mobisy'], src: mobisy, alt: 'Mobisy' },
   { match: ['ibm'], src: ibm, alt: 'IBM' },
+  { match: ['applied materials'], src: applied, alt: 'Applied Materials' },
+  { match: ['baker hughes'], src: bakerhughes, alt: 'Baker Hughes' },
+  { match: ['bnp'], src: bnp, alt: 'BNP Paribas' },
+  { match: ['colgate'], src: colgate, alt: 'Colgate' },
+  { match: ['fractal'], src: fractal, alt: 'Fractal' },
+  { match: ['idfy'], src: idfy, alt: 'IDfy' },
+  { match: ['ncdex'], src: ncdex, alt: 'NCDEX' },
+  { match: ['persistent'], src: persistent, alt: 'Persistent Systems' },
+  { match: ['pfizer'], src: pfizer, alt: 'Pfizer' },
+  { match: ['revvity'], src: revvity, alt: 'Revvity' },
+  { match: ['rubrik'], src: rubrik, alt: 'Rubrik' },
+  { match: ['siaa'], src: siaa, alt: 'SIAA' },
+  { match: ['snabbit'], src: snabbit, alt: 'Snabbit', bleed: '#F70F79' },
+  { match: ['sun pharma'], src: sunpharma, alt: 'Sun Pharma' },
 ];
 
 interface CompanyLogoProps {
@@ -758,6 +786,18 @@ export const CompanyLogo: React.FC<CompanyLogoProps> = ({ name, className = "w-7
         <div className="w-full h-full rounded-lg bg-white flex items-center justify-center p-1 overflow-hidden shadow-sm border border-zinc-700/50">
           <img src={godrejLogo} alt="Godrej" className="w-full h-full object-contain" />
         </div>
+      </div>
+    );
+  }
+
+  // Crucibl - no official asset available, clean wordmark tile
+  if (normName.includes('crucibl')) {
+    return (
+      <div className={`company-logo-container ${className}`}>
+        <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" className="company-logo-svg">
+          <rect width="32" height="32" rx="8" fill="#111827" />
+          <text x="16" y="19.5" fontFamily="sans-serif" fontWeight="800" fontSize="7.5" fill="#FFFFFF" textAnchor="middle" letterSpacing="0.2">Crucibl</text>
+        </svg>
       </div>
     );
   }
