@@ -1,0 +1,112 @@
+/* ============================================================
+   Photo-booth strips for the Achievements wall.
+   Paper = the site's bone tone; frames are black with the photo in
+   black & white until pointed at. Flat - no glow, no blur.
+   ============================================================ */
+.booth { position: relative; }
+.booth__grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: clamp(18px, 2.4vw, 34px);
+  align-items: start;
+}
+@media (max-width: 1000px) { .booth__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+
+/* a strip + the slot it comes out of; the wrapper clips the paper until it has slid out */
+.booth-strip-wrap { position: relative; padding-top: 14px; overflow: hidden; }
+.booth__grid > .booth-strip-wrap:nth-child(4n+2),
+.booth__grid > .booth-strip-wrap:nth-child(4n+4) { margin-top: 42px; }
+@media (max-width: 1000px) {
+  .booth__grid > .booth-strip-wrap:nth-child(n) { margin-top: 0; }
+  .booth__grid > .booth-strip-wrap:nth-child(2n) { margin-top: 30px; }
+}
+.booth-slot {
+  position: absolute; top: 0; left: 4%; right: 4%; height: 14px; z-index: 3;
+  background: #050606; border-radius: 7px; box-shadow: inset 0 -3px 0 rgba(245, 247, 245, 0.1);
+}
+
+.booth-strip {
+  position: relative;
+  background: var(--bone);
+  color: var(--bone-ink);
+  padding: 14px 12px 12px;
+  border-radius: 3px 3px 6px 6px;
+  display: flex; flex-direction: column; gap: 12px;
+  transform: translateY(-104%);
+  transition: transform 1s var(--ease);
+  transition-delay: calc(var(--strip, 0) * 0.12s);
+}
+.booth-strip.is-in { transform: translateY(0); }
+.booth-strip__head, .booth-strip__foot {
+  font-family: var(--font-mono); font-size: 0.58rem; letter-spacing: 0.2em; text-transform: uppercase;
+  color: rgba(11, 12, 11, 0.55); display: flex; justify-content: space-between; gap: 8px;
+}
+.booth-strip__head { justify-content: center; }
+
+/* one frame: the shot, then its caption printed on the paper margin */
+.booth-frame {
+  display: flex; flex-direction: column; gap: 7px; width: 100%;
+  background: none; border: 0; padding: 0; text-align: left; cursor: pointer; color: inherit; font: inherit;
+}
+.booth-frame__shot {
+  position: relative; display: block; aspect-ratio: 4 / 3; overflow: hidden;
+  background: #0b0c0b; border-radius: 2px;
+  outline: 1px solid rgba(11, 12, 11, 0.9);
+}
+.booth-frame__shot img {
+  position: absolute; inset: 0; width: 100%; height: 100%; display: block;
+  object-position: 50% 35%;
+  filter: grayscale(1) contrast(1.06);
+  transition: filter 0.5s var(--ease), transform 0.6s var(--ease);
+}
+.booth-frame__shot img.is-cover { object-fit: cover; }
+.booth-frame__shot img.is-contain { object-fit: contain; }
+.booth-frame:hover .booth-frame__shot img,
+.booth-frame:focus-visible .booth-frame__shot img,
+.booth-frame.is-lit .booth-frame__shot img { filter: grayscale(0) contrast(1); transform: scale(1.04); }
+.booth-frame:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+/* frames "develop": blank white paper -> the photo, one after another */
+.booth-strip .booth-frame__shot img { opacity: 0; }
+.booth-strip.is-in .booth-frame__shot img {
+  animation: develop 1.4s var(--ease) forwards;
+  animation-delay: calc(0.7s + var(--slot, 0) * 0.28s + var(--strip, 0) * 0.12s);
+}
+@keyframes develop {
+  0% { opacity: 0; filter: grayscale(1) brightness(2.2) contrast(0.7); }
+  100% { opacity: 1; filter: grayscale(1) contrast(1.06); }
+}
+.booth-strip.is-in .booth-frame:hover .booth-frame__shot img,
+.booth-strip.is-in .booth-frame:focus-visible .booth-frame__shot img,
+.booth-strip.is-in .booth-frame.is-lit .booth-frame__shot img { animation: none; opacity: 1; filter: grayscale(0) contrast(1); }
+
+.booth-frame__trophy {
+  position: absolute; top: 6px; right: 6px; width: 24px; height: 24px; z-index: 2;
+  display: grid; place-items: center; border-radius: 50%;
+  background: var(--accent); color: var(--accent-ink);
+}
+.booth-frame__cap {
+  font-family: var(--font-mono); font-size: 0.64rem; line-height: 1.35; letter-spacing: 0.02em;
+  text-transform: uppercase; color: var(--bone-ink);
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+  min-height: 2.7em;
+}
+
+/* camera flash when a frame is opened */
+.booth-flash { position: fixed; inset: 0; z-index: 400; background: #fff; opacity: 0; pointer-events: none; }
+.booth-flash.go { animation: flash 0.42s ease-out; }
+@keyframes flash { 0% { opacity: 0.92; } 100% { opacity: 0; } }
+
+@media (max-width: 640px) {
+  .booth__grid { gap: 12px; }
+  .booth-strip { padding: 10px 8px 9px; gap: 9px; }
+  .booth-strip__head, .booth-strip__foot { font-size: 0.5rem; letter-spacing: 0.14em; }
+  .booth-frame__cap { font-size: 0.6rem; }
+  .booth-frame__trophy { width: 20px; height: 20px; top: 4px; right: 4px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .booth-strip { transform: none; transition: none; }
+  .booth-strip .booth-frame__shot img { opacity: 1; animation: none !important; }
+  .booth-flash.go { animation: none; }
+}
