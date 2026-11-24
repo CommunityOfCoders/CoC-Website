@@ -1,9 +1,15 @@
-import React, { useEffect, useCallback, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
-import { motion, AnimatePresence } from 'framer-motion';
-import type { PanInfo } from 'framer-motion';
-import { X, ChevronLeft, ChevronRight } from 'lucide-react';
+import { AnimatePresence, motion, type PanInfo } from 'framer-motion';
+import { ArrowLeft, ArrowRight, Trophy, X } from 'lucide-react';
 import type { Achievement } from '../../data/achievementsData';
+import './AchievementLightbox.css';
+
+/* The open view of an achievement, laid out like a magazine spread:
+   the photo on its own stage (story-style progress bars when there are
+   several), and an editorial column with an outlined headline, the team,
+   the story, the people and a "previous / next" footer that names where
+   you are going. Solid ink background - the page never bleeds through. */
 
 interface AchievementLightboxProps {
   achievements: Achievement[];
@@ -13,17 +19,15 @@ interface AchievementLightboxProps {
 }
 
 const EASE = [0.16, 1, 0.3, 1] as const;
-const SWIPE_DISTANCE = 70;
-const SWIPE_VELOCITY = 450;
-
-/* direction-aware slide: new image enters from the side you navigated toward */
-const slide = {
-  enter: (d: number) => ({ x: d * 70, opacity: 0, scale: 0.97 }),
-  center: { x: 0, opacity: 1, scale: 1 },
-  exit: (d: number) => ({ x: d * -70, opacity: 0, scale: 0.97 }),
-};
+const SLIDE_MS = 2200;
+const SWIPE = 70;
+const WIN = /winner|champion|1st|runner-up/i;
 
 const pad = (n: number) => String(n).padStart(2, '0');
+const splitTitle = (t: string) => {
+  const i = t.lastIndexOf(' - ');
+  return i > 0 ? { main: t.slice(0, i), sub: t.slice(i + 3) } : { main: t, sub: '' };
+};
 
 export const AchievementLightbox: React.FC<AchievementLightboxProps> = ({
   achievements,
@@ -32,78 +36,62 @@ export const AchievementLightbox: React.FC<AchievementLightboxProps> = ({
   onSelect,
 }) => {
   const isOpen = currentIndex !== null;
-  const current = isOpen ? achievements[currentIndex] : null;
-  const isMouseDownOnBox = useRef(false);
-  const dirRef = useRef(1);
-  const rootRef = useRef<HTMLDivElement>(null);
   const total = achievements.length;
+  const current = isOpen ? achievements[currentIndex] : null;
+  const rootRef = useRef<HTMLDivElement>(null);
+  const dirRef = useRef(1);
+
+  /* ---- photos inside one achievement ---- */
   const [shot, setShot] = useState(0);
+  const [hold, setHold] = useState(false);
   useEffect(() => setShot(0), [currentIndex]);
   const shots = current ? [current.src, ...(current.gallery ?? [])] : [];
-  const shotDir = useRef(1);
-  const [hold, setHold] = useState(false);
   const shotIdx = Math.min(shot, Math.max(shots.length - 1, 0));
-
   useEffect(() => {
     if (!isOpen || shots.length < 2 || hold) return;
-    const t = window.setTimeout(() => {
-      shotDir.current = 1;
-      setShot((i) => (i + 1) % shots.length);
-    }, 2200);
+    const t = window.setTimeout(() => setShot((i) => (i + 1) % shots.length), SLIDE_MS);
     return () => window.clearTimeout(t);
   }, [isOpen, shots.length, shotIdx, hold]);
 
-  const handlePrev = useCallback(() => {
-    if (currentIndex === null) return;
-    dirRef.current = -1;
-    onSelect((currentIndex - 1 + total) % total);
-  }, [currentIndex, total, onSelect]);
+  /* ---- moving between achievements ---- */
+  const go = useCallback(
+    (d: number) => {
+      if (currentIndex === null) return;
+      dirRef.current = d;
+      onSelect((currentIndex + d + total) % total);
+    },
+    [currentIndex, total, onSelect],
+  );
 
-  const handleNext = useCallback(() => {
-    if (currentIndex === null) return;
-    dirRef.current = 1;
-    onSelect((currentIndex + 1) % total);
-  }, [currentIndex, total, onSelect]);
-
-  const handleBackdropClick = () => {
-    if (isMouseDownOnBox.current) {
-      isMouseDownOnBox.current = false;
-      return;
-    }
-    onClose();
+  const onDragEnd = (_: unknown, info: PanInfo) => {
+    if (info.offset.x < -SWIPE || info.velocity.x < -450) go(1);
+    else if (info.offset.x > SWIPE || info.velocity.x > 450) go(-1);
   };
 
-  const handleDragEnd = (_: unknown, info: PanInfo) => {
-    if (info.offset.x < -SWIPE_DISTANCE || info.velocity.x < -SWIPE_VELOCITY) handleNext();
-    else if (info.offset.x > SWIPE_DISTANCE || info.velocity.x > SWIPE_VELOCITY) handlePrev();
-  };
-
-  /* open/close side effects: scroll lock, focus in, focus restore */
+  /* scroll lock, focus in / restore */
   useEffect(() => {
     if (!isOpen) return;
     const opener = document.activeElement as HTMLElement | null;
-    const prevOverflow = document.body.style.overflow;
+    const prev = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
     document.body.classList.add('modal-open');
-    requestAnimationFrame(() => {
-      rootRef.current?.querySelector<HTMLElement>('.achievement-lightbox__close')?.focus();
-    });
+    requestAnimationFrame(() => rootRef.current?.querySelector<HTMLElement>('.ach-view__close')?.focus());
     return () => {
-      document.body.style.overflow = prevOverflow;
+      document.body.style.overflow = prev;
       document.body.classList.remove('modal-open');
       opener?.focus?.();
     };
   }, [isOpen]);
 
-  /* keyboard: Esc / arrows / Tab focus trap */
+  /* keyboard: Esc / arrows / Tab trap */
   useEffect(() => {
     if (!isOpen) return;
-    const handleKeyDown = (e: KeyboardEvent) => {
+    const onKey = (e: KeyboardEvent) => {
       if (e.key === 'Escape') onClose();
-      else if (e.key === 'ArrowLeft') handlePrev();
-      else if (e.key === 'ArrowRight') handleNext();
+      else if (e.key === 'ArrowLeft') go(-1);
+      else if (e.key === 'ArrowRight') go(1);
       else if (e.key === 'Tab' && rootRef.current) {
-        const f = rootRef.current.querySelectorAll<HTMLElement>('button');
+        const f = rootRef.current.querySelectorAll<HTMLElement>('button, a[href]');
         if (!f.length) return;
         const first = f[0];
         const last = f[f.length - 1];
@@ -116,184 +104,185 @@ export const AchievementLightbox: React.FC<AchievementLightboxProps> = ({
         }
       }
     };
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [isOpen, onClose, handlePrev, handleNext]);
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [isOpen, onClose, go]);
 
-  /* preload the neighbours so next/prev never flashes empty */
+  /* preload neighbours */
   useEffect(() => {
     if (currentIndex === null) return;
-    [1, -1, 2].forEach((o) => {
-      const img = new Image();
-      img.src = achievements[(currentIndex + o + total) % total].src;
+    [1, -1].forEach((o) => {
+      const a = achievements[(currentIndex + o + total) % total];
+      [a.src, ...(a.gallery ?? [])].forEach((src) => {
+        const img = new Image();
+        img.src = src;
+      });
     });
   }, [currentIndex, achievements, total]);
 
   if (typeof document === 'undefined') return null;
 
-  const progress = currentIndex !== null ? ((currentIndex + 1) / total) * 100 : 0;
-  const people = current ? current.highlights.slice(0, 8) : [];
+  const prevItem = currentIndex !== null ? achievements[(currentIndex - 1 + total) % total] : null;
+  const nextItem = currentIndex !== null ? achievements[(currentIndex + 1) % total] : null;
+
+  let body: React.ReactNode = null;
+  if (current && currentIndex !== null) {
+    const { main, sub } = splitTitle(current.title);
+    const words = main.split(' ');
+    const head = words.slice(0, -1).join(' ');
+    const last = words[words.length - 1];
+    const win = WIN.test(`${current.tag} ${current.title}`);
+    const d = dirRef.current;
+
+    body = (
+      <div className="ach-view__grid">
+        {/* ---- the photo stage ---- */}
+        <div className="ach-view__stage" onMouseEnter={() => setHold(true)} onMouseLeave={() => setHold(false)}>
+          {shots.length > 1 && (
+            <div className="ach-view__bars" role="tablist" aria-label="Photos">
+              {shots.map((_, i) => (
+                <button
+                  key={i}
+                  type="button"
+                  role="tab"
+                  aria-selected={i === shotIdx}
+                  aria-label={`Photo ${i + 1} of ${shots.length}`}
+                  className={`ach-view__bar${i < shotIdx ? ' is-done' : ''}${i === shotIdx ? ' is-on' : ''}${hold ? ' is-held' : ''}`}
+                  style={{ '--dur': `${SLIDE_MS}ms` } as React.CSSProperties}
+                  onClick={() => setShot(i)}
+                >
+                  <span />
+                </button>
+              ))}
+            </div>
+          )}
+
+          <AnimatePresence mode="popLayout" initial={false} custom={d}>
+            <motion.div
+              key={`${current.id}-${shotIdx}`}
+              className="ach-view__photo"
+              custom={d}
+              initial={{ opacity: 0, x: d * 60, scale: 1.04 }}
+              animate={{ opacity: 1, x: 0, scale: 1 }}
+              exit={{ opacity: 0, x: d * -60, scale: 0.98 }}
+              transition={{ duration: 0.55, ease: EASE }}
+              drag="x"
+              dragDirectionLock
+              dragConstraints={{ left: 0, right: 0 }}
+              dragElastic={0.2}
+              onDragEnd={onDragEnd}
+            >
+              <img src={shots[shotIdx]} alt={current.alt} draggable={false} />
+            </motion.div>
+          </AnimatePresence>
+
+          <span className="ach-view__count" aria-live="polite">
+            <strong>{pad(currentIndex + 1)}</strong> / {pad(total)}
+          </span>
+        </div>
+
+        {/* ---- the editorial column ---- */}
+        <div className="ach-view__copy">
+          <AnimatePresence mode="wait" initial={false}>
+            <motion.div
+              key={current.id}
+              className="ach-view__copy-inner"
+              initial="hidden"
+              animate="show"
+              exit="exit"
+              variants={{
+                hidden: {},
+                show: { transition: { staggerChildren: 0.07, delayChildren: 0.08 } },
+                exit: { opacity: 0, transition: { duration: 0.18 } },
+              }}
+            >
+              <motion.div className="ach-view__meta" variants={line}>
+                <span className="ach-view__tag">{current.tag}</span>
+                {win && (
+                  <span className="ach-view__win">
+                    <Trophy size={14} strokeWidth={2.2} /> Winner
+                  </span>
+                )}
+              </motion.div>
+
+              <motion.h2 id="ach-view-title" className="ach-view__title" variants={line}>
+                {head && <span className="ach-view__title-out">{head} </span>}
+                <span className="ach-view__title-last">{last}</span>
+              </motion.h2>
+
+              {sub && (
+                <motion.p className="ach-view__sub" variants={line}>
+                  {sub}
+                </motion.p>
+              )}
+
+              {current.description && (
+                <motion.p className="ach-view__desc" variants={line}>
+                  {current.description}
+                </motion.p>
+              )}
+
+              {current.highlights.length > 0 && (
+                <motion.div className="ach-view__people" variants={line}>
+                  <span className="ach-view__label">Highlights</span>
+                  <ol>
+                    {current.highlights.map((h, i) => (
+                      <li key={h}>
+                        <span>{pad(i + 1)}</span>
+                        {h}
+                      </li>
+                    ))}
+                  </ol>
+                </motion.div>
+              )}
+            </motion.div>
+          </AnimatePresence>
+
+          <nav className="ach-view__nav" aria-label="More achievements">
+            <button type="button" className="ach-view__step" onClick={() => go(-1)}>
+              <span className="ach-view__step-k">
+                <ArrowLeft size={14} /> Previous
+              </span>
+              <span className="ach-view__step-t">{prevItem && splitTitle(prevItem.title).main}</span>
+            </button>
+            <button type="button" className="ach-view__step is-next" onClick={() => go(1)}>
+              <span className="ach-view__step-k">
+                Next <ArrowRight size={14} />
+              </span>
+              <span className="ach-view__step-t">{nextItem && splitTitle(nextItem.title).main}</span>
+            </button>
+          </nav>
+        </div>
+      </div>
+    );
+  }
 
   return createPortal(
     <AnimatePresence>
       {isOpen && current && (
         <motion.div
           ref={rootRef}
-          className="achievement-lightbox"
+          className="ach-view"
           role="dialog"
           aria-modal="true"
-          aria-label={current.title}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.35, ease: EASE }}
-          onMouseDown={() => {
-            isMouseDownOnBox.current = false;
-          }}
-          onClick={handleBackdropClick}
+          aria-labelledby="ach-view-title"
+          initial={{ clipPath: 'inset(50% 0% 50% 0%)' }}
+          animate={{ clipPath: 'inset(0% 0% 0% 0%)' }}
+          exit={{ clipPath: 'inset(50% 0% 50% 0%)', transition: { duration: 0.45, ease: EASE } }}
+          transition={{ duration: 0.6, ease: EASE }}
         >
-          {/* Backdrop */}
-          <div className="achievement-lightbox__backdrop" />
-
-          {/* Top header controls */}
-          <motion.div
-            className="achievement-lightbox__header"
-            initial={{ opacity: 0, y: -18 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -12 }}
-            transition={{ duration: 0.45, ease: EASE, delay: 0.05 }}
-          >
-            <div className="achievement-lightbox__tag-pill">
-              {current.tag}
-            </div>
-            <div className="achievement-lightbox__counter" aria-live="polite">
-              <strong>{pad(currentIndex! + 1)}</strong> / {pad(total)}
-            </div>
-            <button
-              className="achievement-lightbox__close"
-              onClick={(e) => {
-                e.stopPropagation();
-                onClose();
-              }}
-              aria-label="Close modal"
-            >
-              <X size={24} />
-            </button>
-          </motion.div>
-
-          {/* Main Content Area */}
-          <motion.div
-            className="achievement-lightbox__stage"
-            initial={{ opacity: 0, y: 36, scale: 0.96 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 24, scale: 0.97 }}
-            transition={{ duration: 0.5, ease: EASE }}
-          >
-            <button
-              className="achievement-lightbox__nav achievement-lightbox__nav--prev"
-              onMouseDown={(e) => e.stopPropagation()}
-              onClick={(e) => {
-                e.stopPropagation();
-                handlePrev();
-              }}
-              aria-label="Previous achievement"
-            >
-              <ChevronLeft size={28} />
-            </button>
-
-            <AnimatePresence mode="wait" custom={dirRef.current} initial={false}>
-              <motion.div
-                key={current.id}
-                custom={dirRef.current}
-                variants={slide}
-                initial="enter"
-                animate="center"
-                exit="exit"
-                transition={{ duration: 0.38, ease: EASE }}
-                className="achievement-lightbox__content"
-                drag="x"
-                dragDirectionLock
-                dragConstraints={{ left: 0, right: 0 }}
-                dragElastic={0.25}
-                onDragEnd={handleDragEnd}
-                onMouseDown={() => {
-                  isMouseDownOnBox.current = true;
-                }}
-                onClick={(e) => {
-                  e.stopPropagation();
-                }}
-              >
-                <div className="achievement-lightbox__img-wrapper">
-                  <div className={`achievement-lightbox__frame${shots.length > 1 ? ' is-gallery' : ''}`} onMouseEnter={() => setHold(true)} onMouseLeave={() => setHold(false)}>
-                  <AnimatePresence initial={false} custom={shotDir.current} >
-                    <motion.img
-                      key={shotIdx}
-                      src={shots[shotIdx]}
-                      alt={current.alt}
-                      className="achievement-lightbox__img"
-                      draggable={false}
-                      custom={shotDir.current}
-                      variants={{
-                        enter: (d: number) => ({ x: d > 0 ? '100%' : '-100%', opacity: 0 }),
-                        center: { x: 0, opacity: 1 },
-                        exit: (d: number) => ({ x: d > 0 ? '-100%' : '100%', opacity: 0 }),
-                      }}
-                      initial="enter"
-                      animate="center"
-                      exit="exit"
-                      transition={{ duration: 0.5, ease: EASE }}
-                    />
-                  </AnimatePresence>
-                  {shots.length > 1 && (
-                    <>
-                      <div className="achievement-lightbox__shots">
-                        {shots.map((_, i) => (
-                          <button key={i} type="button" className={i === shotIdx ? 'is-on' : ''} aria-label={`Photo ${i + 1} of ${shots.length}`}
-                            onMouseDown={(e) => e.stopPropagation()}
-                            onClick={(e) => { e.stopPropagation(); shotDir.current = i > shotIdx ? 1 : -1; setShot(i); }} />
-                        ))}
-                      </div>
-                    </>
-                  )}
-                  </div>
-                </div>
-
-                <div className="achievement-lightbox__footer">
-                  <h3 className="achievement-lightbox__title">{current.title}</h3>
-                  {current.description && (
-                    <p className="achievement-lightbox__text">{current.description}</p>
-                  )}
-                  {people.length > 0 && (
-                    <ul className="achievement-lightbox__chips">
-                      {people.map((p) => (
-                        <li key={p}>{p}</li>
-                      ))}
-                    </ul>
-                  )}
-                </div>
-              </motion.div>
-            </AnimatePresence>
-
-            <button
-              className="achievement-lightbox__nav achievement-lightbox__nav--next"
-              onMouseDown={(e) => e.stopPropagation()}
-              onClick={(e) => {
-                e.stopPropagation();
-                handleNext();
-              }}
-              aria-label="Next achievement"
-            >
-              <ChevronRight size={28} />
-            </button>
-          </motion.div>
-
-          {/* progress through the timeline */}
-          <div className="achievement-lightbox__progress" aria-hidden="true">
-            <span style={{ width: `${progress}%` }} />
-          </div>
+          <button type="button" className="ach-view__close" onClick={onClose} aria-label="Close">
+            <X size={20} />
+          </button>
+          {body}
         </motion.div>
       )}
     </AnimatePresence>,
-    document.body
+    document.body,
   );
+};
+
+const line = {
+  hidden: { opacity: 0, y: 22 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: EASE } },
 };
