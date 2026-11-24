@@ -402,7 +402,7 @@ function ProjectDrawer({ project, isOpen, onClose }: DrawerProps) {
 
           {/* GitHub + Demo action buttons */}
           <div className="drawer-actions">
-            {(project.github || project.githubLink) && (
+            {/^https?:\/\//.test(project.github || project.githubLink || '') && (
               <a href={project.github || project.githubLink} target="_blank" rel="noreferrer" className="drawer-action-btn">
                 <GitBranch size={14} /> GitHub
               </a>
