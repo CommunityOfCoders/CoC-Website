@@ -12,7 +12,7 @@ export const PageCurtain: React.FC<{ label: string; phase: CurtainPhase }> = ({ 
   <div className={`curtain is-${phase}`} aria-hidden="true">
     <div className="curtain__blade curtain__blade--green" />
     <div className="curtain__blade curtain__blade--ink">
-      <span className="curtain__label">
+      <span className={`curtain__label${label.length > 12 ? ' is-long' : ''}`}>
         {label}
         <span className="curtain__dot">.</span>
       </span>

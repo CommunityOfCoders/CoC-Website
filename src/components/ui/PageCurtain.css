@@ -33,6 +33,12 @@
   white-space: nowrap;
   will-change: transform, opacity;
 }
+.curtain__label.is-long {
+  font-size: clamp(2.4rem, 8.5vw, 7.5rem);
+  white-space: normal;
+  text-align: center;
+  max-width: 92vw;
+}
 .curtain__dot { color: var(--accent); -webkit-text-stroke: 0; }
 
 /* cover: green first, ink right behind it */
