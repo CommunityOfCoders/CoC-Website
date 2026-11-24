@@ -182,8 +182,8 @@ const METADATA_MAP: Record<string, MetaItem> = {
   achievement_26: {
     title: "Google Summer of Code (GSoC) 2026 Scholars",
     tag: "GSOC 2026",
-    description: "VJTI developers selected for Google Summer of Code (GSoC) 2026, contributing to core scientific open-source ecosystems including GNU Octave and ML4SCI.",
-    highlights: ["Anushree Upasham", "Avanish Salunke", "GNU Octave", "ML4SCI", "Google Summer of Code"],
+    description: "VJTI developers selected for Google Summer of Code (GSoC) 2026, contributing to core scientific open-source ecosystems including GNU Octave, ML4SCI and the Julia Language.",
+    highlights: ["Anushree Upasham", "Avanish Salunke", "Param Thakkar", "GNU Octave", "ML4SCI", "Julia"],
   },
   achievement_27: {
     title: "Hacktoberfest 2026 Winners at KJSCE & S.P.I.T.",
