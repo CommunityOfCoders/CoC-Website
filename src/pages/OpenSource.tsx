@@ -158,7 +158,7 @@ function ContributorCard({ contributor, index, onSelect }: ContributorCardProps)
           <div className="os-card__head">
             <span className="os-card__prog-logo">
               {orgLogo?.src ? (
-                <img src={orgLogo.src} alt="" draggable={false} />
+                <img src={orgLogo.src} alt="" draggable={false} loading="lazy" decoding="async" />
               ) : orgLogo?.Logo ? (
                 <orgLogo.Logo width={20} height={20} />
               ) : FallbackLogo ? (

@@ -257,7 +257,7 @@ const Featured: React.FC<{ item: Achievement; onOpen: () => void }> = ({ item, o
         <motion.span className="ach-feature__strip" aria-hidden="true" style={reduce ? undefined : { x: stripX, y: stripY }}>
           {thumbs.slice(0, 4).map((src, i) => (
             <motion.span key={src} className="ach-feature__thumb" variants={rise} custom={0.9 + i * 0.08}>
-              <img src={src} alt="" draggable={false} />
+              <img src={src} alt="" draggable={false} loading="lazy" decoding="async" />
             </motion.span>
           ))}
         </motion.span>

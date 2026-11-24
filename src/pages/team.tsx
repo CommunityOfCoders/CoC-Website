@@ -230,7 +230,7 @@ const MemberProfile: React.FC<{ member: TeamMember; onClose: () => void }> = ({
               layoutId={reduce ? undefined : `team-photo-${member.id}`}
               className="team-profile__photo"
             >
-              <img src={member.photo} alt={member.name} />
+              <img src={member.photo} alt={member.name} loading="lazy" decoding="async" />
             </motion.div>
 
             <div className="team-profile__id">

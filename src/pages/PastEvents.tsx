@@ -392,6 +392,8 @@ const PhotoSlider: React.FC<{
           exit="exit"
           transition={{ duration: 0.55, ease: EASE }}
           draggable={false}
+          loading="lazy"
+          decoding="async"
         />
       </AnimatePresence>
 
