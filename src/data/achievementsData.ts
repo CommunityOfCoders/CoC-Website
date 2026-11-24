@@ -18,7 +18,7 @@ export interface Achievement {
 /* `highlights` mixes names with facts ("INR 1,50,000 Prize", "Team SKS",
    "GLA University"). Anything that reads like a fact goes to `facts`, the
    rest are people. */
-const FACT = /\d|team |university|cern|quantum|healthcare|bounty|cybersecurity|initiative|finalist|finale|prize|bank|->|devfolio|ethglobal|iiitdm|acm-w|runner-up|witness|filecoin|arbitrum|octave|ml4sci|julia|winners|position|sih/i;
+const FACT = /\d|team |university|cern|quantum|healthcare|bounty|cybersecurity|initiative|finalist|finale|prize|bank|->|devfolio|ethglobal|iiitdm|acm-w|runner-up|witness|filecoin|arbitrum|octave|ml4sci|julia|winners|position|sih|college/i;
 const splitHighlights = (h: string[]) => ({
   people: h.filter((x) => !FACT.test(x)),
   facts: h.filter((x) => FACT.test(x)),
@@ -26,6 +26,7 @@ const splitHighlights = (h: string[]) => ({
 
 import awc2 from '../assets/achievements-extra/icpc-awc-2.jpg';
 import awc3 from '../assets/achievements-extra/icpc-awc-3.jpg';
+import sih2025b from '../assets/achievements-extra/sih-2025-2.jpg';
 
 /** who won it: one team, several teams, one person, or several individuals (e.g. GSoC) */
 export type AchievementKind = 'team' | 'teams' | 'individual' | 'individuals';
@@ -214,6 +215,14 @@ const METADATA_MAP: Record<string, MetaItem> = {
     tag: "GSOC 2025",
     description: "CoC VJTI students selected as Google Summer of Code (GSoC) 2025 contributors, each working with top global open-source organizations including Intel, CERN-HSF, SymPy, and OREL.",
     highlights: ["Vidhi Rohira", "Kevin Shah", "Aarya Pandey", "Prasanna Kasar", "Sourish Phate", "Rushabh Mehta", "Swayam Shah"],
+  },
+  achievement_25_3: {
+    kind: 'team',
+    title: "Smart India Hackathon 2025 Grand Finale Winners - Team TechTitans VJTI",
+    tag: "SIH 2025 WINNERS",
+    description: "Team TechTitans VJTI won the Smart India Hackathon 2025 Grand Finale (Software Edition), held on 8-9 December 2025 at Rajalakshmi Engineering College, Chennai, taking home the winners' prize of INR 75,000.",
+    highlights: ["Shreya Mane", "Anushree Upasham", "Sofia Abidi", "Sakshi Kalunge", "Ankita Sagar", "Akshi Takle", "INR 75,000 Prize", "Rajalakshmi Engineering College, Chennai", "Software Edition 2025"],
+    gallery: [sih2025b],
   },
   achievement_25_5: {
     kind: 'team',
