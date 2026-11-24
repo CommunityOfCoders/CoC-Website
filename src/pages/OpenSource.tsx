@@ -111,6 +111,7 @@ function ContributorCard({ contributor, index, onSelect }: ContributorCardProps)
           onKeyDown={onKeyDown}
           role="button"
           tabIndex={0}
+          style={{ '--card-accent': program?.hover } as React.CSSProperties}
         >
           <span className="os-card__ghost" aria-hidden="true">{contributor.initials}</span>
 
