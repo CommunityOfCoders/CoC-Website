@@ -6,6 +6,7 @@ import { Tilt } from '../components/ui/Tilt';
 import { KineticWords } from '../components/ui/KineticHeading';
 import { Github, LinkedinColor, MediumLogo } from '../components/ui/BrandIcons';
 import { CONTRIBUTORS, FEATURED_ORGS, PROGRAMS, REPOS, type Contributor, type Program } from '../data/openSourceData';
+import { CERNLogo, CNCFLogo, INCFLogo, IntelLogo, JuliaLogo, ML4SciLogo, OctaveLogo, SymPyLogo } from '../components/ui/OrgLogos';
 import githubLogoImg from '../assets/github.png';
 import gsocLogoImg from '../assets/GSoC_logo.svg';
 import lfxLogoImg from '../assets/lfx-seeklogo.png';
@@ -83,6 +84,20 @@ function BlogIcon({ url }: { url: string }) {
   return <Rss size={15} />;
 }
 
+/* real organisation marks we hold; anyone else falls back to their program's logo */
+const ORG_LOGOS: { match: RegExp; Logo: React.FC<React.SVGProps<SVGSVGElement>> }[] = [
+  { match: /octave/i, Logo: OctaveLogo },
+  { match: /ml4sci/i, Logo: ML4SciLogo },
+  { match: /incf/i, Logo: INCFLogo },
+  { match: /cern/i, Logo: CERNLogo },
+  { match: /cncf/i, Logo: CNCFLogo },
+  { match: /intel/i, Logo: IntelLogo },
+  { match: /julia/i, Logo: JuliaLogo },
+  { match: /sympy/i, Logo: SymPyLogo },
+];
+
+const TAGS_SHOWN = 3;
+
 // ─── CONTRIBUTOR CARD ─────────────────────────────────────────────────────────
 
 interface ContributorCardProps {
@@ -93,6 +108,8 @@ interface ContributorCardProps {
 
 function ContributorCard({ contributor, index, onSelect }: ContributorCardProps) {
   const program = getProgram(contributor.programId);
+  const orgLogo = ORG_LOGOS.find((o) => o.match.test(contributor.org));
+  const OrgMark = orgLogo?.Logo ?? program?.Logo ?? (() => null);
 
   const activate = () => onSelect(contributor);
   const onKeyDown = (e: React.KeyboardEvent) => {
@@ -114,31 +131,50 @@ function ContributorCard({ contributor, index, onSelect }: ContributorCardProps)
           style={{ '--card-accent': program?.hover } as React.CSSProperties}
         >
           <div className="os-card__head">
-            <span className="os-card__prog">
-              {program && (
-                <span className="os-card__prog-logo">
-                  <program.Logo width={18} height={18} />
-                </span>
-              )}
-              {program?.shortName}
+            <span className="os-card__prog-logo">
+              <OrgMark />
             </span>
+            <span className="os-card__org">{contributor.org}</span>
             <span className="os-card__year">{contributor.year}</span>
           </div>
 
-          <h3 className="os-card__name">{contributor.name}</h3>
-          <div className="os-card__org">{contributor.org}</div>
-          <p className="os-card__project">{contributor.project}</p>
+          <div className="os-card__body">
+            <h3 className="os-card__name">{contributor.name}</h3>
+            <p className="os-card__project">{contributor.project}</p>
 
-          <div className="os-card__tech">
-            {contributor.tech.map((t) => (
-              <span key={t} className="tech-chip">
-                {t}
+            <div className="os-card__tech">
+              {contributor.tech.slice(0, TAGS_SHOWN).map((t) => (
+                <span key={t} className="tech-chip">
+                  {t}
+                </span>
+              ))}
+              {contributor.tech.length > TAGS_SHOWN && (
+                <span className="tech-chip tech-chip--more">+{contributor.tech.length - TAGS_SHOWN}</span>
+              )}
+            </div>
+
+            <div className="os-card__footer">
+              <span className="os-card__links" onClick={(e) => e.stopPropagation()} onKeyDown={(e) => e.stopPropagation()}>
+                {contributor.github && (
+                  <a href={contributor.github} target="_blank" rel="noreferrer" aria-label={`${contributor.name} on GitHub`}>
+                    <Github width={15} height={15} />
+                  </a>
+                )}
+                {contributor.linkedin && (
+                  <a href={contributor.linkedin} target="_blank" rel="noreferrer" aria-label={`${contributor.name} on LinkedIn`}>
+                    <LinkedinColor width={15} height={15} />
+                  </a>
+                )}
+                {contributor.blog && (
+                  <a href={contributor.blog} target="_blank" rel="noreferrer" aria-label={`${contributor.name}'s blog`}>
+                    <BlogIcon url={contributor.blog} />
+                  </a>
+                )}
               </span>
-            ))}
-          </div>
-
-          <div className="os-card__footer">
-            View profile <ChevronRight size={13} />
+              <span className="os-card__more">
+                View profile <ChevronRight size={13} />
+              </span>
+            </div>
           </div>
         </article>
       </Tilt>
