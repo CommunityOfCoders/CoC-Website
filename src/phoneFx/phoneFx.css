@@ -97,4 +97,23 @@
   html.tilt-on .os-card__name, html.tilt-on .project-card__title { translate: calc(var(--tx, 0) * -3px) calc(var(--ty, 0) * -2px); }
   html.tilt-on .project-card__badge, html.tilt-on .ev-card__date { translate: calc(var(--tx, 0) * 5px) calc(var(--ty, 0) * 4px); }
   html.tilt-on .team-card img, html.tilt-on .ev-card img, html.tilt-on .band__frame img { translate: calc(var(--tx, 0) * -6px) calc(var(--ty, 0) * -6px); scale: 1.06; }
+
+  /* ---- events sheet: same bottom-sheet look ---- */
+  .ev-drawer-panel {
+    top: auto; right: 0; bottom: 0; left: 0;
+    width: 100%; max-width: 100%;
+    height: 92dvh; max-height: 92dvh;
+    border: 1px solid var(--line); border-bottom: none;
+    border-radius: 26px 26px 0 0;
+    box-shadow: 0 -24px 60px rgba(0, 0, 0, 0.7);
+    transform: none;
+    animation: sheetUp 0.5s var(--ease);
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  @keyframes sheetUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+  .ev-drawer-header { border-radius: 26px 26px 0 0; padding-top: 24px; }
+  .ev-drawer-header::before {
+    content: ''; position: absolute; top: 8px; left: 50%;
+    width: 44px; height: 5px; margin-left: -22px; border-radius: 3px; background: rgba(245, 247, 245, 0.28);
+  }
 }
