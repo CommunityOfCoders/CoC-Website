@@ -163,19 +163,115 @@ const Tile: React.FC<{ item: Achievement; index: number; onOpen: () => void }> =
   );
 };
 
-export const AchievementGallery: React.FC<{ achievements: Achievement[] }> = ({ achievements }) => {
+/* ---- the featured achievement: a full-width cover banner above the grid ---- */
+const Featured: React.FC<{ item: Achievement; onOpen: () => void }> = ({ item, onOpen }) => {
+  const ref = useRef<HTMLButtonElement>(null);
+  const reduce = useReducedMotion();
+  const { scrollYProgress } = useScroll({ target: ref, offset: ['start end', 'end start'] });
+  const coverY = useTransform(scrollYProgress, [0, 1], ['-8%', '8%']);
+  const { main, sub } = splitTitle(item.title);
+  const words = main.split(' ');
+  const head = words.slice(0, -1).join(' ');
+  const last = words[words.length - 1];
+  const stats = item.facts.filter((f) => /^\d/.test(f));
+  const thumbs = item.gallery ?? [];
+
+  return (
+    <motion.button
+      ref={ref}
+      type="button"
+      className="ach-feature"
+      onClick={onOpen}
+      aria-label={`Open ${item.title}`}
+      initial={reduce ? false : 'hidden'}
+      whileInView="show"
+      viewport={{ once: true, margin: '-10% 0px' }}
+    >
+      <span className="ach-feature__cover">
+        <motion.img src={item.src} alt={item.alt} draggable={false} variants={photo} custom={0} style={reduce ? undefined : { y: coverY }} />
+      </span>
+
+      <span className="ach-feature__copy">
+        <motion.span className="ach-feature__title" variants={rise} custom={0.7}>
+          {head && <span className="ach-feature__title-out">{head} </span>}
+          <span className="ach-feature__title-last">{last}</span>
+        </motion.span>
+        {sub && (
+          <motion.span className="ach-feature__sub" variants={rise} custom={0.8}>
+            {sub} · 15-17 Nov 2026
+          </motion.span>
+        )}
+        {item.people.length > 0 && (
+          <motion.span className="ach-feature__people" variants={rise} custom={0.9}>
+            {item.people.map((p, i) => (
+              <React.Fragment key={p}>
+                {i > 0 && ' & '}
+                <strong>{p}</strong>
+              </React.Fragment>
+            ))}
+          </motion.span>
+        )}
+        {stats.length > 0 && (
+          <motion.span className="ach-feature__stats" variants={rise} custom={1}>
+            {stats.map((st) => {
+              const [num, ...rest] = st.split(' ');
+              return (
+                <span key={st} className="ach-feature__stat">
+                  <b>{num}</b>
+                  <span>{rest.join(' ')}</span>
+                </span>
+              );
+            })}
+          </motion.span>
+        )}
+      </span>
+
+      {thumbs.length > 0 && (
+        <span className="ach-feature__strip" aria-hidden="true">
+          {thumbs.slice(0, 4).map((src, i) => (
+            <motion.span key={src} className="ach-feature__thumb" variants={rise} custom={0.9 + i * 0.08}>
+              <img src={src} alt="" draggable={false} />
+            </motion.span>
+          ))}
+        </span>
+      )}
+
+      <span className="ach-feature__go" aria-hidden="true">
+        <ArrowUpRight size={20} />
+      </span>
+
+      {!reduce && (
+        <span className="ach-tile__shutter" aria-hidden="true">
+          <motion.span className="ach-tile__blade ach-tile__blade--top" variants={bladeTop} custom={0} />
+          <motion.span className="ach-tile__blade ach-tile__blade--bottom" variants={bladeBottom} custom={0} />
+          <motion.span className="ach-tile__seam" variants={seam} custom={0} />
+        </span>
+      )}
+    </motion.button>
+  );
+};
+
+export const AchievementGallery: React.FC<{ achievements: Achievement[]; featured?: Achievement }> = ({
+  achievements,
+  featured,
+}) => {
   const [open, setOpen] = useState<number | null>(null);
+  // the viewer pages through the featured one first, then the grid
+  const all = featured ? [featured, ...achievements] : achievements;
+  const offset = featured ? 1 : 0;
 
   return (
     <>
+      {featured && <Featured item={featured} onOpen={() => setOpen(0)} />}
+
       <div className="ach-wall">
         {achievements.map((a, i) => (
-          <Tile key={a.id} item={a} index={i} onOpen={() => setOpen(i)} />
+          <Tile key={a.id} item={a} index={i} onOpen={() => setOpen(i + offset)} />
         ))}
       </div>
 
       <AchievementLightbox
-        achievements={achievements}
+        achievements={all}
         currentIndex={open}
         onClose={() => setOpen(null)}
         onSelect={(i) => setOpen(i)}
