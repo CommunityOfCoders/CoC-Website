@@ -71,6 +71,8 @@ export interface Program {
   href: string;
   Logo: React.FC<React.SVGProps<SVGSVGElement>>;
   color: string;
+  /** card hover accent */
+  hover: string;
 }
 
 export const PROGRAMS: Program[] = [
@@ -82,6 +84,7 @@ export const PROGRAMS: Program[] = [
     href: 'https://summerofcode.withgoogle.com/',
     Logo: GSoCLogo,
     color: '#4285F4',
+    hover: '#FBBC04',
   },
   {
     id: 'lfx',
@@ -91,6 +94,7 @@ export const PROGRAMS: Program[] = [
     href: 'https://lfx.linuxfoundation.org/tools/mentorship/',
     Logo: LFXLogo,
     color: '#00A8E1',
+    hover: '#2D8CFF',
   },
   {
     id: 'jsoc',
@@ -100,6 +104,7 @@ export const PROGRAMS: Program[] = [
     href: 'https://julialang.org/jsoc/',
     Logo: JuliaLogo,
     color: '#9558B2',
+    hover: '#9558B2',
   },
   {
     id: 'hacktoberfest',
@@ -109,6 +114,7 @@ export const PROGRAMS: Program[] = [
     href: 'https://hacktoberfest.com/',
     Logo: HacktoberfestLogo,
     color: '#BA3925',
+    hover: '#1DB954',
   },
 ];
 
