@@ -17,16 +17,7 @@
   .project-card, .os-card, .ev-card, .team-card { -webkit-touch-callout: none; -webkit-user-select: none; user-select: none; }
 
 
-  /* ---- scroll spotlight: the card nearest the screen centre lights up ---- */
-  .project-card, .os-card, .team-card, .ev-card { transition: box-shadow 0.35s var(--ease), background 0.35s var(--ease), scale 0.12s var(--ease); }
-  .project-card.is-lit, .os-card.is-lit {
-    background: var(--ink-3);
-    box-shadow: 0 0 0 1.5px var(--card-accent, var(--accent)), 0 8px 36px rgba(0, 0, 0, 0.55);
-  }
-  .os-card.is-lit .os-card__name, .project-card.is-lit .project-card__title { color: var(--card-accent, var(--accent)); }
-  .os-card.is-lit .os-card__head { background: color-mix(in srgb, var(--card-accent, var(--accent)) 14%, var(--ink-3)); }
-  .ach-tile.is-lit .ach-tile__title { color: var(--accent); }
-  .team-card.is-lit, .ev-card.is-lit, .ach-tile.is-lit { box-shadow: 0 0 0 1.5px var(--accent), 0 8px 36px rgba(0, 0, 0, 0.55); }
+  .project-card, .os-card, .team-card, .ev-card { transition: background 0.2s var(--ease), box-shadow 0.2s var(--ease), scale 0.12s var(--ease); }
 
   /* ---- bottom sheets: the project + contributor panels rise from the bottom ---- */
   .drawer-panel, .os-drawer-panel {
