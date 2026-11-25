@@ -190,7 +190,7 @@ export const EVENTS: CoCEvent[] = [
     summary: "Real time ML forecasting challenge.",
     description:
       "2147 AD. Deep Space Sector 9. The autonomous rover ORION-7 was deployed to explore a newly discovered planet on the edge of human-charted space. It was designed to be intelligent and self-correcting, but it has suddenly gone rogue. The probe continues to transmit telemetry, but its diagnostics are incomplete. Sensor readings may exhibit delayed effects, where past observations influence future motion. Your task is to build a Machine Learning model to understand ORION-7’s motion and forecast its future trajectory.",
-    prizePool: "Rs.5,000",
+    prizePool: "Rs.10,000",
     photos: ["/photos/2026/lostprobe.jpeg", "/photos/2026/lostprobe2.jpg"],
   },
   {
@@ -202,7 +202,7 @@ export const EVENTS: CoCEvent[] = [
     summary: "Fast paced competitive programming round.",
     description:
       "CodeRush is an individual competitive programming contest that puts your problem-solving speed and algorithmic accuracy to the test. Participants must solve a set of coding challenges within a limited time, where every correct submission pushes them closer to the top of the leaderboard.",
-    prizePool: "Rs.5,000",
+    prizePool: "Rs.10,000",
     photos: ["/photos/2026/coderush.jpeg", "/photos/2026/coderush.jpg"],
   },
   {
@@ -214,7 +214,7 @@ export const EVENTS: CoCEvent[] = [
     summary: "Systems based challenge on state and memory.",
     description:
       "Welcome to Cache Control, an immersive systems experience where memory never forgets only caches. Observe hidden behavior, learn how state evolves, and take control of a living system in this four-stage challenge. The goal is to progress through four sequential stages by understanding how the system remembers, caches, and reacts to your actions. Success depends on careful observation, precise interaction, and strategic decision-making, not speed or heavy coding.",
-    prizePool: "Rs.5,000",
+    prizePool: "Rs.10,000",
     photos: ["/photos/2026/cache.jpg"],
   },
   {
@@ -226,7 +226,7 @@ export const EVENTS: CoCEvent[] = [
     summary: "Blockchain inspired CTF challenge.",
     description:
       "“Capture the Proof” is a Capture The Flag (CTF) style event where participants solve blockchain-inspired challenges. The event encourages logical thinking, problem-solving, and understanding decentralized systems, all without heavy coding requirements.",
-    prizePool: "Rs.5,000",
+    prizePool: "Rs.10,000",
     photos: ["/photos/2026/capturetheproof.jpg"],
   },
   {
@@ -238,7 +238,7 @@ export const EVENTS: CoCEvent[] = [
     summary: "Pixel perfect UI building with HTML and CSS.",
     description:
       "A competitive frontend engineering event where participants replicate complex visual targets using only raw HTML and CSS. Over two distinct rounds totaling three hours, developers must balance pixel-perfect accuracy with code efficiency to achieve the highest automated score. This event rigorously tests mastery of the browser rendering engine, creative problem-solving, and attention to detail, shifting focus from functional logic to pure visual precision.",
-    prizePool: "Rs.5,000",
+    prizePool: "Rs.10,000",
     photos: ["/photos/2026/pixelperfect.jpeg", "/photos/2026/pixelperfect.jpg"],
   },
   {
@@ -250,7 +250,7 @@ export const EVENTS: CoCEvent[] = [
     summary: "Outsmart an AI using prompt engineering.",
     description:
       'A high-stakes adversarial engineering competition set in a post-apocalyptic world where machines have taken over. Participants must bypass the security protocols of an advanced Large Language Model (LLM). Over the duration of the contest, "operatives" must craft precise, semantic injection attacks to trick the AI into revealing hidden secrets. This event tests mastery of natural language logic, semantic obfuscation, and understanding of LLM guardrails, shifting focus from traditional syntax coding to linguistic hacking. Each level is based on a concept from theoretical AI; the lesser the tokens used, the better the score!',
-    prizePool: "Rs.5,000",
+    prizePool: "Rs.10,000",
     photos: ["/photos/2026/siuca.jpg"],
   },
   {
@@ -262,7 +262,7 @@ export const EVENTS: CoCEvent[] = [
     summary: "Campus wide blockchain treasure hunt.",
     description:
       'A campus-wide race where teams find QR codes to unlock blockchain riddles. Participants use mobile wallets to collect 5 unique "Artifact NFTs" at different stations. The Twist: Some clues are hidden within public transaction data (Etherscan) for players to decode. The first team to present a wallet containing all 5 digital artifacts wins the prize. A zero-coding, fun introduction to wallets, NFTs, and on-chain transparency.',
-    prizePool: "Rs.5,000",
+    prizePool: "Rs.10,000",
     photos: ["/photos/2026/odyssey.jpg"],
   },
   {
@@ -274,7 +274,7 @@ export const EVENTS: CoCEvent[] = [
     summary: "Real world debugging challenge in Python and full stack.",
     description:
       "A collaborative technical challenge where teams of two rigorously identify and resolve syntax, logic, and runtime errors. This event tests code comprehension, algorithmic efficiency, and pair-programming synergy, requiring duos to analyze broken implementations and execute precise, functional fixes under strict time constraints.",
-    prizePool: "Rs.5,000",
+    prizePool: "Rs.10,000",
     photos: ["/photos/2026/debugathon.jpeg", "/photos/2026/debugathon.jpg"],
   },
   {
@@ -325,7 +325,7 @@ export const EVENTS: CoCEvent[] = [
       "Flagship annual tech festival bringing together developers across competitive tracks.",
     description:
       "The inaugural edition of Community of Coders' flagship annual technical festival at VJTI. CodeVerse brought together hundreds of student builders across domains spanning AI, Web3, competitive programming, and systems engineering for multi-day competitive showdowns and hands-on workshops.",
-    prizePool: "N/A",
+    prizePool: "Rs.80,000",
     photos: [
       "/photos/2025/codeverseceremony.jpg",
       "/photos/2025/codeverseteam.jpg",
