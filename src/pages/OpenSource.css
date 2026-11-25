@@ -200,9 +200,6 @@
 .os-filter-btn:hover { border-color: var(--fg-dim); color: var(--fg); }
 .os-filter-btn.is-active { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); font-weight: 600; }
 
-.os-subhead { display: flex; align-items: center; gap: 12px; margin-bottom: 22px; }
-.os-count { font-family: var(--font-mono); font-size: 0.78rem; color: var(--fg-faint); }
-
 .os-empty { padding: 80px 20px; text-align: center; color: var(--fg-faint); font-family: var(--font-mono); }
 
 /* ---------- Contributor Program Divisions ---------- */
@@ -235,16 +232,6 @@
   font-weight: 700;
   letter-spacing: -0.01em;
   color: var(--fg);
-}
-
-.os-division-count {
-  font-family: var(--font-mono);
-  font-size: 0.76rem;
-  color: var(--fg-faint);
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  white-space: nowrap;
 }
 
 .os-division-line {

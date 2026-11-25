@@ -476,11 +476,6 @@ export default function OpenSource() {
             ))}
           </div>
 
-          <div className="os-subhead">
-            <span className="eyebrow">Contributors</span>
-            <span className="os-count">- {filteredContributors.length} featured</span>
-          </div>
-
           {(() => {
             const programGroups = PROGRAMS.filter((p) => p.id === 'gsoc' || p.id === 'lfx' || p.id === 'jsoc')
               .map((p) => {
@@ -511,9 +506,6 @@ export default function OpenSource() {
                         </span>
                         <span>{program.name}</span>
                       </div>
-                      <span className="os-division-count">
-                        {contributors.length} {contributors.length === 1 ? 'contributor' : 'contributors'}
-                      </span>
                       <div className="os-division-line" />
                     </div>
 
