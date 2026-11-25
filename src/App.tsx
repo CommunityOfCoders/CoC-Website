@@ -2,6 +2,7 @@ import { useState, useEffect, useRef, lazy, Suspense } from 'react';
 import MainLayout from './layouts/MainLayout';
 import Home from './pages/Home';
 import { PageCurtain, type CurtainPhase } from './components/ui/PageCurtain';
+import teamCurtain from './assets/curtain-team.jpg';
 import './App.css';
 
 /* Pages other than Home load on demand, so the first visit only downloads
@@ -37,12 +38,17 @@ const TITLES: Record<string, string> = {
   '#contact': 'Contact',
 };
 
+/* pages whose curtain carries a photo */
+const CURTAIN_PHOTOS: Record<string, string> = {
+  '#team': teamCurtain,
+};
+
 const COVER_MS = 520; // curtain fully closed - swap the page underneath
 const REVEAL_MS = 860; // curtain fully lifted
 
 function App() {
   const [route, setRoute] = useState(() => normalize(window.location.hash));
-  const [curtain, setCurtain] = useState<{ label: string; phase: CurtainPhase } | null>(null);
+  const [curtain, setCurtain] = useState<{ label: string; phase: CurtainPhase; photo?: string } | null>(null);
   const routeRef = useRef(route);
   const timers = useRef<number[]>([]);
 
@@ -70,11 +76,12 @@ function App() {
       }
       clearTimers();
       const label = TITLES[baseOf(next)] ?? 'Home';
-      setCurtain({ label, phase: 'in' });
+      const photo = CURTAIN_PHOTOS[baseOf(next)];
+      setCurtain({ label, phase: 'in', photo });
       timers.current.push(
         window.setTimeout(() => {
           swap(next);
-          setCurtain({ label, phase: 'out' });
+          setCurtain({ label, phase: 'out', photo });
         }, COVER_MS),
         window.setTimeout(() => setCurtain(null), COVER_MS + REVEAL_MS),
       );
@@ -107,7 +114,15 @@ function App() {
 
   // warm the other pages once the browser has nothing better to do
   useEffect(() => {
-    const prefetch = () => Object.values(pageImports).forEach((load) => void load());
+    const prefetch = () => {
+      Object.values(pageImports).forEach((load) => void load());
+      // curtain photos must be decoded before the curtain needs them
+      Object.values(CURTAIN_PHOTOS).forEach((src) => {
+        const img = new Image();
+        img.src = src;
+        void img.decode?.().catch(() => {});
+      });
+    };
     const w = window as Window & { requestIdleCallback?: (cb: () => void) => number };
     if (w.requestIdleCallback) w.requestIdleCallback(prefetch);
     else window.setTimeout(prefetch, 1500);
@@ -137,7 +152,7 @@ function App() {
       <MainLayout route={titleKey}>
         <Suspense fallback={<div style={{ minHeight: '100vh' }} />}>{renderView()}</Suspense>
       </MainLayout>
-      {curtain && <PageCurtain key={curtain.label} label={curtain.label} phase={curtain.phase} />}
+      {curtain && <PageCurtain key={curtain.label} label={curtain.label} phase={curtain.phase} photo={curtain.photo} />}
     </>
   );
 }

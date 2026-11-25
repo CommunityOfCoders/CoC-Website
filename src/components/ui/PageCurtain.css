@@ -41,6 +41,50 @@
 }
 .curtain__dot { color: var(--accent); -webkit-text-stroke: 0; }
 
+/* ---- photo inside the ink blade (Team) ----
+   Sized so the photo's full width always shows (everyone in the group is
+   in frame) and at most ~19% of its height is trimmed on wide screens;
+   the edges fade into the ink. */
+.curtain__photo {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: min(100vw, 164vh);
+  aspect-ratio: 790 / 591;
+  translate: -50% -51%;
+  -webkit-mask-image:
+    linear-gradient(to right, transparent 0, #000 3.5%, #000 96.5%, transparent 100%),
+    linear-gradient(to bottom, transparent 0, #000 12%, #000 86%, transparent 100%);
+  -webkit-mask-composite: source-in;
+  mask-image:
+    linear-gradient(to right, transparent 0, #000 3.5%, #000 96.5%, transparent 100%),
+    linear-gradient(to bottom, transparent 0, #000 12%, #000 86%, transparent 100%);
+  mask-composite: intersect;
+  will-change: transform;
+}
+.curtain__photo img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* slow settle while the name is up */
+  animation: photoSettle 1.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+  will-change: transform;
+}
+/* a soft dark wash so the outlined name always reads over the faces */
+.curtain__photo::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 50% 50%, rgba(7, 8, 8, 0.35) 0%, rgba(7, 8, 8, 0.1) 60%, rgba(7, 8, 8, 0) 100%);
+}
+.curtain.has-photo .curtain__label { position: relative; z-index: 1; text-shadow: 0 6px 40px rgba(0, 0, 0, 0.55); }
+/* parallax: on the way out the photo trails the blade a little */
+.curtain.is-out .curtain__photo { animation: photoAway 0.62s cubic-bezier(0.7, 0, 0.3, 1) 0.12s both; }
+
+@keyframes photoSettle { from { transform: scale(1.14); } to { transform: scale(1.02); } }
+@keyframes photoAway { from { transform: translate3d(0, 0, 0); } to { transform: translate3d(0, 28%, 0); } }
+
 /* cover: green first, ink right behind it */
 .curtain.is-in .curtain__blade--green { animation: curtainUp 0.46s cubic-bezier(0.7, 0, 0.3, 1) both; }
 .curtain.is-in .curtain__blade--ink { animation: curtainUp 0.46s cubic-bezier(0.7, 0, 0.3, 1) 0.07s both; }
