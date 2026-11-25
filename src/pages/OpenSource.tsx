@@ -5,7 +5,7 @@ import Reveal from '../components/ui/Reveal';
 import { Tilt } from '../components/ui/Tilt';
 import { KineticWords } from '../components/ui/KineticHeading';
 import { Github, LinkedinColor, MediumLogo } from '../components/ui/BrandIcons';
-import { CONTRIBUTORS, FEATURED_ORGS, PROGRAMS, REPOS, type Contributor, type Program } from '../data/openSourceData';
+import { CONTRIBUTORS, FEATURED_ORGS, PROGRAMS, type Contributor, type Program } from '../data/openSourceData';
 import { CERNLogo, CNCFLogo, INCFLogo, IntelLogo, JuliaLogo, ML4SciLogo, OctaveLogo, SymPyLogo } from '../components/ui/OrgLogos';
 import githubLogoImg from '../assets/github.png';
 import gsocLogoImg from '../assets/GSoC_logo.svg';
@@ -24,10 +24,6 @@ import orgImg_root from '../assets/org-logos/root.png';
 import orgImg_sugar from '../assets/org-logos/sugar.png';
 import orgImg_redhen from '../assets/org-logos/redhen.png';
 import './OpenSource.css';
-
-const GH_ORG = 'CommunityOfCoders';
-const STATIC_STARS = '200+';
-const STATIC_REPOS = REPOS.length;
 
 const getProgram = (id: Contributor['programId']): Program | undefined => PROGRAMS.find((p) => p.id === id);
 
@@ -59,36 +55,6 @@ const FLOATING_HERO_LOGOS = [
     src: mediumLogoImg,
   },
 ];
-
-/** Live public-repo count + star total for the org - snapshot from
- *  REPOS until the fetch resolves, cached per tab so repeat visits
- *  to the page don't re-hit the API. */
-function useOrgStats() {
-  const [stats, setStats] = useState<{ repos: number; stars: string }>({ repos: STATIC_REPOS, stars: STATIC_STARS });
-
-  useEffect(() => {
-    const cacheKey = `gh_org_stats_v2_${GH_ORG}`;
-    const cached = sessionStorage.getItem(cacheKey);
-    if (cached) {
-      setStats(JSON.parse(cached));
-      return;
-    }
-    fetch(`https://api.github.com/orgs/${GH_ORG}/repos?per_page=100`)
-      .then((r) => r.json())
-      .then((repos) => {
-        if (Array.isArray(repos) && repos.length) {
-          const starsCount = repos.reduce((sum, r) => sum + (r.stargazers_count || 0), 0);
-          const starsDisplay = starsCount >= 200 ? `${Math.floor(starsCount / 100) * 100}+` : `${starsCount}+`;
-          const data = { repos: repos.length, stars: starsDisplay };
-          setStats(data);
-          sessionStorage.setItem(cacheKey, JSON.stringify(data));
-        }
-      })
-      .catch(() => {});
-  }, []);
-
-  return stats;
-}
 
 function BlogIcon({ url }: { url: string }) {
   if (/medium\.com/i.test(url)) return <MediumLogo width={16} height={16} />;
@@ -376,7 +342,6 @@ export default function OpenSource() {
   const [searchQuery, setSearchQuery] = useState('');
   const [activeFilter, setActiveFilter] = useState('All');
 
-  const stats = useOrgStats();
   const reduce = useReducedMotion();
   const heroRef = useRef<HTMLDivElement>(null);
   const titleRef = useRef<HTMLHeadingElement>(null);
@@ -451,43 +416,6 @@ export default function OpenSource() {
                 </p>
               </Reveal>
 
-              <Reveal delay={0.3}>
-                <div className="os-stats-row">
-                  <div className="os-stat">
-                    <span className="os-stat__num">{stats.repos}</span>
-                    <span className="os-stat__label">Repositories</span>
-                  </div>
-                  <div className="os-stat">
-                    <span className="os-stat__num">{stats.stars.endsWith('+') ? stats.stars : `${stats.stars}+`}</span>
-                    <span className="os-stat__label">GitHub stars</span>
-                  </div>
-                  <div className="os-stat">
-                    <span className="os-stat__num">{FEATURED_ORGS.length}</span>
-                    <span className="os-stat__label">Organizations</span>
-                  </div>
-                </div>
-              </Reveal>
-
-              <Reveal delay={0.38}>
-                <div className="os-orgs-row">
-                  <span className="os-orgs-row__label">Featured organizations</span>
-                  <div className="os-orgs-row__logos">
-                    {FEATURED_ORGS.map((org) => (
-                      <a
-                        key={org.name}
-                        href={org.href}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="os-org-mark"
-                        data-tip={org.name}
-                        aria-label={org.name}
-                      >
-                        <org.Logo width={30} height={30} />
-                      </a>
-                    ))}
-                  </div>
-                </div>
-              </Reveal>
             </div>
 
             <Reveal variant="fade" delay={0.2}>
@@ -515,6 +443,31 @@ export default function OpenSource() {
               </motion.div>
             </Reveal>
           </div>
+
+          {/* Featured organizations: an endless scrolling bar, same as the homepage */}
+          <Reveal delay={0.3}>
+            <div className="os-marquee-wrap" aria-label="Featured organizations">
+              <div className="os-marquee-fade os-marquee-fade--l" />
+              <div className="os-marquee-fade os-marquee-fade--r" />
+              <div className="os-marquee-track">
+                {[...FEATURED_ORGS, ...FEATURED_ORGS].map((org, idx) => (
+                  <a
+                    key={`${org.name}-${idx}`}
+                    href={org.href}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="os-marquee-logo"
+                    aria-label={org.name}
+                    title={org.name}
+                    aria-hidden={idx >= FEATURED_ORGS.length ? true : undefined}
+                    tabIndex={idx >= FEATURED_ORGS.length ? -1 : undefined}
+                  >
+                    <org.Logo width={34} height={34} />
+                  </a>
+                ))}
+              </div>
+            </div>
+          </Reveal>
         </div>
       </section>
 

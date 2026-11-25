@@ -65,115 +65,56 @@
   font-weight: 400;
 }
 
-/* stats - a quiet divider row, not a stack of dashboard cards */
-.os-stats-row {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: clamp(28px, 4vw, 46px);
-  margin-top: 34px;
-  padding-top: 24px;
-  border-top: 1px solid var(--line);
+/* featured organizations: endless scrolling bar (same look as the homepage's) */
+.os-marquee-wrap {
+  position: relative;
   width: 100%;
+  overflow: hidden;
+  padding: 24px 0;
+  margin-top: clamp(20px, 3vw, 32px);
+  border-block: 1px solid var(--line);
+  background: rgba(245, 247, 245, 0.02);
 }
-.os-stat { display: flex; flex-direction: column; }
-.os-stat__num {
-  font-family: var(--font-display);
-  font-size: clamp(1.6rem, 2.6vw, 2rem);
-  font-weight: 700;
-  color: var(--fg);
-  line-height: 1.1;
-}
-.os-stat__label {
-  font-family: var(--font-mono);
-  font-size: 0.72rem;
-  color: var(--fg-faint);
-  margin-top: 4px;
-  letter-spacing: 0.02em;
-}
-
-/* featured organizations - unwrapped, full-colour, no chip/border */
-.os-orgs-row { margin-top: clamp(28px, 4vw, 40px); width: 100%; }
-.os-orgs-row__label {
-  font-family: var(--font-mono);
-  font-size: 0.7rem;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--fg-faint);
-}
-.os-orgs-row__logos {
+.os-marquee-fade { position: absolute; top: 0; bottom: 0; width: 10%; pointer-events: none; z-index: 2; }
+.os-marquee-fade--l { left: 0; background: linear-gradient(to right, var(--ink, #070808) 0%, transparent 100%); }
+.os-marquee-fade--r { right: 0; background: linear-gradient(to left, var(--ink, #070808) 0%, transparent 100%); }
+.os-marquee-track {
   display: flex;
-  flex-wrap: wrap;
   align-items: center;
-  gap: clamp(18px, 3vw, 28px);
-  margin-top: 16px;
+  gap: clamp(28px, 4vw, 48px);
+  width: max-content;
+  animation: os-marquee-scroll 34s linear infinite;
+  will-change: transform;
 }
-.os-org-mark {
+.os-marquee-track:hover { animation-play-state: paused; }
+@keyframes os-marquee-scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+.os-marquee-logo {
   position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  cursor: pointer;
+  padding: 8px 12px;
+  text-decoration: none;
   background: transparent;
   border: none;
-  text-decoration: none;
-  transition: transform 0.35s var(--ease);
-  animation: os-bob 4.5s ease-in-out infinite;
+  flex-shrink: 0;
+  transition: transform 0.25s var(--ease);
 }
-.os-org-mark svg,
-.os-org-mark img {
+.os-marquee-logo svg,
+.os-marquee-logo img {
   display: block;
-  width: 32px;
-  height: 32px;
+  width: 34px;
+  height: 34px;
   object-fit: contain;
   filter: drop-shadow(0 2px 8px rgba(255, 255, 255, 0.08));
-  transition: filter 0.3s ease, transform 0.3s ease;
+  transition: filter 0.25s ease, transform 0.25s ease;
 }
-.os-org-mark:hover {
-  transform: translateY(-5px) scale(1.18);
+.os-marquee-logo:hover { transform: translateY(-4px) scale(1.2); }
+.os-marquee-logo:hover svg,
+.os-marquee-logo:hover img { filter: drop-shadow(0 4px 18px rgba(255, 255, 255, 0.35)); }
+@media (prefers-reduced-motion: reduce) {
+  .os-marquee-track { animation: none; flex-wrap: wrap; justify-content: center; }
 }
-.os-org-mark:hover svg,
-.os-org-mark:hover img {
-  filter: drop-shadow(0 4px 16px rgba(255, 255, 255, 0.3));
-}
-.os-org-mark:nth-child(2) { animation-delay: 0.2s; }
-.os-org-mark:nth-child(3) { animation-delay: 0.4s; }
-.os-org-mark:nth-child(4) { animation-delay: 0.6s; }
-.os-org-mark:nth-child(5) { animation-delay: 0.8s; }
-.os-org-mark:nth-child(6) { animation-delay: 1.0s; }
-.os-org-mark:nth-child(7) { animation-delay: 1.2s; }
-.os-org-mark:nth-child(8) { animation-delay: 1.4s; }
-.os-org-mark:nth-child(9) { animation-delay: 1.6s; }
-.os-org-mark:nth-child(10) { animation-delay: 1.8s; }
-.os-org-mark:nth-child(11) { animation-delay: 2.0s; }
-.os-org-mark:nth-child(12) { animation-delay: 2.2s; }
-.os-org-mark:nth-child(13) { animation-delay: 2.4s; }
-.os-org-mark:nth-child(14) { animation-delay: 2.6s; }
-.os-org-mark:nth-child(15) { animation-delay: 2.8s; }
-.os-org-mark:nth-child(16) { animation-delay: 3.0s; }
-.os-org-mark:nth-child(17) { animation-delay: 3.2s; }
-.os-org-mark:nth-child(18) { animation-delay: 3.4s; }
-.os-org-mark:nth-child(19) { animation-delay: 3.6s; }
-.os-org-mark:nth-child(20) { animation-delay: 3.8s; }
-.os-org-mark:nth-child(21) { animation-delay: 4.0s; }
-.os-org-mark:nth-child(22) { animation-delay: 4.2s; }
-@keyframes os-bob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
-
-/* tooltip on hover - reveals the real org name */
-.os-org-mark[data-tip]::after {
-  content: attr(data-tip);
-  position: absolute; bottom: calc(100% + 12px); left: 50%;
-  transform: translateX(-50%) translateY(4px); white-space: nowrap;
-  background: var(--fg); color: var(--ink); font-family: var(--font-mono);
-  font-size: 11px; font-weight: 600; padding: 5px 10px; border-radius: var(--r-pill);
-  opacity: 0; pointer-events: none; transition: opacity 0.2s var(--ease), transform 0.2s var(--ease);
-}
-.os-org-mark[data-tip]::before {
-  content: ''; position: absolute; bottom: calc(100% + 7px); left: 50%; transform: translateX(-50%);
-  border: 5px solid transparent; border-top-color: var(--fg); opacity: 0; transition: opacity 0.2s var(--ease);
-}
-.os-org-mark[data-tip]:hover::after { opacity: 1; transform: translateX(-50%) translateY(0); }
-.os-org-mark[data-tip]:hover::before { opacity: 1; }
 
 /* ---------- Hero right: Floating Logos Showcase (No box card, no borders) ---------- */
 .os-floating-showcase {
