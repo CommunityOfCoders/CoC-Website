@@ -44,23 +44,34 @@
 .hero__sub { max-width: 460px; font-size: 1.08rem; color: var(--fg-dim); }
 .hero__cta { display: flex; flex-wrap: wrap; gap: 14px; }
 
-/* hero media / collage */
-.hero__media { position: relative; aspect-ratio: 4 / 4.3; will-change: transform; }
+/* hero media / collage
+   The group photo keeps its own 4:3 shape so nobody at the edges is
+   cropped off; the workshop shot only hangs off its bottom-right corner. */
+.hero__media { position: relative; aspect-ratio: 1 / 0.88; will-change: transform; cursor: default; }
 .hero__shape {
   position: absolute;
-  inset: 8% -4% -6% 16%;
+  inset: 10% -4% -4% 14%;
   border: 1.5px solid var(--line-2);
   border-radius: var(--r-xl);
   z-index: 0;
+  transition: translate 0.7s var(--ease);
 }
-.hero__img { position: absolute; border-radius: var(--r-lg); z-index: 1; }
+.hero__img {
+  position: absolute;
+  border-radius: var(--r-lg);
+  z-index: 1;
+  transition: translate 0.7s var(--ease), rotate 0.7s var(--ease), scale 0.7s var(--ease), box-shadow 0.7s var(--ease);
+}
 .hero__img--main {
-  inset: 0 6% 12% 0;
+  top: 0;
+  left: 0;
+  width: 90%;
+  aspect-ratio: 4 / 3;
   border-radius: var(--r-xl);
 }
 .hero__img--sub {
-  width: 46%;
-  aspect-ratio: 3 / 3.4;
+  width: 36%;
+  aspect-ratio: 3 / 3.3;
   right: 0;
   bottom: 0;
   z-index: 2;
@@ -68,7 +79,7 @@
 }
 .hero__badge {
   position: absolute;
-  top: 4%;
+  top: -5%;
   left: -6%;
   z-index: 3;
   display: flex;
@@ -81,6 +92,24 @@
   border-radius: var(--r-md);
   font-family: var(--font-mono);
   line-height: 1;
+  transition: translate 0.6s var(--ease), rotate 0.6s var(--ease);
+}
+
+/* fan-out: hover on desktop, tap on touch. The workshop shot slides off
+   the corner so the whole group shows, the badge tips, the outline drifts. */
+@media (hover: hover) {
+  .hero__media:hover .hero__img--sub { translate: 14% 12%; rotate: 4deg; }
+  .hero__media:hover .hero__img--main { rotate: -1.2deg; scale: 1.015; box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5); }
+  .hero__media:hover .hero__badge { translate: -4px -6px; rotate: -6deg; }
+  .hero__media:hover .hero__shape { translate: 3% 3%; }
+  .hero__img--sub:hover { z-index: 4; scale: 1.08; box-shadow: 0 24px 50px rgba(0, 0, 0, 0.6); }
+}
+.hero__media.is-fanned .hero__img--sub { translate: 14% 12%; rotate: 4deg; }
+.hero__media.is-fanned .hero__img--main { rotate: -1.2deg; box-shadow: 0 24px 50px rgba(0, 0, 0, 0.5); }
+.hero__media.is-fanned .hero__badge { translate: -4px -6px; rotate: -6deg; }
+.hero__media.is-fanned .hero__shape { translate: 3% 3%; }
+@media (prefers-reduced-motion: reduce) {
+  .hero__img, .hero__badge, .hero__shape { transition: none; }
 }
 .hero__badge-k { font-size: 0.62rem; letter-spacing: 0.18em; text-transform: uppercase; opacity: 0.7; }
 .hero__badge-v { font-size: 1.5rem; font-weight: 500; }
@@ -629,7 +658,7 @@
 @media (max-width: 900px) {
   .hero__inner { grid-template-columns: 1fr; gap: 48px; }
   .hero { min-height: auto; padding-top: 128px; }
-  .hero__media { width: min(100%, 460px); aspect-ratio: 4 / 3.6; }
+  .hero__media { width: min(100%, 460px); }
   .hero__scroll { display: none; }
   .wwd__head, .oss__head { flex-direction: column; align-items: flex-start; gap: 16px; }
   .wwd__tag { align-items: flex-start; text-align: left; transform: rotate(-3deg) skewX(-3deg); }
@@ -650,7 +679,9 @@
 @media (max-width: 560px) {
   .ethos__grid { grid-template-columns: 1fr; }
   .tb__slide { width: 84vw; }
-  .hero__badge { left: 0; }
+  .hero__badge { left: -2%; padding: 11px 13px; }
+  .hero__img--sub { border-width: 4px; }
+  .hero__media.is-fanned .hero__img--sub { translate: 8% 9%; }
   .oss__marquee-wrap { padding: 18px 0; }
   .oss__marquee-track { gap: 24px; }
   .act__item { grid-template-columns: 1fr; gap: 8px; }
