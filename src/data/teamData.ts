@@ -208,6 +208,16 @@ export const COUNCIL: TeamMember[] = [
 
 export const TY_CORE: TeamMember[] = [
   {
+    id: "aayush-pandey",
+    name: "Aayush Pandey",
+    role: "TY CORE",
+    tagline: "Helping our community learn, build, and grow together.",
+    bio: "Third Year Core member at Community of Coders, dedicated to supporting club initiatives, mentoring peers, and helping our developer community grow stronger together.",
+    photo: AayushImg,
+    github: "https://github.com/aayushpandeyv2vedtech",
+    linkedin: "https://www.linkedin.com/in/aayush-arun-pandey/",
+  },
+  {
     id: "purvasha-singh",
     name: "Purvasha Singh",
     role: "TY CORE",
@@ -256,16 +266,6 @@ export const TY_CORE: TeamMember[] = [
     photo: SudikshaImg,
     github: "https://github.com/sudigit",
     linkedin: "https://www.linkedin.com/in/sudiksha-kadam/",
-  },
-  {
-    id: "aayush-pandey",
-    name: "Aayush Pandey",
-    role: "TY CORE",
-    tagline: "Helping our community learn, build, and grow together.",
-    bio: "Third Year Core member at Community of Coders, dedicated to supporting club initiatives, mentoring peers, and helping our developer community grow stronger together.",
-    photo: AayushImg,
-    github: "https://github.com/aayushpandeyv2vedtech",
-    linkedin: "https://www.linkedin.com/in/aayush-arun-pandey/",
   },
   {
     id: "nathan-dsouza",
