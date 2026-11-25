@@ -290,8 +290,9 @@ const Team: React.FC = () => {
           </Reveal>
           <Reveal delay={0.16}>
             <p className="team-page__intro">
-              Council, leads and core members - the crew that keeps the repos merged, the events
-              running and the labs open late. Click anyone for the full story.
+              The core of Community of Coders for 2026-27 - the crew that does it all, from taking
+              permissions and scheduling to organizing the events and cleaning up the mess afterwards.
+              Click anyone for the full story.
             </p>
           </Reveal>
         </div>
