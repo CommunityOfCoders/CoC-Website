@@ -729,30 +729,28 @@
   line-height: 1.2;
   transition: clip-path 0.45s var(--ease) 0.14s;
 }
-/* event type: a little white stamp in serif italic, dropped in on hover */
+/* event type: a die-cut sticker - green, thick white border, chunky
+   Bagel Fat One capitals - slapped on at an angle when you hover */
 .tb__kind {
   position: absolute;
   z-index: 2;
-  top: 18px;
-  right: 18px;
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  padding: 6px 14px 7px 11px;
-  border-radius: var(--r-pill);
-  background: var(--fg);
-  color: var(--ink);
-  font-family: var(--font-serif);
-  font-style: italic;
-  font-size: 1.12rem;
+  top: 16px;
+  right: 16px;
+  padding: 7px 13px 6px;
+  border: 3px solid var(--fg);
+  border-radius: 12px;
+  background: var(--accent);
+  color: var(--accent-ink);
+  font-family: var(--font-sticker);
+  font-size: 1.02rem;
   line-height: 1;
-  letter-spacing: 0.005em;
-  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.45);
-  rotate: 5deg;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  box-shadow: 0 2px 0 1px rgba(0, 0, 0, 0.25), 0 14px 28px rgba(0, 0, 0, 0.5);
+  rotate: 6deg;
   transform-origin: 100% 0%;
-  transition: translate 0.55s cubic-bezier(0.34, 1.56, 0.64, 1) 0.06s, rotate 0.55s cubic-bezier(0.34, 1.56, 0.64, 1) 0.06s, opacity 0.25s var(--ease) 0.06s;
+  transition: translate 0.55s cubic-bezier(0.34, 1.56, 0.64, 1) 0.06s, rotate 0.55s cubic-bezier(0.34, 1.56, 0.64, 1) 0.06s, scale 0.55s cubic-bezier(0.34, 1.56, 0.64, 1) 0.06s, opacity 0.2s var(--ease) 0.06s;
 }
-.tb__kind::before { content: ''; width: 7px; height: 7px; border-radius: 50%; background: var(--accent); flex-shrink: 0; }
 
 .tb__over {
   position: absolute;
@@ -805,8 +803,8 @@
   .tb__card:hover .tb__cal-m > span { translate: 0 0; }
   .tb__card:hover .tb__cal-m::before { translate: 4px 3px; }
   .tb__card:hover .tb__cal-y { clip-path: inset(0 0 0 0); }
-  .tb__kind { opacity: 0; translate: 24px -30px; rotate: 22deg; }
-  .tb__card:hover .tb__kind { opacity: 1; translate: 0 0; rotate: 5deg; }
+  .tb__kind { opacity: 0; translate: 10px -14px; rotate: -14deg; scale: 1.6; }
+  .tb__card:hover .tb__kind { opacity: 1; translate: 0 0; rotate: 6deg; scale: 1; }
   .tb__card:hover .tb__title { transform: translateY(-4px); color: var(--accent); }
   .tb__card:hover .tb__go { opacity: 1; transform: none; }
 }

@@ -11,6 +11,8 @@
 @import url('https://api.fontshare.com/v2/css?f[]=switzer@400,500,600&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@1&display=swap');
+/* sticker font: only the capitals are downloaded (text=...), so it stays tiny */
+@import url('https://fonts.googleapis.com/css2?family=Bagel+Fat+One&text=ABCDEFGHIJKLMNOPQRSTUVWXYZ-%20&display=swap');
 
 :root {
   /* ---- canvas & surfaces ---- */
@@ -42,6 +44,7 @@
   --font-body: 'Switzer', system-ui, sans-serif;
   --font-mono: 'DM Mono', ui-monospace, monospace;
   --font-serif: 'Instrument Serif', Georgia, serif;   /* italic accent only */
+  --font-sticker: 'Bagel Fat One', 'Cabinet Grotesk', sans-serif;   /* capitals only */
 
   /* ---- radius ---- */
   --r-sm: 10px;
