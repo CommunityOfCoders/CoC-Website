@@ -292,8 +292,8 @@ const Contact: React.FC = () => {
                 />
               </div>
               <div className="ct-badge">
-                <span className="ct-badge-k">reply in</span>
-                <span className="ct-badge-v">&lt;24h</span>
+                <span className="ct-badge-k">est.</span>
+                <span className="ct-badge-v">2016</span>
               </div>
             </motion.div>
           </Reveal>

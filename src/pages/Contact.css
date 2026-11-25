@@ -170,7 +170,7 @@
   .ct-img-main, .ct-img-sub, .ct-badge, .ct-media-shape, .ct-img-main img { transition: none; }
 }
 .ct-badge-k { font-size: 0.62rem; letter-spacing: 0.18em; text-transform: uppercase; opacity: 0.7; }
-.ct-badge-v { font-size: 1.5rem; font-weight: 700; }
+.ct-badge-v { font-size: 1.5rem; font-weight: 500; }
 
 /* ---------- also find us ---------- */
 .ct-also { margin-top: clamp(56px, 8vw, 88px); padding-top: 36px; border-top: 1px solid var(--line); }
