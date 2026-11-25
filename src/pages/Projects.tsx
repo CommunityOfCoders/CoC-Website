@@ -593,21 +593,6 @@ export default function Projects() {
                   <GitBranch size={16} /> Contribute
                 </a>
               </div>
-
-              <div className="projects-stats">
-                <div>
-                  <div className="projects-stat__number">120+</div>
-                  <div className="projects-stat__label">Projects built</div>
-                </div>
-                <div>
-                  <div className="projects-stat__number">50+</div>
-                  <div className="projects-stat__label">Contributors</div>
-                </div>
-                <div>
-                  <div className="projects-stat__number">2k+</div>
-                  <div className="projects-stat__label">GitHub stars</div>
-                </div>
-              </div>
             </div>
 
             {/* Right Side: Stack of Preview Cards */}
