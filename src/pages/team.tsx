@@ -52,31 +52,39 @@ const useScrollLock = () => {
   }, []);
 };
 
-/* social links - shared by card and expanded view */
-const Socials: React.FC<{ member: TeamMember; large?: boolean }> = ({ member, large }) => (
-  <div className={`team-socials${large ? ' team-socials--lg' : ''}`}>
-    <a
-      href={member.github}
-      target="_blank"
-      rel="noreferrer"
-      aria-label={`${member.name} on GitHub`}
-      onClick={(e) => e.stopPropagation()}
-      onKeyDown={(e) => e.stopPropagation()}
-    >
-      <Github />
-    </a>
-    <a
-      href={member.linkedin}
-      target="_blank"
-      rel="noreferrer"
-      aria-label={`${member.name} on LinkedIn`}
-      onClick={(e) => e.stopPropagation()}
-      onKeyDown={(e) => e.stopPropagation()}
-    >
-      <Linkedin />
-    </a>
-  </div>
-);
+/* social links - shared by card and expanded view.
+   A link that is not set simply gets no icon. */
+const Socials: React.FC<{ member: TeamMember; large?: boolean }> = ({ member, large }) => {
+  if (!member.github && !member.linkedin) return null;
+  return (
+    <div className={`team-socials${large ? ' team-socials--lg' : ''}`}>
+      {member.github && (
+        <a
+          href={member.github}
+          target="_blank"
+          rel="noreferrer"
+          aria-label={`${member.name} on GitHub`}
+          onClick={(e) => e.stopPropagation()}
+          onKeyDown={(e) => e.stopPropagation()}
+        >
+          <Github />
+        </a>
+      )}
+      {member.linkedin && (
+        <a
+          href={member.linkedin}
+          target="_blank"
+          rel="noreferrer"
+          aria-label={`${member.name} on LinkedIn`}
+          onClick={(e) => e.stopPropagation()}
+          onKeyDown={(e) => e.stopPropagation()}
+        >
+          <Linkedin />
+        </a>
+      )}
+    </div>
+  );
+};
 
 /* ---------------------------------------------------------- */
 /* Collapsed card - morphs into the expanded view via shared

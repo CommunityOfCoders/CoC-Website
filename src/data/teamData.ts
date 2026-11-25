@@ -39,8 +39,9 @@ export interface TeamMember {
   /** fuller 2–3 sentence bio for the expanded view */
   bio: string;
   photo: string;
-  github: string;
-  linkedin: string;
+  /** optional: the icon is hidden when a link is not set */
+  github?: string;
+  linkedin?: string;
 }
 
 export const COUNCIL: TeamMember[] = [
