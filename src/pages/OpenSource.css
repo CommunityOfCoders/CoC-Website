@@ -17,7 +17,7 @@
 /* ---------- Hero ---------- */
 .os-hero {
   padding-top: clamp(110px, 13vh, 152px);
-  padding-bottom: clamp(36px, 5vw, 56px);
+  padding-bottom: 12px;
 }
 
 .os-hero__grid {
@@ -188,9 +188,12 @@
   will-change: transform;
 }
 
+/* lift the cluster so its top lines up with the top of the title block.
+   (`translate`, not `transform`: the mouse-parallax sets an inline transform
+   that would otherwise cancel this) */
 @media (min-width: 1024px) {
   .os-floating-showcase {
-    transform: translateY(-55px);
+    translate: 0 -60px;
   }
 }
 
@@ -275,7 +278,7 @@
 .os-section-header { margin-bottom: 28px; }
 
 /* ---------- Section 2: Where we've contributed ---------- */
-.os-programs-section { padding-block: clamp(36px, 4vw, 56px); }
+.os-programs-section { padding-block: clamp(24px, 2.6vw, 34px) clamp(36px, 4vw, 56px); }
 
 .os-programs-grid {
   display: grid;
@@ -709,7 +712,7 @@ body.os-panel-open .nav {
   .os-card__links a, .os-card__go { width: 26px; height: 26px; }
   .os-division-header { gap: 10px; flex-wrap: wrap; }
   .os-division-badge { font-size: 0.74rem; padding: 6px 10px; }
-  .os-floating-showcase { transform: none; padding: 16px 8px; }
+  .os-floating-showcase { translate: none; padding: 16px 8px; }
   .os-floating-logo-img { height: 38px; max-width: 90px; }
   .os-drawer-panel .os-drawer-mclose { display: flex; }
   .os-drawer-name { padding-right: 44px; }
