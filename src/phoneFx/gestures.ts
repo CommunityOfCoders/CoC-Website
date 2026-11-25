@@ -1,5 +1,3 @@
-import { buzz } from './haptics';
-
 /* Swipe gestures for phones:
    - Placements: swipe left / right to move between Internships,
      6-Months, Placements and PPOs.
@@ -61,7 +59,6 @@ export function initGestures(): () => void {
       el.style.transition = '';
       el.style.transform = '';
       if (dy > 120 || fast) {
-        buzz(10);
         el.querySelector<HTMLElement>(CLOSE_BTNS)?.click();
       }
     } else if (swipeArea && Math.abs(dx) > 70 && Math.abs(dx) > Math.abs(dy) * 2 && dt < 700) {
@@ -69,7 +66,6 @@ export function initGestures(): () => void {
       const i = tabs.findIndex((b) => b.classList.contains('active'));
       const next = tabs[i + (dx < 0 ? 1 : -1)];
       if (next) {
-        buzz(8);
         next.click();
       }
     }

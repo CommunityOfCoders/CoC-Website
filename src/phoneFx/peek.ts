@@ -1,5 +1,3 @@
-import { buzz } from './haptics';
-
 /* Long-press a project or contributor card to "peek": a bigger copy pops
    up with everything the compact phone card hides (all tags, mentors).
    Let go and it closes; a quick tap still opens the full sheet. */
@@ -33,14 +31,13 @@ export function initPeek(): () => void {
     const wrap = document.createElement('div');
     wrap.className = 'peek-card';
     const clone = card.cloneNode(true) as HTMLElement;
-    clone.classList.remove('is-lit', 'is-pressed');
+    clone.classList.remove('is-pressed');
     clone.style.removeProperty('transform');
     wrap.appendChild(clone);
     o.appendChild(wrap);
     document.body.appendChild(o);
     requestAnimationFrame(() => o.classList.add('is-open'));
     overlay = o;
-    buzz(16);
   };
 
   const down = (e: PointerEvent) => {

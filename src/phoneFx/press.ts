@@ -1,8 +1,5 @@
-import { buzz } from './haptics';
-
 /* Touch has no hover, so give every tappable thing a "pressed" state:
-   it squishes under the finger and takes its accent colour, with a
-   light buzz on Android. Removed the moment the finger moves (scroll). */
+   it squishes under the finger and takes its accent colour. Removed the moment the finger moves (scroll). */
 const SEL = [
   '.project-card', '.os-card', '.ev-card', '.team-card', '.ach-tile', '.os-program-card',
   '.btn', '.placement-tab-btn', '.nav__drawer-link', '.footer__link', '.footer__social',
@@ -27,7 +24,6 @@ export function initPress(): () => void {
     sx = e.clientX;
     sy = e.clientY;
     el.classList.add('is-pressed');
-    buzz(8);
   };
   const move = (e: PointerEvent) => {
     if (active && Math.hypot(e.clientX - sx, e.clientY - sy) > 10) clear();

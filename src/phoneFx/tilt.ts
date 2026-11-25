@@ -1,5 +1,3 @@
-import { buzz } from './haptics';
-
 /* Opt-in tilt parallax: tilt the phone and photos, logos and titles drift
    at different depths. Off by default (iPhones must grant motion access
    with a tap; it also saves a little battery). The choice is remembered. */
@@ -75,7 +73,6 @@ export function initTilt(): () => void {
   };
 
   btn.addEventListener('click', () => {
-    buzz(10);
     if (on) disable();
     else void enable();
   });
