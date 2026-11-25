@@ -20,6 +20,7 @@
   background: var(--ink);
   display: grid;
   place-items: center;
+  overflow: hidden;   /* a photo inside can never peek out past the blade */
 }
 
 .curtain__label {
@@ -50,7 +51,7 @@
   left: 50%;
   top: 50%;
   width: min(100vw, 164vh);
-  aspect-ratio: 790 / 591;
+  aspect-ratio: 4 / 3;
   translate: -50% -51%;
   -webkit-mask-image:
     linear-gradient(to right, transparent 0, #000 3.5%, #000 96.5%, transparent 100%),
@@ -67,8 +68,8 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  /* slow settle while the name is up */
-  animation: photoSettle 1.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+  /* fades up and settles while the blade rises and the name is up */
+  animation: photoSettle 1.4s cubic-bezier(0.16, 1, 0.3, 1) both;
   will-change: transform;
 }
 /* a soft dark wash so the outlined name always reads over the faces */
@@ -79,11 +80,19 @@
   background: radial-gradient(ellipse at 50% 50%, rgba(7, 8, 8, 0.35) 0%, rgba(7, 8, 8, 0.1) 60%, rgba(7, 8, 8, 0) 100%);
 }
 .curtain.has-photo .curtain__label { position: relative; z-index: 1; text-shadow: 0 6px 40px rgba(0, 0, 0, 0.55); }
-/* parallax: on the way out the photo trails the blade a little */
+/* on the way out it trails the blade a touch and fades, so it is gone
+   by the time the blade clears the screen */
 .curtain.is-out .curtain__photo { animation: photoAway 0.62s cubic-bezier(0.7, 0, 0.3, 1) 0.12s both; }
 
-@keyframes photoSettle { from { transform: scale(1.14); } to { transform: scale(1.02); } }
-@keyframes photoAway { from { transform: translate3d(0, 0, 0); } to { transform: translate3d(0, 28%, 0); } }
+@keyframes photoSettle {
+  from { transform: scale(1.12); opacity: 0.35; }
+  45% { opacity: 1; }
+  to { transform: scale(1.02); opacity: 1; }
+}
+@keyframes photoAway {
+  from { transform: translate3d(0, 0, 0); opacity: 1; }
+  to { transform: translate3d(0, 12%, 0); opacity: 0; }
+}
 
 /* cover: green first, ink right behind it */
 .curtain.is-in .curtain__blade--green { animation: curtainUp 0.46s cubic-bezier(0.7, 0, 0.3, 1) both; }
