@@ -164,14 +164,14 @@ interface PolaroidItem {
 const LEFT_PHOTOS: PolaroidItem[] = [
   { src: pxProjectX, event: "project-x-final-meet-2026", caption: "Project X", rot: -9, w: 170, top: "7%", inset: "1%", z: 3, sticker: "star", delay: 0 },
   { src: pxCodeverse, event: "codeverse", caption: "CodeVerse", rot: 6, w: 136, top: "43%", inset: "16%", z: 4, delay: 0.16 },
-  { src: pxCpSelections, event: "cp-club-selections-2026", caption: "CP Selections", rot: -3, w: 154, top: "71%", inset: "-2%", z: 2, delay: 0.32 },
+  { src: pxCpSelections, event: "cp-club-selections-2026", caption: "CP Selections", rot: -3, w: 154, top: "71%", inset: "2.6%", z: 2, delay: 0.32 },
   { src: pxIcpc, event: "icpc-prelims-2026", caption: "ICPC Prelims", rot: 13, w: 106, top: "21%", inset: "22%", z: 1, delay: 0.12 },
 ];
 
 const RIGHT_PHOTOS: PolaroidItem[] = [
   { src: pxHackX, event: "hackxcelerate-2026", caption: "HackXcelerate", rot: 7, w: 160, top: "6%", inset: "1%", z: 3, delay: 0.08 },
   { src: pxSih, event: "sih-2026", caption: "SIH 2026", rot: -7, w: 132, top: "41%", inset: "14%", z: 4, sticker: "heart", delay: 0.24 },
-  { src: pxHelloWorld, event: "hello-world-2026", caption: "Hello World", rot: 4, w: 148, top: "69%", inset: "-1%", z: 2, sticker: "coc", delay: 0.4 },
+  { src: pxHelloWorld, event: "hello-world-2026", caption: "Hello World", rot: 4, w: 148, top: "69%", inset: "1%", z: 2, sticker: "coc", delay: 0.4 },
   { src: pxCoderush, event: "coderush-2026", caption: "CodeRush", rot: -11, w: 108, top: "19%", inset: "21%", z: 1, delay: 0.04 },
 ];
 
