@@ -12,10 +12,8 @@ import {
 } from "framer-motion";
 import type { MotionValue } from "framer-motion";
 import type { Variants } from "framer-motion";
-import { ChevronLeft, ChevronRight, X, ArrowLeft, ArrowRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, X, ArrowLeft, ArrowRight, ArrowUpRight } from "lucide-react";
 import { TimelineContent } from "../components/ui/TimelineContent";
-import Reveal from "../components/ui/Reveal";
-import { Tilt } from "../components/ui/Tilt";
 import Magnetic from "../components/ui/Magnetic";
 import { EVENTS, type CoCEvent } from "../data/eventsData";
 import pxProjectX from "../assets/polaroids/project-x-final-meet-2026.jpg";
@@ -484,6 +482,34 @@ function isUpcoming(isoDate: string, windowDays = 45): boolean {
   return eventMs > now && eventMs <= now + windowDays * 86_400_000;
 }
 
+/* ---- grid entrance, same choreography as the Achievements wall:
+   a green seam draws across, two ink blades split open like a camera
+   shutter, the photo settles from a zoom and the text rises in ---- */
+const cardSeam: Variants = {
+  hidden: { scaleX: 0, opacity: 1 },
+  show: (d: number) => ({
+    scaleX: [0, 1, 1],
+    opacity: [1, 1, 0],
+    transition: { duration: 0.9, times: [0, 0.4, 1], ease: EASE, delay: d },
+  }),
+};
+const cardBlade: Variants = {
+  hidden: { scaleY: 1 },
+  show: (d: number) => ({ scaleY: 0, transition: { duration: 0.75, ease: EASE, delay: d + 0.32 } }),
+};
+const cardPhoto: Variants = {
+  hidden: { scale: 1.32 },
+  show: (d: number) => ({ scale: 1, transition: { duration: 1.3, ease: EASE, delay: d + 0.3 } }),
+};
+const cardRise: Variants = {
+  hidden: { y: 18, opacity: 0 },
+  show: (d: number) => ({ y: 0, opacity: 1, transition: { duration: 0.7, ease: EASE, delay: d } }),
+};
+const cardPop: Variants = {
+  hidden: { scale: 0, rotate: -12 },
+  show: (d: number) => ({ scale: 1, rotate: 0, transition: { type: "spring", stiffness: 320, damping: 16, delay: d } }),
+};
+
 const EventCard: React.FC<{
   event: CoCEvent;
   index: number;
@@ -492,70 +518,137 @@ const EventCard: React.FC<{
 }> = ({ event, index, onOpen }) => {
   const reduce = useReducedMotion();
   const [hovered, setHovered] = useState(false);
+  const ref = useRef<HTMLElement>(null);
+
+  // photo drifts inside its frame with the page scroll
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
+  const scrollY = useTransform(scrollYProgress, [0, 1], ["-4%", "4%"]);
+
+  // depth tilt: the card leans toward the cursor, photo drifts against it, type with it
+  const px = useMotionValue(0);
+  const py = useMotionValue(0);
+  const sx = useSpring(px, { stiffness: 180, damping: 18, mass: 0.5 });
+  const sy = useSpring(py, { stiffness: 180, damping: 18, mass: 0.5 });
+  const rotateY = useTransform(sx, [-0.5, 0.5], [-8, 8]);
+  const rotateX = useTransform(sy, [-0.5, 0.5], [7, -7]);
+  const photoX = useTransform(sx, [-0.5, 0.5], [14, -14]);
+  const photoY = useTransform(sy, [-0.5, 0.5], [12, -12]);
+  const typeX = useTransform(sx, [-0.5, 0.5], [-7, 7]);
+  const typeY = useTransform(sy, [-0.5, 0.5], [-6, 6]);
+  const badgeX = useTransform(sx, [-0.5, 0.5], [-10, 10]);
+  const badgeY = useTransform(sy, [-0.5, 0.5], [-8, 8]);
+
+  const onMove = (e: React.PointerEvent) => {
+    if (e.pointerType !== "mouse" || reduce) return;
+    const r = e.currentTarget.getBoundingClientRect();
+    px.set((e.clientX - r.left) / r.width - 0.5);
+    py.set((e.clientY - r.top) / r.height - 0.5);
+  };
+  const onLeave = () => {
+    px.set(0);
+    py.set(0);
+    setHovered(false);
+  };
+
+  const d = (index % 3) * 0.08; // a small left-to-right wave across each row
 
   return (
-    <Reveal as="li" delay={(index % 3) * 0.08} className="ev-card-reveal">
-      <Tilt
-        className="ev-tilt"
-        rotationFactor={4}
-        springOptions={{ stiffness: 120, damping: 18 }}
+    <motion.li
+      className="ev-card-reveal"
+      initial={reduce ? false : "hidden"}
+      whileInView="show"
+      viewport={{ once: true, margin: "-8% 0px" }}
+    >
+      <motion.article
+        ref={ref}
+        id={`event-${event.id}`}
+        className="ev-card"
+        role="button"
+        tabIndex={0}
+        aria-label={`${event.name} - open details`}
+        onMouseEnter={() => setHovered(true)}
+        onPointerMove={onMove}
+        onPointerLeave={onLeave}
+        onClick={() => onOpen(event)}
+        onKeyDown={(e) => {
+          if (e.target !== e.currentTarget) return;
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            onOpen(event);
+          }
+        }}
+        style={reduce ? undefined : { rotateX, rotateY, transformPerspective: 1000 }}
       >
-        <article
-          id={`event-${event.id}`}
-          className="ev-card"
-          role="button"
-          tabIndex={0}
-          aria-label={`${event.name} - open details`}
-          onMouseEnter={() => setHovered(true)}
-          onMouseLeave={() => setHovered(false)}
-          onClick={() => onOpen(event)}
-          onKeyDown={(e) => {
-            if (e.target !== e.currentTarget) return;
-            if (e.key === "Enter" || e.key === " ") {
-              e.preventDefault();
-              onOpen(event);
-            }
-          }}
+        {/* Full-bleed background image + badge pinned inside the image */}
+        <motion.div
+          layoutId={reduce ? undefined : `event-photo-${event.id}`}
+          className="ev-card__media"
+          transition={{ duration: 0.5, ease: EASE }}
         >
-          {/* Full-bleed background image + badge pinned inside the image */}
-          <motion.div
-            layoutId={reduce ? undefined : `event-photo-${event.id}`}
-            className="ev-card__media"
-            transition={{ duration: 0.5, ease: EASE }}
-          >
-            <PhotoSlider
-              photos={event.photos}
-              alt={event.name}
-              mode="dwell"
-              hovered={hovered}
-            />
-
-            {/* Badge sits inside the media layer - truly overlaid on the photo */}
-            {isUpcoming(event.isoDate) && (
-              <div className="ev-card__badge" aria-label="Upcoming event">
-                <span className="ev-card__badge-dot" aria-hidden="true" />
-                Upcoming
-              </div>
-            )}
+          <motion.div className="ev-card__depth" style={reduce ? undefined : { x: photoX, y: photoY }}>
+            <motion.div className="ev-card__zoom" variants={cardPhoto} custom={d} style={reduce ? undefined : { y: scrollY }}>
+              <PhotoSlider
+                photos={event.photos}
+                alt={event.name}
+                mode="dwell"
+                hovered={hovered}
+              />
+            </motion.div>
           </motion.div>
 
-          {/* Gradient scrim + text overlay */}
-          <div className="ev-card__overlay">
-            <div className="ev-card__meta">
-              <span className="ev-card__date">{event.date}</span>
-              {event.prizePool !== "N/A" && (
-                <span className="ev-card__prize" aria-label={`Prize pool: ${event.prizePool}`}>
-                  <span className="ev-card__prize-k">Prize</span>
-                  <span className="ev-card__prize-v">{event.prizePool}</span>
-                </span>
-              )}
-            </div>
-            <h3 className="ev-card__name">{event.name}</h3>
-            <p className="ev-card__summary">{event.summary}</p>
-          </div>
-        </article>
-      </Tilt>
-    </Reveal>
+        </motion.div>
+
+        {/* top row: date tag, then the upcoming / prize pills */}
+        <motion.div className="ev-card__top" style={reduce ? undefined : { x: badgeX, y: badgeY }}>
+          <motion.span className="ev-card__date" variants={cardRise} custom={d + 0.75}>
+            {event.date}
+          </motion.span>
+          <span className="ev-card__top-end">
+            {isUpcoming(event.isoDate) && (
+              <motion.span className="ev-card__badge" aria-label="Upcoming event" variants={cardPop} custom={d + 0.95}>
+                <span className="ev-card__badge-dot" aria-hidden="true" />
+                Upcoming
+              </motion.span>
+            )}
+            {event.prizePool !== "N/A" && (
+              <motion.span
+                className="ev-card__prize"
+                aria-label={`Prize pool: ${event.prizePool}`}
+                variants={cardPop}
+                custom={d + 1}
+              >
+                <span className="ev-card__prize-k">Prize</span>
+                <span className="ev-card__prize-v">{event.prizePool}</span>
+              </motion.span>
+            )}
+          </span>
+        </motion.div>
+
+        {/* title, place, and the summary that slides up on hover */}
+        <motion.div className="ev-card__overlay" style={reduce ? undefined : { x: typeX, y: typeY }}>
+          <motion.h3 className="ev-card__name" variants={cardRise} custom={d + 0.7}>
+            {event.name}
+          </motion.h3>
+          <motion.span className="ev-card__sub" variants={cardRise} custom={d + 0.82}>
+            {event.location}
+          </motion.span>
+          <p className="ev-card__summary">{event.summary}</p>
+        </motion.div>
+
+        <span className="ev-card__go" aria-hidden="true">
+          <ArrowUpRight size={18} />
+        </span>
+
+        {/* camera-shutter entrance: seam + two blades */}
+        {!reduce && (
+          <span className="ev-card__shutter" aria-hidden="true">
+            <motion.span className="ev-card__blade ev-card__blade--top" variants={cardBlade} custom={d} />
+            <motion.span className="ev-card__blade ev-card__blade--bottom" variants={cardBlade} custom={d} />
+            <motion.span className="ev-card__seam" variants={cardSeam} custom={d} />
+          </span>
+        )}
+      </motion.article>
+    </motion.li>
   );
 };
 
