@@ -771,23 +771,43 @@
   letter-spacing: -0.03em;
   transition: transform 0.5s var(--ease), color 0.35s var(--ease);
 }
+/* "Open event": a white pill mixing a heavy capital with a serif italic.
+   On hover the pill wipes open from the left, then the two words slide in. */
 .tb__go {
   display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  margin-top: 4px;
-  padding: 8px 14px;
+  align-items: baseline;
+  gap: 7px;
+  margin-top: 6px;
+  padding: 9px 18px 10px;
   border-radius: var(--r-pill);
-  background: var(--accent);
-  color: var(--accent-ink);
-  font-family: var(--font-mono);
-  font-size: 0.74rem;
-  font-weight: 500;
-  opacity: 0;
-  transform: translateY(14px);
-  transition: opacity 0.35s var(--ease), transform 0.5s var(--ease);
+  background: var(--fg);
+  color: var(--ink);
+  box-shadow: 0 12px 26px rgba(0, 0, 0, 0.45);
+  clip-path: inset(0 100% 0 0 round 999px);
+  transition: clip-path 0.55s var(--ease) 0.1s;
 }
-.tb__go svg { width: 14px; height: 14px; }
+.tb__go b {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.tb__go em {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 1.16rem;
+  line-height: 0.8;
+  color: var(--accent-deep);
+}
+.tb__go b, .tb__go em {
+  display: inline-block;
+  translate: -14px 0;
+  opacity: 0;
+  transition: translate 0.5s var(--ease), opacity 0.4s var(--ease);
+}
+.tb__go b { transition-delay: 0.22s; }
+.tb__go em { transition-delay: 0.3s; }
 
 .tb__slide { transition: opacity 0.45s var(--ease), transform 0.45s var(--ease); }
 
@@ -806,11 +826,13 @@
   .tb__kind { opacity: 0; translate: 10px -14px; rotate: -14deg; scale: 1.6; }
   .tb__card:hover .tb__kind { opacity: 1; translate: 0 0; rotate: 6deg; scale: 1; }
   .tb__card:hover .tb__title { transform: translateY(-4px); color: var(--accent); }
-  .tb__card:hover .tb__go { opacity: 1; transform: none; }
+  .tb__card:hover .tb__go { clip-path: inset(0 0 0 0 round 999px); }
+  .tb__card:hover .tb__go b, .tb__card:hover .tb__go em { translate: 0 0; opacity: 1; }
 }
 /* touch: no hover, so the "Open event" pill is always there */
 @media (hover: none) {
-  .tb__go { opacity: 1; transform: none; }
+  .tb__go { clip-path: none; }
+  .tb__go b, .tb__go em { translate: none; opacity: 1; }
 }
 
 /* entrance: when the section first arrives, the visible cards rise in one by one */

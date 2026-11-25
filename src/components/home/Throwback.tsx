@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useReducedMotion } from 'framer-motion';
-import { ArrowLeft, ArrowRight, ArrowUpRight } from 'lucide-react';
+import { ArrowLeft, ArrowRight } from 'lucide-react';
 import Reveal from '../ui/Reveal';
 import Magnetic from '../ui/Magnetic';
 
@@ -379,7 +379,7 @@ const Throwback: React.FC = () => {
 
                   <span className="tb__over" aria-hidden="true">
                     <span className="tb__title">{s.title}</span>
-                    <span className="tb__go">Open event <ArrowUpRight /></span>
+                    <span className="tb__go"><b>Open</b><em>event</em></span>
                   </span>
                 </a>
               </figure>
