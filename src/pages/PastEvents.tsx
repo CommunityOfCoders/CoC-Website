@@ -7,7 +7,10 @@ import {
   useReducedMotion,
   useScroll,
   useTransform,
+  useMotionValue,
+  useSpring,
 } from "framer-motion";
+import type { MotionValue } from "framer-motion";
 import type { Variants } from "framer-motion";
 import { ChevronLeft, ChevronRight, X, ArrowLeft, ArrowRight } from "lucide-react";
 import { TimelineContent } from "../components/ui/TimelineContent";
@@ -15,14 +18,14 @@ import Reveal from "../components/ui/Reveal";
 import { Tilt } from "../components/ui/Tilt";
 import Magnetic from "../components/ui/Magnetic";
 import { EVENTS, type CoCEvent } from "../data/eventsData";
-import photo2 from "../assets/2.jpg";
-import photo3 from "../assets/3.jpg";
-import photo4 from "../assets/4.jpeg";
-import photo5 from "../assets/5.jpeg";
-import photo6 from "../assets/6.jpeg";
-import photo7 from "../assets/7.jpg";
-import photo8 from "../assets/8.jpg";
-import photo9 from "../assets/9.jpg";
+import pxProjectX from "../assets/polaroids/project-x-final-meet-2026.jpg";
+import pxCpSelections from "../assets/polaroids/cp-club-selections-2026.jpg";
+import pxHelloWorld from "../assets/polaroids/hello-world-2026.jpg";
+import pxIcpc from "../assets/polaroids/icpc-prelims-2026.jpg";
+import pxHackX from "../assets/polaroids/hackxcelerate-2026.jpg";
+import pxSih from "../assets/polaroids/sih-2026.jpg";
+import pxCodeverse from "../assets/polaroids/codeverse.jpg";
+import pxCoderush from "../assets/polaroids/coderush-2026.jpg";
 
 import review1 from "../assets/Reviews/review1.jpg";
 import review2 from "../assets/Reviews/review2.jpg";
@@ -199,109 +202,140 @@ const CoCSticker: React.FC = () => (
 
 interface PolaroidItem {
   src: string;
+  /** event this photo is from - clicking opens it */
+  event: string;
+  caption: string;
   rot: number; /* degrees, positive = clockwise */
   w: number; /* base width in px */
   top: string;
   inset: string; /* left% for left-flank, right% for right-flank */
-  z: number;
+  z: number; /* stacking + parallax depth */
   sticker?: "star" | "heart" | "coc";
   delay: number; /* entrance stagger delay in seconds */
 }
 
 const LEFT_PHOTOS: PolaroidItem[] = [
-  {
-    src: photo2,
-    rot: -9,
-    w: 170,
-    top: "7%",
-    inset: "1%",
-    z: 3,
-    sticker: "star",
-    delay: 0,
-  },
-  { src: photo3, rot: 6, w: 136, top: "43%", inset: "16%", z: 4, delay: 0.08 },
-  { src: photo4, rot: -3, w: 154, top: "71%", inset: "-2%", z: 2, delay: 0.16 },
-  { src: photo5, rot: 13, w: 106, top: "21%", inset: "22%", z: 1, delay: 0.06 },
+  { src: pxProjectX, event: "project-x-final-meet-2026", caption: "Project X", rot: -9, w: 170, top: "7%", inset: "1%", z: 3, sticker: "star", delay: 0 },
+  { src: pxCodeverse, event: "codeverse", caption: "CodeVerse", rot: 6, w: 136, top: "43%", inset: "16%", z: 4, delay: 0.16 },
+  { src: pxCpSelections, event: "cp-club-selections-2026", caption: "CP Selections", rot: -3, w: 154, top: "71%", inset: "-2%", z: 2, delay: 0.32 },
+  { src: pxIcpc, event: "icpc-prelims-2026", caption: "ICPC Prelims", rot: 13, w: 106, top: "21%", inset: "22%", z: 1, delay: 0.12 },
 ];
 
 const RIGHT_PHOTOS: PolaroidItem[] = [
-  { src: photo6, rot: 7, w: 160, top: "6%", inset: "1%", z: 3, delay: 0.04 },
-  {
-    src: photo7,
-    rot: -7,
-    w: 132,
-    top: "41%",
-    inset: "14%",
-    z: 4,
-    sticker: "heart",
-    delay: 0.12,
-  },
-  {
-    src: photo8,
-    rot: 4,
-    w: 148,
-    top: "69%",
-    inset: "-1%",
-    z: 2,
-    sticker: "coc",
-    delay: 0.2,
-  },
-  {
-    src: photo9,
-    rot: -11,
-    w: 108,
-    top: "19%",
-    inset: "21%",
-    z: 1,
-    delay: 0.02,
-  },
+  { src: pxHackX, event: "hackxcelerate-2026", caption: "HackXcelerate", rot: 7, w: 160, top: "6%", inset: "1%", z: 3, delay: 0.08 },
+  { src: pxSih, event: "sih-2026", caption: "SIH 2026", rot: -7, w: 132, top: "41%", inset: "14%", z: 4, sticker: "heart", delay: 0.24 },
+  { src: pxHelloWorld, event: "hello-world-2026", caption: "Hello World", rot: 4, w: 148, top: "69%", inset: "-1%", z: 2, sticker: "coc", delay: 0.4 },
+  { src: pxCoderush, event: "coderush-2026", caption: "CodeRush", rot: -11, w: 108, top: "19%", inset: "21%", z: 1, delay: 0.04 },
 ];
 
-const PolaroidFlank: React.FC<{ side: "left" | "right" }> = ({ side }) => {
-  const photos = side === "left" ? LEFT_PHOTOS : RIGHT_PHOTOS;
+/* One polaroid: dealt onto the table from its side with a springy landing,
+   then the photo "develops" from a washed-out flash. It floats gently,
+   drifts with scroll by depth, tilts toward the cursor, and on hover is
+   picked up (straightens, lifts, camera flash). Click opens its event. */
+const Polaroid: React.FC<{
+  p: PolaroidItem;
+  side: "left" | "right";
+  index: number;
+  progress: MotionValue<number>;
+}> = ({ p, side, index, progress }) => {
   const reduce = useReducedMotion();
+  const dir = side === "left" ? -1 : 1;
 
+  // scroll depth: nearer photos (higher z) travel further
+  const y = useTransform(progress, [0, 1], [0, -(50 + p.z * 34)]);
+  const drift = useTransform(progress, [0, 1], [0, dir * (10 + p.z * 6)]);
+
+  // cursor tilt
+  const rx = useMotionValue(0);
+  const ry = useMotionValue(0);
+  const srx = useSpring(rx, { stiffness: 180, damping: 16 });
+  const sry = useSpring(ry, { stiffness: 180, damping: 16 });
+  const onMove = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    if (reduce) return;
+    const r = e.currentTarget.getBoundingClientRect();
+    ry.set(((e.clientX - r.left) / r.width - 0.5) * 22);
+    rx.set(-((e.clientY - r.top) / r.height - 0.5) * 22);
+  };
+  const onLeave = () => {
+    rx.set(0);
+    ry.set(0);
+  };
+
+  return (
+    <motion.div
+      className="ev-polaroid-slot"
+      style={
+        {
+          top: p.top,
+          [side]: p.inset,
+          width: p.w,
+          zIndex: p.z,
+          ...(reduce ? {} : { y, x: drift }),
+        } as React.CSSProperties
+      }
+    >
+      <motion.a
+        href={`#events?id=${p.event}`}
+        className="ev-polaroid"
+        aria-label={`Open ${p.caption}`}
+        draggable={false}
+        style={
+          {
+            "--float-delay": `${-index * 1.3}s`,
+            "--develop-delay": `${p.delay + 0.45}s`,
+            rotateX: srx,
+            rotateY: sry,
+            transformPerspective: 700,
+          } as React.CSSProperties
+        }
+        initial={
+          reduce
+            ? false
+            : { opacity: 0, x: dir * 320, y: -60, rotate: p.rot + dir * -38, scale: 1.25 }
+        }
+        animate={{ opacity: 1, x: 0, y: 0, rotate: p.rot, scale: 1 }}
+        transition={{
+          type: "spring",
+          stiffness: 120,
+          damping: 13,
+          mass: 0.9,
+          delay: p.delay + 0.1,
+          opacity: { duration: 0.25, delay: p.delay + 0.1 },
+        }}
+        whileHover={
+          reduce
+            ? undefined
+            : { scale: 1.16, rotate: 0, y: -10, transition: { type: "spring", stiffness: 260, damping: 18 } }
+        }
+        whileTap={reduce ? undefined : { scale: 1.06 }}
+        onMouseMove={onMove}
+        onMouseLeave={onLeave}
+      >
+        <div className="ev-polaroid__img">
+          <img src={p.src} alt="" draggable={false} decoding="async" />
+          <span className="ev-polaroid__flash" aria-hidden="true" />
+        </div>
+        <span className="ev-polaroid__cap">
+          {p.caption}
+          <span className="ev-polaroid__go" aria-hidden="true">&rarr;</span>
+        </span>
+        {p.sticker === "star" && <StarSticker />}
+        {p.sticker === "heart" && <HeartSticker />}
+        {p.sticker === "coc" && <CoCSticker />}
+      </motion.a>
+    </motion.div>
+  );
+};
+
+const PolaroidFlank: React.FC<{
+  side: "left" | "right";
+  progress: MotionValue<number>;
+}> = ({ side, progress }) => {
+  const photos = side === "left" ? LEFT_PHOTOS : RIGHT_PHOTOS;
   return (
     <>
       {photos.map((p, i) => (
-        <motion.div
-          key={`${side}-${i}`}
-          className="ev-polaroid"
-          style={
-            {
-              "--rot": `${p.rot}deg`,
-              top: p.top,
-              [side]: p.inset,
-              width: p.w,
-              zIndex: p.z,
-            } as React.CSSProperties
-          }
-          initial={
-            reduce
-              ? false
-              : { opacity: 0, scale: 0.82, rotate: p.rot * 1.8, y: 20 }
-          }
-          animate={{ opacity: 1, scale: 1, rotate: p.rot, y: 0 }}
-          transition={{ duration: 0.75, ease: EASE, delay: p.delay }}
-          whileHover={
-            reduce
-              ? undefined
-              : {
-                  scale: 1.07,
-                  rotate: p.rot * 0.25,
-                  y: -6,
-                  zIndex: 20,
-                  transition: { duration: 0.3, ease: EASE },
-                }
-          }
-        >
-          <div className="ev-polaroid__img">
-            <img src={p.src} alt="" draggable={false} decoding="async" />
-          </div>
-          {p.sticker === "star" && <StarSticker />}
-          {p.sticker === "heart" && <HeartSticker />}
-          {p.sticker === "coc" && <CoCSticker />}
-        </motion.div>
+        <Polaroid key={p.event} p={p} side={side} index={i + (side === "right" ? 4 : 0)} progress={progress} />
       ))}
     </>
   );
@@ -1008,6 +1042,11 @@ const PastEvents: React.FC = () => {
     offset: ["start 0.95", "end 0.25"],
   });
   const headScale = useTransform(scrollYProgress, [0, 1], [0.985, 1.01]);
+  // polaroids drift away as the hero scrolls out
+  const { scrollYProgress: heroProgress } = useScroll({
+    target: headRef,
+    offset: ["start start", "end start"],
+  });
   const headSkew = useTransform(scrollYProgress, [0, 1], [-1.4, 0.4]);
 
   return (
@@ -1016,8 +1055,8 @@ const PastEvents: React.FC = () => {
         {/* ── Hero: polaroid collage flanks + centre heading ── */}
         <div className="ev-hero" ref={headRef}>
           {/* Polaroids are position:absolute within ev-hero */}
-          <PolaroidFlank side="left" />
-          <PolaroidFlank side="right" />
+          <PolaroidFlank side="left" progress={heroProgress} />
+          <PolaroidFlank side="right" progress={heroProgress} />
 
           {/* Centre text column */}
           <div className="ev-hero__center">
