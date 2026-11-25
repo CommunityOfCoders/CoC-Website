@@ -14,17 +14,37 @@ import working3 from "../../assets/working3.jpeg";
 
 const words = ["Code.", "Create.", "Connect."];
 
-/* Hero call-to-action: a 3D key. It springs up on hover (a glint crosses
-   the face and the label swaps to serif italic) and sinks into its edge on
-   click. Both labels share one grid cell, so the width never changes. */
-const HeroCta: React.FC<{ href: string; label: string; primary?: boolean }> = ({ href, label, primary }) => (
-  <a href={href} className={`cta${primary ? " cta--primary" : ""}`}>
-    <span className="cta__label">
-      <span className="cta__text">{label}</span>
-      <span className="cta__text cta__text--alt" aria-hidden="true">{label}</span>
-    </span>
-  </a>
-);
+/* Hero call-to-action: a 3D key. On hover it springs up, a glint crosses
+   the face, and every letter flips over (one after another, like a
+   departure board) into a "cut-out" version of itself - serif italic,
+   outlined capital, mono on a little label, heavy italic - each landing at
+   its own small tilt, so the label becomes a ransom-note collage. Letters
+   keep their resting width, so the button never changes size. */
+const CTA_STYLES = 4;
+const HeroCta: React.FC<{ href: string; label: string; primary?: boolean }> = ({ href, label, primary }) => {
+  let n = 0; // counts real letters only, so spaces don't break the style pattern
+  return (
+    <a href={href} className={`cta${primary ? " cta--primary" : ""}`} aria-label={label}>
+      <span className="cta__label" aria-hidden="true">
+        {[...label].map((c, i) => {
+          if (c === " ") return <span className="cta__sp" key={i}> </span>;
+          const k = n++;
+          const vars = {
+            "--i": i,
+            "--r": `${((k * 37) % 9) - 4}deg`,
+            "--y": `${(((k * 53) % 7) - 3) * 0.03}em`,
+          } as React.CSSProperties;
+          return (
+            <span className="cta__ch" key={i} style={vars}>
+              <span className="cta__a">{c}</span>
+              <span className={`cta__b cta__b--${k % CTA_STYLES}`}>{c}</span>
+            </span>
+          );
+        })}
+      </span>
+    </a>
+  );
+};
 
 const Hero: React.FC = () => {
   const ref = useRef<HTMLElement>(null);
