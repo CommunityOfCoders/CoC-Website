@@ -16,7 +16,7 @@ const NAV = [
   { label: "Events", hash: "#events" },
   { label: "Projects", hash: "#projects" },
   { label: "Opensource", hash: "#opensource" },
-  { label: "Competitive Programming", hash: "#cp", external: "https://vjti-competitive-programming-club-s.vercel.app/" },
+  { label: "Competitive Programming", hash: "#cp", external: "https://cp-club.community-of-coders.in/" },
   { label: "Achievements", hash: "#achievements" },
   { label: "Team", hash: "#team" },
   { label: "Placements", hash: "#placements" },

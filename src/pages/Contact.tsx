@@ -102,7 +102,7 @@ const NETWORK: { name: string; socials: Social[] }[] = [
       },
       {
         label: "Website",
-        href: "https://vjti-competitive-programming-club-s.vercel.app/",
+        href: "https://cp-club.community-of-coders.in/",
         tip: "CP Club website",
         Icon: WebMark,
         size: 30,
