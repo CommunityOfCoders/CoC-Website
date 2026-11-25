@@ -20,7 +20,7 @@ const PILLARS = [
   {
     Icon: Briefcase,
     title: 'Placements',
-    body: 'A documented, year-over-year record of where our members landed - companies, domains and outcomes.',
+    body: 'A documented record of where our members landed - placements, internships and PPOs, by company and role.',
     href: '#placements',
     featured: false,
   },

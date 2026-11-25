@@ -8,7 +8,7 @@ const FEATURES = [
   { Icon: Compass, title: 'Mentorship', body: 'Seniors and alumni pass down what worked - and what didn\'t.' },
   { Icon: Hammer, title: 'Real projects', body: 'The tools on this page run on campus right now. That\'s the bar.' },
   { Icon: GitFork, title: 'Open source', body: 'Public repos, proper reviews, the same workflow industry uses.' },
-  { Icon: Briefcase, title: 'Placements', body: 'A decade of outcomes documented, so juniors can see the path.' },
+  { Icon: Briefcase, title: 'Placements', body: 'Placements, internships and PPOs documented, so juniors can see the path.' },
   { Icon: Trophy, title: 'Events', body: 'Hackathons, arenas and demo days on a calendar that never empties.' },
 ];
 
