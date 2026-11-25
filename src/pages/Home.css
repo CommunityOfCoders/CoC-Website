@@ -45,25 +45,16 @@
 .hero__cta { display: flex; flex-wrap: wrap; gap: 14px; }
 
 /* ---------- hero call-to-action buttons ----------
-   3D keys in the site's palette: a top-lit face sitting on a deeper edge
-   (the solid box-shadow under it) with a soft ground shadow. Hover: the
-   key springs up, a glint sweeps across the face once and the label swaps
-   to a serif-italic copy. Click: the key sinks all the way into its edge.
-   Only translate, transform, opacity and the shadow move. */
+   Flat pills. Hover dissolves the pill pixel by pixel into its other
+   colour (green -> black, outline -> green); leaving dissolves it back.
+   Each pixel only scales, so it stays smooth. */
 .cta {
-  --face-top: #2ad468;
-  --face-bot: #1aa64b;
-  --edge: #0c5c28;
+  --c-bg: var(--accent);
   --c-fg: var(--accent-ink);
-  --c-alt: var(--accent-ink);
-  --hi: rgba(255, 255, 255, 0.35);
-  --glint: rgba(255, 255, 255, 0.45);
-  --lift: 0px;
-  --depth: 6px;
-  --cut-a: var(--accent-ink);
-  --cut-b: var(--fg);
-  --cut-chip: var(--accent-ink);
-  --cut-chip-fg: var(--accent);
+  --c-ring: transparent;
+  --c-px: var(--ink);
+  --c-fg-h: var(--accent);
+  --c-ring-h: var(--accent);
 
   position: relative;
   isolation: isolate;
@@ -71,154 +62,63 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-width: 196px;
-  padding: 18px 32px;
-  border-radius: 16px;
-  background: linear-gradient(180deg, var(--face-top), var(--face-bot));
+  min-width: 216px;
+  padding: 18px 34px;
+  border-radius: var(--r-pill);
+  background: var(--c-bg);
+  box-shadow: inset 0 0 0 1.5px var(--c-ring);
   color: var(--c-fg);
-  box-shadow:
-    inset 0 1px 0 var(--hi),
-    inset 0 -2px 0 rgba(0, 0, 0, 0.12),
-    0 var(--depth) 0 0 var(--edge),
-    0 calc(var(--depth) + 12px) 26px -10px rgba(0, 0, 0, 0.75);
-  translate: 0 calc(var(--lift) * -1);
-  margin-bottom: 8px;           /* room for the edge so nothing below overlaps it */
   white-space: nowrap;
-  transition:
-    translate 0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
-    box-shadow 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transition: box-shadow 0.35s var(--ease), scale 0.15s var(--ease);
 }
 .cta:not(.cta--primary) {
-  --face-top: #232825;
-  --face-bot: #171a19;
-  --edge: #050606;
+  --c-bg: transparent;
   --c-fg: var(--fg);
-  --c-alt: var(--accent);
-  --hi: rgba(245, 247, 245, 0.14);
-  --glint: rgba(245, 247, 245, 0.12);
-  --cut-a: var(--accent);
-  --cut-b: var(--fg);
-  --cut-chip: var(--accent);
-  --cut-chip-fg: var(--accent-ink);
-}
-.cta:not(.cta--primary)::before {
-  /* hairline rim so the dark key reads against the dark page */
-  content: '';
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  border-radius: inherit;
-  box-shadow: inset 0 0 0 1px rgba(245, 247, 245, 0.1);
-  transition: box-shadow 0.3s var(--ease);
-  pointer-events: none;
+  --c-ring: var(--line-2);
+  --c-px: var(--accent);
+  --c-fg-h: var(--accent-ink);
+  --c-ring-h: var(--accent);
 }
 
-/* glint: a soft diagonal light that crosses the face once per hover */
-.cta::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  z-index: 0;
-  width: 45%;
-  background: linear-gradient(105deg, transparent 15%, var(--glint) 50%, transparent 85%);
-  transform: translateX(-120%) skewX(-16deg);
-  pointer-events: none;
-}
-
-/* ---- label: every letter is a tiny 3D flap ---- */
 .cta__label {
   position: relative;
   z-index: 1;
-  display: inline-flex;
-  align-items: baseline;
   font-family: var(--font-display);
   font-weight: 700;
   font-size: 1.05rem;
-  letter-spacing: 0.035em;
+  letter-spacing: -0.005em;
   line-height: 1.15;
+  transition: color 0.25s var(--ease) 0.12s;
 }
-.cta__sp { display: inline-block; width: 0.42em; }
-.cta__ch {
-  position: relative;
-  display: inline-block;
-  transform-style: preserve-3d;
-}
-.cta__a,
-.cta__b {
-  display: inline-block;
-  backface-visibility: hidden;
-  transition: transform 0.55s cubic-bezier(0.34, 1.4, 0.64, 1), opacity 0.3s var(--ease);
-  transition-delay: calc(var(--i) * 28ms);
-}
-.cta__a { transform: perspective(240px) rotateX(0deg); transform-origin: 50% 100%; }
-/* the cut-out sits centred over the resting letter, flipped away */
-.cta__b {
+
+/* the pixel grid covering the pill */
+.cta__pixels {
   position: absolute;
-  left: 50%;
-  top: 50%;
-  transform-origin: 50% 0%;
-  transform: translate(-50%, -50%) perspective(240px) rotateX(-95deg);
-  opacity: 0;
-  white-space: nowrap;
-  line-height: 1;
+  inset: -1px;
+  z-index: 0;
+  display: grid;
+  grid-template-columns: repeat(18, 1fr);
+  grid-template-rows: repeat(5, 1fr);
+  pointer-events: none;
 }
-/* four cut-out styles */
-.cta__b--0 {           /* serif italic */
-  font-family: var(--font-serif);
-  font-style: italic;
-  font-weight: 400;
-  font-size: 1.26em;
-  color: var(--cut-a);
-}
-.cta__b--1 {           /* mono letter on its own little label */
-  font-family: var(--font-mono);
-  font-weight: 500;
-  font-size: 0.74em;
-  text-transform: uppercase;
-  padding: 2px 2px 1px;
-  border-radius: 3px;
-  background: var(--cut-chip);
-  color: var(--cut-chip-fg);
-}
-.cta__b--2 {           /* outlined heavy capital */
-  font-weight: 800;
-  font-size: 1.02em;
-  text-transform: uppercase;
-  color: transparent;
-  -webkit-text-stroke: 1.2px var(--cut-b);
-}
-.cta__b--3 {           /* heavy italic capital */
-  font-weight: 800;
-  font-style: italic;
-  font-size: 0.94em;
-  text-transform: uppercase;
-  color: var(--cut-b);
+.cta__pixels i {
+  display: block;
+  background: var(--c-px);
+  scale: 0;
+  /* a hair bigger than the cell so no seams show once they're all in */
+  transition: scale 0.22s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transition-delay: calc(var(--d) * 0.32s);
 }
 
 @media (hover: hover) {
-  .cta:hover .cta__a { transform: perspective(240px) rotateX(95deg); opacity: 0; }
-  .cta:hover .cta__b {
-    transform: translate(-50%, calc(-50% + var(--y))) perspective(240px) rotateX(0deg) rotate(var(--r));
-    opacity: 1;
-  }
+  .cta:hover { box-shadow: inset 0 0 0 1.5px var(--c-ring-h); }
+  .cta:hover .cta__pixels i { scale: 1.08; }
+  .cta:hover .cta__label { color: var(--c-fg-h); }
 }
-
-@media (hover: hover) {
-  .cta:hover { --lift: 3px; --depth: 9px; }
-  .cta:hover::after { transform: translateX(260%) skewX(-16deg); transition: transform 0.85s var(--ease); }
-  .cta:not(.cta--primary):hover::before { box-shadow: inset 0 0 0 1px rgba(29, 185, 84, 0.55); }
-}
-/* press: the key sinks into its edge */
-.cta:active {
-  --lift: -5px;
-  --depth: 1px;
-  transition-duration: 0.07s;
-}
-.cta:focus-visible { outline: 2px solid var(--accent); outline-offset: 5px; }
+.cta:active { scale: 0.97; }
+.cta:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
 @media (prefers-reduced-motion: reduce) {
-  .cta, .cta__a, .cta__b, .cta::after { transition-duration: 0.01s !important; transition-delay: 0s !important; }
+  .cta__pixels i { transition-duration: 0.01s; transition-delay: 0s; }
 }
 
 /* hero media / collage
