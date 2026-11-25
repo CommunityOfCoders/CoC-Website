@@ -759,7 +759,7 @@ const EventModal: React.FC<{ event: CoCEvent; onClose: () => void }> = ({
           </div>
 
           {/* Photo slider */}
-          <div className="ev-drawer-section">
+          <div className="ev-drawer-section ev-drawer-section--photos">
             <div className="ev-drawer-section-label">Photos</div>
             <div className="ev-drawer-photo">
               <PhotoSlider
@@ -772,25 +772,25 @@ const EventModal: React.FC<{ event: CoCEvent; onClose: () => void }> = ({
           </div>
 
           {/* Description */}
-          <div className="ev-drawer-section">
+          <div className="ev-drawer-section ev-drawer-section--about">
             <div className="ev-drawer-section-label">Description</div>
             <p className="ev-drawer-about">{event.description}</p>
           </div>
 
           {/* Location */}
-          <div className="ev-drawer-section">
+          <div className="ev-drawer-section ev-drawer-section--fact">
             <div className="ev-drawer-section-label">Location</div>
             <span className="ev-drawer-value">{event.location}</span>
           </div>
 
           {/* Date */}
-          <div className="ev-drawer-section">
+          <div className="ev-drawer-section ev-drawer-section--fact">
             <div className="ev-drawer-section-label">Date</div>
             <span className="ev-drawer-value">{event.date}</span>
           </div>
 
           {/* Prize pool */}
-          <div className="ev-drawer-section">
+          <div className={`ev-drawer-section ev-drawer-section--fact${hasPrize ? "" : " is-empty"}`}>
             <div className="ev-drawer-section-label">Prize Pool</div>
             <span
               className={`ev-drawer-value${hasPrize ? " ev-drawer-value--prize" : ""}`}
