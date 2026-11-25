@@ -11,7 +11,6 @@
 @import url('https://api.fontshare.com/v2/css?f[]=switzer@400,500,600&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@1&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Anybody:wdth,wght@50..150,600..900&display=swap');
 
 :root {
   /* ---- canvas & surfaces ---- */
@@ -43,7 +42,6 @@
   --font-body: 'Switzer', system-ui, sans-serif;
   --font-mono: 'DM Mono', ui-monospace, monospace;
   --font-serif: 'Instrument Serif', Georgia, serif;   /* italic accent only */
-  --font-wild: 'Anybody', 'Cabinet Grotesk', sans-serif;   /* variable width, for playful type */
 
   /* ---- radius ---- */
   --r-sm: 10px;

@@ -14,22 +14,14 @@ import working3 from "../../assets/working3.jpeg";
 
 const words = ["Code.", "Create.", "Connect."];
 
-/* Hero call-to-action. The label is set in Anybody, a variable font that
-   can stretch from condensed to ultra-wide. Every few seconds (and whenever
-   you hover) the letters inflate one after another in a wave - wider,
-   heavier, taller - and settle back. The real label sits in a hidden sizer,
-   so the wave never moves the layout. */
+/* Hero call-to-action: a 3D key. It springs up on hover (a glint crosses
+   the face and the label swaps to serif italic) and sinks into its edge on
+   click. Both labels share one grid cell, so the width never changes. */
 const HeroCta: React.FC<{ href: string; label: string; primary?: boolean }> = ({ href, label, primary }) => (
-  <a href={href} className={`cta${primary ? " cta--primary" : ""}`} aria-label={label}>
-    <span className="cta__word" aria-hidden="true">
-      <span className="cta__sizer">{label}</span>
-      <span className="cta__letters">
-        {[...label].map((c, i) => (
-          <span className="cta__ch" key={i} style={{ "--i": i } as React.CSSProperties}>
-            {c === " " ? "\u00a0" : c}
-          </span>
-        ))}
-      </span>
+  <a href={href} className={`cta${primary ? " cta--primary" : ""}`}>
+    <span className="cta__label">
+      <span className="cta__text">{label}</span>
+      <span className="cta__text cta__text--alt" aria-hidden="true">{label}</span>
     </span>
   </a>
 );
