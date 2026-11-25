@@ -51,57 +51,6 @@ const DWELL_DELAY = 1500;
 const SLIDE_STEP = 2800;
 
 /* ---------------------------------------------------------- */
-/* Web Audio "pop" synthesiser - no asset file needed.
-   A short sine burst at 880 Hz → 440 Hz, 80 ms decay.        */
-/* ---------------------------------------------------------- */
-function usePop() {
-  const play = useCallback(() => {
-    try {
-      const ctx = new AudioContext();
-      const osc = ctx.createOscillator();
-      const gain = ctx.createGain();
-      osc.connect(gain);
-      gain.connect(ctx.destination);
-      osc.type = "sine";
-      osc.frequency.setValueAtTime(860, ctx.currentTime);
-      osc.frequency.exponentialRampToValueAtTime(320, ctx.currentTime + 0.08);
-      gain.gain.setValueAtTime(0.18, ctx.currentTime);
-      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.12);
-      osc.start(ctx.currentTime);
-      osc.stop(ctx.currentTime + 0.14);
-      osc.onended = () => ctx.close();
-    } catch {
-      /* Safari private / blocked autoplay - silent fallback */
-    }
-  }, []);
-  return play;
-}
-
-/* Softer, descending close-pop: lower pitch, shorter, quieter than open */
-function usePopClose() {
-  const play = useCallback(() => {
-    try {
-      const ctx = new AudioContext();
-      const osc = ctx.createOscillator();
-      const gain = ctx.createGain();
-      osc.connect(gain);
-      gain.connect(ctx.destination);
-      osc.type = "sine";
-      osc.frequency.setValueAtTime(420, ctx.currentTime);
-      osc.frequency.exponentialRampToValueAtTime(180, ctx.currentTime + 0.07);
-      gain.gain.setValueAtTime(0.11, ctx.currentTime);
-      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.1);
-      osc.start(ctx.currentTime);
-      osc.stop(ctx.currentTime + 0.11);
-      osc.onended = () => ctx.close();
-    } catch {
-      /* silent fallback */
-    }
-  }, []);
-  return play;
-}
-
-/* ---------------------------------------------------------- */
 /* Kinetic word reveal                                         */
 /* ---------------------------------------------------------- */
 interface KineticWord {
@@ -679,17 +628,11 @@ const EventModal: React.FC<{ event: CoCEvent; onClose: () => void }> = ({
   onClose,
 }) => {
   const ref = useRef<HTMLDivElement>(null);
-  const pop = usePop();
-  const popClose = usePopClose();
-
   const handleClose = useCallback(() => {
-    popClose();
     onClose();
-  }, [onClose, popClose]);
+  }, [onClose]);
 
   useEffect(() => {
-    pop();
-
     const opener = document.activeElement as HTMLElement | null;
     ref.current?.querySelector<HTMLElement>(".ev-drawer-close")?.focus();
 
@@ -723,7 +666,7 @@ const EventModal: React.FC<{ event: CoCEvent; onClose: () => void }> = ({
       document.body.classList.remove("modal-open");
       opener?.focus();
     };
-  }, [handleClose, pop]);
+  }, [handleClose]);
 
   const hasPrize = event.prizePool !== "N/A";
 
