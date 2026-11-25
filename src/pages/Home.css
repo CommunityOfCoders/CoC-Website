@@ -619,38 +619,18 @@
 .act__title { font-size: 1.3rem; transition: color 0.2s var(--ease); }
 .act__note { color: var(--fg-dim); font-size: 0.95rem; margin-top: 6px; }
 
-/* ---------- Ethos ("what we're about") ---------- */
-.ethos { background: var(--ink-1); border-top: 1px solid var(--line); }
-.ethos__head { margin-bottom: 56px; }
-.ethos__grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1px;
-  background: var(--line);
-  border: 1px solid var(--line);
-  border-radius: var(--r-lg);
-  overflow: hidden;
+/* last section on the page: the backdrop photo fades into the footer's
+   ink instead of stopping at a hard edge, and the footer drops its rule */
+.act { padding-bottom: clamp(120px, 15vw, 200px); }
+.act::after {
+  content: '';
+  position: absolute;
+  inset: auto 0 0 0;
+  height: clamp(80px, 10vw, 140px);
+  background: linear-gradient(to bottom, rgba(14, 16, 15, 0) 0%, rgba(14, 16, 15, 0.75) 55%, var(--ink-1) 100%);
+  pointer-events: none;
 }
-.ethos__item {
-  background: var(--ink);
-  padding: 40px 34px;
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-  transition: background 0.3s var(--ease);
-}
-.ethos__item:hover { background: var(--ink-2); }
-.ethos__icon {
-  display: grid; place-items: center;
-  width: 48px; height: 48px;
-  border-radius: 50%;
-  border: 1px solid var(--line-2);
-  color: var(--accent);
-  margin-bottom: 6px;
-}
-.ethos__icon svg { width: 22px; height: 22px; }
-.ethos__title { font-size: 1.4rem; }
-.ethos__text { color: var(--fg-dim); font-size: 0.96rem; }
+.shell:has(.act) .footer { border-top-color: transparent; }
 
 /* ============================================================
    Responsive
@@ -674,10 +654,8 @@
   .how__media { max-width: 420px; }
   .act__grid { grid-template-columns: 1fr; }
   .act__head { position: static; }
-  .ethos__grid { grid-template-columns: 1fr 1fr; }
 }
 @media (max-width: 560px) {
-  .ethos__grid { grid-template-columns: 1fr; }
   .tb__slide { width: 84vw; }
   .hero__badge { left: -2%; padding: 11px 13px; }
   .hero__img--sub { border-width: 4px; }
@@ -699,11 +677,7 @@
   .pillar__text { font-size: 0.8rem; margin-top: 6px; }
   .pillar__go { font-size: 0.72rem; }
   .pillar__icon { transform: scale(0.85); transform-origin: left top; }
-  .ethos__grid { grid-template-columns: 1fr 1fr; }
-  .ethos__item { padding: 20px 14px; }
-  .ethos__title { font-size: 1.1rem; }
-  .ethos__text { font-size: 0.8rem; }
-  .wwd__tag { margin: 8px 0 18px; }
+  .wwd__tag { margin: 4px 10px 18px 0; }
   .wwd__tag-big--out::before { transform: translate(6px, 5px); }
   .wwd__tag-big--out::after { transform: translate(12px, 10px); }
   .wwd__tag-big--fill::before { transform: translate(-6px, -5px); }

@@ -6,7 +6,6 @@ import Throwback from '../components/home/Throwback';
 import OpenSourceHighlight from '../components/home/OpenSourceHighlight';
 import PhotoBand from '../components/home/PhotoBand';
 import CommunityActivity from '../components/home/CommunityActivity';
-import Ethos from '../components/home/Ethos';
 import { BackdropProvider, Scene } from '../components/ui/Backdrop';
 import { IMG } from '../data/placeholderImages';
 import './Home.css';
@@ -14,7 +13,7 @@ import './Home.css';
 /**
  * Sections wrapped in <Scene> drive the fixed photographic backdrop:
  * each one brings its own image in as it reaches mid-viewport.
- * Opaque sections (stats / throwback / bone / ethos) cover the layer,
+ * Opaque sections (stats / throwback) cover the layer,
  * and <Scene bg={null}> clears it so re-entries feel deliberate.
  */
 const Home: React.FC = () => (
@@ -26,7 +25,6 @@ const Home: React.FC = () => (
     <Scene bg={IMG.bgTalk}><OpenSourceHighlight /></Scene>
     <PhotoBand />
     <Scene bg={IMG.bgCrowd}><CommunityActivity /></Scene>
-    <Ethos />
   </BackdropProvider>
 );
 
