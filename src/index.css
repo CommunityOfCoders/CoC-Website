@@ -11,6 +11,7 @@
 @import url('https://api.fontshare.com/v2/css?f[]=switzer@400,500,600&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@1&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Anybody:wdth,wght@50..150,600..900&display=swap');
 
 :root {
   /* ---- canvas & surfaces ---- */
@@ -42,6 +43,7 @@
   --font-body: 'Switzer', system-ui, sans-serif;
   --font-mono: 'DM Mono', ui-monospace, monospace;
   --font-serif: 'Instrument Serif', Georgia, serif;   /* italic accent only */
+  --font-wild: 'Anybody', 'Cabinet Grotesk', sans-serif;   /* variable width, for playful type */
 
   /* ---- radius ---- */
   --r-sm: 10px;
@@ -148,17 +150,6 @@ button { font-family: inherit; cursor: pointer; }
 }
 .btn--ghost:hover { border-color: var(--fg); background: rgba(245,247,245,0.05); }
 .btn--ghost:active { background: rgba(245,247,245,0.05); }
-
-.btn--hero-cta {
-  --_bg: transparent;
-  --_fg: var(--fg);
-  border-color: var(--line-2);
-}
-.btn--hero-cta:hover {
-  background: var(--accent-deep);
-  color: var(--accent-ink);
-  border-color: var(--accent-deep);
-}
 
 .btn--on-bone { --_fg: var(--bone-ink); }
 .btn--on-bone.btn--ghost { --_fg: var(--bone-ink); border-color: var(--bone-line); }
