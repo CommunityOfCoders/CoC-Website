@@ -14,7 +14,7 @@ import lgVisa from '../../assets/company-logos/visa.png';
 const EASE = [0.16, 1, 0.3, 1] as const;
 
 type Item = { key: string; label: string; href: string; img?: string; Logo?: React.FC<React.SVGProps<SVGSVGElement>> };
-type Pillar = { title: string; kicker: string; body: string; href: string; featured: boolean; kind: 'photos' | 'orgs' | 'logos'; items: Item[] };
+type Pillar = { title: string; kicker: string; body: string; href: string; kind: 'photos' | 'orgs' | 'logos'; items: Item[] };
 
 /* every picture / logo is real and links to the exact place it comes from */
 const PILLARS: Pillar[] = [
@@ -23,7 +23,6 @@ const PILLARS: Pillar[] = [
     kicker: 'Hackathons · contests · talks',
     body: 'Hackathons, hands-on workshops and talks that turn a semester of theory into things you can actually build.',
     href: '#events',
-    featured: false,
     kind: 'photos',
     items: [
       { key: 'codeverse', label: 'CodeVerse', href: '#events?id=codeverse', img: pxCodeverse },
@@ -36,7 +35,6 @@ const PILLARS: Pillar[] = [
     kicker: 'GSoC · LFX · JSoC',
     body: 'Real repos, real reviews. We mentor first PRs and maintain projects the whole campus uses.',
     href: '#opensource',
-    featured: true,
     kind: 'orgs',
     items: [
       { key: 'gsoc', label: 'Google Summer of Code', href: '#opensource', Logo: GSoCLogo },
@@ -51,7 +49,6 @@ const PILLARS: Pillar[] = [
     kicker: 'Placements · internships · PPOs',
     body: 'A documented record of where our members landed - placements, internships and PPOs, by company and role.',
     href: '#placements',
-    featured: false,
     kind: 'logos',
     items: [
       { key: 'deshaw', label: 'DE Shaw', href: '#placements', img: lgDeshaw },
@@ -63,57 +60,56 @@ const PILLARS: Pillar[] = [
   },
 ];
 
-/* entrance: transform + opacity only, so it stays on the GPU */
+/* entrance: transform + opacity only */
 const cardV: Variants = {
-  hidden: { opacity: 0, y: 70 },
-  show: (i: number) => ({
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.9, ease: EASE, delay: i * 0.12, when: 'beforeChildren', staggerChildren: 0.07 },
-  }),
-};
-const popV: Variants = {
-  hidden: { opacity: 0, y: 26, scale: 0.6 },
-  show: { opacity: 1, y: 0, scale: 1, transition: { type: 'spring', stiffness: 320, damping: 18 } },
+  hidden: { opacity: 0, y: 60 },
+  show: (i: number) => ({ opacity: 1, y: 0, transition: { duration: 0.9, ease: EASE, delay: i * 0.12 } }),
 };
 
 const PillarCard: React.FC<{ p: Pillar; i: number }> = ({ p, i }) => {
   const reduce = useReducedMotion();
+  const num = String(i + 1).padStart(2, '0');
   return (
     <motion.article
-      className={`pillar pillar--${p.kind}${p.featured ? ' pillar--feat' : ''}`}
+      className={`pillar pillar--${p.kind}`}
       variants={cardV}
       custom={i}
       initial={reduce ? false : 'hidden'}
       whileInView="show"
-      viewport={{ once: true, amount: 0.25 }}
+      viewport={{ once: true, amount: 0.3 }}
     >
       <span className="pillar__fill" aria-hidden="true" />
+      <span className="pillar__ghost" aria-hidden="true">{num}</span>
 
       <div className="pillar__top">
-        <span className="pillar__idx">{String(i + 1).padStart(2, '0')}<em>/03</em></span>
+        <span className="pillar__idx">{num}<em>/03</em></span>
         <span className="pillar__arrow" aria-hidden="true"><ArrowUpRight /></span>
       </div>
 
-      <h3 className="pillar__title">
-        {/* the whole card is this link (stretched over it with ::after) */}
-        <a href={p.href} className="pillar__link">
-          <span className="pillar__roll" data-t={p.title}>{p.title}</span>
-        </a>
-      </h3>
-      <p className="pillar__kicker">{p.kicker}</p>
-      <p className="pillar__text">{p.body}</p>
+      {/* shown when the card opens up: what it is, plus real photos / logos */}
+      <div className="pillar__reveal">
+        <p className="pillar__text">{p.body}</p>
+        <ul className="pillar__stack" aria-label={`${p.title}: highlights`}>
+          {p.items.map((it, k) => (
+            <li key={it.key} style={{ '--k': k, '--n': p.items.length } as React.CSSProperties}>
+              <a href={it.href} className="pillar__chip" title={it.label} aria-label={it.label}>
+                {it.img ? <img src={it.img} alt="" loading="lazy" decoding="async" draggable={false} /> : null}
+                {it.Logo ? <it.Logo /> : null}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
 
-      <ul className="pillar__stack" aria-label={`${p.title}: highlights`}>
-        {p.items.map((it, k) => (
-          <motion.li key={it.key} variants={popV} style={{ '--k': k, '--n': p.items.length } as React.CSSProperties}>
-            <a href={it.href} className="pillar__chip" title={it.label} aria-label={it.label}>
-              {it.img ? <img src={it.img} alt="" loading="lazy" decoding="async" draggable={false} /> : null}
-              {it.Logo ? <it.Logo /> : null}
-            </a>
-          </motion.li>
-        ))}
-      </ul>
+      <div className="pillar__main">
+        <p className="pillar__kicker">{p.kicker}</p>
+        <h3 className="pillar__title">
+          {/* the whole card is this link (stretched over it with ::after) */}
+          <a href={p.href} className="pillar__link">
+            <span className="pillar__roll" data-t={p.title}>{p.title}</span>
+          </a>
+        </h3>
+      </div>
     </motion.article>
   );
 };

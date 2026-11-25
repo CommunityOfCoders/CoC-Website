@@ -268,60 +268,58 @@
 }
 
 
-.wwd__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
 
 /* ---------- What we do: pillar cards ----------
-   Everything that moves here is transform or opacity, so hover stays
-   smooth. Hover: a colour panel slides up and flips the card's colours,
-   the title rolls over to an italic copy, and the stack at the bottom
-   (real event photos / open-source orgs / company logos) fans out. Each
-   photo or logo links to its own place; the rest of the card links to
-   the page it is about. */
+   At rest: three short cards - number, a huge outlined index, one line and
+   the title. Hover a card and it grows up and out (the other two make room),
+   a colour panel slides up and flips its colours, the title rolls over to a
+   serif italic copy, and the text plus real photos / logos fly in. The grid
+   has a fixed height, so the page below never moves. */
+.wwd__head { margin-bottom: 28px; }
+.wwd__grid {
+  --rest-h: 300px;
+  --open-h: 392px;
+  display: flex;
+  align-items: flex-end;
+  gap: 20px;
+  height: var(--open-h);
+  container-type: inline-size;
+}
 .pillar {
   --c-bg: var(--ink-2);
   --c-ring: var(--line);
   --c-fg: var(--fg);
   --c-dim: var(--fg-dim);
   --c-kick: var(--accent);
+  --c-ghost: rgba(245, 247, 245, 0.1);
   --c-fill: var(--accent);
   --c-fg-h: var(--accent-ink);
   --c-dim-h: rgba(1, 26, 10, 0.74);
-  --c-kick-h: var(--accent-ink);
+  --c-ghost-h: rgba(1, 26, 10, 0.16);
   --c-roll: var(--accent-ink);
 
   position: relative;
   isolation: isolate;
   overflow: hidden;
+  flex: 1 1 0;
+  min-width: 0;
+  height: var(--rest-h);
   display: flex;
   flex-direction: column;
-  padding: 26px 28px 24px;
+  padding: 24px 28px 26px;
   border-radius: var(--r-lg);
   background: var(--c-bg);
   box-shadow: 0 0 0 1px var(--c-ring);
   color: var(--c-fg);
-  transition: translate 0.5s var(--ease), scale 0.2s var(--ease);
-}
-.pillar--feat {
-  --c-bg: var(--accent);
-  --c-ring: var(--accent);
-  --c-fg: var(--accent-ink);
-  --c-dim: rgba(1, 26, 10, 0.74);
-  --c-kick: var(--accent-ink);
-  --c-fill: var(--ink);
-  --c-fg-h: var(--fg);
-  --c-dim-h: var(--fg-dim);
-  --c-kick-h: var(--accent);
-  --c-roll: var(--accent);
+  transition:
+    flex-grow 0.65s var(--ease),
+    height 0.65s var(--ease),
+    opacity 0.4s var(--ease),
+    scale 0.2s var(--ease);
 }
 .pillar > * { position: relative; z-index: 1; }
-/* static, so the link's ::after stretches over the whole card (above the text, below the stack) */
-.pillar > .pillar__title { position: static; }
-.pillar > .pillar__stack { z-index: 3; pointer-events: none; }
-.pillar__stack .pillar__chip { pointer-events: auto; }
-/* text never swallows the click: it always reaches the card link underneath */
-.pillar__top, .pillar__kicker, .pillar__text { pointer-events: none; }
 
-/* colour panel: scales up from the bottom edge (GPU transform, no clip-path) */
+/* colour panel: scales up from the bottom edge (GPU transform) */
 .pillar > .pillar__fill {
   position: absolute;
   inset: 0;
@@ -333,127 +331,209 @@
   pointer-events: none;
 }
 
-.pillar__top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 34px; }
-.pillar__idx {
-  font-family: var(--font-mono);
-  font-size: 0.82rem;
-  letter-spacing: 0.04em;
-  color: var(--c-fg);
-  transition: color 0.35s var(--ease);
+/* huge outlined index filling the empty middle of a resting card */
+.pillar > .pillar__ghost {
+  position: absolute;
+  z-index: 0;
+  right: -0.06em;
+  top: 0.32em;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(7rem, 11vw, 10.5rem);
+  line-height: 0.8;
+  letter-spacing: -0.06em;
+  color: transparent;
+  -webkit-text-stroke: 1.5px var(--c-ghost);
+  pointer-events: none;
+  transition: transform 0.7s var(--ease), -webkit-text-stroke-color 0.4s var(--ease);
 }
+
+.pillar__top { display: flex; align-items: center; justify-content: space-between; pointer-events: none; }
+.pillar__idx { font-family: var(--font-mono); font-size: 0.8rem; letter-spacing: 0.04em; color: var(--c-fg); transition: color 0.35s var(--ease); }
 .pillar__idx em { font-style: normal; opacity: 0.45; margin-left: 2px; }
 .pillar__arrow {
   display: grid;
   place-items: center;
-  width: 46px;
-  height: 46px;
+  width: 44px;
+  height: 44px;
   border-radius: 50%;
   box-shadow: inset 0 0 0 1px currentColor;
   color: var(--c-fg);
-  transition: transform 0.55s cubic-bezier(0.34, 1.56, 0.64, 1), background-color 0.35s var(--ease), color 0.35s var(--ease);
+  transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1), background-color 0.35s var(--ease), color 0.35s var(--ease);
 }
-.pillar__arrow svg { width: 20px; height: 20px; }
+.pillar__arrow svg { width: 19px; height: 19px; }
 
+/* revealed content: laid out at the OPEN width so nothing reflows while the card grows */
+.pillar > .pillar__reveal {
+  position: absolute;
+  top: 88px;
+  left: 28px;
+  width: calc((100cqw - 40px - 168px) * 1.7 / 3.5);
+  z-index: 3;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s var(--ease);
+}
+.pillar__text {
+  max-width: 44ch;
+  color: var(--c-dim-h);
+  font-size: 0.98rem;
+  line-height: 1.55;
+  translate: 0 14px;
+  transition: translate 0.6s var(--ease);
+}
+
+.pillar__main { margin-top: auto; pointer-events: none; }
+.pillar__kicker {
+  position: relative;
+  z-index: 1;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--c-kick);
+  transition: color 0.35s var(--ease);
+}
 .pillar__title {
+  margin-top: 10px;
   font-family: var(--font-display);
   font-weight: 800;
-  font-size: clamp(2.1rem, 3vw, 2.85rem);
+  font-size: clamp(2rem, 2.9vw, 2.75rem);
   line-height: 1;
-  letter-spacing: -0.04em;
+  letter-spacing: -0.035em;
+  white-space: nowrap;
 }
-/* the link is the clip window for the rolling title; its ::after covers the card */
-.pillar__link { display: inline-block; overflow: hidden; vertical-align: top; color: var(--c-fg); padding-bottom: 0.06em; transition: color 0.35s var(--ease); }
+/* the link is the clip window for the rolling title (extra room on the
+   right so the italic copy is never cut); its ::after covers the card */
+.pillar__link {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: top;
+  padding: 0 0.3em 0.08em 0;
+  margin-right: -0.3em;
+  color: var(--c-fg);
+  pointer-events: auto;
+  transition: color 0.35s var(--ease);
+}
+.pillar > .pillar__main .pillar__title { position: static; }
+.pillar__main { position: static !important; }
 .pillar__link::after { content: ''; position: absolute; inset: 0; z-index: 2; border-radius: inherit; }
 .pillar__link:focus-visible { outline: none; }
 .pillar:has(.pillar__link:focus-visible) { box-shadow: 0 0 0 2px var(--accent), 0 0 0 5px var(--ink); }
-.pillar__roll { position: relative; display: inline-block; transition: transform 0.55s var(--ease); }
+.pillar__roll { position: relative; z-index: 1; display: inline-block; transition: transform 0.6s var(--ease); }
 .pillar__roll::after {
   content: attr(data-t);
   position: absolute;
   left: 0;
   top: 100%;
+  font-family: var(--font-serif);
   font-style: italic;
+  font-weight: 400;
+  font-size: 1.12em;
+  line-height: 0.9;
+  letter-spacing: -0.01em;
   color: var(--c-roll);
   white-space: nowrap;
 }
 
-.pillar__kicker {
-  margin-top: 12px;
-  font-family: var(--font-mono);
-  font-size: 0.72rem;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--c-kick);
-  transition: color 0.35s var(--ease);
-}
-.pillar__text {
-  margin-top: 14px;
-  flex: 1;
-  color: var(--c-dim);
-  font-size: 0.97rem;
-  line-height: 1.6;
-  transition: color 0.35s var(--ease);
-}
-
-/* ---- the stack: overlapped at rest, fans out on hover ---- */
-.pillar__stack { --w: 56px; --gap: 28px; position: relative; height: 96px; margin-top: 26px; list-style: none; container-type: inline-size; }
+/* ---- the stack of photos / logos ---- */
+.pillar__stack { --w: 54px; position: relative; height: 92px; margin-top: 18px; list-style: none; container-type: inline-size; }
+.pillar > .pillar__reveal .pillar__stack { pointer-events: none; }
 .pillar__stack li {
   position: absolute;
   left: 0;
   bottom: 0;
   z-index: calc(10 - var(--k));
-  translate: calc(var(--k) * var(--gap)) 0;
-  transition: translate 0.6s cubic-bezier(0.34, 1.45, 0.64, 1) calc(var(--k) * 45ms), rotate 0.6s var(--ease) calc(var(--k) * 45ms);
+  opacity: 0;
+  translate: calc(40px + var(--k) * 30px) 24px;
+  scale: 0.7;
+  transition:
+    translate 0.65s cubic-bezier(0.34, 1.4, 0.64, 1) calc(var(--k) * 50ms),
+    scale 0.65s cubic-bezier(0.34, 1.4, 0.64, 1) calc(var(--k) * 50ms),
+    rotate 0.65s var(--ease) calc(var(--k) * 50ms),
+    opacity 0.3s var(--ease) calc(var(--k) * 50ms);
 }
 .pillar__chip {
   position: relative;
-  z-index: 2;
+  z-index: 3;
   display: grid;
   place-items: center;
   overflow: hidden;
   background: #fff;
-  box-shadow: 0 0 0 3px var(--c-bg), 0 10px 24px rgba(0, 0, 0, 0.35);
-  transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.35s var(--ease);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.35);
+  pointer-events: auto;
+  transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 .pillar__chip img { width: 100%; height: 100%; object-fit: contain; pointer-events: none; }
 .pillar__chip svg { width: 64%; height: 64%; }
-.pillar__chip:hover { transform: translateY(-8px) scale(1.12); z-index: 3; }
-
-/* org + company logos: round / rounded-square tiles */
+.pillar__chip:hover { transform: translateY(-8px) scale(1.12); }
 .pillar--orgs .pillar__chip { width: var(--w); height: var(--w); border-radius: 50%; }
-.pillar--logos .pillar__chip { width: var(--w); height: var(--w); border-radius: 16px; padding: 10px; }
-.pillar--logos .pillar__chip img { border-radius: 4px; }
-
-/* event photos: little polaroids, tossed in a pile */
-.pillar--photos .pillar__stack { --w: 104px; --gap: 44px; }
-.pillar--photos .pillar__chip { width: var(--w); height: 90px; padding: 5px 5px 16px; border-radius: 4px; }
+.pillar--logos .pillar__chip { width: var(--w); height: var(--w); border-radius: 15px; padding: 10px; }
+.pillar--photos .pillar__stack { --w: 104px; }
+.pillar--photos .pillar__chip { width: var(--w); height: 88px; padding: 5px 5px 15px; border-radius: 4px; }
 .pillar--photos .pillar__chip img { object-fit: cover; border-radius: 2px; }
-.pillar--photos .pillar__stack li:nth-child(1) { rotate: -9deg; }
-.pillar--photos .pillar__stack li:nth-child(2) { rotate: 4deg; }
-.pillar--photos .pillar__stack li:nth-child(3) { rotate: 12deg; }
 
-@media (hover: hover) {
-  .pillar:hover { translate: 0 -8px; }
-  .pillar:hover > .pillar__fill { transform: scaleY(1); }
-  .pillar:hover .pillar__idx,
-  .pillar:hover .pillar__link,
-  .pillar:hover .pillar__arrow { color: var(--c-fg-h); }
-  .pillar:hover .pillar__arrow { transform: rotate(45deg) scale(1.08); background-color: var(--c-fg-h); color: var(--c-fill); }
-  .pillar:hover .pillar__roll { transform: translateY(-100%); }
-  .pillar:hover .pillar__kicker { color: var(--c-kick-h); }
-  .pillar:hover .pillar__text { color: var(--c-dim-h); }
-  .pillar:hover .pillar__stack li { translate: min(calc(var(--k) * 72px), calc(var(--k) * (100cqw - var(--w) - 8px) / (var(--n) - 1))) 0; }
-  .pillar--photos:hover .pillar__stack li:nth-child(1) { rotate: -5deg; }
-  .pillar--photos:hover .pillar__stack li:nth-child(2) { rotate: 3deg; }
-  .pillar--photos:hover .pillar__stack li:nth-child(3) { rotate: -2deg; }
-  .pillar:hover .pillar__chip { box-shadow: 0 0 0 3px var(--c-fill), 0 14px 30px rgba(0, 0, 0, 0.4); }
+/* ---- open state (hover / keyboard focus) ---- */
+@media (hover: hover) and (min-width: 901px) {
+  .wwd__grid:hover .pillar { flex-grow: 0.9; opacity: 0.6; }
+  .wwd__grid .pillar:hover,
+  .wwd__grid .pillar:focus-within { flex-grow: 1.7; height: var(--open-h); opacity: 1; }
+  .pillar:hover > .pillar__fill, .pillar:focus-within > .pillar__fill { transform: scaleY(1); }
+  .pillar:hover > .pillar__ghost, .pillar:focus-within > .pillar__ghost { transform: translate(-0.12em, 1.2em) scale(1.25) rotate(-6deg); -webkit-text-stroke-color: var(--c-ghost-h); }
+  .pillar:hover .pillar__idx, .pillar:hover .pillar__link, .pillar:hover .pillar__arrow,
+  .pillar:focus-within .pillar__idx, .pillar:focus-within .pillar__link { color: var(--c-fg-h); }
+  .pillar:hover .pillar__arrow { transform: rotate(45deg) scale(1.06); background-color: var(--c-fg-h); color: var(--c-fill); }
+  .pillar:hover .pillar__kicker, .pillar:focus-within .pillar__kicker { color: var(--c-fg-h); }
+  .pillar:hover .pillar__roll, .pillar:focus-within .pillar__roll { transform: translateY(-100%); }
+  .pillar:hover > .pillar__reveal, .pillar:focus-within > .pillar__reveal { opacity: 1; transition: opacity 0.45s var(--ease) 0.18s; }
+  .pillar:hover .pillar__text, .pillar:focus-within .pillar__text { translate: 0 0; }
+  .pillar:hover .pillar__stack li, .pillar:focus-within .pillar__stack li {
+    opacity: 1;
+    scale: 1;
+    translate: calc(var(--k) * min(66px, (100cqw - var(--w) - 6px) / (var(--n) - 1))) 0;
+    transition-delay: calc(0.2s + var(--k) * 60ms);
+  }
+  .pillar--photos:hover .pillar__stack li:nth-child(1) { rotate: -7deg; }
+  .pillar--photos:hover .pillar__stack li:nth-child(2) { rotate: 4deg; }
+  .pillar--photos:hover .pillar__stack li:nth-child(3) { rotate: -3deg; }
+  .pillar--photos:hover .pillar__stack li { translate: calc(var(--k) * min(118px, (100cqw - var(--w) - 6px) / (var(--n) - 1))) 0; }
 }
-/* phones: no hover, so a press gives a quick squeeze */
-@media (hover: none) {
+
+/* ---- tablet + phone: no hover to open them, so cards show everything ---- */
+@media (max-width: 900px) {
+  .wwd__grid { display: grid; grid-template-columns: 1fr; height: auto; gap: 12px; }
+  .pillar { height: auto; padding: 22px 22px 22px; }
+  .pillar > .pillar__ghost { font-size: 7rem; }
+  .pillar > .pillar__reveal { position: static; width: auto; opacity: 1; order: 2; margin-top: 14px; }
+  .pillar__text { translate: none; color: var(--c-dim); }
+  .pillar__main { margin-top: 26px; order: 1; }
+  .pillar__stack li { opacity: 1; scale: 1; translate: calc(var(--k) * 40px) 0; }
+  .pillar--photos .pillar__stack li { translate: calc(var(--k) * 78px) 0; }
+  .pillar--photos .pillar__stack li:nth-child(1) { rotate: -7deg; }
+  .pillar--photos .pillar__stack li:nth-child(2) { rotate: 4deg; }
+  .pillar--photos .pillar__stack li:nth-child(3) { rotate: -3deg; }
   .pillar:active { scale: 0.98; }
 }
+@media (max-width: 560px) {
+  /* phones: keep each card short - title, one line, a small row of photos/logos */
+  .pillar { padding: 18px 18px 18px; border-radius: var(--r-md); }
+  .pillar > .pillar__ghost { font-size: 5.4rem; }
+  .pillar__arrow { width: 36px; height: 36px; }
+  .pillar__arrow svg { width: 16px; height: 16px; }
+  .pillar__main { margin-top: 18px; }
+  .pillar__title { font-size: 1.9rem; }
+  .pillar__text { display: none; }
+  .pillar > .pillar__reveal { margin-top: 12px; }
+  .pillar__stack { --w: 40px; height: 64px; margin-top: 0; }
+  .pillar__stack li { translate: calc(var(--k) * 32px) 0; }
+  .pillar--logos .pillar__chip { padding: 7px; border-radius: 11px; }
+  .pillar--photos .pillar__stack { --w: 74px; }
+  .pillar--photos .pillar__chip { height: 62px; padding: 3px 3px 11px; }
+  .pillar--photos .pillar__stack li { translate: calc(var(--k) * 60px) 0; }
+}
 @media (prefers-reduced-motion: reduce) {
-  .pillar, .pillar > .pillar__fill, .pillar__roll, .pillar__arrow, .pillar__stack li, .pillar__chip { transition-duration: 0.01s; transition-delay: 0s; }
+  .pillar, .pillar > .pillar__fill, .pillar > .pillar__ghost, .pillar__roll, .pillar__arrow,
+  .pillar > .pillar__reveal, .pillar__text, .pillar__stack li, .pillar__chip { transition-duration: 0.01s !important; transition-delay: 0s !important; }
 }
 
 /* ---------- Throwback ---------- */
@@ -819,7 +899,6 @@
   .wwd__head { align-items: stretch; gap: 8px; }
   .wwd__tag { align-self: flex-end; margin-right: 4px; }
   .wwd__tag-arrow { left: -22%; top: 30%; width: clamp(44px, 9vw, 64px); }
-  .wwd__grid { grid-template-columns: 1fr; }
   .stats__grid { grid-template-columns: 1fr 1fr; }
   .stats__item:nth-child(3) { border-left: none; }
   .stats__item { border-top: 1px solid var(--line); padding-left: 0 !important; }
@@ -847,21 +926,6 @@
    Desktop/tablet rules above are untouched.
    ================================================================ */
 @media (max-width: 560px) {
-  .wwd__grid { grid-template-columns: 1fr 1fr; gap: 10px; }
-  .pillar--feat { grid-column: 1 / -1; order: -1; }
-  .pillar { padding: 16px 14px 14px; border-radius: var(--r-md); }
-  .pillar__top { margin-bottom: 18px; }
-  .pillar__idx { font-size: 0.7rem; }
-  .pillar__arrow { width: 32px; height: 32px; }
-  .pillar__arrow svg { width: 15px; height: 15px; }
-  .pillar__title { font-size: 1.45rem; }
-  .pillar__kicker { font-size: 0.6rem; letter-spacing: 0.08em; margin-top: 8px; }
-  .pillar__text { font-size: 0.8rem; margin-top: 8px; }
-  .pillar__stack { --w: 40px; --gap: 20px; height: 62px; margin-top: 14px; }
-  .pillar--logos .pillar__chip { padding: 7px; border-radius: 11px; }
-  .pillar--photos .pillar__stack { --w: 66px; --gap: 30px; }
-  .pillar--photos .pillar__chip { width: var(--w); height: 58px; padding: 3px 3px 10px; }
-  .pillar--feat .pillar__stack { --gap: 34px; }
   .ethos__grid { grid-template-columns: 1fr 1fr; }
   .ethos__item { padding: 20px 14px; }
   .ethos__title { font-size: 1.1rem; }
