@@ -167,6 +167,9 @@
 }
 
 /* ---------- What we do ---------- */
+/* the tall juniors/seniors tag already adds height above the heading,
+   so the section needs far less top padding than a normal section */
+.wwd { padding-top: clamp(40px, 5vw, 72px); }
 .wwd__head {
   display: flex;
   align-items: flex-end;
@@ -641,9 +644,10 @@
   .hero__media { width: min(100%, 460px); }
   .hero__scroll { display: none; }
   .wwd__head, .oss__head { flex-direction: column; align-items: flex-start; gap: 16px; }
-  .wwd__tag { align-items: flex-start; text-align: left; transform: rotate(-3deg) skewX(-3deg); }
-  .wwd__tag::before { right: auto; left: 0; }
-  .wwd__tag-arrow { display: none; }
+  /* tag drops below the heading but stays on the right, like desktop */
+  .wwd__head { align-items: stretch; gap: 8px; }
+  .wwd__tag { align-self: flex-end; margin-right: 4px; }
+  .wwd__tag-arrow { left: -22%; top: 30%; width: clamp(44px, 9vw, 64px); }
   .wwd__grid { grid-template-columns: 1fr; }
   .stats__grid { grid-template-columns: 1fr 1fr; }
   .stats__item:nth-child(3) { border-left: none; }
