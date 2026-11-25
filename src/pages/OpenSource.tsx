@@ -1,5 +1,4 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { motion, useMotionValue, useReducedMotion, useSpring } from 'framer-motion';
 import { ArrowUpRight, ChevronRight, Rss, Search, X } from 'lucide-react';
 import Reveal from '../components/ui/Reveal';
 import { Tilt } from '../components/ui/Tilt';
@@ -7,11 +6,6 @@ import { KineticWords } from '../components/ui/KineticHeading';
 import { Github, LinkedinColor, MediumLogo } from '../components/ui/BrandIcons';
 import { CONTRIBUTORS, FEATURED_ORGS, PROGRAMS, type Contributor, type Program } from '../data/openSourceData';
 import { CERNLogo, CNCFLogo, INCFLogo, IntelLogo, JuliaLogo, ML4SciLogo, OctaveLogo, SymPyLogo } from '../components/ui/OrgLogos';
-import githubLogoImg from '../assets/github.png';
-import gsocLogoImg from '../assets/GSoC_logo.svg';
-import lfxLogoImg from '../assets/lfx-seeklogo.png';
-import hacktoberfestLogoImg from '../assets/Hacktoberfest_logo.png';
-import mediumLogoImg from '../assets/Medium-Icon-Black.svg';
 import orgImg_aiida from '../assets/org-logos/aiida.png';
 import orgImg_archive from '../assets/org-logos/archive.png';
 import orgImg_compiler from '../assets/org-logos/compiler.png';
@@ -23,38 +17,11 @@ import orgImg_openastro from '../assets/org-logos/openastro.png';
 import orgImg_root from '../assets/org-logos/root.png';
 import orgImg_sugar from '../assets/org-logos/sugar.png';
 import orgImg_redhen from '../assets/org-logos/redhen.png';
+import LogoBento from '../components/opensource/LogoBento';
 import './OpenSource.css';
 
 const getProgram = (id: Contributor['programId']): Program | undefined => PROGRAMS.find((p) => p.id === id);
 
-const FLOATING_HERO_LOGOS = [
-  {
-    name: 'LFX Mentorship',
-    href: 'https://lfx.linuxfoundation.org/tools/mentorship/',
-    src: lfxLogoImg,
-  },
-  {
-    name: 'Google Summer of Code',
-    href: 'https://summerofcode.withgoogle.com/',
-    src: gsocLogoImg,
-  },
-  {
-    name: 'GitHub',
-    href: 'https://github.com/CommunityOfCoders',
-    src: githubLogoImg,
-    isInvert: true,
-  },
-  {
-    name: 'Hacktoberfest',
-    href: 'https://hacktoberfest.com/',
-    src: hacktoberfestLogoImg,
-  },
-  {
-    name: 'Medium Blog',
-    href: 'https://medium.com/@swayams',
-    src: mediumLogoImg,
-  },
-];
 
 function BlogIcon({ url }: { url: string }) {
   if (/medium\.com/i.test(url)) return <MediumLogo width={16} height={16} />;
@@ -342,24 +309,7 @@ export default function OpenSource() {
   const [searchQuery, setSearchQuery] = useState('');
   const [activeFilter, setActiveFilter] = useState('All');
 
-  const reduce = useReducedMotion();
-  const heroRef = useRef<HTMLDivElement>(null);
   const titleRef = useRef<HTMLHeadingElement>(null);
-  const mx = useMotionValue(0);
-  const my = useMotionValue(0);
-  const sx = useSpring(mx, { stiffness: 60, damping: 16 });
-  const sy = useSpring(my, { stiffness: 60, damping: 16 });
-
-  const onHeroMove = (e: React.MouseEvent) => {
-    if (reduce || !heroRef.current) return;
-    const r = heroRef.current.getBoundingClientRect();
-    mx.set(((e.clientX - r.left) / r.width - 0.5) * 24);
-    my.set(((e.clientY - r.top) / r.height - 0.5) * 18);
-  };
-  const onHeroLeave = () => {
-    mx.set(0);
-    my.set(0);
-  };
 
   const handleOpenContributor = (c: Contributor) => {
     setSelectedContributor(c);
@@ -394,7 +344,7 @@ export default function OpenSource() {
       {/* ─── HERO SECTION ──────────────────────────────────────────────── */}
       <section className="os-hero">
         <div className="container">
-          <div className="os-hero__grid" ref={heroRef} onMouseMove={onHeroMove} onMouseLeave={onHeroLeave}>
+          <div className="os-hero__grid">
             <div className="os-hero__content">
               <Reveal>
                 <span className="eyebrow">Student-run · VJTI Matunga</span>
@@ -419,28 +369,7 @@ export default function OpenSource() {
             </div>
 
             <Reveal variant="fade" delay={0.2}>
-              <motion.div className="os-floating-showcase" style={reduce ? undefined : { x: sx, y: sy }}>
-                <div className="os-floating-showcase__grid">
-                  {FLOATING_HERO_LOGOS.map((item, idx) => (
-                    <a
-                      key={item.name}
-                      href={item.href}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="os-floating-logo-item"
-                      data-tip={item.name}
-                      aria-label={item.name}
-                      style={{ animationDelay: `${idx * 0.5}s` }}
-                    >
-                      <img
-                        src={item.src}
-                        alt={item.name}
-                        className={`os-floating-logo-img ${item.isInvert ? 'is-inverted' : ''}`}
-                      />
-                    </a>
-                  ))}
-                </div>
-              </motion.div>
+              <LogoBento />
             </Reveal>
           </div>
 

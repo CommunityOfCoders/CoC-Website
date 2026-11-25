@@ -116,104 +116,6 @@
   .os-marquee-track { animation: none; flex-wrap: wrap; justify-content: center; }
 }
 
-/* ---------- Hero right: Floating Logos Showcase (No box card, no borders) ---------- */
-.os-floating-showcase {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  max-width: 440px;
-  margin-inline: auto;
-  padding: 32px 16px;
-  position: relative;
-  will-change: transform;
-}
-
-/* lift the cluster so its top lines up with the top of the title block.
-   (`translate`, not `transform`: the mouse-parallax sets an inline transform
-   that would otherwise cancel this) */
-@media (min-width: 1024px) {
-  .os-floating-showcase {
-    translate: 0 -60px;
-  }
-}
-
-.os-floating-showcase__grid {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: center;
-  gap: clamp(24px, 4vw, 38px);
-}
-
-.os-floating-logo-item {
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  transition: transform 0.4s var(--ease), filter 0.4s var(--ease);
-  animation: os-float-bob 4.8s ease-in-out infinite;
-  text-decoration: none;
-  background: transparent;
-  border: none;
-  box-shadow: none;
-  outline: none;
-  padding: 6px;
-}
-
-.os-floating-logo-item:hover {
-  transform: translateY(-8px) scale(1.18);
-}
-
-.os-floating-logo-img {
-  height: 54px;
-  width: auto;
-  max-width: 130px;
-  object-fit: contain;
-  filter: drop-shadow(0 4px 12px rgba(255, 255, 255, 0.08));
-  transition: filter 0.3s ease, transform 0.3s ease;
-}
-
-.os-floating-logo-img.is-inverted {
-  filter: brightness(0) invert(1) drop-shadow(0 4px 12px rgba(255, 255, 255, 0.15));
-}
-
-.os-floating-logo-item:hover .os-floating-logo-img {
-  filter: drop-shadow(0 6px 22px rgba(255, 255, 255, 0.35));
-}
-
-.os-floating-logo-item:hover .os-floating-logo-img.is-inverted {
-  filter: brightness(0) invert(1) drop-shadow(0 6px 22px rgba(255, 255, 255, 0.45));
-}
-
-/* Tooltip on hover */
-.os-floating-logo-item[data-tip]::after {
-  content: attr(data-tip);
-  position: absolute; bottom: calc(100% + 10px); left: 50%;
-  transform: translateX(-50%) translateY(4px); white-space: nowrap;
-  background: var(--fg); color: var(--ink); font-family: var(--font-mono);
-  font-size: 11px; font-weight: 600; padding: 5px 10px; border-radius: var(--r-pill);
-  opacity: 0; pointer-events: none; transition: opacity 0.2s var(--ease), transform 0.2s var(--ease);
-  z-index: 10;
-}
-
-.os-floating-logo-item[data-tip]::before {
-  content: ''; position: absolute; bottom: calc(100% + 5px); left: 50%; transform: translateX(-50%);
-  border: 5px solid transparent; border-top-color: var(--fg); opacity: 0; transition: opacity 0.2s var(--ease);
-  z-index: 10;
-}
-
-.os-floating-logo-item[data-tip]:hover::after { opacity: 1; transform: translateX(-50%) translateY(0); }
-.os-floating-logo-item[data-tip]:hover::before { opacity: 1; }
-
-@keyframes os-float-bob {
-  0%, 100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-9px);
-  }
-}
 
 /* ---------- Section heading scaffolding ---------- */
 .os-section-header { margin-bottom: 28px; }
@@ -653,8 +555,6 @@ body.os-panel-open .nav {
   .os-card__links a, .os-card__go { width: 26px; height: 26px; }
   .os-division-header { gap: 10px; flex-wrap: wrap; }
   .os-division-badge { font-size: 0.74rem; padding: 6px 10px; }
-  .os-floating-showcase { translate: none; padding: 16px 8px; }
-  .os-floating-logo-img { height: 38px; max-width: 90px; }
   .os-drawer-panel .os-drawer-mclose { display: flex; }
   .os-drawer-name { padding-right: 44px; }
 }
