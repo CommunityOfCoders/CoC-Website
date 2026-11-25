@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useReducedMotion } from 'framer-motion';
-import { ArrowLeft, ArrowRight } from 'lucide-react';
+import { ArrowLeft, ArrowRight, ArrowUpRight } from 'lucide-react';
 import Reveal from '../ui/Reveal';
 import Magnetic from '../ui/Magnetic';
 
@@ -343,10 +343,6 @@ const Throwback: React.FC = () => {
         onMouseMove={onMouseMove}
         onMouseUp={onMouseUp}
         onKeyDown={onKeyDown}
-        onMouseEnter={() => setPaused(true)}
-        onMouseLeave={() => {
-          if (!isMouseDownRef.current) setPaused(false);
-        }}
         onTouchStart={() => setPaused(true)}
         onTouchEnd={() => setPaused(false)}
         tabIndex={0}
@@ -381,18 +377,8 @@ const Throwback: React.FC = () => {
                     <span className="tb__title">{s.title}</span>
                   </span>
 
-                  {/* round badge: "open event" runs round the rim; pops in and spins on hover */}
-                  <span className="tb__go" aria-hidden="true">
-                    <svg viewBox="0 0 100 100">
-                      <defs>
-                        <path id="tb-ring" d="M50,50 m-36,0 a36,36 0 1,1 72,0 a36,36 0 1,1 -72,0" />
-                      </defs>
-                      <text>
-                        <textPath href="#tb-ring" textLength="224">OPEN EVENT · OPEN EVENT ·</textPath>
-                      </text>
-                    </svg>
-                    <span className="tb__go-core" />
-                  </span>
+                  {/* small green arrow button, bottom-right, shown on hover */}
+                  <span className="tb__go" aria-hidden="true"><ArrowUpRight /></span>
                 </a>
               </figure>
             );
