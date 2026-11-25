@@ -93,23 +93,51 @@
 /* ================================================================
    POLAROID FRAMES
    ================================================================ */
-.ev-polaroid {
-  --rot: 0deg;
+.ev-polaroid-slot {
   position: absolute;
+  will-change: transform;
+  transition: opacity 0.35s var(--ease), filter 0.35s var(--ease);
+}
+.ev-polaroid-slot:hover { z-index: 30 !important; }
+
+.ev-polaroid {
+  position: relative;
+  display: block;
   /* warm off-white - more natural than pure white against dark canvas */
   background: #F5F3EE;
   /* polaroid proportions: thin border top/sides, generous border bottom */
   padding: 7px 7px 26px;
   border-radius: 2px;
-  cursor: default;
+  cursor: pointer;
+  color: inherit;
+  text-decoration: none;
   will-change: transform;
+  -webkit-user-drag: none;
   box-shadow:
     0 1px 2px rgba(0, 0, 0, 0.22),
     0 4px 14px rgba(0, 0, 0, 0.30),
     0 10px 36px rgba(0, 0, 0, 0.18);
+  transition: box-shadow 0.35s var(--ease);
+  /* idle: a slow, slightly different float for each photo */
+  animation: polaroidFloat 6.5s ease-in-out var(--float-delay, 0s) infinite;
 }
+@keyframes polaroidFloat {
+  0%, 100% { translate: 0 0; }
+  50% { translate: 0 -7px; }
+}
+.ev-polaroid:hover {
+  animation-play-state: paused;
+  box-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.25),
+    0 18px 40px rgba(0, 0, 0, 0.5),
+    0 0 0 2px var(--accent);
+}
+.ev-polaroid:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
+/* focus: the rest of the table fades back while one photo is picked up */
+.ev-hero:has(.ev-polaroid-slot:hover) .ev-polaroid-slot:not(:hover) { opacity: 0.45; filter: saturate(0.4); }
 
 .ev-polaroid__img {
+  position: relative;
   display: block;
   overflow: hidden;
   line-height: 0;
@@ -120,6 +148,60 @@
   aspect-ratio: 4 / 3;
   object-fit: cover;
   filter: saturate(1.06) contrast(1.02);
+  transition: scale 0.6s var(--ease);
+  /* instant-film "develop": starts as a washed-out flash, colour comes in */
+  animation: polaroidDevelop 1.6s ease-out var(--develop-delay, 0.4s) both;
+}
+@keyframes polaroidDevelop {
+  0% { filter: brightness(2.1) saturate(0) contrast(0.55) blur(2px); }
+  45% { filter: brightness(1.35) saturate(0.4) contrast(0.8) blur(0.5px); }
+  100% { filter: saturate(1.06) contrast(1.02); }
+}
+.ev-polaroid:hover .ev-polaroid__img img { scale: 1.1; }
+/* camera flash on pick-up */
+.ev-polaroid__flash {
+  position: absolute;
+  inset: 0;
+  background: #fff;
+  opacity: 0;
+  pointer-events: none;
+}
+.ev-polaroid:hover .ev-polaroid__flash { animation: polaroidFlash 0.5s ease-out; }
+@keyframes polaroidFlash {
+  0% { opacity: 0.7; }
+  100% { opacity: 0; }
+}
+
+/* the "written on the border" caption */
+.ev-polaroid__cap {
+  position: absolute;
+  left: 9px;
+  right: 9px;
+  bottom: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4px;
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  line-height: 1;
+  letter-spacing: 0.04em;
+  color: rgba(20, 22, 21, 0.55);
+  white-space: nowrap;
+  overflow: hidden;
+  transition: color 0.3s var(--ease);
+}
+.ev-polaroid__go {
+  color: #0f7a35;
+  opacity: 0;
+  translate: -6px 0;
+  transition: opacity 0.3s var(--ease), translate 0.3s var(--ease);
+}
+.ev-polaroid:hover .ev-polaroid__cap { color: #121413; }
+.ev-polaroid:hover .ev-polaroid__go { opacity: 1; translate: 0 0; }
+
+@media (prefers-reduced-motion: reduce) {
+  .ev-polaroid, .ev-polaroid__img img, .ev-polaroid:hover .ev-polaroid__flash { animation: none; }
 }
 
 /* ── Sticker decorations ────────────────────────────────────── */
@@ -169,7 +251,7 @@
 /* ── Polaroid responsive rules ──────────────────────────────── */
 /* Hide on smaller viewports where there's no room to flank     */
 @media (max-width: 960px) {
-  .ev-polaroid { display: none; }
+  .ev-polaroid-slot { display: none; }
 }
 
 
