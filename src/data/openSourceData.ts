@@ -581,7 +581,7 @@ export const CONTRIBUTORS: Contributor[] = [
     programId: 'jsoc',
     org: 'Julia Language',
     project: 'Building a symbolic parser for generating loss function for PINNs',
-    year: '2025',
+    year: '2026',
     tech: ['Julia', 'Symbolic Computation', 'PINNs', 'SciML', 'NeuralPDE'],
     description:
       'Built symbolic parsing tools for generating optimized loss functions for Physics-Informed Neural Networks (PINNs) in Julia, and contributed to core SciML packages.',
