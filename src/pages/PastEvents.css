@@ -201,6 +201,7 @@
 .ev-polaroid:hover .ev-polaroid__go { opacity: 1; translate: 0 0; }
 
 @media (prefers-reduced-motion: reduce) {
+  .ev-cal__big > span, .ev-cal__big::before, .ev-cal__small, .ev-stamp { transition: none; }
   .ev-polaroid, .ev-polaroid__img img, .ev-polaroid:hover .ev-polaroid__flash { animation: none; }
 }
 
@@ -337,7 +338,7 @@
   inset: 0;
   z-index: 1;
   pointer-events: none;
-  background: linear-gradient(to bottom, rgba(7, 8, 8, 0.55) 0%, rgba(7, 8, 8, 0) 26%, rgba(7, 8, 8, 0) 42%, rgba(7, 8, 8, 0.82) 78%, rgba(7, 8, 8, 0.96) 100%);
+  background: linear-gradient(to bottom, rgba(7, 8, 8, 0.2) 0%, rgba(7, 8, 8, 0) 26%, rgba(7, 8, 8, 0) 42%, rgba(7, 8, 8, 0.82) 78%, rgba(7, 8, 8, 0.96) 100%);
 }
 .ev-card::after {
   content: '';
@@ -345,7 +346,9 @@
   inset: 0;
   z-index: 1;
   pointer-events: none;
-  background: linear-gradient(to top, rgba(7, 8, 8, 0.92) 0%, rgba(7, 8, 8, 0.55) 55%, rgba(7, 8, 8, 0) 100%);
+  background:
+    linear-gradient(to bottom, rgba(7, 8, 8, 0.72) 0%, rgba(7, 8, 8, 0) 34%),
+    linear-gradient(to top, rgba(7, 8, 8, 0.92) 0%, rgba(7, 8, 8, 0.55) 55%, rgba(7, 8, 8, 0) 100%);
   opacity: 0;
   transition: opacity 0.45s var(--ease);
 }
@@ -364,40 +367,106 @@
   gap: 8px;
   pointer-events: none;
 }
-.ev-card__date {
-  max-width: 62%;
-  font-weight: 500;
-  padding: 5px 11px;
-  border-radius: var(--r-pill);
-  background: rgba(7, 8, 8, 0.78);
-  border: 1px solid var(--line-2);
-  font-family: var(--font-mono);
-  font-size: 0.62rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--fg);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+/* ---- date: a tear-off calendar. Big outlined day with a solid green
+   copy knocked out behind it, month + year on a green strip ---- */
+.ev-cal {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 5px;
+  min-width: 0;
 }
-.ev-card__top-end { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; }
-.ev-card__prize {
-  display: inline-flex;
-  align-items: baseline;
-  gap: 6px;
-  padding: 5px 11px;
-  border-radius: var(--r-pill);
+.ev-cal__big {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  padding: 0 6px 4px 0;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(2.1rem, 3.2vw, 2.8rem);
+  line-height: 0.9;
+  letter-spacing: -0.04em;
+  white-space: nowrap;
+}
+.ev-cal__big > span {
+  position: relative;
+  z-index: 1;
+  display: block;
+  color: transparent;
+  -webkit-text-stroke: 1.5px var(--fg);
+  transition: translate 0.55s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.ev-cal__big::before {
+  content: attr(data-text);
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: var(--accent);
+  transition: translate 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.08s;
+}
+.ev-cal__small {
+  padding: 3px 7px;
   background: var(--accent);
   color: var(--accent-ink);
   font-family: var(--font-mono);
-  font-size: 0.6rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
   line-height: 1.2;
   white-space: nowrap;
+  transition: clip-path 0.45s cubic-bezier(0.16, 1, 0.3, 1) 0.14s;
 }
-.ev-card__prize-k { opacity: 0.7; }
-.ev-card__prize-v { font-weight: 700; letter-spacing: 0.04em; text-transform: none; font-size: 0.7rem; }
+
+/* ---- prize: a green rubber stamp that slams down onto the photo ---- */
+.ev-stamp {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+  padding: 7px 11px 8px;
+  border-radius: 6px;
+  background: var(--accent);
+  color: var(--accent-ink);
+  box-shadow: 0 0 0 3px var(--ink), 0 0 0 4.5px var(--accent), 0 12px 28px rgba(0, 0, 0, 0.5);
+  rotate: -7deg;
+  transform-origin: 70% 40%;
+  transition: opacity 0.2s ease 0.12s, scale 0.5s cubic-bezier(0.34, 1.7, 0.5, 1) 0.12s, rotate 0.5s cubic-bezier(0.34, 1.7, 0.5, 1) 0.12s;
+}
+.ev-stamp__k {
+  font-family: var(--font-mono);
+  font-size: 0.52rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  opacity: 0.75;
+}
+.ev-stamp__v {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1.35rem;
+  line-height: 0.95;
+  letter-spacing: -0.03em;
+  white-space: nowrap;
+}
+
+/* hidden until hover / keyboard focus on devices that can hover */
+@media (hover: hover) {
+  .ev-cal__big > span { translate: 0 110%; }
+  .ev-cal__big::before { translate: -6px 110%; }
+  .ev-cal__small { clip-path: inset(0 100% 0 0); }
+  .ev-stamp { opacity: 0; scale: 1.9; rotate: -24deg; }
+  .ev-card:hover .ev-cal__big > span,
+  .ev-card:focus-visible .ev-cal__big > span { translate: 0 0; }
+  .ev-card:hover .ev-cal__big::before,
+  .ev-card:focus-visible .ev-cal__big::before { translate: 4px 3px; }
+  .ev-card:hover .ev-cal__small,
+  .ev-card:focus-visible .ev-cal__small { clip-path: inset(0 0 0 0); }
+  .ev-card:hover .ev-stamp,
+  .ev-card:focus-visible .ev-stamp { opacity: 1; scale: 1; rotate: -7deg; }
+}
+@media (hover: none) {
+  .ev-cal__big::before { translate: 3px 2px; }
+}
 
 /* title block at the bottom */
 .ev-card__overlay {
@@ -1098,11 +1167,14 @@
   .ev-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
   .ev-card { min-height: 230px; border-radius: var(--r-sm); }
   .ev-card__top { top: 10px; left: 10px; right: 10px; }
-  /* nothing under ~10.5px: the date gets the full row, pills drop under it */
-  .ev-card__date { max-width: 100%; font-size: 0.66rem; padding: 4px 9px; letter-spacing: 0.04em; }
-  .ev-card__top-end { position: absolute; top: 32px; right: 0; }
-  .ev-card__prize { padding: 4px 8px; font-size: 0.64rem; letter-spacing: 0.06em; }
-  .ev-card__prize-v { font-size: 0.68rem; }
+  /* no hover on phones: the date and the stamp always show */
+  .ev-cal__big { font-size: 1.6rem; }
+  .ev-cal__big > span { -webkit-text-stroke-width: 1.2px; }
+  .ev-cal__small { font-size: 0.62rem; letter-spacing: 0.08em; padding: 2px 6px; }
+  .ev-card__top-end { position: absolute; top: 56px; left: 2px; right: auto; align-items: flex-start; }
+  .ev-stamp { padding: 5px 8px 6px; }
+  .ev-stamp__k { font-size: 0.5rem; letter-spacing: 0.1em; }
+  .ev-stamp__v { font-size: 0.92rem; }
   .ev-card__badge { font-size: 0.64rem; padding: 4px 8px 4px 7px; }
   .ev-card__overlay { left: 10px; right: 10px; bottom: 10px; gap: 4px; }
   .ev-card__name { font-size: 0.92rem; }

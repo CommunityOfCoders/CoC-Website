@@ -510,6 +510,22 @@ const cardPop: Variants = {
   show: (d: number) => ({ scale: 1, rotate: 0, transition: { type: "spring", stiffness: 320, damping: 16, delay: d } }),
 };
 
+/* "1st February 2026" -> { big: "01", small: "FEB · 2026" };
+   "8th and 9th October 2026" -> "08–09"; "November 2025 – February 2026"
+   -> "NOV–FEB" / "2025–26"; "March 2025" -> "MAR" / "2025" */
+const MONTH_RE = /(January|February|March|April|May|June|July|August|September|October|November|December)/gi;
+function calendarParts(date: string): { big: string; small: string } {
+  const days = [...date.matchAll(/(\d{1,2})(?:st|nd|rd|th)/g)].map((m) => m[1].padStart(2, "0"));
+  const months = [...date.matchAll(MONTH_RE)].map((m) => m[1].slice(0, 3).toUpperCase());
+  const years = [...date.matchAll(/\b(20\d\d)\b/g)].map((m) => m[1]);
+  if (days.length) return { big: days.join("–"), small: [months[0], years[0]].filter(Boolean).join(" · ") };
+  if (months.length > 1) {
+    const yr = years[0] === years[1] || !years[1] ? years[0] ?? "" : `${years[0]}–${years[1].slice(2)}`;
+    return { big: `${months[0]}–${months[1]}`, small: yr };
+  }
+  return { big: months[0] ?? date, small: years[0] ?? "" };
+}
+
 const EventCard: React.FC<{
   event: CoCEvent;
   index: number;
@@ -551,6 +567,7 @@ const EventCard: React.FC<{
   };
 
   const d = (index % 3) * 0.08; // a small left-to-right wave across each row
+  const cal = calendarParts(event.date);
 
   return (
     <motion.li
@@ -598,11 +615,18 @@ const EventCard: React.FC<{
 
         </motion.div>
 
-        {/* top row: date tag, then the upcoming / prize pills */}
+        {/* top row: calendar date + prize stamp (revealed on hover), upcoming badge */}
         <motion.div className="ev-card__top" style={reduce ? undefined : { x: badgeX, y: badgeY }}>
-          <motion.span className="ev-card__date" variants={cardRise} custom={d + 0.75}>
-            {event.date}
-          </motion.span>
+          <span className="ev-cal" aria-label={event.date}>
+            <span className="ev-cal__big" data-text={cal.big} aria-hidden="true">
+              <span>{cal.big}</span>
+            </span>
+            {cal.small && (
+              <span className="ev-cal__small" aria-hidden="true">
+                {cal.small}
+              </span>
+            )}
+          </span>
           <span className="ev-card__top-end">
             {isUpcoming(event.isoDate) && (
               <motion.span className="ev-card__badge" aria-label="Upcoming event" variants={cardPop} custom={d + 0.95}>
@@ -611,15 +635,10 @@ const EventCard: React.FC<{
               </motion.span>
             )}
             {event.prizePool !== "N/A" && (
-              <motion.span
-                className="ev-card__prize"
-                aria-label={`Prize pool: ${event.prizePool}`}
-                variants={cardPop}
-                custom={d + 1}
-              >
-                <span className="ev-card__prize-k">Prize</span>
-                <span className="ev-card__prize-v">{event.prizePool}</span>
-              </motion.span>
+              <span className="ev-stamp" aria-label={`Prize pool: ${event.prizePool}`}>
+                <span className="ev-stamp__k">Prize pool</span>
+                <span className="ev-stamp__v">{event.prizePool.replace(/^Rs\.?\s*/i, "₹")}</span>
+              </span>
             )}
           </span>
         </motion.div>

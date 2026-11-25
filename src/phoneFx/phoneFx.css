@@ -74,7 +74,7 @@
   html.tilt-on .hero__img--main { translate: calc(var(--tx, 0) * 7px) calc(var(--ty, 0) * 5px); }
   html.tilt-on .os-card__prog-logo { translate: calc(var(--tx, 0) * 4px) calc(var(--ty, 0) * 3px); }
   html.tilt-on .os-card__name, html.tilt-on .project-card__title { translate: calc(var(--tx, 0) * -3px) calc(var(--ty, 0) * -2px); }
-  html.tilt-on .project-card__badge, html.tilt-on .ev-card__date { translate: calc(var(--tx, 0) * 5px) calc(var(--ty, 0) * 4px); }
+  html.tilt-on .project-card__badge, html.tilt-on .ev-cal { translate: calc(var(--tx, 0) * 5px) calc(var(--ty, 0) * 4px); }
   html.tilt-on .team-card img, html.tilt-on .ev-card img, html.tilt-on .band__frame img { translate: calc(var(--tx, 0) * -6px) calc(var(--ty, 0) * -6px); scale: 1.06; }
 
   /* ---- events sheet: same bottom-sheet look ---- */
