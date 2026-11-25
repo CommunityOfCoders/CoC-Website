@@ -400,41 +400,7 @@ export default function OpenSource() {
         </div>
       </section>
 
-      {/* ─── SECTION 2: WHERE WE'VE CONTRIBUTED ────────────────────────── */}
-      <section className="os-programs-section">
-        <div className="container">
-          <div className="os-section-header">
-            <Reveal>
-              <span className="eyebrow">Programs</span>
-            </Reveal>
-            <Reveal delay={0.06}>
-              <h2 className="section-title">
-                Where we&apos;ve <span className="mark">contributed.</span>
-              </h2>
-            </Reveal>
-          </div>
-
-          <div className="os-programs-grid">
-            {PROGRAMS.map((program, i) => (
-              <Reveal delay={i * 0.08} key={program.id} className="os-program-reveal">
-                <a href={program.href} target="_blank" rel="noreferrer" className="os-program-card">
-
-                  <div className="os-program-card__logo">
-                    <program.Logo width={30} height={30} />
-                  </div>
-                  <h3 className="os-program-card__title">{program.name}</h3>
-                  <p className="os-program-card__desc">{program.description}</p>
-                  <span className="os-program-card__link">
-                    Visit site <ArrowUpRight size={14} />
-                  </span>
-                </a>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ─── SECTION 3: MEET THE CONTRIBUTORS ──────────────────────────── */}
+      {/* ─── SECTION 2: MEET THE CONTRIBUTORS ──────────────────────────── */}
       <section className="os-people-section" id="contributors-section">
         <div className="container">
           <div className="os-section-header">

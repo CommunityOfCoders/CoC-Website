@@ -120,47 +120,8 @@
 /* ---------- Section heading scaffolding ---------- */
 .os-section-header { margin-bottom: 28px; }
 
-/* ---------- Section 2: Where we've contributed ---------- */
-.os-programs-section { padding-block: clamp(24px, 2.6vw, 34px) clamp(36px, 4vw, 56px); }
-
-.os-programs-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  grid-auto-rows: 1fr;
-  gap: 18px;
-}
-@media (min-width: 640px) { .os-programs-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-@media (min-width: 1100px) { .os-programs-grid { grid-template-columns: repeat(4, 1fr); } }
-
-.os-program-reveal {
-  height: 100%;
-}
-
-.os-program-card {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  background: var(--ink-2);
-  border: 1px solid var(--line);
-  border-radius: 12px;
-  padding: 26px 24px;
-  transition: transform 0.3s var(--ease), border-color 0.3s var(--ease);
-}
-.os-program-card:hover { transform: translateY(-4px); border-color: var(--accent); }
-.os-program-card:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
-.os-program-card__logo { width: 48px; height: 48px; margin-bottom: 18px; }
-.os-program-card__logo svg { width: 100%; height: 100%; }
-.os-program-card__title { font-family: var(--font-display); font-size: 1.28rem; font-weight: 700; color: var(--fg); margin-bottom: 10px; line-height: 1.2; }
-.os-program-card__desc { font-size: 0.9rem; color: var(--fg-dim); line-height: 1.6; flex-grow: 1; margin-bottom: 20px; min-height: calc(1.6em * 2); }
-.os-program-card__link {
-  display: inline-flex; align-items: center; gap: 6px;
-  font-family: var(--font-mono); font-size: 0.78rem; font-weight: 600; color: var(--accent);
-}
-.os-program-card__link svg { transition: transform 0.25s var(--ease); }
-.os-program-card:hover .os-program-card__link svg { transform: translate(2px, -2px); }
-
-/* ---------- Section 3: Meet the contributors ---------- */
-.os-people-section { padding-block: clamp(36px, 4vw, 56px); }
+/* ---------- Section 2: Meet the contributors ---------- */
+.os-people-section { padding-block: clamp(24px, 2.6vw, 34px) clamp(36px, 4vw, 56px); }
 
 .os-search-bar { position: relative; max-width: 480px; margin-bottom: 24px; }
 .os-search-input {
@@ -523,11 +484,6 @@ body.os-panel-open .nav {
    Desktop rules above are untouched.
    ================================================================ */
 @media (max-width: 639px) {
-  .os-programs-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
-  .os-program-card { padding: 16px 14px; }
-  .os-program-card__logo { width: 36px; height: 36px; margin-bottom: 10px; }
-  .os-program-card__title { font-size: 1rem; margin-bottom: 6px; }
-  .os-program-card__desc { font-size: 0.76rem; line-height: 1.45; min-height: 0; margin-bottom: 12px; }
   .os-contributors-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-auto-rows: auto; gap: 10px; }
   .os-card__head { padding: 10px 12px; gap: 8px; }
   .os-card__body { padding: 12px; }
