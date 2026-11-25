@@ -1181,6 +1181,7 @@ const PastEvents: React.FC = () => {
             </span>
             <motion.h1
               className="section-title ev-page__title"
+              aria-label={TITLE_WORDS.map((w) => w.t).join(" ")}
               style={
                 reduce
                   ? undefined

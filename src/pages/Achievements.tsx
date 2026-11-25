@@ -30,7 +30,7 @@ export const Achievements: React.FC = () => {
             Hall of fame
           </motion.div>
 
-          <h1 className="achievements-hero__title">
+          <h1 className="achievements-hero__title" aria-label={heroWords.map((w) => w.t).join(' ')}>
             <KineticWords words={heroWords} triggerRef={heroRef} baseDelay={0.15} />
           </h1>
 
