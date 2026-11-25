@@ -15,18 +15,12 @@ import working3 from "../../assets/working3.jpeg";
 const words = ["Code.", "Create.", "Connect."];
 
 /* Hero call-to-action. The label is set in Anybody, a variable font that
-   can stretch from condensed to ultra-wide: on hover the letters inflate
-   one after another in a wave (wider, heavier, taller) and settle leaning
-   into italic, the button wobbles like jelly, and the number stamp spins.
-   The real label sits in a hidden sizer, so the wave never moves layout. */
-const HeroCta: React.FC<{ href: string; label: string; badge: string; badgeLabel: string; primary?: boolean }> = ({
-  href,
-  label,
-  badge,
-  badgeLabel,
-  primary,
-}) => (
-  <a href={href} className={`cta${primary ? " cta--primary" : ""}`} aria-label={`${label} (${badge} ${badgeLabel})`}>
+   can stretch from condensed to ultra-wide. Every few seconds (and whenever
+   you hover) the letters inflate one after another in a wave - wider,
+   heavier, taller - and settle back. The real label sits in a hidden sizer,
+   so the wave never moves the layout. */
+const HeroCta: React.FC<{ href: string; label: string; primary?: boolean }> = ({ href, label, primary }) => (
+  <a href={href} className={`cta${primary ? " cta--primary" : ""}`} aria-label={label}>
     <span className="cta__word" aria-hidden="true">
       <span className="cta__sizer">{label}</span>
       <span className="cta__letters">
@@ -36,17 +30,6 @@ const HeroCta: React.FC<{ href: string; label: string; badge: string; badgeLabel
           </span>
         ))}
       </span>
-    </span>
-    <span className="cta__badge" aria-hidden="true">
-      <span className="cta__badge-n">{badge}</span>
-      <svg className="cta__badge-ring" viewBox="0 0 100 100">
-        <defs>
-          <path id={`cta-ring-${href.slice(1)}`} d="M50,50 m-37,0 a37,37 0 1,1 74,0 a37,37 0 1,1 -74,0" />
-        </defs>
-        <text>
-          <textPath href={`#cta-ring-${href.slice(1)}`}>{`${badgeLabel} · ${badgeLabel} · `}</textPath>
-        </text>
-      </svg>
     </span>
   </a>
 );
@@ -139,10 +122,10 @@ const Hero: React.FC = () => {
             transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1], delay: 0.75 }}
           >
             <Magnetic strength={0.08}>
-              <HeroCta href="#projects" label="See our work" badge="50+" badgeLabel="projects" primary />
+              <HeroCta href="#projects" label="See our work" primary />
             </Magnetic>
             <Magnetic strength={0.08}>
-              <HeroCta href="#events" label="Explore events" badge="30+" badgeLabel="events" />
+              <HeroCta href="#events" label="Explore events" />
             </Magnetic>
           </motion.div>
         </div>

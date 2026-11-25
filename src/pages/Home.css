@@ -45,22 +45,21 @@
 .hero__cta { display: flex; flex-wrap: wrap; gap: 14px; }
 
 /* ---------- hero call-to-action buttons ----------
-   Typography is the show: Anybody (variable width 50-150, weight 100-900).
-   Hover: letters inflate in a wave, the word leans into italic, the button
-   wobbles, the stamp spins. No colour sweeps, no arrows. */
+   Simple pills; the type is the show. Anybody (variable width 50-150,
+   weight 600-900): the letters inflate in a wave on their own every few
+   seconds, and again on hover, when the word also leans into italic and
+   the button wobbles once. */
 .cta {
   --c-bg: transparent;
   --c-fg: var(--fg);
   --c-ring: var(--line-2);
   --c-flash: var(--accent);
-  --c-badge-bg: var(--accent);
-  --c-badge-fg: var(--accent-ink);
 
   position: relative;
   display: inline-flex;
   align-items: center;
-  gap: 16px;
-  padding: 7px 7px 7px 28px;
+  justify-content: center;
+  padding: 19px 34px;
   border-radius: var(--r-pill);
   background: var(--c-bg);
   box-shadow: inset 0 0 0 1.5px var(--c-ring);
@@ -73,8 +72,6 @@
   --c-fg: var(--accent-ink);
   --c-ring: transparent;
   --c-flash: var(--fg);
-  --c-badge-bg: var(--accent-ink);
-  --c-badge-fg: var(--accent);
 }
 
 /* the word: an invisible sizer holds the layout, the letters dance on top */
@@ -84,7 +81,7 @@
   font-family: var(--font-wild);
   font-weight: 800;
   font-stretch: 78%;
-  font-size: 1.12rem;
+  font-size: 1.14rem;
   letter-spacing: 0.04em;
   text-transform: uppercase;
   line-height: 1;
@@ -92,61 +89,38 @@
 }
 .cta__sizer { grid-area: 1 / 1; visibility: hidden; }
 .cta__letters { grid-area: 1 / 1; display: inline-flex; justify-content: center; }
-.cta__ch { display: inline-block; transform-origin: 50% 100%; }
-
-/* round stamp: the number in serif italic, the label running round the rim */
-.cta__badge {
-  position: relative;
-  display: grid;
-  place-items: center;
-  width: 52px;
-  height: 52px;
-  border-radius: 50%;
-  background: var(--c-badge-bg);
-  color: var(--c-badge-fg);
-  transition: transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+.cta__ch {
+  display: inline-block;
+  transform-origin: 50% 100%;
+  /* idle: one wave every 5s; the second button runs half a cycle later */
+  animation: cta-wave 5s cubic-bezier(0.3, 1.35, 0.5, 1) calc(1.2s + var(--i) * 40ms) infinite both;
 }
-.cta__badge-n {
-  font-family: var(--font-serif);
-  font-style: italic;
-  font-size: 1.15rem;
-  line-height: 1;
-  letter-spacing: -0.02em;
-}
-.cta__badge-ring {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  overflow: visible;
-  fill: currentColor;
-  font-family: var(--font-mono);
-  font-size: 12.5px;
-  letter-spacing: 1.6px;
-  text-transform: uppercase;
-  opacity: 0;
-  transition: opacity 0.35s var(--ease);
-}
+.cta:not(.cta--primary) .cta__ch { animation-delay: calc(3.7s + var(--i) * 40ms); }
 
 @media (hover: hover) {
   .cta:hover { animation: cta-jelly 0.7s var(--ease); }
   .cta:hover .cta__word { transform: skewX(-11deg); }
   .cta:hover .cta__ch { animation: cta-swell 0.75s cubic-bezier(0.3, 1.35, 0.5, 1) calc(var(--i) * 38ms) both; }
-  .cta:hover .cta__badge { transform: rotate(360deg) scale(1.12); }
-  .cta:hover .cta__badge-ring { opacity: 0.55; }
   .cta:not(.cta--primary):hover { box-shadow: inset 0 0 0 1.5px var(--accent); }
 }
 .cta:active { scale: 0.96; }
 .cta:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
 
-/* each letter balloons out wide and heavy, flashes, then settles back */
+/* a single letter balloons out wide and heavy, flashes, then settles back */
 @keyframes cta-swell {
   0%   { font-stretch: 78%;  font-weight: 800; transform: none; }
   38%  { font-stretch: 150%; font-weight: 900; transform: translateY(-0.3em) scaleY(1.3); color: var(--c-flash); }
   70%  { font-stretch: 62%;  font-weight: 700; transform: translateY(0.04em) scaleY(0.92); }
   100% { font-stretch: 78%;  font-weight: 800; transform: none; }
 }
-/* the button itself wobbles once */
+/* the same swell packed into the first 15% of a 5s loop, then rest */
+@keyframes cta-wave {
+  0%   { font-stretch: 78%;  font-weight: 800; transform: none; }
+  5.7% { font-stretch: 150%; font-weight: 900; transform: translateY(-0.3em) scaleY(1.3); color: var(--c-flash); }
+  10.5% { font-stretch: 62%; font-weight: 700; transform: translateY(0.04em) scaleY(0.92); }
+  15%, 100% { font-stretch: 78%; font-weight: 800; transform: none; }
+}
+/* the button itself wobbles once on hover */
 @keyframes cta-jelly {
   0%   { scale: 1 1; }
   30%  { scale: 1.07 0.93; }
@@ -155,8 +129,8 @@
   100% { scale: 1 1; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .cta:hover, .cta:hover .cta__ch { animation: none; }
-  .cta__word, .cta__badge { transition-duration: 0.01s; }
+  .cta, .cta:hover, .cta__ch, .cta:hover .cta__ch { animation: none; }
+  .cta__word { transition-duration: 0.01s; }
 }
 
 /* hero media / collage
