@@ -771,43 +771,40 @@
   letter-spacing: -0.03em;
   transition: transform 0.5s var(--ease), color 0.35s var(--ease);
 }
-/* "Open event": a white pill mixing a heavy capital with a serif italic.
-   On hover the pill wipes open from the left, then the two words slide in. */
+/* "Open event": a round green badge in the bottom-right corner with the
+   words running round its rim. Hover pops it in with a twist, then it
+   keeps spinning slowly while you stay on the card. */
 .tb__go {
-  display: inline-flex;
-  align-items: baseline;
-  gap: 7px;
-  margin-top: 6px;
-  padding: 9px 18px 10px;
-  border-radius: var(--r-pill);
-  background: var(--fg);
-  color: var(--ink);
-  box-shadow: 0 12px 26px rgba(0, 0, 0, 0.45);
-  clip-path: inset(0 100% 0 0 round 999px);
-  transition: clip-path 0.55s var(--ease) 0.1s;
+  position: absolute;
+  z-index: 3;
+  right: 18px;
+  bottom: 18px;
+  display: grid;
+  place-items: center;
+  width: 92px;
+  height: 92px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: var(--accent-ink);
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.45);
+  scale: 0;
+  rotate: -90deg;
+  transition: scale 0.55s cubic-bezier(0.34, 1.56, 0.64, 1) 0.05s, rotate 0.55s cubic-bezier(0.34, 1.56, 0.64, 1) 0.05s;
 }
-.tb__go b {
-  font-family: var(--font-display);
-  font-weight: 800;
-  font-size: 0.8rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+.tb__go svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  fill: currentColor;
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  font-weight: 500;
+  letter-spacing: 1px;
 }
-.tb__go em {
-  font-family: var(--font-serif);
-  font-style: italic;
-  font-size: 1.16rem;
-  line-height: 0.8;
-  color: var(--accent-deep);
-}
-.tb__go b, .tb__go em {
-  display: inline-block;
-  translate: -14px 0;
-  opacity: 0;
-  transition: translate 0.5s var(--ease), opacity 0.4s var(--ease);
-}
-.tb__go b { transition-delay: 0.22s; }
-.tb__go em { transition-delay: 0.3s; }
+.tb__go-core { width: 22px; height: 22px; border-radius: 50%; background: var(--accent-ink); transition: scale 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); }
+@keyframes tb-spin { to { transform: rotate(360deg); } }
 
 .tb__slide { transition: opacity 0.45s var(--ease), transform 0.45s var(--ease); }
 
@@ -826,13 +823,13 @@
   .tb__kind { opacity: 0; translate: 10px -14px; rotate: -14deg; scale: 1.6; }
   .tb__card:hover .tb__kind { opacity: 1; translate: 0 0; rotate: 6deg; scale: 1; }
   .tb__card:hover .tb__title { transform: translateY(-4px); color: var(--accent); }
-  .tb__card:hover .tb__go { clip-path: inset(0 0 0 0 round 999px); }
-  .tb__card:hover .tb__go b, .tb__card:hover .tb__go em { translate: 0 0; opacity: 1; }
+  .tb__card:hover .tb__go { scale: 1; rotate: 0deg; }
+  .tb__card:hover .tb__go svg { animation: tb-spin 7s linear infinite; }
+  .tb__card:hover .tb__go-core { scale: 0.6; }
 }
 /* touch: no hover, so the "Open event" pill is always there */
 @media (hover: none) {
-  .tb__go { clip-path: none; }
-  .tb__go b, .tb__go em { translate: none; opacity: 1; }
+  .tb__go { scale: 0.72; rotate: 0deg; transform-origin: 100% 100%; }
 }
 
 /* entrance: when the section first arrives, the visible cards rise in one by one */
@@ -871,6 +868,7 @@
 
 @media (prefers-reduced-motion: reduce) {
   .tb:not(.is-in) .tb__slide, .tb.is-in .tb__slide { animation: none; opacity: 1; transform: none; }
+  .tb__card:hover .tb__go svg { animation: none; }
   .tb__dot-fill { animation: none; transform: none; }
 }
 

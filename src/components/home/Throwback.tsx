@@ -379,7 +379,19 @@ const Throwback: React.FC = () => {
 
                   <span className="tb__over" aria-hidden="true">
                     <span className="tb__title">{s.title}</span>
-                    <span className="tb__go"><b>Open</b><em>event</em></span>
+                  </span>
+
+                  {/* round badge: "open event" runs round the rim; pops in and spins on hover */}
+                  <span className="tb__go" aria-hidden="true">
+                    <svg viewBox="0 0 100 100">
+                      <defs>
+                        <path id="tb-ring" d="M50,50 m-36,0 a36,36 0 1,1 72,0 a36,36 0 1,1 -72,0" />
+                      </defs>
+                      <text>
+                        <textPath href="#tb-ring" textLength="224">OPEN EVENT · OPEN EVENT ·</textPath>
+                      </text>
+                    </svg>
+                    <span className="tb__go-core" />
                   </span>
                 </a>
               </figure>
