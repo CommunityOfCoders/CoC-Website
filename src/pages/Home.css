@@ -296,6 +296,13 @@
 }
 .wwd__tag-small::before { content: ''; width: 34px; height: 2px; background: var(--accent); }
 .wwd__tag-small--by { margin-top: 10px; }
+/* desktop: the juniors/seniors echoes sit ~24px below each word, so the
+   lines need real room between them, and the big CoC behind should read */
+@media (min-width: 901px) {
+  .wwd__tag-small { margin-bottom: 6px; }
+  .wwd__tag-small--by { margin-top: 46px; margin-bottom: 10px; }
+  .wwd__tag::before { -webkit-text-stroke-color: rgba(245, 247, 245, 0.24); }
+}
 .wwd__tag-big {
   position: relative;
   font-weight: 800;
