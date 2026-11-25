@@ -4,12 +4,12 @@ import Reveal from '../ui/Reveal';
 
 /* "What we're about" - descriptive, not persuasive. */
 const FEATURES = [
-  { Icon: Users, title: 'Community', body: 'A few hundred people across batches who actually answer at 1am.' },
+  { Icon: Users, title: 'Community', body: 'The core team is always around for doubts, big or small, whatever year you are in.' },
   { Icon: Compass, title: 'Mentorship', body: 'Seniors and alumni pass down what worked - and what didn\'t.' },
-  { Icon: Hammer, title: 'Real projects', body: 'The tools on this page run on campus right now. That\'s the bar.' },
-  { Icon: GitFork, title: 'Open source', body: 'Public repos, proper reviews, the same workflow industry uses.' },
-  { Icon: Briefcase, title: 'Placements', body: 'Placements, internships and PPOs documented, so juniors can see the path.' },
-  { Icon: Trophy, title: 'Events', body: 'Hackathons, arenas and demo days on a calendar that never empties.' },
+  { Icon: Hammer, title: 'Real projects', body: 'New projects built every year, by members from first-years to final-years.' },
+  { Icon: GitFork, title: 'Open source', body: 'Guidance for your first PRs and for programs like GSoC and LFX, from real contributors.' },
+  { Icon: Briefcase, title: 'Placements', body: 'Help from seniors through placement season, with every offer documented for the batches after.' },
+  { Icon: Trophy, title: 'Events', body: 'Hackathons, contests, workshops and talks, with activities running all year round.' },
 ];
 
 const Ethos: React.FC = () => (
