@@ -228,10 +228,24 @@ export const YEAR_ON_YEAR_DATA: YearGrowthItem[] = [
 
 const currentYearYoy = YEAR_ON_YEAR_DATA.find((item) => item.year === CURRENT_YEAR);
 
+/* average CTC worked out from the offers themselves (weighted by members), so it can't drift from the table */
+const avgCtcFromOffers = (() => {
+  let members = 0;
+  let total = 0;
+  for (const item of PLACEMENTS_DATA[CURRENT_YEAR]?.items ?? []) {
+    const lakhs = parseFloat(String(item.ctc).replace(/[^0-9.]/g, ''));
+    if (!Number.isNaN(lakhs)) {
+      members += item.members;
+      total += lakhs * item.members;
+    }
+  }
+  return members ? `₹${(total / members).toFixed(1)}L` : null;
+})();
+
 export const OVERVIEW_STATS: PlacementStat[] = [
   { id: 'internships', label: 'INTERNSHIPS THIS YEAR', value: String(INTERNSHIPS_DATA[CURRENT_YEAR]?.membersCount ?? currentYearYoy?.internships ?? 0), subtitle: `members · ${CURRENT_YEAR}` },
   { id: 'placements', label: `PLACEMENTS (${CURRENT_YEAR})`, value: String(PLACEMENTS_DATA[CURRENT_YEAR]?.offersCount ?? currentYearYoy?.placements ?? 0), subtitle: 'FTE offers accepted' },
   { id: 'ppos', label: 'PPOS RECEIVED', value: String(PPOS_DATA[CURRENT_YEAR]?.totalPpos ?? 0), subtitle: 'Accepted by members' },
   { id: 'highest_ctc', label: 'HIGHEST CTC', value: currentYearYoy?.highestCtc ?? '-', subtitle: PLACEMENTS_DATA[CURRENT_YEAR]?.items?.[0]?.company || 'DE Shaw' },
-  { id: 'avg_ctc', label: `AVG CTC (${CURRENT_YEAR})`, value: currentYearYoy?.avgCtc ?? '-', subtitle: 'across all roles' }
+  { id: 'avg_ctc', label: `AVG CTC (${CURRENT_YEAR})`, value: avgCtcFromOffers ?? currentYearYoy?.avgCtc ?? '-', subtitle: 'across all roles' }
 ];
