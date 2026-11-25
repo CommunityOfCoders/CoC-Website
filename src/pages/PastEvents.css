@@ -275,7 +275,6 @@
 .ev-grid > li { min-width: 0; }
 .ev-card-reveal { height: 100%; }
 
-.ev-tilt { height: 100%; }
 
 /* ── Full-bleed card ─────────────────────────────────────────── */
 .ev-card {
@@ -295,9 +294,27 @@
 }
 .ev-card:hover {
   box-shadow:
-    0 0 0 1.5px rgba(29, 185, 84, 0.4),
-    0 8px 40px rgba(0, 0, 0, 0.55);
+    0 0 0 1.5px var(--accent),
+    0 18px 50px rgba(0, 0, 0, 0.6);
+  z-index: 2;
 }
+.ev-grid > li { position: relative; }
+.ev-grid > li:hover { z-index: 2; }
+
+/* photo layer: oversized so it can drift with the tilt and the scroll */
+.ev-card__depth {
+  position: absolute;
+  inset: -28px;
+  transition: scale 0.8s var(--ease);
+}
+.ev-card:hover .ev-card__depth { scale: 1.05; }
+.ev-card__zoom { position: absolute; inset: 0; }
+/* camera-shutter entrance */
+.ev-card__shutter { position: absolute; inset: 0; z-index: 5; pointer-events: none; }
+.ev-card__blade { position: absolute; left: 0; right: 0; height: 50.5%; background: var(--ink-1); }
+.ev-card__blade--top { top: 0; transform-origin: top center; }
+.ev-card__blade--bottom { bottom: 0; transform-origin: bottom center; }
+.ev-card__seam { position: absolute; left: 0; right: 0; top: calc(50% - 1px); height: 2px; background: var(--accent); transform-origin: center; }
 .ev-card:focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 3px;
@@ -312,121 +329,155 @@
   contain: layout;
 }
 
-/* gradient scrim - dark at bottom for text legibility */
+/* shade so the type always reads (top for the tags, bottom for the title),
+   with a second, heavier shade that comes in on hover */
 .ev-card::before {
   content: '';
   position: absolute;
   inset: 0;
   z-index: 1;
   pointer-events: none;
-  background: linear-gradient(
-    to bottom,
-    rgba(7, 8, 8, 0.05) 0%,
-    rgba(7, 8, 8, 0.15) 40%,
-    rgba(7, 8, 8, 0.72) 72%,
-    rgba(7, 8, 8, 0.92) 100%
-  );
-  transition: background 0.35s var(--ease);
+  background: linear-gradient(to bottom, rgba(7, 8, 8, 0.55) 0%, rgba(7, 8, 8, 0) 26%, rgba(7, 8, 8, 0) 42%, rgba(7, 8, 8, 0.82) 78%, rgba(7, 8, 8, 0.96) 100%);
 }
-.ev-card:hover::before {
-  background: linear-gradient(
-    to bottom,
-    rgba(7, 8, 8, 0.05) 0%,
-    rgba(7, 8, 8, 0.22) 40%,
-    rgba(7, 8, 8, 0.82) 70%,
-    rgba(7, 8, 8, 0.96) 100%
-  );
+.ev-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(to top, rgba(7, 8, 8, 0.92) 0%, rgba(7, 8, 8, 0.55) 55%, rgba(7, 8, 8, 0) 100%);
+  opacity: 0;
+  transition: opacity 0.45s var(--ease);
 }
+.ev-card:hover::after { opacity: 1; }
 
-/* text overlay positioned at the bottom */
+/* top row: mono date tag + pills */
+.ev-card__top {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  right: 14px;
+  z-index: 3;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 8px;
+  pointer-events: none;
+}
+.ev-card__date {
+  max-width: 62%;
+  font-weight: 500;
+  padding: 5px 11px;
+  border-radius: var(--r-pill);
+  background: rgba(7, 8, 8, 0.78);
+  border: 1px solid var(--line-2);
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--fg);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.ev-card__top-end { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; }
+.ev-card__prize {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 6px;
+  padding: 5px 11px;
+  border-radius: var(--r-pill);
+  background: var(--accent);
+  color: var(--accent-ink);
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+.ev-card__prize-k { opacity: 0.7; }
+.ev-card__prize-v { font-weight: 700; letter-spacing: 0.04em; text-transform: none; font-size: 0.7rem; }
+
+/* title block at the bottom */
 .ev-card__overlay {
-  position: relative;
+  position: absolute;
+  left: 16px;
+  right: 60px;
+  bottom: 16px;
   z-index: 2;
-  margin-top: auto;
-  padding: 18px 18px 20px;
   display: flex;
   flex-direction: column;
   gap: 6px;
 }
-
-.ev-card__meta {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  flex-wrap: wrap;
-}
-
-.ev-card__date {
-  font-family: var(--font-mono);
-  font-size: 0.6rem;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: rgba(245, 247, 245, 0.55);
-}
-
-/* prize: no box - same tracked mono caps as the date, amount in the accent */
-.ev-card__meta { justify-content: space-between; }
-.ev-card__prize {
-  display: inline-flex;
-  align-items: baseline;
-  gap: 7px;
-  font-family: var(--font-mono);
-  font-size: 0.6rem;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  line-height: 1;
-}
-.ev-card__prize-k { color: rgba(245, 247, 245, 0.55); }
-.ev-card__prize-v {
-  color: var(--accent);
-  font-size: 0.78rem;
-  font-weight: 600;
-  letter-spacing: 0.06em;
-  text-transform: none;
-}
 .ev-card__name {
-  font-size: clamp(1rem, 2vw, 1.25rem);
-  font-weight: 700;
-  line-height: 1.1;
-  letter-spacing: -0.015em;
+  font-family: var(--font-display);
+  font-size: clamp(1.1rem, 1.6vw, 1.4rem);
+  font-weight: 800;
+  line-height: 1.06;
+  letter-spacing: -0.025em;
   color: var(--fg);
-  margin-top: 2px;
-}
-.ev-card__summary {
-  font-size: 0.83rem;
-  line-height: 1.45;
-  color: rgba(245, 247, 245, 0.68);
   display: -webkit-box;
-  -webkit-line-clamp: 2;
+  -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
+  transition: color 0.3s var(--ease);
 }
-
-/* hover: summary slides in a touch */
+.ev-card:hover .ev-card__name { color: var(--accent); }
+.ev-card__sub {
+  font-family: var(--font-mono);
+  font-size: 0.64rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+/* the summary slides up on hover */
 .ev-card__summary {
-  transform: translateY(4px);
-  opacity: 0.7;
-  transition: transform 0.35s var(--ease), opacity 0.35s var(--ease);
+  font-family: var(--font-body);
+  font-size: 0.86rem;
+  line-height: 1.5;
+  color: var(--fg-dim);
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  max-height: 0;
+  opacity: 0;
+  translate: 0 10px;
+  transition: max-height 0.5s var(--ease), opacity 0.35s var(--ease), translate 0.5s var(--ease);
 }
-.ev-card:hover .ev-card__summary {
-  transform: translateY(0);
-  opacity: 1;
+.ev-card:hover .ev-card__summary { max-height: 5em; opacity: 1; translate: 0 0; }
+
+.ev-card__go {
+  position: absolute;
+  right: 14px;
+  bottom: 14px;
+  z-index: 3;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--line-2);
+  background: rgba(7, 8, 8, 0.6);
+  color: var(--fg);
+  transition: background 0.3s var(--ease), color 0.3s var(--ease), border-color 0.3s var(--ease), rotate 0.4s var(--ease);
 }
+.ev-card:hover .ev-card__go { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); rotate: 45deg; }
 
 /* ── Upcoming badge ──────────────────────────────────────────── */
 /* Pinned top-left inside the media div so it sits directly on
    the photo in the z-order, never in the text area below.       */
 .ev-card__badge {
-  /* anchor relative to .ev-card__media */
-  position: absolute;
-  top: 13px;
-  left: 13px;
-  z-index: 4;  /* above the photo slider and scrim */
+  position: relative;
   display: inline-flex;
   align-items: center;
   gap: 6px;
   padding: 4px 10px 4px 8px;
-  border-radius: 3px;
+  border-radius: var(--r-pill);
   background: #0E100F;
   border: 1px solid #D97706;
   font-family: var(--font-mono);
@@ -1003,13 +1054,17 @@
 @media (max-width: 560px) {
   .ev-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
   .ev-card { min-height: 230px; border-radius: var(--r-sm); }
-  .ev-card::before {
-    background: linear-gradient(to bottom, rgba(7,8,8,0.05) 0%, rgba(7,8,8,0.3) 35%, rgba(7,8,8,0.88) 68%, rgba(7,8,8,0.96) 100%);
-  }
-  .ev-card__overlay { padding: 10px 10px 12px; gap: 4px; }
+  .ev-card__top { top: 10px; left: 10px; right: 10px; }
+  /* nothing under ~10.5px: the date gets the full row, pills drop under it */
+  .ev-card__date { max-width: 100%; font-size: 0.66rem; padding: 4px 9px; letter-spacing: 0.04em; }
+  .ev-card__top-end { position: absolute; top: 32px; right: 0; }
+  .ev-card__prize { padding: 4px 8px; font-size: 0.64rem; letter-spacing: 0.06em; }
+  .ev-card__prize-v { font-size: 0.68rem; }
+  .ev-card__badge { font-size: 0.64rem; padding: 4px 8px 4px 7px; }
+  .ev-card__overlay { left: 10px; right: 10px; bottom: 10px; gap: 4px; }
   .ev-card__name { font-size: 0.92rem; }
+  .ev-card__sub { font-size: 0.66rem; letter-spacing: 0.06em; }
   .ev-card__summary { display: none; }
-  .ev-card__meta { gap: 6px; }
-  .ev-card__date { font-size: 0.56rem; letter-spacing: 0.08em; }
+  .ev-card__go { display: none; }
   .ev-card .ev-slider__arrow { display: none; }
 }

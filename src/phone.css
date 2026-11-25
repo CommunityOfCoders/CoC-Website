@@ -33,8 +33,6 @@
   .footer__cols { gap: 24px 16px; }
 
   /* ---- readable micro-labels (nothing under ~10.5px) ---- */
-  .ev-card__date { font-size: 0.66rem; }
-  .ev-card__prize-k { font-size: 0.64rem; }
   .team-card__role { font-size: 0.64rem; letter-spacing: 0.06em; }
   .project-card__badge { font-size: 0.66rem; }
   .os-card__year { font-size: 0.68rem; }
