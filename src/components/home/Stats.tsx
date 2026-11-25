@@ -2,11 +2,11 @@ import React from "react";
 import Reveal from "../ui/Reveal";
 import CountUp from "../ui/CountUp";
 
-/* Counted from the site's own data (Nov 2026): 131 members on the CP Club
-   leaderboard, 31 events in eventsData, 50 projects on the Projects page and
+/* Active members is the club's own figure. The rest are counted from the site's
+   data (Nov 2026): 31 events in eventsData, 50 projects on the Projects page and
    44 companies across placements, internships and PPOs. Update with the data. */
 const STATS = [
-  { to: 130, suffix: "+", label: "Active members" },
+  { to: 60, suffix: "+", label: "Active members" },
   { to: 30, suffix: "+", label: "Events hosted" },
   { to: 50, suffix: "+", label: "Projects built" },
   { to: 40, suffix: "+", label: "Companies hired" },
