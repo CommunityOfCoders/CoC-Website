@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useRef } from "react";
 import Reveal from "../components/ui/Reveal";
+import CtaButton from "../components/ui/CtaButton";
 import { Tilt } from "../components/ui/Tilt";
 import {
   Activity,
   AlertTriangle,
   AlignLeft,
-  ArrowRight,
   BarChart,
   BookOpen,
   Brain,
@@ -581,17 +581,8 @@ export default function Projects() {
               </p>
 
               <div className="projects-hero__actions">
-                <a href="#browse-section" className="btn" onClick={handleBrowseClick}>
-                  Browse Projects <ArrowRight size={16} />
-                </a>
-                <a
-                  href="https://github.com/CommunityOfCoders"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="btn btn--ghost"
-                >
-                  <GitBranch size={16} /> Contribute
-                </a>
+                <CtaButton href="#browse-section" label="Browse Projects" primary onClick={handleBrowseClick} />
+                <CtaButton href="https://github.com/CommunityOfCoders" label="Contribute" external />
               </div>
             </div>
 

@@ -23,6 +23,8 @@
   /* ---- thumb-friendly hero buttons ---- */
   .hero__cta { flex-direction: column; gap: 10px; }
   .hero__cta .cta { width: 100%; }
+  .projects-hero__actions { flex-direction: column; gap: 10px; width: 100%; }
+  .projects-hero__actions .cta { width: 100%; }
 
   /* ---- bigger hit areas on the slim carousel dots (look unchanged) ---- */
   .tb__dot, .ev-testimonials__dot, .ev-slider__dot { position: relative; }

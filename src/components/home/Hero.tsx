@@ -9,32 +9,11 @@ import {
 } from "framer-motion";
 import { ArrowDown } from "lucide-react";
 import Magnetic from "../ui/Magnetic";
+import CtaButton from "../ui/CtaButton";
 import grppic2 from "../../assets/grppic2.jpg";
 import working3 from "../../assets/working3.jpeg";
 
 const words = ["Code.", "Create.", "Connect."];
-
-/* Hero call-to-action: a flat pill. On hover it dissolves pixel by pixel
-   into its other colour - a grid of small squares pops in at random, like a
-   screen redrawing - and dissolves back when the pointer leaves. */
-const CTA_COLS = 18;
-const CTA_ROWS = 5;
-/* fixed pseudo-random order, so it looks scattered but is the same every render */
-const CTA_DELAYS = Array.from({ length: CTA_COLS * CTA_ROWS }, (_, k) => {
-  const x = Math.sin(k * 12.9898 + 78.233) * 43758.5453;
-  return x - Math.floor(x);
-});
-
-const HeroCta: React.FC<{ href: string; label: string; primary?: boolean }> = ({ href, label, primary }) => (
-  <a href={href} className={`cta${primary ? " cta--primary" : ""}`}>
-    <span className="cta__pixels" aria-hidden="true">
-      {CTA_DELAYS.map((d, k) => (
-        <i key={k} style={{ "--d": d } as React.CSSProperties} />
-      ))}
-    </span>
-    <span className="cta__label">{label}</span>
-  </a>
-);
 
 const Hero: React.FC = () => {
   const ref = useRef<HTMLElement>(null);
@@ -124,10 +103,10 @@ const Hero: React.FC = () => {
             transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1], delay: 0.75 }}
           >
             <Magnetic strength={0.08}>
-              <HeroCta href="#projects" label="See our work" primary />
+              <CtaButton href="#projects" label="See our work" primary />
             </Magnetic>
             <Magnetic strength={0.08}>
-              <HeroCta href="#events" label="Explore events" />
+              <CtaButton href="#events" label="Explore events" />
             </Magnetic>
           </motion.div>
         </div>
