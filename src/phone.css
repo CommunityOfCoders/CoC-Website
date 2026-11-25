@@ -22,7 +22,7 @@
 
   /* ---- thumb-friendly hero buttons ---- */
   .hero__cta { flex-direction: column; gap: 10px; }
-  .hero__cta .btn { width: 100%; justify-content: space-between; padding-block: 17px; }
+  .hero__cta .cta { width: 100%; justify-content: space-between; }
 
   /* ---- bigger hit areas on the slim carousel dots (look unchanged) ---- */
   .tb__dot, .ev-testimonials__dot, .ev-slider__dot { position: relative; }
