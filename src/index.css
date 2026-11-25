@@ -10,6 +10,7 @@
 @import url('https://api.fontshare.com/v2/css?f[]=cabinet-grotesk@500,700,800&display=swap');
 @import url('https://api.fontshare.com/v2/css?f[]=switzer@400,500,600&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@1&display=swap');
 
 :root {
   /* ---- canvas & surfaces ---- */
@@ -40,6 +41,7 @@
   --font-display: 'Cabinet Grotesk', 'Switzer', sans-serif;
   --font-body: 'Switzer', system-ui, sans-serif;
   --font-mono: 'DM Mono', ui-monospace, monospace;
+  --font-serif: 'Instrument Serif', Georgia, serif;   /* italic accent only */
 
   /* ---- radius ---- */
   --r-sm: 10px;
