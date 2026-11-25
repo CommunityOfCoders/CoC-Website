@@ -157,6 +157,9 @@ const Contact: React.FC = () => {
   const sx = useSpring(mx, { stiffness: 60, damping: 16 });
   const sy = useSpring(my, { stiffness: 60, damping: 16 });
   const [copied, setCopied] = useState(false);
+  // touch has no hover: a tap fans the collage out, another tap settles it
+  const [fanned, setFanned] = useState(false);
+  const lastPointer = useRef("mouse");
 
   const onMove = (e: React.MouseEvent) => {
     if (reduce || !heroRef.current) return;
@@ -266,7 +269,11 @@ const Contact: React.FC = () => {
 
           <Reveal variant="fade" delay={0.2}>
             <motion.div
-              className="ct-media"
+              className={`ct-media${fanned ? " is-fanned" : ""}`}
+              onPointerDown={(e) => (lastPointer.current = e.pointerType)}
+              onClick={() => {
+                if (lastPointer.current !== "mouse") setFanned((f) => !f);
+              }}
               style={reduce ? undefined : { x: sx, y: sy }}
             >
               <div className="ct-media-shape" />

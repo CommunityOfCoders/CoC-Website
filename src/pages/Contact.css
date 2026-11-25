@@ -123,27 +123,51 @@
 .ct-soc-mark[data-tip]:hover::after { opacity: 1; transform: translateX(-50%) translateY(0); }
 .ct-soc-mark[data-tip]:hover::before { opacity: 1; }
 
-/* ---------- photo collage - identical geometry to Home's Hero.tsx ---------- */
-.ct-media { position: relative; aspect-ratio: 4 / 4.3; will-change: transform; }
+/* ---------- photo collage - same geometry as Home's hero ----------
+   The group photo keeps its 4:3 shape so nobody at the edges is cropped;
+   the second shot only hangs off its bottom-right corner. */
+.ct-media { position: relative; aspect-ratio: 1 / 0.9; will-change: transform; }
 .ct-media-shape {
-  position: absolute; inset: 8% -4% -6% 16%;
+  position: absolute; inset: 10% -4% -4% 14%;
   border: 1.5px solid var(--line-2); border-radius: var(--r-xl); z-index: 0;
+  transition: translate 0.7s var(--ease);
+}
+.ct-img-main, .ct-img-sub {
+  transition: translate 0.7s var(--ease), rotate 0.7s var(--ease), scale 0.7s var(--ease), box-shadow 0.7s var(--ease);
 }
 .ct-img-main {
-  position: absolute; inset: 0 6% 12% 0; border-radius: var(--r-xl);
+  position: absolute; top: 0; left: 0; width: 90%; aspect-ratio: 4 / 3; border-radius: var(--r-xl);
   overflow: hidden; z-index: 1; background: var(--ink-2);
 }
-.ct-img-main img { width: 100%; height: 100%; object-fit: cover; filter: saturate(1.05) contrast(1.03); }
+.ct-img-main img { width: 100%; height: 100%; object-fit: cover; filter: saturate(1.05) contrast(1.03); transition: scale 0.7s var(--ease); }
 .ct-img-sub {
-  position: absolute; width: 46%; aspect-ratio: 3 / 3.4; right: 0; bottom: 0;
+  position: absolute; width: 34%; aspect-ratio: 820 / 929; right: 0; bottom: 0;
   border-radius: var(--r-lg); overflow: hidden; border: 6px solid var(--ink); z-index: 2; background: var(--ink-2);
 }
 .ct-img-sub img { width: 100%; height: 100%; object-fit: cover; filter: saturate(1.05) contrast(1.03); }
 .ct-badge {
-  position: absolute; top: 4%; left: -6%; z-index: 3;
+  position: absolute; top: -5%; left: -6%; z-index: 3;
   display: flex; flex-direction: column; align-items: center; gap: 2px;
   padding: 14px 16px; background: var(--accent); color: var(--accent-ink);
   border-radius: var(--r-md); font-family: var(--font-mono); line-height: 1; transform: rotate(-4deg);
+  transition: translate 0.6s var(--ease), rotate 0.6s var(--ease);
+}
+
+/* fan-out: hover on desktop, tap on touch */
+@media (hover: hover) {
+  .ct-media:hover .ct-img-sub { translate: 14% 12%; rotate: 4deg; }
+  .ct-media:hover .ct-img-main { rotate: -1.2deg; scale: 1.015; box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5); }
+  .ct-media:hover .ct-img-main img { scale: 1.045; }
+  .ct-media:hover .ct-badge { translate: -4px -6px; rotate: -5deg; }
+  .ct-media:hover .ct-media-shape { translate: 3% 3%; }
+  .ct-img-sub:hover { z-index: 4; scale: 1.08; box-shadow: 0 24px 50px rgba(0, 0, 0, 0.6); }
+}
+.ct-media.is-fanned .ct-img-sub { translate: 14% 12%; rotate: 4deg; }
+.ct-media.is-fanned .ct-img-main { rotate: -1.2deg; box-shadow: 0 24px 50px rgba(0, 0, 0, 0.5); }
+.ct-media.is-fanned .ct-badge { translate: -4px -6px; rotate: -5deg; }
+.ct-media.is-fanned .ct-media-shape { translate: 3% 3%; }
+@media (prefers-reduced-motion: reduce) {
+  .ct-img-main, .ct-img-sub, .ct-badge, .ct-media-shape, .ct-img-main img { transition: none; }
 }
 .ct-badge-k { font-size: 0.62rem; letter-spacing: 0.18em; text-transform: uppercase; opacity: 0.7; }
 .ct-badge-v { font-size: 1.5rem; font-weight: 700; }
@@ -167,7 +191,7 @@
 
 @media (max-width: 900px) {
   .ct-hero { grid-template-columns: 1fr; gap: 48px; }
-  .ct-media { width: min(100%, 420px); aspect-ratio: 4 / 3.6; }
+  .ct-media { width: min(100%, 420px); }
 }
 @media (max-width: 780px) {
   .ct-also-grid { flex-direction: column; }
@@ -178,7 +202,9 @@
 
 /* phone: badge stays inside the screen, community cards stay 2-up */
 @media (max-width: 560px) {
-  .ct-badge { left: 0; }
+  .ct-badge { left: -2%; padding: 11px 13px; }
+  .ct-img-sub { border-width: 4px; }
+  .ct-media.is-fanned .ct-img-sub { translate: 8% 9%; }
   .ct-media-shape { right: 0; }
   .ct-also-grid { flex-direction: row; gap: 10px; }
   .ct-comm { flex: 1 1 calc(50% - 10px); padding: 14px; }
