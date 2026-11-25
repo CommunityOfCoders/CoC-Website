@@ -1,128 +1,120 @@
-import React, { useRef } from 'react';
-import { motion, useReducedMotion, useSpring, type Variants } from 'framer-motion';
-import { CalendarDays, GitPullRequestArrow, Briefcase, ArrowUpRight } from 'lucide-react';
+import React from 'react';
+import { motion, useReducedMotion, type Variants } from 'framer-motion';
+import { ArrowUpRight } from 'lucide-react';
+import { GSoCLogo, LFXLogo, JuliaLogo, HacktoberfestLogo, CERNLogo } from '../ui/OrgLogos';
+import pxHackX from '../../assets/polaroids/hackxcelerate-2026.jpg';
+import pxSih from '../../assets/polaroids/sih-2026.jpg';
+import pxCodeverse from '../../assets/polaroids/codeverse.jpg';
+import lgDeshaw from '../../assets/company-logos/deshaw.png';
+import lgGoogle from '../../assets/company-logos/google.png';
+import lgGoldman from '../../assets/company-logos/goldman.png';
+import lgMorgan from '../../assets/company-logos/morganstanley.png';
+import lgVisa from '../../assets/company-logos/visa.png';
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
-const PILLARS = [
+type Item = { key: string; label: string; href: string; img?: string; Logo?: React.FC<React.SVGProps<SVGSVGElement>> };
+type Pillar = { title: string; kicker: string; body: string; href: string; featured: boolean; kind: 'photos' | 'orgs' | 'logos'; items: Item[] };
+
+/* every picture / logo is real and links to the exact place it comes from */
+const PILLARS: Pillar[] = [
   {
-    Icon: CalendarDays,
     title: 'Events',
+    kicker: 'Hackathons · contests · talks',
     body: 'Hackathons, hands-on workshops and talks that turn a semester of theory into things you can actually build.',
     href: '#events',
     featured: false,
+    kind: 'photos',
+    items: [
+      { key: 'codeverse', label: 'CodeVerse', href: '#events?id=codeverse', img: pxCodeverse },
+      { key: 'hackx', label: 'HackXcelerate 2026', href: '#events?id=hackxcelerate-2026', img: pxHackX },
+      { key: 'sih', label: 'Smart India Hackathon 2026', href: '#events?id=sih-2026', img: pxSih },
+    ],
   },
   {
-    Icon: GitPullRequestArrow,
     title: 'Open Source',
+    kicker: 'GSoC · LFX · JSoC',
     body: 'Real repos, real reviews. We mentor first PRs and maintain projects the whole campus uses.',
     href: '#opensource',
     featured: true,
+    kind: 'orgs',
+    items: [
+      { key: 'gsoc', label: 'Google Summer of Code', href: '#opensource', Logo: GSoCLogo },
+      { key: 'lfx', label: 'LFX Mentorship', href: '#opensource', Logo: LFXLogo },
+      { key: 'julia', label: 'Julia Seasons of Contributions', href: '#opensource', Logo: JuliaLogo },
+      { key: 'cern', label: 'CERN', href: '#opensource', Logo: CERNLogo },
+      { key: 'hacktoberfest', label: 'Hacktoberfest', href: '#opensource', Logo: HacktoberfestLogo },
+    ],
   },
   {
-    Icon: Briefcase,
     title: 'Placements',
+    kicker: 'Placements · internships · PPOs',
     body: 'A documented record of where our members landed - placements, internships and PPOs, by company and role.',
     href: '#placements',
     featured: false,
+    kind: 'logos',
+    items: [
+      { key: 'deshaw', label: 'DE Shaw', href: '#placements', img: lgDeshaw },
+      { key: 'google', label: 'Google', href: '#placements', img: lgGoogle },
+      { key: 'goldman', label: 'Goldman Sachs', href: '#placements', img: lgGoldman },
+      { key: 'morgan', label: 'Morgan Stanley', href: '#placements', img: lgMorgan },
+      { key: 'visa', label: 'Visa', href: '#placements', img: lgVisa },
+    ],
   },
 ];
 
-/* entrance: the cell unfolds up out of the floor, its pieces land one after another */
-const cellV: Variants = {
-  hidden: { opacity: 0, y: 80, rotateX: -28 },
+/* entrance: transform + opacity only, so it stays on the GPU */
+const cardV: Variants = {
+  hidden: { opacity: 0, y: 70 },
   show: (i: number) => ({
-    opacity: 1, y: 0, rotateX: 0,
-    transition: { duration: 1, ease: EASE, delay: i * 0.13, when: 'beforeChildren', staggerChildren: 0.08 },
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.9, ease: EASE, delay: i * 0.12, when: 'beforeChildren', staggerChildren: 0.07 },
   }),
 };
-const pieceV: Variants = {
-  hidden: { opacity: 0, y: 18 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: EASE } },
+const popV: Variants = {
+  hidden: { opacity: 0, y: 26, scale: 0.6 },
+  show: { opacity: 1, y: 0, scale: 1, transition: { type: 'spring', stiffness: 320, damping: 18 } },
 };
-const iconV: Variants = {
-  hidden: { opacity: 0, scale: 0.3, rotate: -40 },
-  show: { opacity: 1, scale: 1, rotate: 0, transition: { type: 'spring', stiffness: 260, damping: 14 } },
-};
-const numV: Variants = {
-  hidden: { opacity: 0, x: 40 },
-  show: { opacity: 1, x: 0, transition: { duration: 0.9, ease: EASE } },
-};
-
-type Pillar = (typeof PILLARS)[number];
 
 const PillarCard: React.FC<{ p: Pillar; i: number }> = ({ p, i }) => {
   const reduce = useReducedMotion();
-  const ref = useRef<HTMLAnchorElement>(null);
-  const rx = useSpring(0, { stiffness: 200, damping: 18 });
-  const ry = useSpring(0, { stiffness: 200, damping: 18 });
-
-  // remember where the pointer is, so the colour floods from (and drains back to) that spot
-  const track = (e: React.PointerEvent<HTMLAnchorElement>) => {
-    const el = ref.current;
-    if (!el) return;
-    const r = el.getBoundingClientRect();
-    const px = (e.clientX - r.left) / r.width;
-    const py = (e.clientY - r.top) / r.height;
-    el.style.setProperty('--mx', `${(px * 100).toFixed(1)}%`);
-    el.style.setProperty('--my', `${(py * 100).toFixed(1)}%`);
-    if (e.pointerType === 'mouse' && !reduce) {
-      ry.set((px - 0.5) * 12);
-      rx.set((0.5 - py) * 10);
-    }
-  };
-  const reset = (e: React.PointerEvent<HTMLAnchorElement>) => {
-    track(e);
-    rx.set(0);
-    ry.set(0);
-  };
-
   return (
-    <motion.div
-      className={`pillar-cell${p.featured ? ' pillar-cell--feat' : ''}`}
-      variants={cellV}
+    <motion.article
+      className={`pillar pillar--${p.kind}${p.featured ? ' pillar--feat' : ''}`}
+      variants={cardV}
       custom={i}
       initial={reduce ? false : 'hidden'}
       whileInView="show"
-      viewport={{ once: true, amount: 0.3 }}
-      style={{ transformPerspective: 1100 }}
+      viewport={{ once: true, amount: 0.25 }}
     >
-      <motion.a
-        ref={ref}
-        href={p.href}
-        className={`pillar${p.featured ? ' pillar--feat' : ''}`}
-        onPointerEnter={track}
-        onPointerMove={track}
-        onPointerLeave={reset}
-        style={reduce ? undefined : { rotateX: rx, rotateY: ry, transformPerspective: 900 }}
-      >
-        <span className="pillar__flood" aria-hidden="true" />
-        <motion.span className="pillar__num" variants={numV} aria-hidden="true">
-          {String(i + 1).padStart(2, '0')}
-        </motion.span>
+      <span className="pillar__fill" aria-hidden="true" />
 
-        <motion.span className="pillar__icon" variants={iconV}>
-          <p.Icon />
-        </motion.span>
+      <div className="pillar__top">
+        <span className="pillar__idx">{String(i + 1).padStart(2, '0')}<em>/03</em></span>
+        <span className="pillar__arrow" aria-hidden="true"><ArrowUpRight /></span>
+      </div>
 
-        <motion.div className="pillar__body" variants={pieceV}>
-          <h3 className="pillar__title" aria-label={p.title}>
-            {[...p.title].map((c, k) => (
-              <span className="pillar__ch" key={k} aria-hidden="true">
-                <span className="pillar__chi" data-c={c} style={{ '--i': k } as React.CSSProperties}>
-                  {c === ' ' ? ' ' : c}
-                </span>
-              </span>
-            ))}
-          </h3>
-          <p className="pillar__text">{p.body}</p>
-        </motion.div>
+      <h3 className="pillar__title">
+        {/* the whole card is this link (stretched over it with ::after) */}
+        <a href={p.href} className="pillar__link">
+          <span className="pillar__roll" data-t={p.title}>{p.title}</span>
+        </a>
+      </h3>
+      <p className="pillar__kicker">{p.kicker}</p>
+      <p className="pillar__text">{p.body}</p>
 
-        <motion.span className="pillar__go" variants={pieceV}>
-          <span>Learn more</span> <ArrowUpRight />
-        </motion.span>
-      </motion.a>
-    </motion.div>
+      <ul className="pillar__stack" aria-label={`${p.title}: highlights`}>
+        {p.items.map((it, k) => (
+          <motion.li key={it.key} variants={popV} style={{ '--k': k, '--n': p.items.length } as React.CSSProperties}>
+            <a href={it.href} className="pillar__chip" title={it.label} aria-label={it.label}>
+              {it.img ? <img src={it.img} alt="" loading="lazy" decoding="async" draggable={false} /> : null}
+              {it.Logo ? <it.Logo /> : null}
+            </a>
+          </motion.li>
+        ))}
+      </ul>
+    </motion.article>
   );
 };
 
