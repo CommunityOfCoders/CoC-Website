@@ -673,10 +673,9 @@ export default function Projects() {
               ))}
             </div>
 
-            {/* Subheader Count */}
+            {/* Subheader */}
             <div className="projects-subhead">
               <span className="eyebrow">ALL PROJECTS</span>
-              <span className="projects-count">- {filteredProjects.length} projects</span>
             </div>
           </div>
 

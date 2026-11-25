@@ -520,12 +520,6 @@
   padding-bottom: 20px;
 }
 
-.projects-count {
-  font-family: var(--font-mono);
-  font-size: 0.78rem;
-  color: var(--fg-faint);
-}
-
 .projects-grid {
   display: grid;
   grid-template-columns: 1fr;
