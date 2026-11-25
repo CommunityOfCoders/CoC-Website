@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import {
   motion,
   useScroll,
@@ -36,6 +36,12 @@ const Hero: React.FC = () => {
     const r = ref.current.getBoundingClientRect();
     mx.set(((e.clientX - r.left) / r.width - 0.5) * 18);
     my.set(((e.clientY - r.top) / r.height - 0.5) * 12);
+  };
+  // touch has no hover: a tap fans the collage out, another tap settles it
+  const [fanned, setFanned] = useState(false);
+  const lastPointer = useRef("mouse");
+  const onTap = () => {
+    if (lastPointer.current !== "mouse") setFanned((f) => !f);
   };
   const onLeave = () => {
     mx.set(0);
@@ -109,7 +115,9 @@ const Hero: React.FC = () => {
         </div>
 
         <motion.div
-          className="hero__media"
+          className={`hero__media${fanned ? " is-fanned" : ""}`}
+          onPointerDown={(e) => (lastPointer.current = e.pointerType)}
+          onClick={onTap}
           style={reduce ? undefined : { x: sx, y: sy }}
           initial={{ opacity: 0, scale: 0.96 }}
           animate={{ opacity: 1, scale: 1 }}
