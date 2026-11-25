@@ -378,6 +378,7 @@
   position: relative;
   isolation: isolate;
   overflow: hidden;
+  contain: layout paint;      /* growing a card never re-lays-out anything outside it */
   flex: 1 1 0;
   min-width: 0;
   height: var(--rest-h);
@@ -666,7 +667,6 @@
   color: var(--fg);
   text-decoration: none;
   isolation: isolate;
-  transform: translateZ(0);
 }
 .tb__img { aspect-ratio: 16 / 10; overflow: hidden; background: var(--ink-2); }
 .tb__img img {
@@ -791,11 +791,11 @@
 }
 .tb__go svg { width: 20px; height: 20px; transition: transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) 0.12s; transform: translate(-3px, 3px); }
 
-.tb__slide { transition: opacity 0.45s var(--ease), transform 0.45s var(--ease); }
+.tb__slide { transition: opacity 0.45s var(--ease); }
 
 @media (hover: hover) {
   /* focus the hovered card: the others step back */
-  .tb__track:hover .tb__slide:not(:hover) { opacity: 0.45; transform: scale(0.97); }
+  .tb__track:hover .tb__slide:not(:hover) { opacity: 0.45; }
   .tb__card:hover .tb__img img { transform: scale(1.08); }
   .tb__card:hover .tb__shade::after { opacity: 1; }
   /* the date stays hidden until hover, then rises in (same as the events cards) */
