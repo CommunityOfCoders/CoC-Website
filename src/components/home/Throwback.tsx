@@ -1,40 +1,52 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useReducedMotion } from 'framer-motion';
-import { ArrowLeft, ArrowRight } from 'lucide-react';
+import { ArrowLeft, ArrowRight, ArrowUpRight } from 'lucide-react';
 import Reveal from '../ui/Reveal';
 import Magnetic from '../ui/Magnetic';
 
-/* pos = object-position: keeps event titles (posters) and people (group shots) inside the 16:10 frame */
-const SLIDES: { id: string; img: string; title: string; year: string; pos?: string }[] = [
-  { id: 'debug-a-thon-2026', pos: '50% 0%', img: '/photos/2026/debugathon.jpg', title: 'Debug-A-Thon', year: '2026' },
-  { id: 'hackxcelerate-2026', pos: '50% 65%', img: '/photos/2026/hackX.jpeg', title: 'HackXcelerate 2026', year: '2026' },
-  { id: 'the-lost-probe-2026', pos: '50% 0%', img: '/photos/2026/lostprobe2.jpg', title: 'The Lost Probe', year: '2026' },
-  { id: 'coderush-2026', pos: '50% 0%', img: '/photos/2026/coderush.jpg', title: 'CodeRush', year: '2026' },
-  { id: 'pixel-perfect-2026', pos: '50% 0%', img: '/photos/2026/pixelperfect.jpg', title: 'Pixel Perfect', year: '2026' },
-  { id: 'routing-rush-2026', pos: '50% 0%', img: '/photos/2026/routerush.jpg', title: 'Route Rush', year: '2026' },
-  { id: 'routequest-2026', pos: '50% 0%', img: '/photos/2026/routequest.jpg', title: 'RouteQuest', year: '2026' },
-  { id: 'codehunt-2026', pos: '50% 0%', img: '/photos/2026/codehunt.jpg', title: 'Codehunt', year: '2026' },
-  { id: 'icpc-vjti-2026', img: '/photos/2026/icpc2.jpeg', title: 'ICPC VJTI Round', year: '2025' },
-  { id: 'inheritance-2025-26', pos: '50% 0%', img: '/photos/2026/inheritance.jpg', title: 'Inheritance', year: '2026' },
-  { id: 'webgenesis-2026', pos: '50% 0%', img: '/photos/2026/webgenesis.jpg', title: 'Webgenesis', year: '2026' },
-  { id: 'eth-evening-2025', pos: '50% 0%', img: '/photos/2026/ethhevening.jpg', title: 'ETH Evening', year: '2025' },
-  { id: 'project-x-2025', pos: '50% 0%', img: '/photos/2026/ProjectX.jpg', title: 'Project X', year: '2025' },
-  { id: 'codeverse', pos: '50% 70%', img: '/photos/2025/codeverseceremony.jpg', title: 'CodeVerse Ceremony', year: '2025' },
-  { id: 'ai-vs-human', img: '/photos/2025/aivshuman.JPG', title: 'AI vs Human', year: '2025' },
-  { id: 'api-murder-mystery', img: '/photos/2025/apimurder.JPG', title: 'API Murder Mystery', year: '2025' },
-  { id: 'codeverse', pos: '50% 60%', img: '/photos/2025/codeverseteam.jpg', title: 'CodeVerse Team', year: '2025' },
-  { id: 'debugathon', img: '/photos/2025/debugathon.jpg', title: 'Debugathon', year: '2024' },
-  { id: 'eth-ctf', img: '/photos/2025/ethctf.jpg', title: 'ETH CTF', year: '2024' },
-  { id: 'grid-of-doom', img: '/photos/2025/gridofdoom.jpg', title: 'Grid of Doom', year: '2024' },
-  { id: 'pixel-pursuit', img: '/photos/2025/pixelpursuit.jpg', title: 'Pixel Pursuit', year: '2024' },
-  { id: 'tech-auction', img: '/photos/2025/auction.jpg', title: 'Tech Auction', year: '2024' },
-  { id: 'travelling-coder', img: '/photos/2025/travellingcoder.jpg', title: 'Travelling Coder', year: '2023' },
+/* iso drives the order (newest first) and the calendar label.
+   pos = object-position: keeps event titles (posters) and people (group shots) inside the 16:10 frame */
+type Slide = { id: string; img: string; title: string; iso: string; kind: string; pos?: string };
+const RAW_SLIDES: Slide[] = [
+  { id: 'cp-club-selections-2026', iso: '2026-11-05', kind: 'Contest', img: '/photos/2026/CP Selections 2026/Screenshot_2026-11-13-16-46-27-902_com.instagram.android-edit.jpg', title: 'CP Club Selections' },
+  { id: 'hello-world-2026', iso: '2026-10-09', kind: 'Exhibition', img: '/photos/2026/Hello World/IMG-20261009-WA0014.jpg', title: 'Hello World' },
+  { id: 'icpc-prelims-2026', iso: '2026-10-03', kind: 'Contest', img: '/photos/2026/ICPC 2026/20261003_133339.jpg', title: 'ICPC Prelims' },
+  { id: 'project-x-final-meet-2026', iso: '2026-09-27', kind: 'Mentorship', img: '/photos/2026/Project X 2026/Screenshot 2026-10-31 235238.jpg', title: 'Project X Final Meet' },
+  { id: 'sih-2026', iso: '2026-08-25', kind: 'Hackathon', img: '/photos/2026/SIH 2026/sih-2026-01.jpg', title: 'Smart India Hackathon' },
+  { id: 'routequest-2026', iso: '2026-04-23', kind: 'CTF', pos: '50% 0%', img: '/photos/2026/routequest.jpg', title: 'RouteQuest' },
+  { id: 'codehunt-2026', iso: '2026-04-09', kind: 'Contest', pos: '50% 0%', img: '/photos/2026/codehunt.jpg', title: 'Codehunt' },
+  { id: 'inheritance-2025-26', iso: '2026-02-15', kind: 'Mentorship', pos: '50% 0%', img: '/photos/2026/inheritance.jpg', title: 'Inheritance' },
+  { id: 'hackxcelerate-2026', iso: '2026-02-14', kind: 'Hackathon', pos: '50% 65%', img: '/photos/2026/hackX.jpeg', title: 'HackXcelerate' },
+  { id: 'the-lost-probe-2026', iso: '2026-02-01', kind: 'ML challenge', pos: '50% 0%', img: '/photos/2026/lostprobe2.jpg', title: 'The Lost Probe' },
+  { id: 'coderush-2026', iso: '2026-02-01', kind: 'Contest', pos: '50% 0%', img: '/photos/2026/coderush.jpg', title: 'CodeRush' },
+  { id: 'routing-rush-2026', iso: '2026-02-01', kind: 'Contest', pos: '50% 0%', img: '/photos/2026/routerush.jpg', title: 'Route Rush' },
+  { id: 'pixel-perfect-2026', iso: '2026-01-31', kind: 'Frontend', pos: '50% 0%', img: '/photos/2026/pixelperfect.jpg', title: 'Pixel Perfect' },
+  { id: 'debug-a-thon-2026', iso: '2026-01-30', kind: 'Debugging', pos: '50% 0%', img: '/photos/2026/debugathon.jpg', title: 'Debug-A-Thon' },
+  { id: 'webgenesis-2026', iso: '2026-01-10', kind: 'Mentorship', pos: '50% 0%', img: '/photos/2026/webgenesis.jpg', title: 'Webgenesis' },
+  { id: 'icpc-vjti-2026', iso: '2025-11-01', kind: 'Contest', img: '/photos/2026/icpc2.jpeg', title: 'ICPC VJTI Round' },
+  { id: 'eth-evening-2025', iso: '2025-10-08', kind: 'Talk', pos: '50% 0%', img: '/photos/2026/ethhevening.jpg', title: 'ETH Evening' },
+  { id: 'project-x-2025', iso: '2025-07-15', kind: 'Mentorship', pos: '50% 0%', img: '/photos/2026/ProjectX.jpg', title: 'Project X' },
+  { id: 'codeverse', iso: '2025-04-12', kind: 'Tech fest', pos: '50% 70%', img: '/photos/2025/codeverseceremony.jpg', title: 'CodeVerse Ceremony' },
+  { id: 'codeverse', iso: '2025-04-11', kind: 'Tech fest', pos: '50% 60%', img: '/photos/2025/codeverseteam.jpg', title: 'CodeVerse Team' },
+  { id: 'ai-vs-human', iso: '2025-03-15', kind: 'Contest', img: '/photos/2025/aivshuman.JPG', title: 'AI vs Human' },
+  { id: 'api-murder-mystery', iso: '2025-02-15', kind: 'Puzzle hunt', img: '/photos/2025/apimurder.JPG', title: 'API Murder Mystery' },
+  { id: 'tech-auction', iso: '2024-11-15', kind: 'Strategy', img: '/photos/2025/auction.jpg', title: 'Tech Auction' },
+  { id: 'debugathon', iso: '2024-10-15', kind: 'Debugging', img: '/photos/2025/debugathon.jpg', title: 'Debugathon' },
+  { id: 'eth-ctf', iso: '2024-08-15', kind: 'CTF', img: '/photos/2025/ethctf.jpg', title: 'ETH CTF' },
+  { id: 'grid-of-doom', iso: '2024-04-15', kind: 'Contest', img: '/photos/2025/gridofdoom.jpg', title: 'Grid of Doom' },
+  { id: 'pixel-pursuit', iso: '2024-03-15', kind: 'Frontend', img: '/photos/2025/pixelpursuit.jpg', title: 'Pixel Pursuit' },
+  { id: 'travelling-coder', iso: '2023-11-15', kind: 'Contest', img: '/photos/2025/travellingcoder.jpg', title: 'Travelling Coder' },
 ];
+/* newest first; the sort is stable, so same-day events keep the order above */
+const SLIDES = [...RAW_SLIDES].sort((a, b) => b.iso.localeCompare(a.iso));
+
+const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+const monthOf = (iso: string) => MONTHS[Number(iso.slice(5, 7)) - 1];
 
 // Tripled sets: Set A (clones before), Set B (main set), Set C (clones after) for seamless infinite looping
 const EXTENDED_SLIDES = [...SLIDES, ...SLIDES, ...SLIDES];
 
-const AUTOPLAY_MS = 3000;
+const AUTOPLAY_MS = 2000;
 
 const Throwback: React.FC = () => {
   const [index, setIndex] = useState(0);
@@ -43,6 +55,7 @@ const Throwback: React.FC = () => {
   const [paused, setPaused] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
   const [isInView, setIsInView] = useState(true);
+  const [seen, setSeen] = useState(false);
 
   const sectionRef = useRef<HTMLElement>(null);
   const viewportRef = useRef<HTMLDivElement>(null);
@@ -118,6 +131,7 @@ const Throwback: React.FC = () => {
     const observer = new IntersectionObserver(
       ([entry]) => {
         setIsInView(entry.isIntersecting);
+        if (entry.isIntersecting) setSeen(true);
       },
       { threshold: 0.1 }
     );
@@ -298,7 +312,7 @@ const Throwback: React.FC = () => {
   return (
     <section
       ref={sectionRef}
-      className="section tb"
+      className={`section tb${seen ? ' is-in' : ''}`}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
@@ -341,25 +355,32 @@ const Throwback: React.FC = () => {
       >
         <div className="tb__track">
           {EXTENDED_SLIDES.map((s, idx) => {
-            const realIdx = idx % SLIDES.length;
+            // the first few cards of the middle set are the ones on screen when the section arrives
+            const j = idx - SLIDES.length;
+            const enter = j >= 0 && j < 5 ? j : 0;
             return (
-              <figure className="tb__slide" key={`${s.id}-${idx}`}>
+              <figure className="tb__slide" key={`${s.id}-${s.iso}-${idx}`} style={{ '--j': enter } as React.CSSProperties}>
                 <a
                   href={`#events?id=${s.id}`}
-                  className="tb__slide-link"
+                  className="tb__card"
                   onClick={handleSlideClick}
-                  aria-label={`View ${s.title} details`}
+                  aria-label={`${s.title}, ${monthOf(s.iso)} ${s.iso.slice(0, 4)}: view event`}
                 >
-                  <div className="tb__img photo photo--hover">
-                    <img src={s.img} alt={`${s.title}, ${s.year}`} draggable={false} loading="lazy" style={s.pos ? { objectPosition: s.pos } : undefined} />
+                  <div className="tb__img">
+                    <img src={s.img} alt="" draggable={false} loading="lazy" decoding="async" style={s.pos ? { objectPosition: s.pos } : undefined} />
                   </div>
-                  <figcaption className="tb__cap">
-                    <span className="tb__cap-title">{s.title}</span>
-                    <span className="tb__cap-year">{s.year}</span>
-                    <span className="tb__cap-idx">
-                      {String(realIdx + 1).padStart(2, '0')} / {String(SLIDES.length).padStart(2, '0')}
-                    </span>
-                  </figcaption>
+                  <span className="tb__shade" aria-hidden="true" />
+
+                  <span className="tb__cal" aria-hidden="true">
+                    <span className="tb__cal-m" data-text={monthOf(s.iso)}><span>{monthOf(s.iso)}</span></span>
+                    <span className="tb__cal-y">{s.iso.slice(0, 4)}</span>
+                  </span>
+                  <span className="tb__kind" aria-hidden="true">{s.kind}</span>
+
+                  <span className="tb__over" aria-hidden="true">
+                    <span className="tb__title">{s.title}</span>
+                    <span className="tb__go">Open event <ArrowUpRight /></span>
+                  </span>
                 </a>
               </figure>
             );
@@ -367,16 +388,20 @@ const Throwback: React.FC = () => {
         </div>
       </div>
 
-      <div className="container tb__dots" role="tablist" aria-label="Slides">
+      {/* progress: one segment per slide; the active one fills up in step with autoplay */}
+      <div className={`container tb__dots${paused || !isInView || reduce ? ' is-paused' : ''}`} role="tablist" aria-label="Slides">
         {SLIDES.map((s, i) => (
           <button
-            key={`${s.id}-${i}`}
-            className={`tb__dot${i === index ? ' is-active' : ''}`}
+            key={`${s.id}-${s.iso}`}
+            className={`tb__dot${i === index ? ' is-active' : ''}${i < index ? ' is-done' : ''}`}
             aria-label={`Go to ${s.title}`}
             aria-selected={i === index}
             role="tab"
             onClick={() => goToSlide(i)}
-          />
+            style={{ '--dur': `${AUTOPLAY_MS}ms` } as React.CSSProperties}
+          >
+            {i === index && <span className="tb__dot-fill" key={index} />}
+          </button>
         ))}
       </div>
     </section>
