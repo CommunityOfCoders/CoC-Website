@@ -28,6 +28,8 @@ import TanushImg from "../assets/tanush.jpg";
 import AkshatImg from "../assets/akshat.jpg";
 import SarangImg from "../assets/sarang.jpg";
 import MohammedImg from "../assets/mohammed.jpg";
+import MuditImg from "../assets/mudit.jpg";
+import UtsavImg from "../assets/utsav.jpg";
 
 export interface TeamMember {
   id: string;
@@ -176,6 +178,15 @@ export const COUNCIL: TeamMember[] = [
     linkedin: "https://www.linkedin.com/in/ankitasagar/",
   },
   {
+    id: "mudit-bengani",
+    name: "Mudit Bengani",
+    role: "AIDSET Tech Head",
+    tagline: "Building the tech behind AI at VJTI.",
+    bio: "Tech Head at AIDSET, driving the technical work behind its workshops, projects, and initiatives.",
+    photo: MuditImg,
+    github: "https://github.com/Froglodyte",
+  },
+  {
     id: "ojas-alai",
     name: "Ojas Alai",
     role: "Sponsorship Head",
@@ -184,6 +195,14 @@ export const COUNCIL: TeamMember[] = [
     photo: OjasImg,
     github: "https://github.com/ojasalai27",
     linkedin: "https://www.linkedin.com/in/ojasalai/",
+  },
+  {
+    id: "utsav-ojha",
+    name: "Utsav Ojha",
+    role: "AIDSET Marketing Head",
+    tagline: "Getting AIDSET's story out there.",
+    bio: "Marketing Head at AIDSET, leading outreach, promotion, and storytelling for its initiatives and events.",
+    photo: UtsavImg,
   },
   {
     id: "dhiraj-shirse",
