@@ -33,7 +33,7 @@ const PILLARS: Pillar[] = [
   {
     title: 'Open Source',
     kicker: 'GSoC · LFX · JSoC',
-    body: 'Real repos, real reviews. We mentor first PRs and maintain projects the whole campus uses.',
+    body: 'Guidance for open-source contributors, from the first issue and pull request to GSoC and LFX.',
     href: '#opensource',
     kind: 'orgs',
     items: [
