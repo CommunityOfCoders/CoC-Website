@@ -96,3 +96,85 @@
     width: 44px; height: 5px; margin-left: -22px; border-radius: 3px; background: rgba(245, 247, 245, 0.28);
   }
 }
+
+/* ================================================================
+   Scroll-to-reveal (see ./focus.ts). Phones have no hover, so the card
+   in the middle of the screen gets `.is-hot` and plays the same hover
+   animation as on a computer - no rims or outlines, just the motion.
+   `.fx-scroll` is only set while the effect runs, so with reduced
+   motion everything simply stays visible.
+   ================================================================ */
+@media (max-width: 640px) {
+  /* ---- Events: date rises in, prize stamp slams down, photo zooms ---- */
+  .fx-scroll .ev-cal__big > span { translate: 0 110%; }
+  .fx-scroll .ev-cal__big::before { translate: -6px 110%; }
+  .fx-scroll .ev-cal__small { clip-path: inset(0 100% 0 0); }
+  .fx-scroll .ev-stamp { opacity: 0; scale: 1.9; rotate: -24deg; }
+  .fx-scroll .ev-card.is-hot .ev-cal__big > span { translate: 0 0; }
+  .fx-scroll .ev-card.is-hot .ev-cal__big::before { translate: 3px 2px; }
+  .fx-scroll .ev-card.is-hot .ev-cal__small { clip-path: inset(0 0 0 0); }
+  .fx-scroll .ev-card.is-hot .ev-stamp { opacity: 1; scale: 1; rotate: -7deg; }
+  .fx-scroll .ev-card.is-hot .ev-card__depth { scale: 1.05; }
+  .fx-scroll .ev-card.is-hot::after { opacity: 1; }
+  .fx-scroll .ev-card.is-hot .ev-card__name { color: var(--accent); }
+
+  /* ---- Home: Throwback carousel (the centred card) ---- */
+  .fx-scroll .tb__cal-m > span { translate: 0 110%; }
+  .fx-scroll .tb__cal-m::before { translate: -6px 110%; }
+  .fx-scroll .tb__cal-y { clip-path: inset(0 100% 0 0); }
+  .fx-scroll .tb__kind { opacity: 0; translate: 10px -14px; rotate: -14deg; scale: 1.6; }
+  .fx-scroll .tb__go { scale: 0.4; opacity: 0; }
+  .fx-scroll .tb__card.is-hot .tb__img img { transform: scale(1.08); }
+  .fx-scroll .tb__card.is-hot .tb__shade::after { opacity: 1; }
+  .fx-scroll .tb__card.is-hot .tb__cal-m > span { translate: 0 0; }
+  .fx-scroll .tb__card.is-hot .tb__cal-m::before { translate: 4px 3px; }
+  .fx-scroll .tb__card.is-hot .tb__cal-y { clip-path: inset(0 0 0 0); }
+  .fx-scroll .tb__card.is-hot .tb__kind { opacity: 1; translate: 0 0; rotate: 6deg; scale: 1; }
+  .fx-scroll .tb__card.is-hot .tb__title { transform: translateY(-4px); color: var(--accent); }
+  .fx-scroll .tb__card.is-hot .tb__go { scale: 1; opacity: 1; }
+  .fx-scroll .tb__card.is-hot .tb__go svg { transform: none; }
+
+  /* ---- Home: "What we do" cards - the green panel fills up, title rolls ---- */
+  .fx-scroll .pillar.is-hot > .pillar__fill { transform: scaleY(1); }
+  .fx-scroll .pillar.is-hot > .pillar__ghost { transform: translate(-0.12em, 1.2em) scale(1.25) rotate(-6deg); -webkit-text-stroke-color: var(--c-ghost-h); }
+  .fx-scroll .pillar.is-hot .pillar__idx,
+  .fx-scroll .pillar.is-hot .pillar__link,
+  .fx-scroll .pillar.is-hot .pillar__kicker { color: var(--c-fg-h); }
+  .fx-scroll .pillar.is-hot .pillar__arrow { transform: rotate(45deg) scale(1.06); background-color: var(--c-fg-h); color: var(--c-fill); }
+  .fx-scroll .pillar.is-hot .pillar__roll { transform: translateY(-100%); }
+
+  /* ---- Home hero + Contact collage: fan out like a hover ---- */
+  .fx-scroll .hero__media.is-hot .hero__img--sub { translate: 14% 12%; rotate: 4deg; }
+  .fx-scroll .hero__media.is-hot .hero__img--main { rotate: -1.2deg; box-shadow: 0 24px 50px rgba(0, 0, 0, 0.5); }
+  .fx-scroll .hero__media.is-hot .hero__badge { translate: -4px -6px; rotate: -6deg; }
+  .fx-scroll .hero__media.is-hot .hero__shape { translate: 3% 3%; }
+  .fx-scroll .ct-media.is-hot .ct-img-sub { translate: 8% 9%; rotate: 4deg; }
+  .fx-scroll .ct-media.is-hot .ct-img-main { rotate: -1.2deg; box-shadow: 0 24px 50px rgba(0, 0, 0, 0.5); }
+  .fx-scroll .ct-media.is-hot .ct-badge { translate: -4px -6px; rotate: -5deg; }
+  .fx-scroll .ct-media.is-hot .ct-media-shape { translate: 3% 3%; }
+  .fx-scroll .ct-comm.is-hot { transform: translateY(-5px) rotate(0deg); }
+  .fx-scroll .act__link.is-hot .act__title { color: var(--accent); transition: color 0.2s var(--ease); }
+
+  /* ---- Projects + Open Source ---- */
+  .fx-scroll .project-card.is-hot .project-card__link { opacity: 1; transform: translateX(0); }
+  .fx-scroll .os-card.is-hot .os-card__head { background: color-mix(in srgb, var(--card-accent, var(--accent)) 14%, var(--ink-3)); }
+  .fx-scroll .os-card.is-hot .os-card__name { color: var(--card-accent, var(--accent)); }
+  .fx-scroll .os-card.is-hot .os-card__go { color: var(--card-accent, var(--accent)); transform: translateX(2px); }
+  .fx-scroll .lbento__tile { transition: translate 0.35s var(--ease); }
+  .fx-scroll .lbento__tile.is-hot { translate: 0 -3px; }
+  .fx-scroll .lbento__tile.is-hot .lbento__name { color: var(--accent); }
+
+  /* ---- Achievements ---- */
+  .fx-scroll .ach-tile.is-hot .ach-tile__media { scale: 1.05; }
+  .fx-scroll .ach-tile.is-hot::before,
+  .fx-scroll .ach-tile.is-hot::after { opacity: 1; }
+  .fx-scroll .ach-tile.is-hot .ach-tile__desc { max-height: 5em; opacity: 1; translate: 0 0; }
+  .fx-scroll .ach-tile.is-hot .ach-tile__title { color: var(--accent); }
+  .fx-scroll .ach-tile.is-hot .ach-tile__go { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); rotate: 45deg; }
+  .fx-scroll .ach-feature.is-hot .ach-feature__cover img { scale: 1.04; }
+  .fx-scroll .achievement-card.is-hot .achievement-card__chip { background: rgba(29, 185, 84, 0.08); border-color: rgba(29, 185, 84, 0.22); color: var(--fg); }
+  .fx-scroll .achievement-card.is-hot .achievement-card__chip svg { color: var(--accent); }
+
+  /* ---- Team: the photo leans in ---- */
+  .fx-scroll .team-card.is-hot .team-card__photo img { transform: scale(1.045); }
+}
