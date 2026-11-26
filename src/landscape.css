@@ -1,0 +1,146 @@
+/* ============================================================
+   Phone held sideways: wide but very short screens. Without this
+   the tablet layout stacks everything and the type is sized for
+   the width, so a single hero fills three screens. Rules use an
+   `html` prefix so they win over the lazy-loaded page styles.
+   ============================================================ */
+@media (orientation: landscape) and (max-height: 500px) {
+  /* notch on the side */
+  html .container { padding-inline: max(var(--gutter), env(safe-area-inset-left), env(safe-area-inset-right)); }
+
+  /* slimmer header; the menu opens as two columns and scrolls if needed */
+  html .nav__inner { height: 60px; }
+  html .nav__drawer { display: grid; grid-template-columns: 1fr 1fr; align-content: start; }
+  html .nav__drawer.is-open { max-height: calc(100dvh - 60px); overflow-y: auto; overscroll-behavior: contain; }
+  html .nav__drawer-link { padding: 12px var(--gutter); font-size: 1.05rem; }
+  html .nav__drawer-link:nth-child(odd) { border-right: 1px solid var(--line); }
+
+  /* ---- Home hero: back to two columns, sized by the height ---- */
+  html .hero { min-height: auto; padding-top: 84px; padding-bottom: 36px; }
+  html .hero__inner { grid-template-columns: 1.1fr 0.9fr; gap: 36px; }
+  html .hero__copy { gap: 12px; }
+  html .hero__title { font-size: min(13.5vh, 7vw); }
+  html .hero__sub { font-size: 0.86rem; max-width: 360px; }
+  html .hero__media { width: min(100%, 66vh * 1.14); justify-self: center; }
+  html .hero__cta { gap: 10px; }
+  html .hero__cta .cta { min-width: 0; padding: 12px 24px; }
+  html .hero__scroll { display: none; }
+
+  /* shorter vertical rhythm everywhere */
+  html .section { padding-block: 56px; }
+  html .section-title { font-size: 2.2rem; }
+
+  /* ---- Home ---- */
+  html .stats__grid { grid-template-columns: repeat(4, 1fr); }
+  html .stats__item { padding: 24px 0; padding-right: 16px; border-top: none; }
+  html .stats__item + .stats__item { border-left: 1px solid var(--line); padding-left: 20px !important; }
+  html .stats__num { font-size: 2.2rem; }
+
+  html .wwd__head { flex-direction: row; align-items: flex-end; gap: 24px; }
+  html .wwd__tag { align-self: auto; margin: 0 4px 0 0; }
+  html .wwd__tag-big { font-size: 3rem; }
+  html .wwd__tag::before { font-size: 8rem; }
+  html .wwd__grid { grid-template-columns: repeat(3, 1fr); gap: 10px; }
+  html .pillar { padding: 18px; }
+  html .pillar > .pillar__ghost { font-size: 5rem; }
+  html .pillar__main { margin-top: 16px; }
+  html .pillar__title { font-size: 1.7rem; }
+  html .pillar__text { display: none; }
+  html .pillar > .pillar__reveal { margin-top: 10px; }
+  html .pillar__stack { --w: 40px; height: 64px; margin-top: 0; }
+  html .pillar__stack li { translate: calc(var(--k) * 30px) 0; }
+  html .pillar--photos .pillar__stack { --w: 70px; }
+  html .pillar--photos .pillar__chip { height: 60px; padding: 3px 3px 11px; }
+  html .pillar--photos .pillar__stack li { translate: calc(var(--k) * 46px) 0; }
+
+  html .tb__slide { width: min(56vw, 440px); }
+  html .band__frame { height: 72vh; }
+  html .act__grid { grid-template-columns: 0.8fr 1.2fr; }
+  html .ethos__grid { grid-template-columns: repeat(3, 1fr); }
+
+  /* ---- page tops: clear the slimmer header, no tall empty heroes ---- */
+  html .ev-hero { min-height: auto; padding-top: 96px; padding-bottom: 28px; }
+  html .projects-hero { padding-top: 92px; }
+  html .os-hero { padding-top: 92px; }
+  html .achievements-hero { padding-top: 96px; }
+  html .team-page,
+  html .ct-page { padding-top: 92px; }
+  html .placement-page { padding-top: 92px; }
+
+  /* ---- Events: three across ---- */
+  html .ev-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+  html .ev-card { min-height: 200px; }
+
+  /* side panels start right under the slimmer header */
+  html .drawer-panel,
+  html .os-drawer-panel { top: 60px; height: calc(100dvh - 60px); max-height: calc(100dvh - 60px); }
+
+  /* ---- Open Source: title left, program tiles right ---- */
+  html .os-hero__grid { grid-template-columns: 1fr 1fr; gap: 28px; }
+  html .os-hero__title { font-size: 3.2rem; margin: 14px 0 14px; }
+  html .os-hero__subtitle { font-size: 0.92rem; }
+  html .lbento__grid { gap: 8px; }
+  html .lbento__tile { flex-direction: row; align-items: center; gap: 10px; padding: 10px 12px; }
+  html .lbento__logo { width: 40px; height: 40px; border-radius: 10px; }
+  html .lbento__logo img, html .lbento__logo svg { width: 26px; height: 26px; }
+  html .lbento__tile--gsoc .lbento__logo img { width: 36px; height: 36px; }
+  html .lbento__tile--julia .lbento__logo img,
+  html .lbento__tile--hacktoberfest .lbento__logo img { width: 32px; }
+  html .lbento__name { font-size: 0.9rem; }
+  html .lbento__line { display: none; }
+  html .lbento__tile.is-wide .lbento__line { display: block; font-size: 0.7rem; }
+
+  /* ---- Achievements: the featured win fits one screen, tiles four across ---- */
+  html .ach-feature { height: calc(100dvh - 84px); min-height: 270px; display: block; border-radius: var(--r-lg); background: var(--ink-2); }
+  html .ach-feature::before { display: block; }
+  html .ach-feature__cover { position: absolute; inset: -20px; z-index: -2; aspect-ratio: auto; }
+  html .ach-feature__cover::after { display: none; }
+  html .ach-feature__copy { position: absolute; left: 24px; top: 18px; bottom: 18px; width: 58%; padding: 0; gap: 8px; justify-content: flex-end; }
+  html .ach-feature__title { font-size: 1.9rem; }
+  html .ach-feature__sub { font-size: 0.62rem; }
+  html .ach-feature__people { font-size: 0.84rem; }
+  html .ach-feature__people strong { font-size: 0.9rem; }
+  html .ach-feature__stats { display: flex; gap: 18px; margin-top: 0; padding-top: 8px; }
+  html .ach-feature__stat b { font-size: 1.15rem; }
+  html .ach-feature__stat span { font-size: 0.54rem; }
+  html .ach-feature__strip { position: absolute; right: 18px; bottom: 18px; grid-template-columns: repeat(2, 1fr); gap: 6px; padding: 0; }
+  html .ach-feature__thumb { width: 78px; }
+  html .ach-wall { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; }
+  html .ach-tile.is-big,
+  html .ach-tile.is-big.is-right { grid-column: span 2; grid-row: span 1; aspect-ratio: auto; }
+
+  /* opened win: the photo fills the screen under a slim bar, story below */
+  html .ach-view__bar-top { padding: 10px 0 8px; }
+  html .ach-view__close { width: 40px; height: 40px; }
+  html .ach-view__stage { height: calc(100dvh - 72px); }
+  html .ach-view__photo { padding: 12px 64px; }
+  html .ach-view__story { padding-top: 28px; }
+
+  /* ---- Team: four across, profile fits the short screen ---- */
+  html .team-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin-top: 28px; }
+  html .team-card { padding: 10px; gap: 8px; border-radius: 20px; }
+  html .team-card__name { font-size: 1.02rem; }
+  html .team-card__role { font-size: 0.56rem; letter-spacing: 0.08em; }
+  html .team-card__tagline { font-size: 0.74rem; }
+  html .team-profile { max-height: 92dvh; border-radius: var(--r-lg); }
+  html .team-profile__body { gap: 16px; padding: 20px 24px; }
+  html .team-profile__top { gap: 20px; }
+  html .team-profile__photo { flex-basis: 112px; }
+  html .team-profile__name { font-size: 1.8rem; }
+  html .team-profile__bio { padding-top: 14px; }
+  html .team-profile__bio p { font-size: 0.94rem; line-height: 1.6; }
+
+  /* ---- Placements: the five figures in one row ---- */
+  html .placement-hero-header { margin-bottom: 20px; }
+  html .placement-stats-grid { grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 8px; margin-bottom: 28px; }
+  html .placement-stat-card { padding: 12px 10px; min-height: 0; }
+  html .placement-stat-card:last-child { grid-column: auto; }
+  html .stat-value { font-size: 1.35rem; margin: 6px 0 4px; }
+
+  /* ---- Contact: words left, photo collage right, cards in a row ---- */
+  html .ct-hero { grid-template-columns: 1.1fr 0.9fr; gap: 32px; }
+  html .ct-kinetic { font-size: 3rem; margin-top: 12px; }
+  html .ct-media { width: min(100%, 66vh * 1.1); justify-self: center; }
+  html .ct-also { margin-top: 40px; }
+  html .ct-also-grid { flex-direction: row; gap: 10px; }
+}
