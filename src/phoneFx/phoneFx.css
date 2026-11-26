@@ -178,3 +178,11 @@
   /* ---- Team: the photo leans in ---- */
   .fx-scroll .team-card.is-hot .team-card__photo img { transform: scale(1.045); }
 }
+
+/* touch screens: when a card's heading turns green, the line under it turns
+   white, so the two never read as one green block */
+@media (hover: none), (max-width: 640px) {
+  .ev-card__sub, .ach-tile__sub { transition: color 0.3s var(--ease); }
+  .ev-card.is-hot .ev-card__sub, .ev-card:hover .ev-card__sub,
+  .ach-tile.is-hot .ach-tile__sub, .ach-tile:hover .ach-tile__sub { color: var(--fg); }
+}
