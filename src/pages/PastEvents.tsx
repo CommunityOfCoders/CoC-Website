@@ -1149,7 +1149,7 @@ const PastEvents: React.FC = () => {
               once
               className="ev-page__intro"
             >
-              From late-night hackathons to quiet Sunday workshops - a running
+              From late-night events to quiet Sunday workshops - a running
               record of what we've built together, one gathering at a time.
             </TimelineContent>
           </div>
