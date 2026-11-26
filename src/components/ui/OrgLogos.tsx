@@ -2,6 +2,7 @@ import React from 'react';
 
 import apacheImg from '../../assets/Apache_logo.svg';
 import blenderImg from '../../assets/Blender_logo.svg';
+import cernImg from '../../assets/CERN_logo.svg';
 import cncfImg from '../../assets/CNCF_logo.svg';
 import debianImg from '../../assets/Debian_logo.png';
 import fedoraImg from '../../assets/Fedora_logo.svg';
@@ -164,14 +165,9 @@ export const CoCLogo: React.FC<P> = (props) => (
   <ImageLogo src={cocImg} alt="Community of Coders" width={props.width} height={props.height} className={props.className} style={props.style} />
 );
 
-/* CERN-HSF mark. */
+/* CERN - official badge from src/assets/CERN_logo.svg (Wikimedia Commons) */
 export const CERNLogo: React.FC<P> = (props) => (
-  <svg viewBox="0 0 40 40" aria-hidden {...props}>
-    <circle cx="20" cy="20" r="15" fill="none" stroke="#0033A0" strokeWidth="2.6" />
-    <circle cx="20" cy="20" r="8.4" fill="none" stroke="#0033A0" strokeWidth="2" opacity="0.55" />
-    <circle cx="20" cy="5" r="2.6" fill="#0033A0" />
-    <circle cx="32.5" cy="27" r="2" fill="#0033A0" opacity="0.85" />
-  </svg>
+  <ImageLogo src={cernImg} alt="CERN" width={props.width} height={props.height} className={props.className} style={{ borderRadius: '18%', ...props.style }} />
 );
 
 /* ML4Sci mark. */
