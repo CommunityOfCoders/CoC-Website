@@ -72,7 +72,7 @@ const RAW_SIX_MONTH: Record<string, RawInternshipInput[]> = {
     { company: 'DE Shaw', stipend: '₹2.5L/mo', members: 2, ppos: '-' },
     { company: 'Rubrik', stipend: '₹1.75L/mo', members: 1, ppos: '-' },
     { company: 'Visa', stipend: '₹90k/mo', members: 1, ppos: '-' },
-    { company: 'Morgan Stanley', stipend: '₹87k/mo', members: 3, ppos: '-' },
+    { company: 'Morgan Stanley', stipend: '₹87k/mo', members: 4, ppos: '-' },
     { company: 'Hilti', stipend: '₹80k/mo', members: 3, ppos: '-' },
     { company: 'Snabbit', stipend: '₹75k/mo', members: 2, ppos: '-' },
     { company: 'Applied Materials', stipend: '₹55k/mo', members: 2, ppos: '-' },
