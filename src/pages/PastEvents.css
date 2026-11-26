@@ -451,8 +451,8 @@
 
 /* hidden until hover / keyboard focus on devices that can hover */
 @media (hover: hover) {
-  .ev-cal__big > span { translate: 0 110%; }
-  .ev-cal__big::before { translate: -6px 110%; }
+  .ev-cal__big > span { translate: 0 140%; }
+  .ev-cal__big::before { translate: -6px 140%; }
   .ev-cal__small { clip-path: inset(0 100% 0 0); }
   .ev-stamp { opacity: 0; scale: 1.9; rotate: -24deg; }
   .ev-card:hover .ev-cal__big > span,

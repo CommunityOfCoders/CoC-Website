@@ -729,8 +729,8 @@
   .tb__card:hover .tb__img img { transform: scale(1.08); }
   .tb__card:hover .tb__shade::after { opacity: 1; }
   /* the date stays hidden until hover, then rises in (same as the events cards) */
-  .tb__cal-m > span { translate: 0 110%; }
-  .tb__cal-m::before { translate: -6px 110%; }
+  .tb__cal-m > span { translate: 0 140%; }
+  .tb__cal-m::before { translate: -6px 140%; }
   .tb__cal-y { clip-path: inset(0 100% 0 0); }
   .tb__card:hover .tb__cal-m > span { translate: 0 0; }
   .tb__card:hover .tb__cal-m::before { translate: 4px 3px; }

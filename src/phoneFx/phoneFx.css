@@ -106,8 +106,8 @@
    ================================================================ */
 @media (max-width: 640px) {
   /* ---- Events: date rises in, prize stamp slams down, photo zooms ---- */
-  .fx-scroll .ev-cal__big > span { translate: 0 110%; }
-  .fx-scroll .ev-cal__big::before { translate: -6px 110%; }
+  .fx-scroll .ev-cal__big > span { translate: 0 140%; }
+  .fx-scroll .ev-cal__big::before { translate: -6px 140%; }
   .fx-scroll .ev-cal__small { clip-path: inset(0 100% 0 0); }
   .fx-scroll .ev-stamp { opacity: 0; scale: 1.9; rotate: -24deg; }
   .fx-scroll .ev-card.is-hot .ev-cal__big > span { translate: 0 0; }
@@ -119,8 +119,8 @@
   .fx-scroll .ev-card.is-hot .ev-card__name { color: var(--accent); }
 
   /* ---- Home: Throwback carousel (the centred card) ---- */
-  .fx-scroll .tb__cal-m > span { translate: 0 110%; }
-  .fx-scroll .tb__cal-m::before { translate: -6px 110%; }
+  .fx-scroll .tb__cal-m > span { translate: 0 140%; }
+  .fx-scroll .tb__cal-m::before { translate: -6px 140%; }
   .fx-scroll .tb__cal-y { clip-path: inset(0 100% 0 0); }
   .fx-scroll .tb__kind { opacity: 0; translate: 10px -14px; rotate: -14deg; scale: 1.6; }
   .fx-scroll .tb__go { scale: 0.4; opacity: 0; }
