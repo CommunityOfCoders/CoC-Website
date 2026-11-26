@@ -26,7 +26,7 @@ export const PlacementHeader: React.FC = () => {
         </h1>
         
         <p className="placement-hero-desc">
-          140+ verified placement &amp; internship statistics across top tech companies. Updated after each placement season.
+          Verified placement &amp; internship statistics across top tech companies. Updated after each placement season.
         </p>
       </motion.div>
 
